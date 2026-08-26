@@ -1,0 +1,35 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/evedex-academy-openapi.json, openapi/evedex-ai-strategies-openapi.json, openapi/evedex-auth-openapi.json,
+  openapi/evedex-backoffice-openapi.json, openapi/evedex-billing-openapi.json, openapi/evedex-bridge-middleware-openapi.json,
+  openapi/evedex-exchange-openapi.json, openapi/evedex-game-openapi.json, openapi/evedex-market-data-openapi.json,
+  openapi/evedex-notifications-openapi.json, openapi/evedex-referral-openapi.json
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: AccessToken
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/evedex-academy-openapi.json
+  - openapi/evedex-ai-strategies-openapi.json
+  - openapi/evedex-auth-openapi.json
+  - openapi/evedex-backoffice-openapi.json
+  - openapi/evedex-billing-openapi.json
+  - openapi/evedex-bridge-middleware-openapi.json
+  - openapi/evedex-exchange-openapi.json
+  - openapi/evedex-game-openapi.json
+  - openapi/evedex-market-data-openapi.json
+  - openapi/evedex-notifications-openapi.json
+  - openapi/evedex-referral-openapi.json
+- name: ApiKey
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  sources:
+  - openapi/evedex-exchange-openapi.json
+  - openapi/evedex-referral-openapi.json

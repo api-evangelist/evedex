@@ -1,0 +1,63 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.evedex.com/developers/developers/toolkit.md
+docs: https://docs.evedex.com/developers/developers/toolkit
+limit_count: 4
+note: >-
+  EVEDEX publishes its operational limits in prose on the Toolkit page under "Rate limits". What it
+  does NOT publish is the runtime signal: no X-RateLimit-*, RateLimit-* or Retry-After header is
+  documented anywhere, and none of the 557 harvested OpenAPI operations declares a response header
+  of any kind. No 429 response is declared in any spec either — the observed 4xx surface across all
+  eleven specs is 400/401/403/404/409/451 only. An agent therefore cannot discover its remaining
+  budget or a correct backoff delay from a response; it can only count its own heavy requests
+  against the documented 30-per-60-seconds allowance and stop.
+limits:
+- scope: per-account
+  name: heavy-request rate limit
+  limit: 30
+  window: 60s
+  unit: requests
+  applies_to:
+  - order creation
+  - order cancellation
+  - order replacement
+  - position closure
+  - TP/SL creation
+  - TP/SL cancellation
+  - TP/SL replacement
+  - withdrawal request
+  source: https://docs.evedex.com/developers/developers/toolkit.md
+- scope: per-account
+  name: maximum active regular orders
+  limit: 500
+  window: concurrent
+  unit: open orders
+  source: https://docs.evedex.com/developers/developers/toolkit.md
+- scope: per-account
+  name: maximum active TP/SL orders
+  limit: 500
+  window: concurrent
+  unit: open TP/SL orders
+  source: https://docs.evedex.com/developers/developers/toolkit.md
+- scope: per-request
+  name: market-data history response cap
+  limit: 100000
+  window: per-response
+  unit: candlesticks
+  applies_to: ['GET /api/history/{instrument}/list']
+  source: https://docs.evedex.com/developers/developers/market_data.md
+constraints:
+- name: minimum order notional
+  value: 5
+  currency: USD
+  note: Orders below 5 USD notional are rejected. A business rule, not a rate limit, but it gates the same write path.
+  source: https://docs.evedex.com/developers/developers/toolkit.md
+response_headers:
+  documented: false
+  observed_in_spec: false
+  headers: []
+  note: No rate-limit response headers are documented by EVEDEX or declared in any harvested OpenAPI.
+exhaustion_status_code: null
+exhaustion_note: >-
+  EVEDEX does not state which status code is returned when the 30/60s heavy-request allowance is
+  exhausted, and no spec declares a 429. Not asserted here.

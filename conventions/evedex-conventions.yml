@@ -1,0 +1,219 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.evedex.com/developers/developers/toolkit.md, https://docs.evedex.com/developers/developers/order_creation.md, harvested openapi/
+docs: https://docs.evedex.com/developers/developers/toolkit
+authentication:
+  styles: [api-key, jwt-bearer]
+  api_key: {header: x-api-key, issued_from: 'Exchange UI: Settings > API > Create API Key'}
+  jwt:
+    protocol: EIP-4361 Sign-In with Ethereum (SIWE)
+    flow: GET /auth/nonce -> build SIWE message -> wallet signs -> POST /auth/user/sign-up -> token
+    header: 'Authorization: Bearer {accessToken}'
+    access_token_lifetime: a few minutes
+    refresh: 'POST /auth/refresh with Authorization: Bearer {refreshToken}; on 401 from refresh, re-run the full SIWE flow'
+  cross_link: authentication/evedex-authentication.yml
+  source: https://docs.evedex.com/developers/developers/authorization.md
+request_signing:
+  standard: EIP-712 typed structured data
+  applies_to:
+  - limit / market / stop-limit order creation (and batch mass-limit)
+  - limit and stop-limit order replacement
+  - position closure
+  - withdrawal from trading account
+  - TP/SL creation, modification and cancellation
+  field: signature
+  library_recommended: ethers v6 Signer.signTypedData
+  schema_source: https://github.com/evedex-official/exchange-crypto/blob/master/src/utils/crypto.ts
+  numeric_normalization:
+    rule: normalizeNumber = Round(floatValue * 10^8, HalfUp)
+    exception: Withdrawal requests from the trading balance must always round Down.
+    reason: Order data must contain no floating-point values at signing time.
+  rejection_conditions:
+  - signature missing
+  - signature format not EIP-712 compliant
+  - signature made with a wallet not belonging to the sender
+  - order data differs from the data used to create the signature
+  note: >-
+    This is the single most consequential convention in the EVEDEX API and it has no analogue in a
+    normal REST API. An agent cannot write to EVEDEX with a bearer token alone; it must hold or
+    reach a wallet key and reproduce an exact numeric normalization. Getting the rounding mode
+    wrong produces a valid-looking request that the exchange rejects.
+  source: https://docs.evedex.com/developers/developers/toolkit.md
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    EVEDEX documents no idempotency key and none of the 557 harvested operations declares an
+    Idempotency-Key parameter or any header parameter at all. The nearest mechanism is the v2
+    client-generated orderId — the client mints
+    `<days_since_2025-07-24>:<uuid_without_dashes>` (regex [0-9]{5}:[0-9A-Fa-f]{26}) and the
+    format exists explicitly "to prevent identifiers duplication" — but EVEDEX never states that
+    re-submitting the same orderId is a safe no-op rather than an error, so it cannot be relied on
+    as an idempotency contract. Because idempotency is NOT genuinely supported, no `Idempotency`
+    pointer is emitted in apis.yml.
+  client_generated_id:
+    field: orderId
+    format: '<days_since_2025-07-24>:<uuid_without_dashes>'
+    regex: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    example: '00008:418f0157db5345688b1c910d08'
+    constraint: >-
+      For batch limit-order creation the day prefix must be no earlier than midnight yesterday, or
+      the request fails with "Invalid order ID date".
+    source: https://docs.evedex.com/developers/developers/order_creation.md
+pagination:
+  style: offset-limit
+  params: [limit, offset]
+  secondary_params: [after, before, sort]
+  observed: 'limit appears on 67 operations and offset on 66 across the eleven specs; after/before (ISO 8601 bounds) are used for time-ranged reads such as market-data history'
+  response_fields: not documented
+  cursor: false
+  note: >-
+    Offset/limit is used consistently but EVEDEX documents no default page size, no maximum limit,
+    and no total-count or next-page field in responses. The one published cap is the market-data
+    history endpoint's 100,000-candlestick response ceiling.
+  method: derived
+  source: harvested openapi/
+field_expansion:
+  supported: false
+sparse_fields:
+  supported: false
+metadata:
+  supported: false
+  note: No customer-defined metadata field is documented on any resource.
+request_tracing:
+  request_id_header: null
+  supported: false
+  note: No request-id or correlation-id header is documented or declared in any spec.
+versioning:
+  style: uri-path
+  current: v2
+  cross_link: lifecycle/evedex-lifecycle.yml
+error_envelope:
+  shape: '{ "message": string }'
+  schema: ErrorResponse
+  content_type: application/json
+  rfc9457: false
+  fields: [message]
+  note: >-
+    A single required string. There is no machine-readable error code, no type URI, no field
+    pointer and no retry hint, so an agent must string-match the message to distinguish a
+    business rejection (insufficient margin, notional below 5 USD, "Invalid order ID date") from a
+    transport failure. Used uniformly across all 137 declared 4xx/5xx responses in all eleven specs.
+  cross_link: errors/evedex-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  documented_in_prose: true
+  cross_link: rate-limits/evedex-rate-limits.yml
+async_consistency:
+  pattern: initial snapshot with real-time updates
+  procedure: >-
+    Subscribe to the entity's WebSocket channel FIRST, then request the initial state over REST,
+    then merge by the latest `updatedAt`. Doing it in the other order can drop an update.
+  transport: Centrifugo (channels, JWT channel access rights, epochs and state recovery on reconnect)
+  cross_link: asyncapi/evedex-centrifugo-events.yml
+  source: https://docs.evedex.com/developers/developers/toolkit.md
+write_semantics:
+  acknowledgement: >-
+    Order responses are asynchronous. A `NEW` status guarantees only entry into the order book, NOT
+    execution. Orders are pre-validated and may be rejected for insufficient free margin or limit
+    violations.
+  source: https://docs.evedex.com/developers/developers/order_creation.md
+dry_run_mode:
+  supported: false
+  note: >-
+    No dry-run, preview or validate-only mode is documented on any write operation. An agent cannot
+    rehearse an order before submitting it.
+reversibility:
+  grade: verified
+  applicable: true
+  summary: >-
+    EVEDEX's trading write surface is unusually reversible while an order is resting, and
+    unusually irreversible once it is not. Cancellation is first-class, needs no wallet signature,
+    and has an explicitly stated window — the order must not yet have filled. Everything past the
+    fill is not reversible by API at all: there is no trade-unwind, no position rollback and no
+    withdrawal recall. The billing and bridge services, by contrast, do carry real refund
+    operations. Every window below is quoted from EVEDEX's own docs; no window is inferred.
+  surfaces:
+  - write_surface: Create limit / stop-limit order
+    operation: 'POST /api/v2/order/limit, POST /api/v2/order/stop-limit (openapi/evedex-exchange-openapi.json)'
+    reversal: 'DELETE /api/order/{orderId} — cancel a specific order'
+    window: >-
+      Until the order fills. EVEDEX states: "If the order is filled before the cancel request is
+      processed, its status will not be changed to CANCELLED." There is no time bound; the bound is
+      the fill event, and the race is the client's to lose.
+    signature_required: false
+    docs: https://docs.evedex.com/developers/developers/order_creation
+  - write_surface: Create many limit orders for an instrument
+    operation: 'POST /api/v2/order/mass-limit/{instrument}'
+    reversal: 'POST /api/order/mass-cancel (all orders on an instrument) or POST /api/order/mass-cancel-by-id (a named set)'
+    window: Same fill-race bound as a single cancel; unfilled orders cancel, filled ones do not.
+    signature_required: false
+    docs: https://docs.evedex.com/developers/developers/order_creation
+  - write_surface: Replace limit / stop-limit order
+    operation: 'PUT /api/order/{orderId}/limit, PUT /api/order/{orderId}/stop-limit, PUT /api/order/limit/{instrument}'
+    reversal: Replace again, or cancel.
+    window: Until the order fills.
+    signature_required: true
+    docs: https://docs.evedex.com/developers/developers/order_creation
+  - write_surface: Execute a market order (IOC/FOK)
+    operation: 'POST /api/v2/order/market'
+    reversal: none
+    window: null
+    note: >-
+      No reversal exists. A filled trade cannot be unwound through the API; the only way to undo
+      the economic exposure is to trade the opposite way at whatever the market then is, which is a
+      new position, not a reversal. IOC is the default and partially fills before cancelling the
+      remainder.
+  - write_surface: Close a position
+    operation: 'POST /api/v2/position/{instrument}/close'
+    reversal: none
+    window: null
+    note: Settled on execution. Re-opening is a new signed order at a new price.
+  - write_surface: Change position leverage
+    operation: 'PUT /api/position/{instrument}'
+    reversal: Call the same operation again with the previous leverage.
+    window: Any time the position is open.
+    signature_required: false
+    docs: https://docs.evedex.com/developers/developers/order_creation
+  - write_surface: Withdraw from trading account
+    operation: 'POST /api/transfer/pf/withdraw'
+    reversal: none
+    window: null
+    note: >-
+      No user-facing recall. EVEDEX states the request is pre-validated and the trading account is
+      LOCKED until the operation completes, and that only unreserved funds are eligible. An
+      operator-side reject path exists in the Backoffice service (POST /api/withdraw/reject,
+      POST /api/withdraw/unblock) but it is EVEDEX staff-facing, on an internal host, and is not
+      available to an API consumer.
+  - write_surface: Create an API key
+    operation: 'POST /auth/api-key (openapi/evedex-auth-openapi.json)'
+    reversal: 'POST /auth/api-key/{apiKeyId}/restore restores a deleted key; POST /auth/revoke revokes a session'
+    window: >-
+      Not stated. A restore operation demonstrably exists in the Auth spec, but EVEDEX publishes no
+      retention period for a deleted key, so how long restore remains possible is unknown and is
+      NOT asserted here.
+    docs: null
+  - write_surface: Subscribe to Prime / create a bill
+    operation: 'POST /api/billing/... (openapi/evedex-billing-openapi.json)'
+    reversal: 'POST /api/billing/subscriptions/{subscriptionId}/cancel, POST /api/refund/{billId}'
+    window: >-
+      Not stated as a duration. EVEDEX documents the effect rather than the deadline: "Each
+      subscription is renewed monthly. If users cancel the plan, their subscription-only
+      enhancements will expire. However, any levels and skill allocations earned naturally remain
+      unaffected." No refund window in days is published.
+    docs: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+  - write_surface: Bridge transfer
+    operation: 'POST /api/transfer/... (openapi/evedex-bridge-middleware-openapi.json)'
+    reversal: 'POST /api/transfer/refund'
+    window: Not stated.
+    docs: null
+  irreversible_operations:
+  - POST /api/v2/order/market (a fill cannot be unwound)
+  - POST /api/v2/position/{instrument}/close
+  - POST /api/transfer/pf/withdraw
+  agent_guidance: >-
+    For an autonomous agent the safe boundary is exact: resting orders are recoverable, executed
+    trades and withdrawals are not. Combined with the absence of both idempotency and a dry-run
+    mode, an agent that times out mid-write on the market-order or withdrawal path has no safe way
+    to determine whether the action happened and no way to undo it if it did. Read state back via
+    GET /api/order or GET /api/position before retrying anything on those two paths.

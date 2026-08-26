@@ -1,0 +1,68 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for EVEDEX Exchange
+  version: 1.0.0
+extends: openapi/evedex-exchange-openapi.json
+x-generated: '2026-08-26'
+x-method: generated
+x-source: Derived from the harvested spec plus https://docs.evedex.com/developers/developers
+x-note: 'Non-destructive enhancement layer. EVEDEX serves this spec live and it is never mutated in place. This
+  service declares 125 operations, of which 125 carry no operationId and 125 carry no summary. The actions below
+  add provenance and the cross-cutting facts EVEDEX documents in prose but does not encode in the contract. No operationId
+  is invented here: naming 557 operations is EVEDEX''s call to make, and a name we mint would collide with the one
+  they eventually choose.'
+actions:
+- target: $.info
+  update:
+    x-apievangelist-harvested: '2026-08-26'
+    x-apievangelist-source: https://exchange-api.evedex.com/api/openapi.json
+    x-apievangelist-provider: EVEDEX
+    x-apievangelist-docs: https://docs.evedex.com/developers/developers
+    x-api-evangelist-operation-count: 125
+    x-api-evangelist-missing-operation-ids: 125
+    x-api-evangelist-missing-summaries: 125
+- target: $.info
+  update:
+    x-rate-limit:
+      scope: per-account
+      heavy_requests: 30
+      window: 60s
+      applies_to:
+      - order create
+      - order cancel
+      - order replace
+      - position close
+      - tpsl create
+      - tpsl cancel
+      - tpsl replace
+      - withdraw
+      headers: null
+      docs: https://docs.evedex.com/developers/developers/toolkit
+    x-error-envelope:
+      schema: ErrorResponse
+      shape: '{ "message": string }'
+      rfc9457: false
+    x-idempotency:
+      supported: false
+    x-agentic-access-profile: agentic-access/evedex-agentic-access.yml
+- target: $.info
+  update:
+    x-request-signing:
+      standard: EIP-712
+      field: signature
+      normalization: Round(floatValue * 10^8, HalfUp); Down for trading-balance withdrawals
+      schemas: https://github.com/evedex-official/exchange-crypto/blob/master/src/utils/crypto.ts
+      applies_to:
+      - order create
+      - order replace
+      - position close
+      - withdraw
+      - tpsl mutations
+    x-reversibility:
+      cancel_window: until the order fills
+      irreversible:
+      - POST /api/v2/order/market
+      - POST /api/v2/position/{instrument}/close
+      - POST /api/transfer/pf/withdraw
+      detail: conventions/evedex-conventions.yml
+    x-async-channels: asyncapi/evedex-centrifugo-events.yml

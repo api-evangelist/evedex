@@ -1,0 +1,103 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.evedex.com/developers/developers/public_exchange_data.md, https://docs.evedex.com/developers/developers/personalized_user_data.md, https://docs.evedex.com/developers/developers/market_data.md
+docs: https://docs.evedex.com/developers/developers/public_exchange_data
+spec_type: none
+asyncapi_published: false
+surface_type: websocket-channels
+note: >-
+  EVEDEX publishes NO AsyncAPI document — searched the docs, the llms.txt index of every published
+  page, /asyncapi.yaml and /asyncapi.json on every API host, and the github.com/evedex-official
+  org. What it does publish is a genuinely complete prose event catalog: fourteen named Centrifugo
+  channels with TypeScript payload interfaces for each. This artifact captures that catalog as
+  found. It is NOT an AsyncAPI document and none has been authored on EVEDEX's behalf.
+  IMPORTANT: this is a WebSocket/Centrifugo subscription surface, not HTTP webhooks — EVEDEX
+  publishes no HTTP callback registration anywhere. The `Webhooks` pointer in apis.yml marks the
+  presence of a real, documented, subscribable event surface; read this file for what it actually is.
+transport:
+  protocol: WebSocket
+  broker: Centrifugo (https://centrifugal.dev/)
+  features:
+  - message channels
+  - JWT-based channel access rights
+  - epochs and state recovery after connection loss
+  client: '@evedex/exchange-bot-sdk (pass a WebSocket implementation as centrifugeWebSocket)'
+  gateway_note: The SDK's `wsGateway` accessor is marked deprecated and not recommended for use.
+environments:
+  prefix_variable: '{env}'
+  values:
+    production: futures-perp
+    beta: futures-perp-beta
+    demo: futures-perp-demo
+    development: futures-perp-dev
+consistency_pattern:
+  name: initial snapshot with real-time updates
+  order: subscribe to the WS channel first, then GET the initial state over REST, then merge on the latest updatedAt
+  source: https://docs.evedex.com/developers/developers/toolkit.md
+channels:
+- channel: '{env}:heartbeat'
+  scope: public
+  payload: 'HeartbeatEvent { t: number }'
+  purpose: Liveness of the Async API. More than 30 seconds without an event means the connection is lost.
+- channel: '{env}:info'
+  scope: public
+  payload: 'MatcherUpdateEvent { state: MatcherState, updatedAt: string }'
+  states: [active, request-status-fail, me-dead, db-admin-dead]
+  purpose: Global matcher state. Any value other than active is a venue-wide trading halt.
+- channel: '{env}:instruments'
+  scope: public
+  payload: 'InstrumentUpdateEvent { id, name, displayName, lastPrice, high, low, volume, volumeBase, closePrice, markPrice, openInterest, minPrice, maxPrice, fatFingerPriceProtection, slippageLimit, trading, visibility, updatedAt }'
+  purpose: Snapshots of instrument state, including tradability (all/restricted/none/onlyClose) and visibility.
+- channel: coin price feed
+  scope: public
+  purpose: Index/mark coin price updates. Listed in the Public Exchange Data catalog.
+- channel: funding rate updates
+  scope: public
+  purpose: Funding rate changes per instrument.
+- channel: order book depth
+  scope: public
+  purpose: Order book depth updates.
+- channel: order book best
+  scope: public
+  purpose: Best bid/ask updates.
+- channel: last trades
+  scope: public
+  purpose: Recent trade prints.
+- channel: 'market-data:last-candlestick-{instrument}-{timeframe}'
+  scope: public
+  payload: 'Candle [timestamp_ms, open, close, high, low, volumeUsd, volume]'
+  purpose: Low-latency updates of the currently forming candlestick. Same tuple shape as the REST history response.
+  timeframes: ['1s','1m','3m','5m','15m','30m','1h','4h','6h','12h','1d','1w','1mo']
+  source: https://docs.evedex.com/developers/developers/market_data.md
+- channel: 'user-{userExchangeId}'
+  scope: private
+  purpose: Account state updates.
+- channel: 'position-{userExchangeId}'
+  scope: private
+  purpose: Position updates.
+- channel: 'order-{userExchangeId}'
+  scope: private
+  purpose: Order updates. The only way to observe that an order actually executed after a NEW acknowledgement.
+- channel: 'orderFills-{userExchangeId}'
+  scope: private
+  purpose: Individual order fill events.
+- channel: 'order-fee-{userExchangeId}'
+  scope: private
+  purpose: Commission updates. Fee processing is asynchronous, so the REST `fee` field lags this channel.
+- channel: 'tpsl-{userExchangeId}'
+  scope: private
+  purpose: Take-profit / stop-loss order updates.
+- channel: 'funding-{userExchangeId}'
+  scope: private
+  purpose: Funding payment updates for the user.
+- channel: 'transfer-update-{userExchangeId}'
+  scope: private
+  purpose: Deposit and withdrawal transfer state updates.
+channel_count: 17
+private_channel_auth: JWT-based channel access rights (Centrifugo), keyed on userExchangeId
+gap: >-
+  Payload interfaces are published for heartbeat, matcher state, instruments and the candlestick
+  tuple. The remaining public market channels are named in the Public Exchange Data list without a
+  payload schema, and none of the seventeen channels has a machine-readable schema of any kind. An
+  AsyncAPI 3.x document over this catalog would be a small amount of work for EVEDEX and would make
+  the entire event surface machine-consumable; it is the single highest-leverage artifact missing here.

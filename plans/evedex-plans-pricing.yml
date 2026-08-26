@@ -1,0 +1,58 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription.md
+docs: https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/trading-fees
+plan_count: 3
+note: >-
+  EVEDEX publishes NO API-specific pricing. There is no developer plan, no per-call or per-quota
+  tier, and no API key metering surface — API access is a feature of a funded exchange account and
+  the API keys are created from the exchange UI under Settings > API. The commercial model is the
+  exchange's own: per-trade maker/taker fees, plus an optional consumer Prime subscription. The
+  tiers below are the real published commercial plans, recorded as such; none of them changes what
+  the API allows or the 30-heavy-requests-per-60-seconds allowance, which applies to every account.
+api_pricing:
+  metered: false
+  developer_tiers: 0
+  note: API access is included with any exchange account at no separate charge; no API rate tier is sold.
+plans:
+- name: Standard account
+  price: 0
+  currency: USD
+  billing_period: none
+  note: >-
+    Default. Full REST and WebSocket API access with an API key or SIWE JWT. Revenue is taken as
+    trading fees, not as an API subscription.
+  included:
+    api_access: full
+    heavy_request_allowance: 30 per 60 seconds per account
+    active_orders: 500
+    active_tpsl_orders: 500
+  fees:
+    taker: 0.045%
+    maker: 0.015%
+    note: Fees are charged only on executed orders; unexecuted orders are free. Fee source is the Trading Fees page.
+  base_cashback: 1% from character level 2, rising with gamification level
+  source: https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/trading-fees.md
+- name: Prime (monthly)
+  price: 35
+  currency: USD
+  billing_period: month
+  note: >-
+    Consumer subscription, not a developer tier. Replaces the base cashback with a 5% starting
+    rate, adds unlimited Academy access, 24/7 priority support, 5 sign-up skill points and early
+    feature access. Renews monthly; cancelling expires the subscription-only perks but not earned levels.
+  source: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription.md
+- name: Prime (yearly)
+  price: 348
+  currency: USD
+  billing_period: year
+  note: Same Prime benefits billed annually (equivalent to 29 USD/month).
+  source: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription.md
+caveat: >-
+  The Prime page carries an EVEDEX-published warning that "the values presented in this section are
+  subject to change in the future." Prices recorded as of the 2026-08-26 probe.
+cashback:
+  max_total: 35%
+  composition: up to 30% via gamification levels plus 5% via Prime
+  settlement: Calculated on trading fees and credited in USDT the next day, withdrawable.
+  source: https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/trading-fees.md

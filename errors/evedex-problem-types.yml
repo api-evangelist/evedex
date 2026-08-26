@@ -1,0 +1,131 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/ (all eleven harvested EVEDEX specs) + https://docs.evedex.com/developers/developers/order_creation.md
+format: proprietary
+rfc9457: false
+note: 'EVEDEX declares 137 error responses across its eleven specs and every one of them resolves to the
+  same schema: ErrorResponse, an object with a single required string field `message`. There is no error
+  code, no type URI, no field pointer, no retryability hint and no problem+json media type. That makes
+  this catalog a catalog of STATUS CODES, not of error types — the distinguishing information an agent
+  needs lives in free prose it has to string-match. The named business errors below were recovered from
+  the documentation, not from the specs, because the specs do not carry them.'
+envelope:
+  schema: ErrorResponse
+  content_type: application/json
+  shape: '{ "message": string }'
+  required:
+  - message
+problems:
+- status: 400
+  title: Bad Request
+  meaning: Request failed validation. EVEDEX returns only a message string, so the specific cause (malformed
+    EIP-712 signature, order notional below 5 USD, "Invalid order ID date" on a batch whose day prefix
+    is older than midnight yesterday, unnormalized float in the signed payload) must be read out of the
+    prose message.
+  remediation: Re-read the message field. For signed writes, re-check that every float was normalized
+    with Round(value * 10^8, HalfUp) — Down for withdrawals — before signing.
+  declared_on_operations: 22
+  services:
+  - ai-strategies
+  - billing
+  - market-data
+  - notifications
+  schema: ErrorResponse
+  content_type: application/json
+- status: 401
+  title: Unauthorized
+  meaning: Missing, expired or invalid credential. The SIWE access token is valid for only a few minutes,
+    so this is the expected steady-state signal on a long-running session rather than an error condition.
+  remediation: 'Call POST /auth/refresh with Authorization: Bearer {refreshToken}. If that also returns
+    401 the refresh token is dead and the full SIWE nonce/sign/sign-up flow must be repeated.'
+  declared_on_operations: 26
+  services:
+  - ai-strategies
+  - notifications
+  schema: ErrorResponse
+  content_type: application/json
+- status: 403
+  title: Forbidden
+  meaning: Authenticated but not permitted for this operation or resource.
+  remediation: Do not retry. Check the API key scope or that the wallet owns the resource.
+  declared_on_operations: 26
+  services:
+  - ai-strategies
+  - notifications
+  schema: ErrorResponse
+  content_type: application/json
+- status: 404
+  title: Not Found
+  meaning: The addressed resource does not exist.
+  remediation: Do not retry.
+  declared_on_operations: 21
+  services:
+  - ai-strategies
+  - billing
+  - exchange
+  - market-data
+  - notifications
+  schema: ErrorResponse
+  content_type: application/json
+- status: 409
+  title: Conflict
+  meaning: State conflict. Declared on a single operation across all eleven specs.
+  remediation: Re-read current state before retrying.
+  declared_on_operations: 1
+  services:
+  - notifications
+  schema: ErrorResponse
+  content_type: application/json
+- status: 451
+  title: Unavailable For Legal Reasons
+  meaning: Access blocked for legal or jurisdictional reasons. Declared on 12 operations — a notable and
+    deliberately-modelled response for a derivatives venue with region-restricted access.
+  remediation: Not retryable. The caller is in a restricted jurisdiction or the instrument is legally
+    unavailable to them.
+  declared_on_operations: 12
+  services:
+  - ai-strategies
+  schema: ErrorResponse
+  content_type: application/json
+- status: 500
+  title: Internal Server Error
+  meaning: Server-side failure.
+  remediation: 'Retryable with backoff, but see the reversibility caveat: EVEDEX supports no idempotency
+    key, so a 500 on a write path leaves the outcome genuinely unknown. Read state back with GET /api/order
+    or GET /api/position before re-sending.'
+  declared_on_operations: 29
+  services:
+  - ai-strategies
+  - billing
+  - exchange
+  - market-data
+  - notifications
+  schema: ErrorResponse
+  content_type: application/json
+documented_business_errors:
+- message: Invalid order ID date
+  trigger: Batch limit-order creation where the orderId day prefix is earlier than midnight yesterday.
+  status: 400
+  source: https://docs.evedex.com/developers/developers/order_creation.md
+silent_failure_modes:
+- condition: Order cancelled after it filled
+  behaviour: The cancel request succeeds at the transport level but the order status is NOT changed to
+    CANCELLED. No error is raised.
+  source: https://docs.evedex.com/developers/developers/order_creation.md
+- condition: Order accepted but not executed
+  behaviour: A NEW status guarantees entry into the order book only. Execution is asynchronous and must
+    be observed on the order-{userExchangeId} Centrifugo channel.
+  source: https://docs.evedex.com/developers/developers/order_creation.md
+- condition: Global trading halt
+  behaviour: GET /api/market returns a state other than "active" (request-status-fail, me-dead, db-admin-dead).
+    Writes fail for a venue-wide reason, not a caller-specific one.
+  source: https://docs.evedex.com/developers/developers/public_exchange_data.md
+- condition: Async API connection lost
+  behaviour: No error is emitted. The {env}:heartbeat channel simply stops; more than 30 seconds of silence
+    must be treated as a lost connection.
+  source: https://docs.evedex.com/developers/developers/public_exchange_data.md
+gaps:
+- No 429 is declared on any of the 557 operations even though a 30-per-60-second heavy-request limit is
+  documented.
+- No machine-readable error code exists anywhere in the contract.
+- No application/problem+json (RFC 9457) representation is offered.

@@ -1,0 +1,42 @@
+generated: '2026-08-26'
+method: generated
+source: openapi/ (harvested EVEDEX specs) + https://docs.evedex.com/developers/developers
+note: 'Four packaged Agent Skills covering the EVEDEX marquee flows. EVEDEX publishes no skills, no AGENTS.md and
+  no MCP server, so these are generated. GROUNDING CAVEAT: the harvested specs declare NO operationId on any of
+  their 557 operations, so every step is grounded in a verified METHOD + PATH confirmed present in the named spec
+  file rather than an operationId. No operationId has been invented. Each skill leads with what cannot be undone,
+  because EVEDEX combines an irreversible fill path with no idempotency key and no dry-run mode.'
+skills:
+- file: evedex-authenticate-siwe.md
+  name: Authenticate to EVEDEX with Sign-In with Ethereum
+  api: openapi/evedex-auth-openapi.json
+  operations:
+  - GET /auth/nonce
+  - POST /auth/user/sign-up
+  - POST /auth/refresh
+  - POST /auth/revoke
+- file: evedex-read-market-data.md
+  name: Read EVEDEX market data without credentials
+  api: openapi/evedex-market-data-openapi.json
+  operations:
+  - GET /api/history/{instrument}/list
+  - GET /api/market
+  - GET /api/market/instrument
+- file: evedex-place-and-cancel-order.md
+  name: Place and cancel an EVEDEX order safely
+  api: openapi/evedex-exchange-openapi.json
+  operations:
+  - POST /api/v2/order/limit
+  - POST /api/v2/order/market
+  - GET /api/order
+  - GET /api/order/{orderId}
+  - DELETE /api/order/{orderId}
+  - POST /api/order/mass-cancel
+- file: evedex-manage-position.md
+  name: Manage an EVEDEX position
+  api: openapi/evedex-exchange-openapi.json
+  operations:
+  - GET /api/position
+  - PUT /api/position/{instrument}
+  - POST /api/v2/position/{instrument}/close
+  - POST /api/transfer/pf/withdraw

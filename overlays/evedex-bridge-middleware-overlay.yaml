@@ -1,0 +1,47 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for EVEDEX Bridge Middleware
+  version: 1.0.0
+extends: openapi/evedex-bridge-middleware-openapi.json
+x-generated: '2026-08-26'
+x-method: generated
+x-source: Derived from the harvested spec plus https://docs.evedex.com/developers/developers
+x-note: 'Non-destructive enhancement layer. EVEDEX serves this spec live and it is never mutated in place. This
+  service declares 12 operations, of which 12 carry no operationId and 12 carry no summary. The actions below add
+  provenance and the cross-cutting facts EVEDEX documents in prose but does not encode in the contract. No operationId
+  is invented here: naming 557 operations is EVEDEX''s call to make, and a name we mint would collide with the one
+  they eventually choose.'
+actions:
+- target: $.info
+  update:
+    x-apievangelist-harvested: '2026-08-26'
+    x-apievangelist-source: https://bridge-middleware-api.evedex.com/api/openapi.json
+    x-apievangelist-provider: EVEDEX
+    x-apievangelist-docs: https://docs.evedex.com/developers/developers
+    x-api-evangelist-operation-count: 12
+    x-api-evangelist-missing-operation-ids: 12
+    x-api-evangelist-missing-summaries: 12
+- target: $.info
+  update:
+    x-rate-limit:
+      scope: per-account
+      heavy_requests: 30
+      window: 60s
+      applies_to:
+      - order create
+      - order cancel
+      - order replace
+      - position close
+      - tpsl create
+      - tpsl cancel
+      - tpsl replace
+      - withdraw
+      headers: null
+      docs: https://docs.evedex.com/developers/developers/toolkit
+    x-error-envelope:
+      schema: ErrorResponse
+      shape: '{ "message": string }'
+      rfc9457: false
+    x-idempotency:
+      supported: false
+    x-agentic-access-profile: agentic-access/evedex-agentic-access.yml

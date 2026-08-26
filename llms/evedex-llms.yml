@@ -1,0 +1,41 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.evedex.com/llms.txt
+file: evedex-llms.txt
+http_status: 200
+content_type: text/markdown; charset=utf-8
+bytes: 12293
+note: >-
+  EVEDEX serves a real llms.txt from its docs host, saved verbatim alongside this index. It is
+  GitBook-generated: an H1 taken from the first page title ("Whitepaper | EVEDEX Docs"), then a
+  single flat "## EVEDEX Docs" link list of ~90 documentation pages, each pointing at the .md
+  representation. GitBook also appends an "Agent Instructions" block documenting a genuinely useful
+  agent affordance — any page URL accepts `?ask=<question>` (and an optional `&goal=`) and returns a
+  direct natural-language answer with sourced excerpts. That is a stronger agent surface than most
+  providers offer and it is worth calling out.
+strengths:
+- Every documentation page is retrievable as markdown by appending .md — verified on 9 pages, all 200.
+- The ?ask= query interface gives an agent a retrieval path that does not require crawling the whole corpus.
+- The full developer section is indexed, including Toolkit, Authorization, Market Data and Order creation.
+gaps:
+- name: no API contracts listed
+  detail: >-
+    The file indexes documentation pages only. It names none of the eleven live OpenAPI documents and
+    does not mention swagger.evedex.com, so an agent reading llms.txt alone would conclude EVEDEX
+    publishes prose docs and no machine-readable contract. The 557-operation spec set is invisible to it.
+- name: roadmap page missing from the index
+  detail: >-
+    https://docs.evedex.com/roadmap returns 200 and is a substantive dated milestone page, but it does
+    not appear anywhere in llms.txt (verified: zero case-insensitive matches for "roadmap").
+- name: H1 is the whitepaper title, not the product
+  detail: >-
+    The document opens "# Whitepaper | EVEDEX Docs" rather than naming EVEDEX and what it does, and
+    carries no blockquote summary line, so the llms.txt format's own orientation slot is unused.
+- name: no async surface
+  detail: The seventeen Centrifugo channels are described inside linked pages but no channel or event surface is named at the index level.
+llms_full:
+  url: https://docs.evedex.com/llms-full.txt
+  committed: false
+  note: >-
+    EVEDEX also advertises an llms-full.txt corpus dump. Per pipeline policy these are never committed
+    (*-llms-full.txt is gitignored) and no apis.yml pointer is wired to it.

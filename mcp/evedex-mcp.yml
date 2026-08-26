@@ -1,0 +1,51 @@
+generated: '2026-08-26'
+method: derived
+status: candidate
+source: openapi/evedex-exchange-openapi.json, openapi/evedex-market-data-openapi.json, openapi/evedex-auth-openapi.json
+note: >-
+  EVEDEX publishes NO MCP server. Searched the developer docs, the llms.txt index (which lists
+  every documentation page EVEDEX publishes and names no MCP endpoint), the npm @evedex scope
+  (four packages, none an MCP server), and the github.com/evedex-official org. No hosted endpoint
+  and no stdio package exists, so no endpoint URL is asserted here. The tools below are a
+  CANDIDATE surface derived from operations that genuinely exist in the harvested OpenAPI, offered
+  as a design starting point — they are not something EVEDEX ships.
+deployment:
+  mode: none
+  auth: unknown
+  verified: searched
+searched:
+- {surface: https://docs.evedex.com/llms.txt, result: no MCP endpoint listed}
+- {surface: https://docs.evedex.com/developers/developers, result: no MCP section}
+- {surface: npm @evedex scope, result: 4 packages, none MCP}
+- {surface: https://github.com/evedex-official, result: 10 public repos, none MCP}
+tools:
+- name: list_instruments
+  description: List every instrument registered on the exchange, with trading and visibility state.
+  source_operation: openapi/evedex-exchange-openapi.json#GET /api/market/instrument
+- name: get_market_state
+  description: Read the exchange matcher state; any value other than "active" is a global trading halt.
+  source_operation: openapi/evedex-exchange-openapi.json#GET /api/market
+- name: get_price_history
+  description: Fetch historical candlesticks for an instrument over a time range and timeframe.
+  source_operation: openapi/evedex-market-data-openapi.json#GET /api/history/{instrument}/list
+- name: list_orders
+  description: List the authenticated user's orders.
+  source_operation: openapi/evedex-exchange-openapi.json#GET /api/order
+- name: list_positions
+  description: List the authenticated user's open positions.
+  source_operation: openapi/evedex-exchange-openapi.json#GET /api/position
+- name: cancel_order
+  description: Cancel a specific open order by id. Requires no wallet signature.
+  source_operation: openapi/evedex-exchange-openapi.json#DELETE /api/order/{orderId}
+- name: mass_cancel_orders
+  description: Cancel all of the user's orders for one instrument.
+  source_operation: openapi/evedex-exchange-openapi.json#POST /api/order/mass-cancel
+tool_derivation_caveat: >-
+  The harvested EVEDEX specs declare NO operationId on any of their 557 operations, so each tool
+  above is bound to a verified METHOD + PATH rather than an operationId. An MCP server built from
+  these specs would have to synthesise tool names, and two integrators would synthesise different
+  ones — that is a direct, concrete cost of the missing operationIds.
+write_tools_omitted: >-
+  Order creation, order replacement, position closure and withdrawal are deliberately NOT proposed
+  as candidate tools. Each requires an EIP-712 wallet signature over normalized integer values, so
+  it cannot be executed by a server holding only an API key, and each moves real money.

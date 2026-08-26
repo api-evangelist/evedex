@@ -1,0 +1,133 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/ (all eleven harvested EVEDEX specs) + https://docs.evedex.com/developers/developers/toolkit.md
+note: >-
+  Standards conformance read from the contract itself and from the EVEDEX developer docs. EVEDEX's
+  strongest conformance is to the Ethereum/web3 standards stack, which is exactly right for its
+  market and is declared in the contract rather than only claimed on a marketing page. Its weakest
+  area is the generic HTTP/API standards layer — no OAuth2, no OIDC, no RFC 9457, no RFC 8594, no
+  RFC 9116, no standard rate-limit headers.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: 'All eleven harvested specs declare "openapi": "3.1.0".'
+- id: eip-4361-siwe
+  conforms: true
+  evidence: >-
+    Sign-In with Ethereum is the documented JWT issuance flow (GET /auth/nonce, build a SIWE
+    message with address/URI/version/chainId/nonce/issuedAt, wallet-sign, POST /auth/user/sign-up).
+    The official @evedex/exchange-crypto package depends on the `siwe` library.
+  docs: https://docs.evedex.com/developers/developers/authorization
+- id: eip-712-typed-data
+  conforms: true
+  evidence: >-
+    Every order creation, order replacement, position closure, TP/SL mutation and withdrawal
+    carries a `signature` field that must be an EIP-712 signature over typed structured data;
+    EVEDEX publishes the domain and type schemas at
+    github.com/evedex-official/exchange-crypto/blob/master/src/utils/crypto.ts and rejects any order
+    whose signature is missing, non-EIP-712, from a foreign wallet, or over different data.
+  docs: https://docs.evedex.com/developers/developers/toolkit
+- id: erc-4337-account-abstraction
+  conforms: true
+  evidence: >-
+    EVEDEX documents account abstraction as a core platform feature and publishes the supporting
+    contracts publicly (github.com/evedex-official: account-abstraction, erc20-paymaster,
+    erc7579-modules, kernel-smart-account).
+  docs: https://docs.evedex.com/key-features-and-components/enhanced-user-experience-and-account-abstraction
+- id: erc-7579-modular-smart-accounts
+  conforms: true
+  evidence: A dedicated public erc7579-modules repository in the github.com/evedex-official org.
+- id: erc-20
+  conforms: true
+  evidence: erc20-paymaster and solidity-contracts repositories; USDT-denominated cashback settlement.
+- id: http-bearer-auth
+  conforms: true
+  evidence: 'securitySchemes AccessToken / RefreshToken / InternalToken / InternalKey, all type: http, scheme: bearer.'
+- id: api-key-header
+  conforms: true
+  evidence: 'securityScheme ApiKey, type: apiKey, in: header, name: X-API-Key (documented as x-api-key).'
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No oauth2 securityScheme in any of the eleven specs and no /.well-known/oauth-authorization-server
+    (404 on every host). The Auth spec carries an "Oauth" tag on 5 operations, but those are
+    social-account linking (Discord, Telegram) for the gamification surface, not an OAuth2
+    authorization server for API access.
+- id: oidc
+  conforms: false
+  evidence: No openIdConnect securityScheme; /.well-known/openid-configuration returns 404 on every host.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    All 137 declared 4xx/5xx responses use application/json with the ErrorResponse schema
+    ({ message: string }). No application/problem+json anywhere.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header is declared on any of the 557 operations, despite a live v1/v2 split.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on all eight EVEDEX hosts probed.
+- id: ietf-ratelimit-headers
+  conforms: false
+  evidence: >-
+    No RateLimit-* or X-RateLimit-* response header is documented or declared, and no 429 response
+    exists in any spec, although a 30-per-60-second heavy-request limit is documented in prose.
+- id: json-api
+  conforms: false
+  evidence: Plain JSON payloads; no JSON:API document structure.
+- id: odata
+  conforms: false
+- id: scim2
+  conforms: false
+- id: fapi
+  conforms: false
+  evidence: No FAPI security profile; no mTLS, no PAR, no proof-of-possession tokens.
+- id: psd2
+  conforms: false
+  evidence: Not an EU-regulated payment institution surface; EVEDEX is a self-custody crypto derivatives venue.
+- id: pagination-offset-limit
+  conforms: true
+  evidence: limit/offset query parameters on 67 and 66 operations respectively across the eleven specs.
+- id: idempotency-key
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header parameter on any of the 557 operations and no idempotency contract in
+    the docs. The client-generated v2 orderId is the closest mechanism but its replay semantics are
+    never stated.
+- id: iso-8601
+  conforms: true
+  evidence: after/before market-data bounds and updatedAt timestamps are ISO 8601.
+domain_standard:
+  market: crypto derivatives / decentralized exchange
+  finding: >-
+    EVEDEX's market has no single mandated wire standard the way healthcare has FHIR or banking has
+    ISO 20022 — perpetual-futures venues each publish a bespoke REST/WS surface. The relevant
+    domain standards for a self-custody on-chain venue are the Ethereum ERC/EIP family, and EVEDEX
+    declares those IN THE CONTRACT rather than merely claiming them: EIP-712 signatures are a
+    required request field on every write operation, and EIP-4361 SIWE is the documented token
+    issuance flow. Recorded as a genuine domain-standard signature.
+  standards_declared_in_contract: [eip-712-typed-data, eip-4361-siwe]
+  evidence_location: >-
+    `signature` request-body field on POST /api/v2/order/limit, /market, /stop-limit,
+    /api/v2/position/{instrument}/close and /api/transfer/pf/withdraw in
+    openapi/evedex-exchange-openapi.json; GET /auth/nonce + POST /auth/user/sign-up in
+    openapi/evedex-auth-openapi.json.
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  note: >-
+    No SOC 2, ISO 27001, PCI DSS or other certification is published, and probe-security-programs.py
+    found no trust center on trust./security./compliance paths. EVEDEX publishes extensive LEGAL
+    documentation instead — jurisdiction-split Terms of Use (Global and European Union), Privacy
+    Policy, Cookie Policy, Risk Disclosure Statement, an Affiliate Agreement, and separate Terms of
+    Use and Risk Disclosure specifically for AI Bots. That is a regulatory-disclosure posture, not a
+    security-certification posture, so NO Compliance pointer is emitted.
+negative_probes:
+  note: Recorded so a later round does not re-litigate them. One attempt each, 2026-08-26.
+  probes:
+  - {url: 'https://exchange-api.evedex.com/api?wsdl', status: 404, conclusion: no SOAP/WSDL contract}
+  - {url: 'https://exchange-api.evedex.com/graphql', status: 404, conclusion: no GraphQL surface}
+  - {url: 'https://exchange-api.evedex.com/asyncapi.json', status: 404, conclusion: no AsyncAPI document}
+  - {url: 'https://docs.evedex.com/asyncapi.yaml', status: 404, conclusion: no AsyncAPI document}
+  - {url: 'https://evedex.com/llms.txt', status: 404, conclusion: llms.txt is served from the docs host only}

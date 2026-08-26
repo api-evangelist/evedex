@@ -1,0 +1,69 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.evedex.com/developers/developers/exchange_bot_sdk.md
+docs: https://docs.evedex.com/developers/developers/exchange_bot_sdk
+note: 'EVEDEX ships a real, separately-hosted demo environment, not a test-mode flag on the production key. The
+  SDK exposes it as a first-class container class — DemoContainer vs ProdContainer — so switching environments is
+  a one-word change and there is no way to accidentally send a demo order to production with a production key. What
+  EVEDEX does NOT publish is any magic test value: no test wallet, no funded demo private key, no seeded instrument,
+  no simulated fill or liquidation trigger. A developer must bring their own Ethereum wallet and obtain demo balance
+  through the demo exchange UI before the SDK''s demo container is useful.'
+separation:
+  model: separate-environment
+  mechanism: distinct hostnames and distinct Centrifugo channel-name prefixes
+  key_prefixes: none published
+  note: EVEDEX does not prefix API keys by environment (no test_/live_ convention), so a key alone does not tell
+    you which environment it belongs to. Environment is carried by the host you call and the SDK container you construct.
+environments:
+- name: Production
+  channel_prefix: futures-perp
+  sdk_container: evedexSdk.ProdContainer
+  exchange_ui: https://exchange.evedex.com/
+  source: https://docs.evedex.com/developers/developers/public_exchange_data.md
+- name: Demo
+  channel_prefix: futures-perp-demo
+  sdk_container: evedexSdk.DemoContainer
+  exchange_ui: https://exchange-demo.evedex.com/
+  purpose: Testing. The environment the SDK docs point developers at.
+  source: https://docs.evedex.com/developers/developers/exchange_bot_sdk.md
+  probe:
+    url: https://exchange-demo.evedex.com/
+    status: <no response>
+    result: DNS did not resolve at probe time (2026-08-26)
+  probe_note: 'EVEDEX lists https://exchange-demo.evedex.com/ on its Official Links page as "Demo Exchange", and
+    the SDK docs point developers at the demo environment via DemoContainer, but the hostname did not resolve when
+    probed. One attempt, not retried. Recorded as observed: the sandbox is documented and is a first-class SDK concept,
+    but the published entry point to it could not be reached, so a developer following the Official Links page cannot
+    currently onboard to the demo environment from that URL.'
+- name: Beta
+  channel_prefix: futures-perp-beta
+  source: https://docs.evedex.com/developers/developers/public_exchange_data.md
+  note: Channel prefix is documented; no public host or sign-up path is published for it.
+- name: Development
+  channel_prefix: futures-perp-dev
+  source: https://docs.evedex.com/developers/developers/public_exchange_data.md
+  note: Channel prefix is documented; EVEDEX-internal, no public host published.
+test_values:
+  published: false
+  test_cards: []
+  test_wallets: []
+  test_instruments: []
+  note: None published. Because every write operation requires an EIP-712 signature from a real wallet the developer
+    controls, EVEDEX has no shared test credential to hand out — but it also means there is no published funded
+    demo wallet, so a developer cannot exercise the order path from a cold start without first onboarding through
+    the demo UI.
+time_simulation:
+  supported: false
+  note: No test clock or time-simulation facility is documented.
+fixtures_and_triggers:
+  published: false
+  note: No fixture or trigger tooling for simulating fills, liquidations, ADL or funding events is documented. The
+    heartbeat channel ({env}:heartbeat, considered lost after 30s of silence) is the only published way to assert
+    the async surface is alive.
+probe_summary:
+  demo_exchange_ui:
+    url: https://exchange-demo.evedex.com/
+    status: <no response>
+  production_exchange_ui:
+    url: https://exchange.evedex.com/
+    status: 200

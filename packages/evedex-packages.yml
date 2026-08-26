@@ -1,0 +1,72 @@
+generated: '2026-08-26'
+method: searched
+source: https://registry.npmjs.org/ (per-package metadata endpoint) + https://docs.evedex.com/developers/developers/exchange_bot_sdk
+note: >-
+  Four first-party packages published under the npm @evedex scope. The scope itself is the
+  first-party signal: @evedex/exchange-bot-sdk is the SDK the EVEDEX developer docs tell you to
+  install, and it depends on the other three, which are its own building blocks. npm carries no
+  repository field for three of the four; the public source for them is
+  https://github.com/evedex-official (the org the docs link to and deep-link into for the
+  EIP-712 signature schemas). No PyPI, RubyGems, crates.io, Packagist, NuGet, Maven Central or
+  Go module was found for EVEDEX — JavaScript/TypeScript is the only language EVEDEX ships.
+registries_checked: [npm, pypi, rubygems, crates.io, packagist, nuget, maven-central, pkg.go.dev]
+packages:
+- language: typescript
+  registry: npm
+  name: "@evedex/exchange-bot-sdk"
+  url: https://www.npmjs.com/package/@evedex/exchange-bot-sdk
+  install: npm install @evedex/exchange-bot-sdk
+  official: true
+  version: 1.2.11
+  published: '2026-07-10'
+  license: ISC
+  releases: 66
+  role: >-
+    The headline SDK. Wraps the EVEDEX REST APIs and the Centrifugo WebSocket feed, and ships
+    DemoContainer / ProdContainer for the demo and production environments.
+  docs: https://docs.evedex.com/developers/developers/exchange_bot_sdk
+  source: https://github.com/evedex-official/exchange-bot-sdk
+- language: typescript
+  registry: npm
+  name: "@evedex/exchange-api"
+  url: https://www.npmjs.com/package/@evedex/exchange-api
+  install: npm install @evedex/exchange-api
+  official: true
+  version: 1.0.70
+  published: '2026-06-08'
+  license: ISC
+  role: Typed REST client layer for the EVEDEX exchange API; a dependency of the bot SDK.
+  source: https://github.com/evedex-official/exchange-api
+- language: typescript
+  registry: npm
+  name: "@evedex/exchange-crypto"
+  url: https://www.npmjs.com/package/@evedex/exchange-crypto
+  install: npm install @evedex/exchange-crypto
+  official: true
+  version: 1.1.0
+  published: '2026-06-08'
+  license: ISC
+  role: >-
+    EIP-712 typed-data signing and EIP-4361 (SIWE) helpers. The EVEDEX Toolkit docs deep-link
+    into this repo's src/utils/crypto.ts for the canonical order and withdrawal signature schemas.
+  source: https://github.com/evedex-official/exchange-crypto
+- language: typescript
+  registry: npm
+  name: "@evedex/networks"
+  url: https://www.npmjs.com/package/@evedex/networks
+  install: npm install @evedex/networks
+  official: true
+  version: 3.5.0
+  published: '2026-08-14'
+  license: ISC
+  role: Chain/network and deployed-contract address constants for the EVEDEX Arbitrum L3 deployment.
+  source: https://gitlab.evedex-team.com/blockchain/contracts
+  note: >-
+    The only one of the four that declares a repository in npm metadata, and it points at
+    EVEDEX's private GitLab (gitlab.evedex-team.com), not a public host.
+currency:
+  note: >-
+    All four packages were published within the last ~10 weeks of this probe (2026-06-08 to
+    2026-08-14). No abandonment signal — the SDK layer is being maintained alongside the API.
+  newest_publish: '2026-08-14'
+  oldest_publish: '2026-06-08'

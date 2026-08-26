@@ -1,0 +1,61 @@
+generated: '2026-08-26'
+method: searched
+source: https://docs.evedex.com/developers/developers/order_creation.md, harvested openapi/
+note: >-
+  EVEDEX versions its API in the URI path and is visibly mid-migration: v2 order and position
+  endpoints run alongside unversioned v1 equivalents in the same Exchange spec, and the docs
+  describe the v2 orderId format as a deliberate replacement. What is missing is every piece of
+  lifecycle governance around that migration — there is no deprecation policy, no sunset date for
+  the v1 order endpoints, no Deprecation or Sunset header (RFC 8594) declared on any of the 557
+  operations, no `deprecated: true` marker in any spec, no SLA, and no status page.
+versioning:
+  scheme: uri-path
+  current: v2
+  observed: [unversioned, v2]
+  docs: https://docs.evedex.com/developers/developers/order_creation
+  detail: >-
+    Order creation, order replacement and position closure exist as both /api/order/... and
+    /api/v2/order/... . The v2 line introduced a structured orderId
+    (<days_since_2025-07-24>:<uuid_without_dashes>, matching [0-9]{5}:[0-9A-Fa-f]{26}) to prevent
+    identifier collisions.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy is published and no operation is marked deprecated in any spec, even
+    though a v1/v2 split is live. The one deprecation signal EVEDEX gives is in SDK prose, not the
+    API: the exchange-bot-sdk docs mark the `wsGateway` accessor "deprecated, not recommended to
+    use". A consumer on the v1 order endpoints has no published notice period.
+sla:
+  url: null
+  uptime_target: null
+  published: false
+status_page:
+  url: null
+  published: false
+  probe:
+    url: https://status.evedex.com/
+    status: 200
+    verdict: not-a-status-page
+    detail: >-
+      https://status.evedex.com/ resolves and returns 200, but the body is the EVEDEX exchange
+      single-page-app shell — og:title "EVEDEX - New Cryptocurrency Exchange with Perpetual Futures
+      Trading and more", og:image the exchange OpenGraph card. There is no component list, no
+      incident history and no uptime data. Recorded as absent, and NO StatusPage pointer is emitted.
+availability_signals:
+  - name: Matcher state
+    mechanism: 'GET /api/market returns a `state` field; the {env}:info Centrifugo channel pushes snapshots'
+    states: [active, request-status-fail, me-dead, db-admin-dead]
+    note: >-
+      Any state other than `active` is a global trading halt. This is the closest thing EVEDEX has
+      to machine-readable availability, and it is genuinely better than a status page for an agent
+      — but it covers only the matcher, not the eleven REST services.
+    source: https://docs.evedex.com/developers/developers/public_exchange_data.md
+  - name: Async API heartbeat
+    mechanism: '{env}:heartbeat channel emits a timestamp; no event for >30s means the connection is lost'
+    source: https://docs.evedex.com/developers/developers/public_exchange_data.md
+deprecated_operations: []
+deprecated_operations_note: "Zero of the 557 harvested operations carry `deprecated: true`."

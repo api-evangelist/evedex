@@ -1,0 +1,112 @@
+# Whitepaper | EVEDEX Docs
+
+## EVEDEX Docs
+
+- [EVEDEX Whitepaper](https://docs.evedex.com/readme.md)
+- [Glossary](https://docs.evedex.com/glossary.md)
+- [Letter from the Founders](https://docs.evedex.com/introduction/letter-from-the-founders.md)
+- [Industry Trends & Development Strategy](https://docs.evedex.com/introduction/industry-trends-and-development-strategy.md)
+- [Market Challenges & User Demands](https://docs.evedex.com/introduction/market-challenges-and-user-demands.md)
+- [Competitive Landscape & Market Potential](https://docs.evedex.com/introduction/competitive-landscape-and-market-potential.md)
+- [Market Potential Overview](https://docs.evedex.com/introduction/competitive-landscape-and-market-potential/market-potential-overview.md)
+- [Key Competitors](https://docs.evedex.com/introduction/competitive-landscape-and-market-potential/key-competitors.md)
+- [The Concept](https://docs.evedex.com/evedex-solution/the-concept.md)
+- [Mission & Core Values](https://docs.evedex.com/evedex-solution/mission-and-core-values.md)
+- [Empowering Users Through Decentralization](https://docs.evedex.com/strategic-approach/empowering-users-through-decentralization.md)
+- [Enhancing User Experience & Accessibility](https://docs.evedex.com/strategic-approach/enhancing-user-experience-and-accessibility.md)
+- [Strengthening Privacy & Security](https://docs.evedex.com/strategic-approach/strengthening-privacy-and-security.md)
+- [Providing Comprehensive Education](https://docs.evedex.com/strategic-approach/providing-comprehensive-education.md)
+- [Fostering Community-Oriented Governance](https://docs.evedex.com/strategic-approach/fostering-community-oriented-governance.md)
+- [Ensuring Fair & Transparent Copy Trading](https://docs.evedex.com/strategic-approach/ensuring-fair-and-transparent-copy-trading.md)
+- [Expanding the Ecosystem](https://docs.evedex.com/strategic-approach/expanding-the-ecosystem.md)
+- [Promoting Financial Inclusion](https://docs.evedex.com/strategic-approach/promoting-financial-inclusion.md)
+- [Trading Platform & Matching Engine](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine.md)
+- [Perpetual Futures Trading Fundamentals](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/perpetual-futures-trading-fundamentals.md)
+- [Technical Overview](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/technical-overview.md)
+- [Arbitrum L2 and on-chain settlement](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/arbitrum-l3-and-on-chain-settlement.md)
+- [Off-chain Orderbook](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/off-chain-orderbook.md)
+- [Matching Engine Overview](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/off-chain-orderbook/matching-engine-overview.md)
+- [Take-Profit and Stop-Loss (TP/SL)](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/take-profit-and-stop-loss-tp-sl.md)
+- [Entry price and P\&L (Profit and Loss)](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/entry-price-and-pnl-profit-and-loss.md)
+- [Order Types](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/order-types.md)
+- [Index Price and Mark Price](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/index-price-and-mark-price.md)
+- [Initial and Maintenance Margins](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/margins.md): Just like any other financial instrument, margin trading involves potential risks, so it’s essential to understand the basic principles of calculating the Initial and Maintenance Margin on the EVEDEX.
+- [Cross Margin](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/cross-margin.md)
+- [Available Balance](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/available-balance-and-buying-selling-power.md)
+- [Buying/Selling Power](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/buying-selling-power.md)
+- [Liquidations and Auto-Deleveraging (ADL)](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/liquidations-and-auto-deleveraging.md)
+- [Trading Fees](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/trading-fees.md): EVEDEX offers a progressive fee structure tied to our unique gamified user-level system. This incentivizes active participation and rewards users with increasing discounts as their level improves.
+- [One-Click Trading](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/one-click-trading.md)
+- [Funding Rate](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/funding-rate.md)
+- [Deposit & Withdraw](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/deposit-and-withdraw.md)
+- [Market Makers and Liquidity Provision](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/market-makers-and-liquidity-provision.md)
+- [Contract Specifications](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/contract-specifications.md)
+- [Pre-IPO Perpetual Contracts](https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/pre-ipo-perpetual-contracts.md)
+- [Enhanced User Experience & Account Abstraction](https://docs.evedex.com/key-features-and-components/enhanced-user-experience-and-account-abstraction.md)
+- [What is Account Abstraction?](https://docs.evedex.com/key-features-and-components/enhanced-user-experience-and-account-abstraction/what-is-account-abstraction.md)
+- [Benefits of Account Abstraction](https://docs.evedex.com/key-features-and-components/enhanced-user-experience-and-account-abstraction/benefits-of-account-abstraction.md)
+- [Technical Implementation](https://docs.evedex.com/key-features-and-components/enhanced-user-experience-and-account-abstraction/technical-implementation.md)
+- [Comprehensive Educational Resources](https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources.md)
+- [EVEDEX Academy](https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy.md)
+- [Core Educational Areas](https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/core-educational-areas.md)
+- [Risk Disclosure](https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/risk-disclosure.md)
+- [Transparent & Fair Copy Trading](https://docs.evedex.com/key-features-and-components/transparent-and-fair-copy-trading.md)
+- [Copy Trading Quality Assurance & Certification](https://docs.evedex.com/key-features-and-components/transparent-and-fair-copy-trading/copy-trading-quality-assurance-and-certification.md)
+- [Gamification & Affiliate Program](https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program.md)
+- [Affiliate Program](https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/affiliate-program.md)
+- [Level Progression & Skill Allocation](https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/level-progression-and-skill-allocation.md)
+- [Prime Subscription](https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription.md)
+- [Tokenomics Overview](https://docs.evedex.com/tokenomics/tokenomics-overview.md)
+- [Deployed Contracts](https://docs.evedex.com/deployed-contracts.md): This section provides a list of smart contracts deployed within the system. Key contracts listed include governance mechanisms, storage, and treasury management components essential for the platform's
+- [FAQ](https://docs.evedex.com/faq.md)
+- [Official Links](https://docs.evedex.com/official-links.md)
+- [Developers API](https://docs.evedex.com/developers/developers.md)
+- [Toolkit](https://docs.evedex.com/developers/developers/toolkit.md)
+- [Authorization](https://docs.evedex.com/developers/developers/authorization.md)
+- [Public Exchange Data](https://docs.evedex.com/developers/developers/public_exchange_data.md)
+- [Market Data](https://docs.evedex.com/developers/developers/market_data.md)
+- [Personalized User Data](https://docs.evedex.com/developers/developers/personalized_user_data.md)
+- [Order creation](https://docs.evedex.com/developers/developers/order_creation.md)
+- [Node.js & JavaScript SDK for Evedex REST APIs & WebSockets](https://docs.evedex.com/developers/developers/exchange_bot_sdk.md)
+- [Futures Trading](https://docs.evedex.com/guides/futures-trading.md)
+- [European Union (EU)](https://docs.evedex.com/legal/european-union-eu.md)
+- [General Terms of Use](https://docs.evedex.com/legal/european-union-eu/terms-of-use-european-union.md)
+- [Terms of Use: Interface](https://docs.evedex.com/legal/european-union-eu/terms-of-use-interface.md)
+- [Privacy Policy](https://docs.evedex.com/legal/european-union-eu/privacy-policy-european-union.md)
+- [Cookie Policy - European Union](https://docs.evedex.com/legal/european-union-eu/cookie-policy-european-union.md)
+- [Affiliate Agreement](https://docs.evedex.com/legal/european-union-eu/affiliate-agreement.md)
+- [Global](https://docs.evedex.com/legal/global.md)
+- [General Terms of Use](https://docs.evedex.com/legal/global/terms-of-use-global.md)
+- [Risk Disclosure Statement](https://docs.evedex.com/legal/global/risk-disclosure-statement.md)
+- [Terms of Use: Interface](https://docs.evedex.com/legal/global/terms-of-use-interface.md)
+- [Terms of Use: Funded Subaccounts](https://docs.evedex.com/legal/global/terms-of-use-funded-subaccounts.md)
+- [Privacy Policy](https://docs.evedex.com/legal/global/privacy-policy-global.md)
+- [Cookie Policy - Global](https://docs.evedex.com/legal/global/cookie-policy-global.md)
+- [Affiliate Agreement](https://docs.evedex.com/legal/global/affiliate-agreement.md)
+- [AI Bots](https://docs.evedex.com/legal/global/ai-bots.md)
+- [Terms of Use: Bots](https://docs.evedex.com/legal/global/ai-bots/terms-of-use-bots.md)
+- [Risk Disclosure: Bots](https://docs.evedex.com/legal/global/ai-bots/risk-disclosure-bots.md)
+- [Subscription Agreement](https://docs.evedex.com/legal/global/subscription-agreement.md)
+- [Event Rules](https://docs.evedex.com/legal/global/event-rules.md)
+- [EVEDEX Newcomers Event Rules](https://docs.evedex.com/legal/global/event-rules/evedex-newcomers-event-rules.md)
+- [EVEDEX Trading Challenge March 2026 Rules](https://docs.evedex.com/legal/global/event-rules/evedex-trading-challenge-march-2026-rules.md)
+- [EVEDEX Deposit Bonus Program](https://docs.evedex.com/legal/global/event-rules/evedex-deposit-bonus-program.md)
+- [EVEDEX Trading Challenge (3 Season)](https://docs.evedex.com/legal/global/event-rules/evedex-trading-challenge-3-season.md)
+- [EVEDEX Trading Competition August-September 2026](https://docs.evedex.com/legal/global/event-rules/evedex-trading-competition-august-september-2026.md)
+- [Lucky Shot Terms](https://docs.evedex.com/legal/global/lucky-shot-terms.md)
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information, you can query the documentation dynamically by asking a question.
+Perform an HTTP GET request on a page URL with the `ask` query parameter:
+```
+GET https://docs.evedex.com/readme.md?ask=<question>
+```
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

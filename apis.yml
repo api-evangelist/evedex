@@ -1,116 +1,321 @@
 name: EVEDEX
-description: >-
-  Hybrid decentralized perpetual-futures exchange on Arbitrum (Layer 3) combining an off-chain order book with on-chain
-  settlement and self-custody. Offers a public developer program with REST APIs (Auth, Exchange, Market Data), WebSocket
-  streaming via Centrifugo, an official TypeScript SDK, and machine-readable OpenAPI specs.
+aid: evedex
+description: EVEDEX is a hybrid decentralized perpetual-futures exchange built on Arbitrum (Layer 3) that pairs an off-chain
+  order book and matching engine with on-chain settlement and full self-custody, so users trade at centralized-exchange latency
+  without surrendering their keys. Its public developer program spans eleven live OpenAPI 3.1.0 services totalling 557 operations
+  — Auth, Exchange, Market Data, Referral/Affiliate, Notifications, Academy, Game, Billing, Bridge Middleware, AI Strategies
+  and Backoffice — all published from a single Swagger UI at swagger.evedex.com. Authentication is either an X-API-Key issued
+  from the exchange UI or a short-lived JWT minted through EIP-4361 Sign-In with Ethereum, and every write that moves value
+  (order creation, replacement, position closure, withdrawal) additionally requires an EIP-712 typed-data signature from the
+  user's own wallet. Asynchronous state is delivered over seventeen documented Centrifugo WebSocket channels using a snapshot-plus-updates
+  consistency pattern. EVEDEX ships an official TypeScript SDK (@evedex/exchange-bot-sdk) with separate demo and production
+  containers, and publishes agent-native documentation via llms.txt and per-page markdown with a GitBook ask-parameter query
+  interface.
 url: https://raw.githubusercontent.com/api-evangelist/evedex/refs/heads/main/apis.yml
 created: '2026-08-26'
 modified: '2026-08-26'
 specificationVersion: '0.21'
-tags:
-  - cryptocurrency-exchange
-  - defi
-  - decentralized-exchange
-  - derivatives
-  - perpetual-futures
-  - trading
-  - market-data
-  - blockchain
-  - web3
-  - arbitrum-layer3
-  - fintech
+tags: &id001
+- cryptocurrency-exchange
+- defi
+- decentralized-exchange
+- derivatives
+- perpetual-futures
+- trading
+- market-data
+- blockchain
+- web3
+- arbitrum-layer3
+- fintech
 apis:
-  - name: Auth Service
-    description: User registration and authorization (SIWE/EIP-4361 nonce and sign-up, JWT issuance).
-    humanURL: https://docs.evedex.com/developers/developers
-    baseURL: https://auth.evedex.com/
-    tags:
-      - cryptocurrency-exchange
-      - defi
-      - decentralized-exchange
-      - derivatives
-      - perpetual-futures
-      - trading
-      - market-data
-      - blockchain
-      - web3
-      - arbitrum-layer3
-      - fintech
-    properties:
-      - type: OpenAPI
-        url: https://swagger.evedex.com/?urls.primaryName=Auth
-      - type: Documentation
-        url: https://docs.evedex.com/developers/developers
-  - name: Exchange Service
-    description: 'Core trading API: markets, instruments, orders (limit/market/stop-limit), positions, transfers, and withdrawals.'
-    humanURL: https://docs.evedex.com/developers/developers/toolkit
-    baseURL: https://swagger.evedex.com/
-    tags:
-      - cryptocurrency-exchange
-      - defi
-      - decentralized-exchange
-      - derivatives
-      - perpetual-futures
-      - trading
-      - market-data
-      - blockchain
-      - web3
-      - arbitrum-layer3
-      - fintech
-    properties:
-      - type: OpenAPI
-        url: https://swagger.evedex.com/?urls.primaryName=Exchange
-      - type: Documentation
-        url: https://docs.evedex.com/developers/developers/toolkit
-  - name: Market Data Service
-    description: Public historical price data (no authentication required).
-    humanURL: https://docs.evedex.com/developers/developers
-    baseURL: https://market-data-api.evedex.com/
-    tags:
-      - cryptocurrency-exchange
-      - defi
-      - decentralized-exchange
-      - derivatives
-      - perpetual-futures
-      - trading
-      - market-data
-      - blockchain
-      - web3
-      - arbitrum-layer3
-      - fintech
-    properties:
-      - type: OpenAPI
-        url: https://swagger.evedex.com/?urls.primaryName=MarketData
-      - type: Documentation
-        url: https://docs.evedex.com/developers/developers
-  - name: EVEDEX Documentation & Agent Surface
-    description: Developer portal and agent-native documentation surface, including llms.txt and full corpus export.
-    humanURL: https://docs.evedex.com/developers/developers
-    baseURL: https://docs.evedex.com/
-    tags:
-      - cryptocurrency-exchange
-      - defi
-      - decentralized-exchange
-      - derivatives
-      - perpetual-futures
-      - trading
-      - market-data
-      - blockchain
-      - web3
-      - arbitrum-layer3
-      - fintech
-    properties:
-      - type: LLMsTxt
-        url: https://docs.evedex.com/llms.txt
-      - type: LLMsTxt
-        url: https://docs.evedex.com/llms-full.txt
-      - type: Documentation
-        url: https://docs.evedex.com/developers/developers
+- name: Auth Service
+  description: 'Identity and authorization for the exchange: EIP-4361 Sign-In with Ethereum nonce and sign-up, JWT access/refresh
+    token issuance and revocation, API key management (including restore of a deleted key), sessions, ACL, sub-accounts, tariffs
+    and social account (OAuth) linking. 88 operations.'
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-auth-openapi.json
+  - type: OpenAPI
+    url: https://auth-api.evedex.com/auth/openapi.json
+  - type: Overlay
+    url: overlays/evedex-auth-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Exchange Service
+  description: 'The trading core: market and matcher state, instrument catalogue, v1 and v2 order creation (limit, market,
+    stop-limit, batch mass-limit), order replacement and cancellation, positions and leverage, TP/SL, transfers, withdrawals
+    and cashback. Every value-moving write requires an EIP-712 wallet signature. 125 operations.'
+  humanURL: https://docs.evedex.com/developers/developers/order_creation
+  baseURL: https://exchange-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-exchange-openapi.json
+  - type: OpenAPI
+    url: https://exchange-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-exchange-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Market Data Service
+  description: Public historical candlestick data by instrument and timeframe, with no authentication required. Returns positional
+    candle tuples (timestamp, open, close, high, low, volumeUsd, volume), capped at 100,000 candles per response. 8 operations.
+  humanURL: https://docs.evedex.com/developers/developers/market_data
+  baseURL: https://market-data-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-market-data-openapi.json
+  - type: OpenAPI
+    url: https://market-data-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-market-data-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Referral / Affiliate Service
+  description: 'The partner and affiliate program: referral links, referred-user tracking, commission rewards and partner
+    statistics. 78 operations.'
+  humanURL: https://docs.evedex.com/developers/developers
+  baseURL: https://partner-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-referral-openapi.json
+  - type: OpenAPI
+    url: https://partner-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-referral-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Notifications Service
+  description: User messaging and notification delivery, mobile app registration and Telegram integration. 28 operations.
+  humanURL: https://docs.evedex.com/developers/developers
+  baseURL: https://notifications-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-notifications-openapi.json
+  - type: OpenAPI
+    url: https://notifications-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-notifications-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Academy Service
+  description: 'EVEDEX Academy education platform: courses, lessons, tags, files and learner progress. Included with a Prime
+    subscription. 54 operations.'
+  humanURL: https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  baseURL: https://academy.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-academy-openapi.json
+  - type: OpenAPI
+    url: https://academy-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-academy-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Game Service
+  description: 'The gamification layer that drives EVEDEX cashback: character levels, trader skills, badges, challenges and
+    streaks, competitions, grand contests, leaderboards, Lucky Shot and collectables. 100 operations, the second-largest EVEDEX
+    service.'
+  humanURL: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  baseURL: https://game-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-game-openapi.json
+  - type: OpenAPI
+    url: https://game-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-game-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Billing Service
+  description: 'Prime subscription billing: bills, subscriptions, subscription cancellation and refunds. 14 operations.'
+  humanURL: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+  baseURL: https://billing-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-billing-openapi.json
+  - type: OpenAPI
+    url: https://billing-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-billing-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Bridge Middleware Service
+  description: Cross-chain transfer bridging into and out of the exchange, including a transfer refund path. 12 operations.
+  humanURL: https://docs.evedex.com/developers/developers
+  baseURL: https://bridge-middleware-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-bridge-middleware-openapi.json
+  - type: OpenAPI
+    url: https://bridge-middleware-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-bridge-middleware-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: AI Strategies Service
+  description: AI trading strategy surface. 13 operations, secured solely by an InternalToken bearer scheme, indicating a
+    service that is publicly documented but not intended for third-party callers.
+  humanURL: https://docs.evedex.com/developers/developers
+  baseURL: https://ai-strategies-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-ai-strategies-openapi.json
+  - type: OpenAPI
+    url: https://ai-strategies-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-ai-strategies-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: Backoffice Service
+  description: EVEDEX operator tooling — withdrawal blocking, unblocking and rejection. The OpenAPI is served publicly at
+    backoffice-api.evedex.com but the spec itself declares its server as the internal host backoffice-api.private.evedex.com,
+    so the surface it describes is staff-facing rather than a consumer API. 37 operations.
+  humanURL: https://docs.evedex.com/developers/developers
+  baseURL: https://backoffice-api.evedex.com
+  tags: *id001
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-backoffice-openapi.json
+  - type: OpenAPI
+    url: https://backoffice-api.evedex.com/api/openapi.json
+  - type: Overlay
+    url: overlays/evedex-backoffice-overlay.yaml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: APIReference
+    url: https://swagger.evedex.com/
+- name: EVEDEX Documentation & Agent Surface
+  description: The GitBook developer portal and agent-native documentation surface. Every page is retrievable as markdown
+    by appending .md, llms.txt indexes the full corpus, and GitBook exposes an ask= query parameter that answers natural-language
+    questions against a page.
+  humanURL: https://docs.evedex.com/developers/developers
+  baseURL: https://docs.evedex.com
+  tags: *id001
+  properties:
+  - type: LLMsTxt
+    url: llms/evedex-llms.txt
+  - type: LLMsTxt
+    url: https://docs.evedex.com/llms.txt
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+- name: EVEDEX Async API (Centrifugo)
+  description: Real-time exchange events over WebSocket, brokered by Centrifugo with JWT channel access rights and epoch-based
+    state recovery. Seventeen documented channels cover heartbeat, matcher state, instruments, order book depth and best,
+    last trades, candlesticks, and per-user account, order, fill, fee, TP/SL, funding and transfer streams. No AsyncAPI document
+    is published.
+  humanURL: https://docs.evedex.com/developers/developers/public_exchange_data
+  baseURL: https://docs.evedex.com
+  tags: *id001
+  properties:
+  - type: Webhooks
+    url: asyncapi/evedex-centrifugo-events.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/public_exchange_data
+common:
+- type: DeveloperPortal
+  url: https://docs.evedex.com/developers/developers
+- type: Documentation
+  url: https://docs.evedex.com/developers/developers
+- type: APIReference
+  url: https://swagger.evedex.com/
+- type: GettingStarted
+  url: https://docs.evedex.com/developers/developers/toolkit
+- type: Support
+  url: https://help.evedex.com/
+- type: Blog
+  url: https://blog.evedex.com/
+- type: GitHubOrganization
+  url: https://github.com/evedex-official
+- type: Roadmap
+  url: https://docs.evedex.com/roadmap
+- type: Pricing
+  url: https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/trading-fees
+- type: SignUp
+  url: https://exchange.evedex.com/
+- type: TermsOfService
+  url: https://docs.evedex.com/legal/global/terms-of-use-global
+- type: PrivacyPolicy
+  url: https://docs.evedex.com/legal/global/privacy-policy-global
+- type: Website
+  url: https://evedex.com/
+- type: Authentication
+  url: authentication/evedex-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/evedex-agentic-access.yml
+- type: DomainSecurity
+  url: security/evedex-domain-security.yml
+- type: Packages
+  url: packages/evedex-packages.yml
+- type: SDKs
+  url: packages/evedex-packages.yml
+- type: LLMsTxt
+  url: llms/evedex-llms.txt
+- type: MCPServer
+  url: mcp/evedex-mcp.yml
+- type: Conventions
+  url: conventions/evedex-conventions.yml
+- type: ErrorCatalog
+  url: errors/evedex-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/evedex-lifecycle.yml
+- type: Conformance
+  url: conformance/evedex-conformance.yml
+- type: DataModel
+  url: data-model/evedex-data-model.yml
+- type: Sandbox
+  url: sandbox/evedex-sandbox.yml
+- type: RateLimits
+  url: rate-limits/evedex-rate-limits.yml
+- type: Plans
+  url: plans/evedex-plans-pricing.yml
+- type: Webhooks
+  url: asyncapi/evedex-centrifugo-events.yml
+- type: AgentSkill
+  url: skills/_index.yml
 maintainers:
-  - FN: EVEDEX Official (GitHub)
-    url: https://github.com/evedex-official
+- FN: EVEDEX Official (GitHub)
+  url: https://github.com/evedex-official
+  email: support@evedex.com
 generated:
   by: apis.io/add
   model: claude-opus-4-8
   confidence: 95
   at: '2026-08-26T12:39:57.019Z'
+image: https://static.evedex.com/images/opengraph/exchange.png
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 44
+  pass: local-v1
