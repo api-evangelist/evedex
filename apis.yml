@@ -1,0 +1,116 @@
+name: EVEDEX
+description: >-
+  Hybrid decentralized perpetual-futures exchange on Arbitrum (Layer 3) combining an off-chain order book with on-chain
+  settlement and self-custody. Offers a public developer program with REST APIs (Auth, Exchange, Market Data), WebSocket
+  streaming via Centrifugo, an official TypeScript SDK, and machine-readable OpenAPI specs.
+url: https://raw.githubusercontent.com/api-evangelist/evedex/refs/heads/main/apis.yml
+created: '2026-08-26'
+modified: '2026-08-26'
+specificationVersion: '0.21'
+tags:
+  - cryptocurrency-exchange
+  - defi
+  - decentralized-exchange
+  - derivatives
+  - perpetual-futures
+  - trading
+  - market-data
+  - blockchain
+  - web3
+  - arbitrum-layer3
+  - fintech
+apis:
+  - name: Auth Service
+    description: User registration and authorization (SIWE/EIP-4361 nonce and sign-up, JWT issuance).
+    humanURL: https://docs.evedex.com/developers/developers
+    baseURL: https://auth.evedex.com/
+    tags:
+      - cryptocurrency-exchange
+      - defi
+      - decentralized-exchange
+      - derivatives
+      - perpetual-futures
+      - trading
+      - market-data
+      - blockchain
+      - web3
+      - arbitrum-layer3
+      - fintech
+    properties:
+      - type: OpenAPI
+        url: https://swagger.evedex.com/?urls.primaryName=Auth
+      - type: Documentation
+        url: https://docs.evedex.com/developers/developers
+  - name: Exchange Service
+    description: 'Core trading API: markets, instruments, orders (limit/market/stop-limit), positions, transfers, and withdrawals.'
+    humanURL: https://docs.evedex.com/developers/developers/toolkit
+    baseURL: https://swagger.evedex.com/
+    tags:
+      - cryptocurrency-exchange
+      - defi
+      - decentralized-exchange
+      - derivatives
+      - perpetual-futures
+      - trading
+      - market-data
+      - blockchain
+      - web3
+      - arbitrum-layer3
+      - fintech
+    properties:
+      - type: OpenAPI
+        url: https://swagger.evedex.com/?urls.primaryName=Exchange
+      - type: Documentation
+        url: https://docs.evedex.com/developers/developers/toolkit
+  - name: Market Data Service
+    description: Public historical price data (no authentication required).
+    humanURL: https://docs.evedex.com/developers/developers
+    baseURL: https://market-data-api.evedex.com/
+    tags:
+      - cryptocurrency-exchange
+      - defi
+      - decentralized-exchange
+      - derivatives
+      - perpetual-futures
+      - trading
+      - market-data
+      - blockchain
+      - web3
+      - arbitrum-layer3
+      - fintech
+    properties:
+      - type: OpenAPI
+        url: https://swagger.evedex.com/?urls.primaryName=MarketData
+      - type: Documentation
+        url: https://docs.evedex.com/developers/developers
+  - name: EVEDEX Documentation & Agent Surface
+    description: Developer portal and agent-native documentation surface, including llms.txt and full corpus export.
+    humanURL: https://docs.evedex.com/developers/developers
+    baseURL: https://docs.evedex.com/
+    tags:
+      - cryptocurrency-exchange
+      - defi
+      - decentralized-exchange
+      - derivatives
+      - perpetual-futures
+      - trading
+      - market-data
+      - blockchain
+      - web3
+      - arbitrum-layer3
+      - fintech
+    properties:
+      - type: LLMsTxt
+        url: https://docs.evedex.com/llms.txt
+      - type: LLMsTxt
+        url: https://docs.evedex.com/llms-full.txt
+      - type: Documentation
+        url: https://docs.evedex.com/developers/developers
+maintainers:
+  - FN: EVEDEX Official (GitHub)
+    url: https://github.com/evedex-official
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 95
+  at: '2026-08-26T12:39:57.019Z'
