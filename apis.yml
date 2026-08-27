@@ -28,201 +28,25 @@ tags: &id001
 - arbitrum-layer3
 - fintech
 apis:
-- name: Auth Service
-  description: 'Identity and authorization for the exchange: EIP-4361 Sign-In with Ethereum nonce and sign-up, JWT access/refresh
-    token issuance and revocation, API key management (including restore of a deleted key), sessions, ACL, sub-accounts, tariffs
-    and social account (OAuth) linking. 88 operations.'
-  humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-auth-openapi.json
-  - type: OpenAPI
-    url: https://auth-api.evedex.com/auth/openapi.json
-  - type: Overlay
-    url: overlays/evedex-auth-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers/authorization
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Exchange Service
-  description: 'The trading core: market and matcher state, instrument catalogue, v1 and v2 order creation (limit, market,
-    stop-limit, batch mass-limit), order replacement and cancellation, positions and leverage, TP/SL, transfers, withdrawals
-    and cashback. Every value-moving write requires an EIP-712 wallet signature. 125 operations.'
-  humanURL: https://docs.evedex.com/developers/developers/order_creation
-  baseURL: https://exchange-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-exchange-openapi.json
-  - type: OpenAPI
-    url: https://exchange-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-exchange-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers/order_creation
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Market Data Service
-  description: Public historical candlestick data by instrument and timeframe, with no authentication required. Returns positional
-    candle tuples (timestamp, open, close, high, low, volumeUsd, volume), capped at 100,000 candles per response. 8 operations.
-  humanURL: https://docs.evedex.com/developers/developers/market_data
-  baseURL: https://market-data-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-market-data-openapi.json
-  - type: OpenAPI
-    url: https://market-data-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-market-data-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers/market_data
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Referral / Affiliate Service
-  description: 'The partner and affiliate program: referral links, referred-user tracking, commission rewards and partner
-    statistics. 78 operations.'
-  humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://partner-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-referral-openapi.json
-  - type: OpenAPI
-    url: https://partner-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-referral-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Notifications Service
-  description: User messaging and notification delivery, mobile app registration and Telegram integration. 28 operations.
-  humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://notifications-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-notifications-openapi.json
-  - type: OpenAPI
-    url: https://notifications-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-notifications-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Academy Service
-  description: 'EVEDEX Academy education platform: courses, lessons, tags, files and learner progress. Included with a Prime
-    subscription. 54 operations.'
-  humanURL: https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
-  baseURL: https://academy.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-academy-openapi.json
-  - type: OpenAPI
-    url: https://academy-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-academy-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Game Service
-  description: 'The gamification layer that drives EVEDEX cashback: character levels, trader skills, badges, challenges and
-    streaks, competitions, grand contests, leaderboards, Lucky Shot and collectables. 100 operations, the second-largest EVEDEX
-    service.'
-  humanURL: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
-  baseURL: https://game-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-game-openapi.json
-  - type: OpenAPI
-    url: https://game-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-game-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Billing Service
-  description: 'Prime subscription billing: bills, subscriptions, subscription cancellation and refunds. 14 operations.'
-  humanURL: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
-  baseURL: https://billing-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-billing-openapi.json
-  - type: OpenAPI
-    url: https://billing-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-billing-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Bridge Middleware Service
-  description: Cross-chain transfer bridging into and out of the exchange, including a transfer refund path. 12 operations.
-  humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://bridge-middleware-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-bridge-middleware-openapi.json
-  - type: OpenAPI
-    url: https://bridge-middleware-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-bridge-middleware-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: AI Strategies Service
-  description: AI trading strategy surface. 13 operations, secured solely by an InternalToken bearer scheme, indicating a
-    service that is publicly documented but not intended for third-party callers.
-  humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://ai-strategies-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-ai-strategies-openapi.json
-  - type: OpenAPI
-    url: https://ai-strategies-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-ai-strategies-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers
-  - type: APIReference
-    url: https://swagger.evedex.com/
-- name: Backoffice Service
-  description: EVEDEX operator tooling — withdrawal blocking, unblocking and rejection. The OpenAPI is served publicly at
-    backoffice-api.evedex.com but the spec itself declares its server as the internal host backoffice-api.private.evedex.com,
-    so the surface it describes is staff-facing rather than a consumer API. 37 operations.
-  humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://backoffice-api.evedex.com
-  tags: *id001
-  properties:
-  - type: OpenAPI
-    url: openapi/evedex-backoffice-openapi.json
-  - type: OpenAPI
-    url: https://backoffice-api.evedex.com/api/openapi.json
-  - type: Overlay
-    url: overlays/evedex-backoffice-overlay.yaml
-  - type: Documentation
-    url: https://docs.evedex.com/developers/developers
-  - type: APIReference
-    url: https://swagger.evedex.com/
 - name: EVEDEX Documentation & Agent Surface
-  description: The GitBook developer portal and agent-native documentation surface. Every page is retrievable as markdown
-    by appending .md, llms.txt indexes the full corpus, and GitBook exposes an ask= query parameter that answers natural-language
-    questions against a page.
+  description: >-
+    The GitBook developer portal and agent-native documentation surface. Every page is retrievable as
+    markdown by appending .md, llms.txt indexes the full corpus, and GitBook exposes an ask= query parameter
+    that answers natural-language questions against a page.
   humanURL: https://docs.evedex.com/developers/developers
   baseURL: https://docs.evedex.com
-  tags: *id001
+  tags:
+  - cryptocurrency-exchange
+  - defi
+  - decentralized-exchange
+  - derivatives
+  - perpetual-futures
+  - trading
+  - market-data
+  - blockchain
+  - web3
+  - arbitrum-layer3
+  - fintech
   properties:
   - type: LLMsTxt
     url: llms/evedex-llms.txt
@@ -231,19 +55,3049 @@ apis:
   - type: Documentation
     url: https://docs.evedex.com/developers/developers
 - name: EVEDEX Async API (Centrifugo)
-  description: Real-time exchange events over WebSocket, brokered by Centrifugo with JWT channel access rights and epoch-based
-    state recovery. Seventeen documented channels cover heartbeat, matcher state, instruments, order book depth and best,
-    last trades, candlesticks, and per-user account, order, fill, fee, TP/SL, funding and transfer streams. No AsyncAPI document
-    is published.
+  description: >-
+    Real-time exchange events over WebSocket, brokered by Centrifugo with JWT channel access rights and
+    epoch-based state recovery. Seventeen documented channels cover heartbeat, matcher state, instruments,
+    order book depth and best, last trades, candlesticks, and per-user account, order, fill, fee, TP/SL,
+    funding and transfer streams. No AsyncAPI document is published.
   humanURL: https://docs.evedex.com/developers/developers/public_exchange_data
   baseURL: https://docs.evedex.com
-  tags: *id001
+  tags:
+  - cryptocurrency-exchange
+  - defi
+  - decentralized-exchange
+  - derivatives
+  - perpetual-futures
+  - trading
+  - market-data
+  - blockchain
+  - web3
+  - arbitrum-layer3
+  - fintech
   properties:
   - type: Webhooks
     url: asyncapi/evedex-centrifugo-events.yml
   - type: Documentation
     url: https://docs.evedex.com/developers/developers/public_exchange_data
+- aid: evedex:evedex-acl-api
+  name: EVEDEX ACL API
+  description: The ACL API from EVEDEX — 3 operation(s) for acl.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - ACL
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-acl-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-ai-strategy-api
+  name: EVEDEX AI Strategy API
+  description: The AI Strategy API from EVEDEX — 5 operation(s) for ai strategy.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - AI Strategy
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-ai-strategy-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-aml-api
+  name: EVEDEX Aml API
+  description: The Aml API from EVEDEX — 3 operation(s) for aml.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Aml
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-aml-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-apikey-api
+  name: EVEDEX API Key API
+  description: The ApiKey API from EVEDEX — 3 operation(s) for apikey.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - ApiKey
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-apikey-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-article-api
+  name: EVEDEX Article API
+  description: The Article API from EVEDEX — 2 operation(s) for article.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Article
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-article-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-auth-api
+  name: EVEDEX Auth API
+  description: The Auth API from EVEDEX — 11 operation(s) for auth.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-auth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-badge-api
+  name: EVEDEX Badge API
+  description: The Badge API from EVEDEX — 10 operation(s) for badge.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Badge
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-badge-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-bill-api
+  name: EVEDEX Bill API
+  description: The Bill API from EVEDEX — 5 operation(s) for bill.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Bill
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-bill-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-blocked-api
+  name: EVEDEX Blocked API
+  description: The Blocked API from EVEDEX — 3 operation(s) for blocked.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Blocked
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-blocked-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-bot-api
+  name: EVEDEX Bot API
+  description: The Bot API from EVEDEX — 6 operation(s) for bot.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Bot
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-bot-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-cashback-api
+  name: EVEDEX Cashback API
+  description: The Cashback API from EVEDEX — 2 operation(s) for cashback.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Cashback
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-cashback-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-centrifugo-api
+  name: EVEDEX Centrifugo API
+  description: The Centrifugo API from EVEDEX — 1 operation(s) for centrifugo.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Centrifugo
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-centrifugo-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-challenges-api
+  name: EVEDEX Challenges API
+  description: The Challenges API from EVEDEX — 10 operation(s) for challenges.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Challenges
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-challenges-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-checkout-api
+  name: EVEDEX Checkout API
+  description: The Checkout API from EVEDEX — 1 operation(s) for checkout.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Checkout
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-checkout-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-claim-stop-list-api
+  name: EVEDEX Claim stop list API
+  description: The Claim stop list API from EVEDEX — 1 operation(s) for claim stop list.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Claim stop list
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-claim-stop-list-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-coin-api
+  name: EVEDEX Coin API
+  description: The Coin API from EVEDEX — 2 operation(s) for coin.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Coin
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-coin-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-collectable-api
+  name: EVEDEX Collectable API
+  description: The Collectable API from EVEDEX — 5 operation(s) for collectable.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Collectable
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-collectable-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-comment-api
+  name: EVEDEX Comment API
+  description: The Comment API from EVEDEX — 2 operation(s) for comment.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Comment
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-comment-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-competition-templates-api
+  name: EVEDEX Competition Templates API
+  description: The Competition Templates API from EVEDEX — 3 operation(s) for competition templates.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Competition Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-competition-templates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-competitions-api
+  name: EVEDEX Competitions API
+  description: The Competitions API from EVEDEX — 8 operation(s) for competitions.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Competitions
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-competitions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-course-api
+  name: EVEDEX Course API
+  description: The Course API from EVEDEX — 10 operation(s) for course.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Course
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-course-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-curatorcourse-api
+  name: EVEDEX Curator Course API
+  description: The CuratorCourse API from EVEDEX — 2 operation(s) for curatorcourse.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - CuratorCourse
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-curatorcourse-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-dailystatistics-api
+  name: EVEDEX Daily Statistics API
+  description: The DailyStatistics API from EVEDEX — 1 operation(s) for dailystatistics.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - DailyStatistics
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-dailystatistics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-dailytask-api
+  name: EVEDEX Daily Task API
+  description: The DailyTask API from EVEDEX — 3 operation(s) for dailytask.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - DailyTask
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-dailytask-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-deposit-api
+  name: EVEDEX Deposit API
+  description: The Deposit API from EVEDEX — 1 operation(s) for deposit.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Deposit
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-deposit-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-deposit-bonus-api
+  name: EVEDEX Deposit Bonus API
+  description: The Deposit Bonus API from EVEDEX — 4 operation(s) for deposit bonus.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Deposit Bonus
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-deposit-bonus-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-dev-api
+  name: EVEDEX Dev API
+  description: The Dev API from EVEDEX — 10 operation(s) for dev.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Dev
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-dev-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-discord-api
+  name: EVEDEX Discord API
+  description: The Discord API from EVEDEX — 3 operation(s) for discord.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Discord
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-discord-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-distribution-api
+  name: EVEDEX Distribution API
+  description: The Distribution API from EVEDEX — 5 operation(s) for distribution.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Distribution
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-distribution-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-event-api
+  name: EVEDEX Event API
+  description: The Event API from EVEDEX — 3 operation(s) for event.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Event
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-event-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-exchange-api
+  name: EVEDEX Exchange API
+  description: The Exchange API from EVEDEX — 5 operation(s) for exchange.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Exchange
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-exchange-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-external-api
+  name: EVEDEX External API
+  description: The External API from EVEDEX — 3 operation(s) for external.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - External
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-external-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-file-api
+  name: EVEDEX File API
+  description: The File API from EVEDEX — 10 operation(s) for file.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - File
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-file-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-funded-account-api
+  name: EVEDEX Funded Account API
+  description: The Funded Account API from EVEDEX — 3 operation(s) for funded account.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Funded Account
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-funded-account-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-grandcontest-api
+  name: EVEDEX Grand Contest API
+  description: The GrandContest API from EVEDEX — 7 operation(s) for grandcontest.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - GrandContest
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-grandcontest-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-hedging-api
+  name: EVEDEX Hedging API
+  description: The Hedging API from EVEDEX — 2 operation(s) for hedging.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Hedging
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-hedging-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-history-api
+  name: EVEDEX History API
+  description: The History API from EVEDEX — 5 operation(s) for history.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - History
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-history-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-homework-api
+  name: EVEDEX Homework API
+  description: The Homework API from EVEDEX — 2 operation(s) for homework.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Homework
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-homework-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-invitation-api
+  name: EVEDEX Invitation API
+  description: The Invitation API from EVEDEX — 1 operation(s) for invitation.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Invitation
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-invitation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-journal-api
+  name: EVEDEX Journal API
+  description: The Journal API from EVEDEX — 1 operation(s) for journal.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Journal
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-journal-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-leaderboard-api
+  name: EVEDEX Leaderboard API
+  description: The Leaderboard API from EVEDEX — 7 operation(s) for leaderboard.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Leaderboard
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-leaderboard-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-league-api
+  name: EVEDEX League API
+  description: The League API from EVEDEX — 1 operation(s) for league.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - League
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-league-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-lesson-api
+  name: EVEDEX Lesson API
+  description: The Lesson API from EVEDEX — 2 operation(s) for lesson.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Lesson
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-lesson-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-link-api
+  name: EVEDEX Link API
+  description: The Link API from EVEDEX — 7 operation(s) for link.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Link
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-link-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-liquidation-api
+  name: EVEDEX Liquidation API
+  description: The Liquidation API from EVEDEX — 1 operation(s) for liquidation.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Liquidation
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-liquidation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-lucky-shot-api
+  name: EVEDEX Lucky Shot API
+  description: The Lucky Shot API from EVEDEX — 8 operation(s) for lucky shot.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Lucky Shot
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-lucky-shot-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-mail-api
+  name: EVEDEX Mail API
+  description: The Mail API from EVEDEX — 1 operation(s) for mail.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Mail
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-mail-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-market-api
+  name: EVEDEX Market API
+  description: The Market API from EVEDEX — 9 operation(s) for market.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Market
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-market-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-material-api
+  name: EVEDEX Material API
+  description: The Material API from EVEDEX — 2 operation(s) for material.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Material
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-material-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-message-api
+  name: EVEDEX Message API
+  description: The Message API from EVEDEX — 4 operation(s) for message.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Message
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-message-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-mobileapp-api
+  name: EVEDEX Mobile App API
+  description: The MobileApp API from EVEDEX — 9 operation(s) for mobileapp.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - MobileApp
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-mobileapp-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-module-api
+  name: EVEDEX Module API
+  description: The Module API from EVEDEX — 2 operation(s) for module.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Module
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-module-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-newcomer-api
+  name: EVEDEX Newcomer API
+  description: The Newcomer API from EVEDEX — 2 operation(s) for newcomer.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Newcomer
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-newcomer-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-notification-api
+  name: EVEDEX Notification API
+  description: The Notification API from EVEDEX — 1 operation(s) for notification.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Notification
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-notification-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-notifications-api
+  name: EVEDEX Notifications API
+  description: The Notifications API from EVEDEX — 6 operation(s) for notifications.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-oauth-api
+  name: EVEDEX OAUTH API
+  description: The Oauth API from EVEDEX — 5 operation(s) for oauth.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-order-api
+  name: EVEDEX Order API
+  description: The Order API from EVEDEX — 15 operation(s) for order.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Order
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-order-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-paymentservice-api
+  name: EVEDEX Payment Service API
+  description: The PaymentService API from EVEDEX — 1 operation(s) for paymentservice.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - PaymentService
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-paymentservice-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-paysystem-api
+  name: EVEDEX Paysystem API
+  description: The Paysystem API from EVEDEX — 1 operation(s) for paysystem.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Paysystem
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-paysystem-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-podium-api
+  name: EVEDEX Podium API
+  description: The Podium API from EVEDEX — 4 operation(s) for podium.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Podium
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-podium-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-points-api
+  name: EVEDEX Points API
+  description: The Points API from EVEDEX — 4 operation(s) for points.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Points
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-points-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-position-api
+  name: EVEDEX Position API
+  description: The Position API from EVEDEX — 4 operation(s) for position.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Position
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-position-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-product-api
+  name: EVEDEX Product API
+  description: The Product API from EVEDEX — 3 operation(s) for product.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Product
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-product-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-promocodes-api
+  name: EVEDEX Promocodes API
+  description: The Promocodes API from EVEDEX — 4 operation(s) for promocodes.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Promocodes
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-promocodes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-public-profile-api
+  name: EVEDEX Public profile API
+  description: The Public profile API from EVEDEX — 2 operation(s) for public profile.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Public profile
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-public-profile-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-push-api
+  name: EVEDEX Push API
+  description: The Push API from EVEDEX — 1 operation(s) for push.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Push
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-push-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-quest-api
+  name: EVEDEX Quest API
+  description: The Quest API from EVEDEX — 4 operation(s) for quest.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Quest
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-quest-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-question-api
+  name: EVEDEX Question API
+  description: The Question API from EVEDEX — 2 operation(s) for question.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Question
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-question-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-redirect-api
+  name: EVEDEX Redirect API
+  description: The Redirect API from EVEDEX — 6 operation(s) for redirect.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Redirect
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-redirect-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-referral-api
+  name: EVEDEX Referral API
+  description: The Referral API from EVEDEX — 1 operation(s) for referral.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Referral
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-referral-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-referralcompetition-api
+  name: EVEDEX Referral Competition API
+  description: The ReferralCompetition API from EVEDEX — 1 operation(s) for referralcompetition.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - ReferralCompetition
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-referralcompetition-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-refund-api
+  name: EVEDEX Refund API
+  description: The Refund API from EVEDEX — 1 operation(s) for refund.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Refund
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-refund-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-registration-request-api
+  name: EVEDEX Registration request API
+  description: The Registration request API from EVEDEX — 3 operation(s) for registration request.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Registration request
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-registration-request-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-reward-api
+  name: EVEDEX Reward API
+  description: The Reward API from EVEDEX — 8 operation(s) for reward.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Reward
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-reward-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-rhino-api
+  name: EVEDEX Rhino API
+  description: The Rhino API from EVEDEX — 2 operation(s) for rhino.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Rhino
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-rhino-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-service-api
+  name: EVEDEX Service API
+  description: The Service API from EVEDEX — 2 operation(s) for service.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Service
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-service-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-session-api
+  name: EVEDEX Session API
+  description: The Session API from EVEDEX — 5 operation(s) for session.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Session
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-session-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-sharecontent-api
+  name: EVEDEX Share Content API
+  description: The ShareContent API from EVEDEX — 2 operation(s) for sharecontent.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - ShareContent
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-sharecontent-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-shortlink-api
+  name: EVEDEX Short Link API
+  description: The ShortLink API from EVEDEX — 3 operation(s) for shortlink.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - ShortLink
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-shortlink-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-simulator-api
+  name: EVEDEX Simulator API
+  description: The Simulator API from EVEDEX — 2 operation(s) for simulator.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Simulator
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-simulator-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-skill-api
+  name: EVEDEX Skill API
+  description: The Skill API from EVEDEX — 6 operation(s) for skill.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Skill
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-skill-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-smartaccount-api
+  name: EVEDEX Smart Account API
+  description: The SmartAccount API from EVEDEX — 2 operation(s) for smartaccount.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - SmartAccount
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-smartaccount-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-statistics-api
+  name: EVEDEX Statistics API
+  description: The Statistics API from EVEDEX — 6 operation(s) for statistics.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Statistics
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-statistics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-statistics-details-api
+  name: EVEDEX Statistics details API
+  description: The Statistics details API from EVEDEX — 2 operation(s) for statistics details.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Statistics details
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-statistics-details-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-statistics-list-api
+  name: EVEDEX Statistics List API
+  description: The Statistics List API from EVEDEX — 3 operation(s) for statistics list.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Statistics List
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-statistics-list-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-strategy-api
+  name: EVEDEX Strategy API
+  description: The Strategy API from EVEDEX — 4 operation(s) for strategy.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Strategy
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-strategy-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-subaccount-api
+  name: EVEDEX Sub Account API
+  description: The SubAccount API from EVEDEX — 7 operation(s) for subaccount.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - SubAccount
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-subaccount-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-subscription-api
+  name: EVEDEX Subscription API
+  description: The Subscription API from EVEDEX — 4 operation(s) for subscription.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Subscription
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-subscription-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-subtitle-api
+  name: EVEDEX Subtitle API
+  description: The Subtitle API from EVEDEX — 2 operation(s) for subtitle.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Subtitle
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-subtitle-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-system-api
+  name: EVEDEX System API
+  description: The System API from EVEDEX — 2 operation(s) for system.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - System
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-system-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-tag-api
+  name: EVEDEX Tag API
+  description: The Tag API from EVEDEX — 5 operation(s) for tag.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Tag
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-tag-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-tariff-api
+  name: EVEDEX Tariff API
+  description: The Tariff API from EVEDEX — 4 operation(s) for tariff.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Tariff
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-tariff-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-telegram-api
+  name: EVEDEX Telegram API
+  description: The Telegram API from EVEDEX — 5 operation(s) for telegram.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Telegram
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-telegram-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-template-api
+  name: EVEDEX Template API
+  description: The Template API from EVEDEX — 2 operation(s) for template.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Template
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-template-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-tpsl-api
+  name: EVEDEX Tp Sl API
+  description: The TpSl API from EVEDEX — 3 operation(s) for tpsl.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - TpSl
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-tpsl-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-trade-signal-api
+  name: EVEDEX Trade signal API
+  description: The Trade signal API from EVEDEX — 2 operation(s) for trade signal.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Trade signal
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-trade-signal-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-trading-platform-api
+  name: EVEDEX Trading Platform API
+  description: The Trading Platform API from EVEDEX — 5 operation(s) for trading platform.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Trading Platform
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-trading-platform-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-tradingcompetition-api
+  name: EVEDEX Trading Competition API
+  description: The TradingCompetition API from EVEDEX — 1 operation(s) for tradingcompetition.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - TradingCompetition
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-tradingcompetition-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-tradingvolume-api
+  name: EVEDEX Trading Volume API
+  description: The TradingVolume API from EVEDEX — 1 operation(s) for tradingvolume.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - TradingVolume
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-tradingvolume-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-transfer-api
+  name: EVEDEX Transfer API
+  description: The Transfer API from EVEDEX — 8 operation(s) for transfer.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Transfer
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-transfer-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-user-api
+  name: EVEDEX User API
+  description: The User API from EVEDEX — 74 operation(s) for user.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-user-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-userimage-api
+  name: EVEDEX User Image API
+  description: The UserImage API from EVEDEX — 1 operation(s) for userimage.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - UserImage
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-userimage-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-wallet-api
+  name: EVEDEX Wallet API
+  description: The Wallet API from EVEDEX — 1 operation(s) for wallet.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Wallet
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-wallet-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-webhook-api
+  name: EVEDEX Webhook API
+  description: The Webhook API from EVEDEX — 3 operation(s) for webhook.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-winner-api
+  name: EVEDEX Winner API
+  description: The Winner API from EVEDEX — 1 operation(s) for winner.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Winner
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-winner-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-withdraw-api
+  name: EVEDEX Withdraw API
+  description: The Withdraw API from EVEDEX — 3 operation(s) for withdraw.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Withdraw
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-withdraw-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
+- aid: evedex:evedex-yield-api
+  name: EVEDEX Yield API
+  description: The Yield API from EVEDEX — 2 operation(s) for yield.
+  humanURL: https://docs.evedex.com/developers/developers/authorization
+  baseURL: https://auth-api.evedex.com
+  tags:
+  - Yield
+  properties:
+  - type: OpenAPI
+    url: openapi/evedex-yield-api-openapi.yml
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/authorization
+  - type: APIReference
+    url: https://swagger.evedex.com/
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/order_creation
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers/market_data
+  - type: Documentation
+    url: https://docs.evedex.com/developers/developers
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/comprehensive-educational-resources/evedex-academy
+  - type: Documentation
+    url: https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program
+  - type: Documentation
+    url: >-
+      https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
 common:
+- type: Overlay
+  url: overlays/evedex-auth-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-exchange-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-market-data-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-referral-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-notifications-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-academy-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-game-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-billing-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-bridge-middleware-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-ai-strategies-overlay.yaml
+- type: Overlay
+  url: overlays/evedex-backoffice-overlay.yaml
 - type: DeveloperPortal
   url: https://docs.evedex.com/developers/developers
 - type: Documentation
