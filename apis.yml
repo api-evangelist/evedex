@@ -12,6 +12,17 @@ description: EVEDEX is a hybrid decentralized perpetual-futures exchange built o
   containers, and publishes agent-native documentation via llms.txt and per-page markdown with a GitBook ask-parameter query
   interface.
 url: https://raw.githubusercontent.com/api-evangelist/evedex/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 created: '2026-08-26'
 modified: '2026-08-26'
 specificationVersion: '0.21'
