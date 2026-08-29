@@ -3087,6 +3087,9 @@ apis:
     url: >-
       https://docs.evedex.com/key-features-and-components/gamification-and-affiliate-program/prime-subscription
 common:
+- type: CapabilityMap
+  url: capabilities/evedex-capability-edges.yml
+  name: EVEDEX Business Capability Map
 - type: Overlay
   url: overlays/evedex-auth-overlay.yaml
 - type: Overlay

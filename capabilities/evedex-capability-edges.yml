@@ -1,0 +1,79 @@
+slug: evedex
+provider: EVEDEX
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: Promocodes
+  spec_file: evedex-promocodes-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.78
+  evidence: POST /api/promocodes, POST /api/promocodes/redeem, schemas PromocodeCreateBody, PromocodeRedeemResponse
+  reason: Full lifecycle of promotional codes — creation, listing, update and redemption — which is Discount
+    & Promotion Management. Slight ambiguity with loyalty rewards keeps it below 0.8.
+- tag: ACL
+  spec_file: evedex-acl-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: POST /auth/role/{userId}; GET /auth/role; POST /auth/role/me/elevate
+  reason: Role assignment, retrieval, revocation and privilege elevation for users — access control administration,
+    i.e. Identity & Access Management. Confidence moderated because it is a small internal authorisation
+    surface.
+- tag: Auth
+  spec_file: evedex-auth-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /auth/sign-in/by; GET /auth/nonce; POST /auth/refresh; PUT /auth/refresh/{id}/disable-all;
+    PUT /api/auth/user/{id}/role
+  reason: Sign-in, nonce challenge, refresh-token revocation and user role assignment constitute authentication
+    and access administration. Largely auth plumbing, but the user/role management operations justify
+    a cautious IAM edge.
+- tag: Refund
+  spec_file: evedex-refund-api-openapi.yml
+  capability_id: BC-4250
+  capability_id_l1: BC-4250
+  capability_name: Subscription Billing & Revenue Management
+  confidence: 0.7
+  evidence: POST /api/refund/{billId}; schemas CreateRefundBody, RefundObject; title "Exchange/billing-backend
+    Refund API"
+  reason: Creating a refund against a bill in the billing backend is a billing/revenue operation, so Subscription
+    Billing & Revenue Management is the right L1. Ambiguous between invoice adjustment and payment collection
+    sub-capabilities, so no L2 is claimed.
+- tag: Reward
+  spec_file: evedex-reward-api-openapi.yml
+  capability_id: BC-420.40
+  capability_id_l1: BC-420
+  capability_name: Loyalty & Retention Management
+  confidence: 0.7
+  evidence: POST /api/reward/claim, POST /api/reward/points, POST /api/reward/luckyshot-ticket, POST /api/reward/adjust-xp;
+    schemas AwardPointsBody, UserRewardItem, RewardHistoryItem
+  reason: Awarding and claiming points, tickets, bundles and XP with a reward history is a gamified loyalty/rewards
+    programme aimed at user engagement and retention, matching Loyalty & Retention Management. Some chance
+    this is better read as pure product gamification, so 0.7.
+- tag: Subscription
+  spec_file: evedex-subscription-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.7
+  evidence: GET /api/subscription/list, POST /api/billing/subscriptions/{subscriptionId}/cancel, POST
+    /api/billing/subscription/{subscriptionId}/payment; schemas SubscriptionObject, ProductObject, SubscriptionUpdatePaymentMethodBody
+  reason: 'Genuine subscription commerce surface from a billing backend: retrieve subscriptions, update
+    the payment method, cancel a subscription. L1 Subscription Lifecycle Management is clear; L2 left
+    null because the operations straddle cancellation/termination and payment-method management (billing)
+    rather than naming one sub-capability.'
