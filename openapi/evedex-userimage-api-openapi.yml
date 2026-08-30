@@ -1,0 +1,48 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange User Image API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: UserImage
+paths:
+  /api/user/image/check:
+    get:
+      tags:
+      - UserImage
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserImageStateResponse'
+components:
+  schemas:
+    UserImageStateResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        userTries:
+          type: integer
+        total:
+          type: integer
+      required:
+      - ok
+      - userTries
+      - total
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

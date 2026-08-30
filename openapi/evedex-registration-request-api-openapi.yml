@@ -1,0 +1,387 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Registration request API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Registration request
+paths:
+  /api/reg-request/{requestId}/reject:
+    post:
+      tags:
+      - Registration request
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: requestId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegRequest'
+  /api/reg-request:
+    get:
+      tags:
+      - Registration request
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: search
+        description: Search template
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Search template
+      - in: query
+        name: status
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - pending
+          - approved
+          - rejected
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegRequestList'
+    post:
+      tags:
+      - Registration request
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRegRequestBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegRequest'
+  /api/reg-request/{requestId}/approve:
+    post:
+      tags:
+      - Registration request
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: requestId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegRequestApproveBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+components:
+  schemas:
+    RegRequestApproveBody:
+      type: object
+      properties:
+        weight:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UpdateUserWeightBody'
+        link:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CreateLink'
+    CreateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        code:
+          type: string
+          description: Unique code
+        calculator:
+          type: string
+          enum:
+          - greedy
+          - full
+          - bd
+          description: Reward calculation type
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          description: Invitation welcome message
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          description: Invitation benefits description
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Invitation image URL
+      required:
+      - name
+      - type
+      - calculator
+    RegRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        wallet:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+        status:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - user
+      - wallet
+      - name
+      - email
+      - social
+      - status
+      - createdAt
+      - updatedAt
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum:
+          - user
+          - partner
+          - bd-manager
+        authId:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+          default: null
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+        partner:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm A
+          - DD.MM.YYYY, HH:mm
+          - DD MMM YYYY, HH:mm
+          - MMM DD, YYYY, hh:mm A
+        maxInvites:
+          type:
+          - number
+          - 'null'
+          default: null
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - role
+      - authId
+      - name
+      - email
+      - wallet
+      - smartAccountAddress
+      - social
+      - partner
+      - locale
+      - dateTimeFormat
+      - maxInvites
+      - createdAt
+      - updatedAt
+    UserSocial:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
+    PageOffsetParam:
+      type: string
+      default: '0'
+    RegRequestList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegRequest'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    UpdateUserWeightBody:
+      type: object
+      properties:
+        type:
+          type: string
+        level:
+          type: number
+        weight:
+          type: number
+      required:
+      - type
+      - level
+      - weight
+    CreateRegRequestBody:
+      type: object
+      properties:
+        wallet:
+          type: string
+          description: Wallet address
+        name:
+          type: string
+          description: User name
+        email:
+          type: string
+          format: email
+          description: Contact email
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+          description: User social contacts
+        code:
+          type:
+          - string
+          - 'null'
+          description: Referral code
+      required:
+      - wallet
+      - name
+      - email
+      - social
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

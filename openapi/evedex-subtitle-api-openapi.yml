@@ -1,0 +1,203 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Subtitle API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: Subtitle
+paths:
+  /api/course/{courseId}/lesson/{lessonId}/material/{materialId}/subtitle/{subtitleId}:
+    put:
+      tags:
+      - Subtitle
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: materialId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: subtitleId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                languageCode:
+                  type: string
+                  minLength: 2
+                  maxLength: 2
+                url:
+                  type: string
+                  format: uri
+              required:
+              - languageCode
+              - url
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  languageCode:
+                    type: string
+                  label:
+                    type: string
+                  url:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - languageCode
+                - label
+                - url
+                - createdAt
+                - updatedAt
+    delete:
+      tags:
+      - Subtitle
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: materialId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: subtitleId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/lesson/{lessonId}/material/{materialId}/subtitle:
+    post:
+      tags:
+      - Subtitle
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: materialId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                languageCode:
+                  type: string
+                  minLength: 2
+                  maxLength: 2
+                url:
+                  type: string
+                  format: uri
+              required:
+              - languageCode
+              - url
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  languageCode:
+                    type: string
+                  label:
+                    type: string
+                  url:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - languageCode
+                - label
+                - url
+                - createdAt
+                - updatedAt
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

@@ -1,0 +1,103 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Auth Centrifugo API
+  version: 1.0.0
+servers:
+- url: https://auth-api.evedex.com
+tags:
+- name: Centrifugo
+paths:
+  /auth/centrifugo/subscribe:
+    post:
+      tags:
+      - Centrifugo
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client:
+                  type: string
+                transport:
+                  type: string
+                protocol:
+                  type: string
+                encoding:
+                  type: string
+                user:
+                  type: string
+                channel:
+                  type: string
+                data:
+                  type: object
+                  properties:
+                    accessToken:
+                      type: string
+                  required:
+                  - accessToken
+              required:
+              - client
+              - transport
+              - protocol
+              - encoding
+              - user
+              - channel
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - type: object
+                  properties:
+                    result:
+                      type: object
+                      properties:
+                        expire_at:
+                          type: integer
+                          exclusiveMinimum: 0
+                        info:
+                          type: object
+                          properties:
+                            authId:
+                              type: string
+                            role:
+                              type: string
+                              enum:
+                              - admin
+                              - manager
+                              - user
+                              - academy-curator
+                              - academy-moderator
+                            session:
+                              type: string
+                          required:
+                          - authId
+                          - role
+                    error:
+                      type: object
+                      properties:
+                        code:
+                          type: number
+                        message:
+                          type: string
+                      required:
+                      - code
+                      - message
+                - type: object
+components:
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer

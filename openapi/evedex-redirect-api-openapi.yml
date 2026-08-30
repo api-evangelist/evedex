@@ -1,0 +1,117 @@
+openapi: 3.2.0
+info:
+  title: Evedex Redirect API
+  version: 1.0.0
+  description: 'Operations tagged Redirect across 2 of this provider''s published API definitions: evedex-game-openapi.json, evedex-referral-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://game-api.evedex.com
+- url: https://partner-api.evedex.com
+tags:
+- name: Redirect
+paths:
+  /api/redirect/{questId}:
+    get:
+      tags:
+      - Redirect
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: questId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: jwt
+        schema:
+          type: string
+        required: true
+      responses:
+        '302':
+          description: 302 OK
+    servers:
+    - url: https://game-api.evedex.com
+  /api/redirect/short-link/{code}:
+    get:
+      tags:
+      - Redirect
+      security: []
+      parameters:
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '302':
+          description: 302 OK
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/redirect/partner:
+    get:
+      tags:
+      - Redirect
+      security: []
+      responses:
+        '302':
+          description: 302 OK
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/redirect/partner/{code}:
+    get:
+      tags:
+      - Redirect
+      security: []
+      parameters:
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '302':
+          description: 302 OK
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/redirect/invite:
+    get:
+      tags:
+      - Redirect
+      security: []
+      responses:
+        '302':
+          description: 302 OK
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/redirect/invite/{code}:
+    get:
+      tags:
+      - Redirect
+      security: []
+      parameters:
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '302':
+          description: 302 OK
+    servers:
+    - url: https://partner-api.evedex.com
+components:
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-game-openapi.json
+- evedex-referral-openapi.json

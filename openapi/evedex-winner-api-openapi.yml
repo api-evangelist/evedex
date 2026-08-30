@@ -1,0 +1,151 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Winner API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Winner
+paths:
+  /api/leaderboard/winner:
+    get:
+      tags:
+      - Winner
+      summary: Получить список победителей (с пагинацией по соревнованиям)
+      security: []
+      parameters:
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - weekly
+          - trading
+          - points
+          - referral
+          - grand-contest
+          - challenges
+          - templateBased
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        competition:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              format: uuid
+                            startAt:
+                              type: string
+                            finishAt:
+                              type: string
+                            title:
+                              type:
+                              - string
+                              - 'null'
+                              description: Есть только у template-based конкурсов, у легаси null
+                          required:
+                          - id
+                          - startAt
+                          - finishAt
+                          - title
+                        winners:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              experience:
+                                type: string
+                                deprecated: true
+                                description: Use rating/ratingType
+                              rating:
+                                type:
+                                - string
+                                - 'null'
+                              ratingType:
+                                type:
+                                - string
+                                - 'null'
+                                enum:
+                                - experience
+                                - tradingVolume
+                                - realizedPnL
+                                - referrals
+                                - points
+                              place:
+                                type: number
+                              reward:
+                                type: number
+                              avatar:
+                                type:
+                                - string
+                                - 'null'
+                              name:
+                                type:
+                                - string
+                                - 'null'
+                              skill:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                              wallet:
+                                type: string
+                              smartAccountAddress:
+                                type: string
+                            required:
+                            - experience
+                            - rating
+                            - ratingType
+                            - place
+                            - reward
+                            - avatar
+                            - skill
+                      required:
+                      - competition
+                      - winners
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

@@ -1,0 +1,275 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Newcomer API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Newcomer
+paths:
+  /api/leaderboard/newcomer:
+    get:
+      tags:
+      - Newcomer
+      summary: Получить топ-100 новичков (XP) за последние 7 дней
+      security: []
+      parameters:
+      - in: query
+        name: code
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - tradingVolume-desc
+          - realizedPnL-desc
+          - experience-desc
+          default: experience-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    rank:
+                      type: number
+                    user:
+                      type: string
+                      format: uuid
+                    level:
+                      type: number
+                    experience:
+                      type: string
+                    realizedPnL:
+                      type: string
+                    score:
+                      type: string
+                      default: '0'
+                    tradingVolume:
+                      type: string
+                    partnerTradingVolume:
+                      type: string
+                      default: '0'
+                    avatar:
+                      type:
+                      - string
+                      - 'null'
+                    name:
+                      type:
+                      - string
+                      - 'null'
+                    skill:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                    achievements:
+                      type: number
+                    wallet:
+                      type: string
+                    smartAccountAddress:
+                      type: string
+                  required:
+                  - rank
+                  - user
+                  - level
+                  - experience
+                  - realizedPnL
+                  - score
+                  - tradingVolume
+                  - partnerTradingVolume
+                  - avatar
+                  - skill
+                  - achievements
+                  - wallet
+                  - smartAccountAddress
+  /api/leaderboard-podium/newcomer:
+    get:
+      tags:
+      - Newcomer
+      summary: Получить топ-100 новичков (XP) за последние 7 дней + Подиум
+      security: []
+      parameters:
+      - in: query
+        name: code
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - tradingVolume-desc
+          - realizedPnL-desc
+          - experience-desc
+          default: experience-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leaderboard:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: number
+                        user:
+                          type: string
+                          format: uuid
+                        level:
+                          type: number
+                        experience:
+                          type: string
+                        realizedPnL:
+                          type: string
+                        score:
+                          type: string
+                          default: '0'
+                        tradingVolume:
+                          type: string
+                        partnerTradingVolume:
+                          type: string
+                          default: '0'
+                        avatar:
+                          type:
+                          - string
+                          - 'null'
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                        skill:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                        achievements:
+                          type: number
+                        wallet:
+                          type: string
+                        smartAccountAddress:
+                          type: string
+                      required:
+                      - rank
+                      - user
+                      - level
+                      - experience
+                      - realizedPnL
+                      - score
+                      - tradingVolume
+                      - partnerTradingVolume
+                      - avatar
+                      - skill
+                      - achievements
+                      - wallet
+                      - smartAccountAddress
+                  podium:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: number
+                        user:
+                          type: string
+                          format: uuid
+                        level:
+                          type: number
+                        experience:
+                          type: string
+                        realizedPnL:
+                          type: string
+                        score:
+                          type: string
+                          default: '0'
+                        tradingVolume:
+                          type: string
+                        partnerTradingVolume:
+                          type: string
+                          default: '0'
+                        avatar:
+                          type:
+                          - string
+                          - 'null'
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                        skill:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                        achievements:
+                          type: number
+                        wallet:
+                          type: string
+                        smartAccountAddress:
+                          type: string
+                      required:
+                      - rank
+                      - user
+                      - level
+                      - experience
+                      - realizedPnL
+                      - score
+                      - tradingVolume
+                      - partnerTradingVolume
+                      - avatar
+                      - skill
+                      - achievements
+                      - wallet
+                      - smartAccountAddress
+                  competition:
+                    type:
+                    - object
+                    - 'null'
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      startAt:
+                        type: string
+                      finishAt:
+                        type: string
+                    required:
+                    - id
+                    - startAt
+                    - finishAt
+                required:
+                - leaderboard
+                - podium
+                - competition
+components:
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

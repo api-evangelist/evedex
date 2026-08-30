@@ -1,0 +1,504 @@
+openapi: 3.2.0
+info:
+  title: Evedex File API
+  version: 1.0.0
+  description: 'Operations tagged File across 4 of this provider''s published API definitions: evedex-academy-openapi.json, evedex-auth-openapi.json, evedex-backoffice-openapi.json, evedex-referral-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://academy.evedex.com
+- url: https://auth-api.evedex.com
+- url: https://backoffice-api.private.evedex.com
+- url: https://partner-api.evedex.com
+tags:
+- name: File
+paths:
+  /api/file:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        description: Upload file
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadArrayResponse'
+    servers:
+    - url: https://academy.evedex.com
+  /api/file/generate-upload-link:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadUrlGeneratorRequest'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlGeneratorResponse'
+    servers:
+    - url: https://academy.evedex.com
+  /api/file/{fileId}:
+    delete:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: fileId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://academy.evedex.com
+  /api/file/approve:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                ext:
+                  type: string
+                name:
+                  type: string
+              required:
+              - id
+              - ext
+              - name
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+    servers:
+    - url: https://academy.evedex.com
+  /auth/file/generate-upload-link:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadUrlGeneratorRequest_2'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlGeneratorResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/file/approve:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveFileBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApproveFileResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/files:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadedFileResponse'
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/files/list:
+    get:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        mime:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                        size:
+                          type: number
+                        createdAt:
+                          type: string
+                      required:
+                      - id
+                      - name
+                      - mime
+                      - url
+                      - size
+                      - createdAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/files/generate-upload-link:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateFileUploadLinkBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateFileUploadLinkResponse'
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/files/approve:
+    post:
+      tags:
+      - File
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveUploadedFileBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApproveUploadedFileResponse'
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+components:
+  schemas:
+    UploadUrlGeneratorResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - url
+    UploadUrlGeneratorRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        mime:
+          type: string
+          enum:
+          - image/jpeg
+          - image/png
+          - image/webp
+          - image/avif
+          - image/svg+xml
+          - video/webm
+          - video/mp4
+          - video/ogg
+          - application/pdf
+          - text/vtt
+          - application/x-subrip
+      required:
+      - name
+      - mime
+    UploadArrayResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UploadResponse'
+    UploadResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        mime:
+          type: string
+        size:
+          type: number
+        url:
+          anyOf:
+          - type: string
+            format: uri
+          - type: string
+            const: ''
+        error:
+          anyOf:
+          - type: string
+          - type: string
+            const: ''
+        createdAt:
+          type: string
+      required:
+      - id
+      - name
+      - mime
+      - size
+      - url
+      - error
+      - createdAt
+    EmptyResponse:
+      type: object
+    ApproveFileBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ext:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - ext
+      - name
+    ApproveFileResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
+    UploadUrlGeneratorRequest_2:
+      type: object
+      properties:
+        name:
+          type: string
+        mime:
+          type: string
+          enum:
+          - image/jpeg
+          - image/png
+          - image/webp
+          - image/avif
+          - image/svg+xml
+      required:
+      - name
+      - mime
+    ApproveUploadedFileBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ext:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - ext
+      - name
+    GenerateFileUploadLinkResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - url
+    ApproveUploadedFileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        mime:
+          type: string
+        url:
+          type: string
+          format: uri
+        size:
+          type: number
+        createdAt:
+          type: string
+      required:
+      - id
+      - name
+      - mime
+      - url
+      - size
+      - createdAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    GenerateFileUploadLinkBody:
+      type: object
+      properties:
+        name:
+          type: string
+        mime:
+          type: string
+      required:
+      - name
+      - mime
+    UploadedFileResponse:
+      type: array
+      items:
+        type: string
+    UploadUrlGeneratorRequest_3:
+      type: object
+      properties:
+        name:
+          type: string
+        mime:
+          type: string
+          enum:
+          - image/jpeg
+          - image/png
+          - image/webp
+          - image/avif
+          - image/svg+xml
+      required:
+      - name
+      - mime
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    InternalToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-academy-openapi.json
+- evedex-auth-openapi.json
+- evedex-backoffice-openapi.json
+- evedex-referral-openapi.json

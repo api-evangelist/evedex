@@ -1,0 +1,194 @@
+openapi: 3.2.0
+info:
+  title: Evedex Rhino API
+  version: 1.0.0
+  description: 'Operations tagged Rhino across 2 of this provider''s published API definitions: evedex-bridge-middleware-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://bridge-middleware-api.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: Rhino
+paths:
+  /api/rhino-deposit-address:
+    get:
+      tags:
+      - Rhino
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: rhinoSourceChainId
+        description: RhinoChainId
+        schema:
+          type: string
+          enum:
+          - '728126428'
+          - '1'
+          - '10'
+          - '56'
+          - '137'
+          - '42161'
+          - '8453'
+          - TON
+          - '900'
+          description: RhinoChainId
+        required: true
+      - in: query
+        name: destinationChainId
+        description: RhinoChainId
+        schema:
+          type: string
+          enum:
+          - '728126428'
+          - '1'
+          - '10'
+          - '56'
+          - '137'
+          - '42161'
+          - '8453'
+          - TON
+          - '900'
+          description: RhinoChainId
+        required: true
+      - in: query
+        name: depositorAddress
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sourceChainId:
+                    type: string
+                  sourceAddress:
+                    type: string
+                  destinationChainId:
+                    type: string
+                  destinationAddress:
+                    type: string
+                  supportedTokens:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        symbol:
+                          type: string
+                        address:
+                          type: string
+                        maxDepositLimitUsd:
+                          type: number
+                        minDepositLimitUsd:
+                          type: number
+                      required:
+                      - symbol
+                      - address
+                      - maxDepositLimitUsd
+                      - minDepositLimitUsd
+                required:
+                - sourceChainId
+                - sourceAddress
+                - destinationChainId
+                - destinationAddress
+                - supportedTokens
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+  /api/deposit/rhino-deposit-address:
+    get:
+      tags:
+      - Rhino
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: rhinoSourceChainId
+        schema:
+          type: string
+          enum:
+          - '728126428'
+          - '1'
+          - '10'
+          - '56'
+          - '137'
+          - '42161'
+          - '8453'
+          - TON
+          - '900'
+        required: true
+      - in: query
+        name: destinationChainId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: depositorAddress
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sourceChainId:
+                    type: string
+                  sourceAddress:
+                    type: string
+                  destinationChainId:
+                    type: string
+                  destinationAddress:
+                    type: string
+                  supportedTokens:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        symbol:
+                          type: string
+                        address:
+                          type: string
+                        maxDepositLimitUsd:
+                          type: number
+                        minDepositLimitUsd:
+                          type: number
+                      required:
+                      - symbol
+                      - address
+                      - maxDepositLimitUsd
+                      - minDepositLimitUsd
+                required:
+                - sourceChainId
+                - sourceAddress
+                - destinationChainId
+                - destinationAddress
+                - supportedTokens
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    ExternalKey:
+      type: http
+      scheme: bearer
+    InternalToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-bridge-middleware-openapi.json
+- evedex-exchange-openapi.json

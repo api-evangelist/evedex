@@ -1,0 +1,95 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Backoffice general Hedging API
+  version: 1.0.0
+servers:
+- url: https://backoffice-api.private.evedex.com
+tags:
+- name: Hedging
+paths:
+  /api/hedging/finery/account:
+    post:
+      tags:
+      - Hedging
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FineryAccountObject'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/hedging/bybit/account:
+    post:
+      tags:
+      - Hedging
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BybitAccountObject'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    BybitAccountObject:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        name:
+          type: string
+        accountType:
+          type: string
+          enum:
+          - UNIFIED
+          - REGULAR
+        apiKey:
+          type: string
+        apiSecret:
+          type: string
+      required:
+      - user
+      - name
+      - accountType
+      - apiKey
+      - apiSecret
+    FineryAccountObject:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        name:
+          type: string
+        apiKey:
+          type: string
+        apiSecret:
+          type: string
+      required:
+      - user
+      - name
+      - apiKey
+      - apiSecret
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer

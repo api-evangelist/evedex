@@ -1,0 +1,91 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Cashback API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Cashback
+paths:
+  /api/cashback/withdraw:
+    post:
+      tags:
+      - Cashback
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+              required:
+              - quantity
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: number
+                  recipient:
+                    type: string
+                  quantity:
+                    type: number
+                  signature:
+                    type: string
+                required:
+                - requestId
+                - recipient
+                - quantity
+                - signature
+  /api/cashback:
+    get:
+      tags:
+      - Cashback
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: number
+                  total:
+                    type: number
+                  missed:
+                    type: number
+                  totalClaimed:
+                    type: number
+                  totalMissed:
+                    type: number
+                required:
+                - available
+                - total
+                - missed
+                - totalClaimed
+                - totalMissed
+components:
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

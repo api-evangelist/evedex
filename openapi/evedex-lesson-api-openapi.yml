@@ -1,0 +1,283 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Lesson API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: Lesson
+paths:
+  /api/course/{courseId}/lesson/{lessonId}:
+    put:
+      tags:
+      - Lesson
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LessonUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonObject'
+    get:
+      tags:
+      - Lesson
+      security: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonObject'
+    delete:
+      tags:
+      - Lesson
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/lesson:
+    get:
+      tags:
+      - Lesson
+      security: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonObjectExtendedList'
+    post:
+      tags:
+      - Lesson
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LessonCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonObject'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+    LessonProgressCoreType:
+      type: string
+      enum:
+      - notStarted
+      - lessonCompleted
+    LessonUpdateBody:
+      type: object
+      properties:
+        module:
+          type: string
+          format: uuid
+        name:
+          type: string
+        promo:
+          type: boolean
+        duration:
+          type: number
+        order:
+          type: number
+        slug:
+          type: string
+        progressStatus:
+          $ref: '#/components/schemas/LessonProgressCoreType'
+    LessonObjectExtendedList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          name:
+            type: string
+          order:
+            type: number
+          published:
+            type: boolean
+          releaseDate:
+            type:
+            - string
+            - 'null'
+          lessons:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+                promo:
+                  type: boolean
+                duration:
+                  type: number
+                slug:
+                  type: string
+                order:
+                  type: number
+                progress:
+                  $ref: '#/components/schemas/LessonProgressObject'
+              required:
+              - id
+              - name
+              - promo
+              - duration
+              - slug
+              - order
+              - progress
+        required:
+        - id
+        - name
+        - order
+        - published
+        - releaseDate
+        - lessons
+    LessonObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        module:
+          type: string
+        promo:
+          type: boolean
+        name:
+          type: string
+        duration:
+          type: number
+        order:
+          type: number
+        moduleOrder:
+          type: number
+        slug:
+          type: string
+        progress:
+          $ref: '#/components/schemas/LessonProgressObject'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - module
+      - promo
+      - name
+      - duration
+      - order
+      - moduleOrder
+      - slug
+      - progress
+      - createdAt
+      - updatedAt
+    LessonCreateBody:
+      type: object
+      properties:
+        module:
+          type: string
+          format: uuid
+        name:
+          type: string
+        promo:
+          type: boolean
+          default: false
+        duration:
+          type: number
+        slug:
+          type: string
+      required:
+      - module
+      - name
+    LessonProgressType:
+      type: string
+      enum:
+      - waitingForHomework
+      - waitingForHomeworkCheck
+      - lessonCompleted
+      - notStarted
+    LessonProgressObject:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/LessonProgressType'
+      required:
+      - status
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

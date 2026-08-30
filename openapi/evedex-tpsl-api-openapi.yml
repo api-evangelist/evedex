@@ -1,0 +1,457 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Tp Sl API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: TpSl
+paths:
+  /api/tpsl/{instrument}/{id}:
+    put:
+      tags:
+      - TpSl
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - take-profit
+                  - stop-loss
+                side:
+                  $ref: '#/components/schemas/Side'
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                  description: Zero for full position
+                price:
+                  anyOf:
+                  - type: string
+                  - type: number
+                signature:
+                  type: string
+              required:
+              - type
+              - side
+              - quantity
+              - price
+              - signature
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - take-profit
+                    - stop-loss
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  quantity:
+                    type: string
+                    description: Zero for full position
+                  price:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                    - waitOrder
+                    - active
+                    - process
+                    - triggered
+                    - done
+                    - cancelled
+                  triggerOrder:
+                    oneOf:
+                    - $ref: '#/components/schemas/OrderIdOutput'
+                    - type: 'null'
+                  triggeredQuantity:
+                    type: string
+                  cancelledReason:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - instrument
+                - type
+                - side
+                - quantity
+                - price
+                - status
+                - triggerOrder
+                - triggeredQuantity
+                - cancelledReason
+                - createdAt
+                - updatedAt
+    delete:
+      tags:
+      - TpSl
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - take-profit
+                    - stop-loss
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  quantity:
+                    type: string
+                    description: Zero for full position
+                  price:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                    - waitOrder
+                    - active
+                    - process
+                    - triggered
+                    - done
+                    - cancelled
+                  triggerOrder:
+                    oneOf:
+                    - $ref: '#/components/schemas/OrderIdOutput'
+                    - type: 'null'
+                  triggeredQuantity:
+                    type: string
+                  cancelledReason:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - instrument
+                - type
+                - side
+                - quantity
+                - price
+                - status
+                - triggerOrder
+                - triggeredQuantity
+                - cancelledReason
+                - createdAt
+                - updatedAt
+  /api/tpsl:
+    get:
+      tags:
+      - TpSl
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: instrument
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      - in: query
+        name: status
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - waitOrder
+            - active
+            - process
+            - triggered
+            - done
+            - cancelled
+          - type: array
+            items:
+              type: string
+              enum:
+              - waitOrder
+              - active
+              - process
+              - triggered
+              - done
+              - cancelled
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - take-profit
+          - stop-loss
+      - in: query
+        name: triggeredOrder
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/TpSlListPageLimitParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        instrument:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - take-profit
+                          - stop-loss
+                        side:
+                          $ref: '#/components/schemas/Side'
+                        quantity:
+                          type: string
+                          description: Zero for full position
+                        price:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                          - waitOrder
+                          - active
+                          - process
+                          - triggered
+                          - done
+                          - cancelled
+                        triggerOrder:
+                          oneOf:
+                          - $ref: '#/components/schemas/OrderIdOutput'
+                          - type: 'null'
+                        triggeredQuantity:
+                          type: string
+                        cancelledReason:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - instrument
+                      - type
+                      - side
+                      - quantity
+                      - price
+                      - status
+                      - triggerOrder
+                      - triggeredQuantity
+                      - cancelledReason
+                      - createdAt
+                      - updatedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/tpsl/{instrument}:
+    post:
+      tags:
+      - TpSl
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - take-profit
+                  - stop-loss
+                side:
+                  $ref: '#/components/schemas/Side'
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                  description: Zero for full position
+                price:
+                  anyOf:
+                  - type: string
+                  - type: number
+                order:
+                  anyOf:
+                  - $ref: '#/components/schemas/OrderIdInput'
+                  - $ref: '#/components/schemas/OrderIdV2Input'
+                  - type: 'null'
+                signature:
+                  type: string
+              required:
+              - type
+              - side
+              - quantity
+              - price
+              - order
+              - signature
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - take-profit
+                    - stop-loss
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  quantity:
+                    type: string
+                    description: Zero for full position
+                  price:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                    - waitOrder
+                    - active
+                    - process
+                    - triggered
+                    - done
+                    - cancelled
+                  triggerOrder:
+                    oneOf:
+                    - $ref: '#/components/schemas/OrderIdOutput'
+                    - type: 'null'
+                  triggeredQuantity:
+                    type: string
+                  cancelledReason:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - instrument
+                - type
+                - side
+                - quantity
+                - price
+                - status
+                - triggerOrder
+                - triggeredQuantity
+                - cancelledReason
+                - createdAt
+                - updatedAt
+components:
+  schemas:
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    OrderIdOutput:
+      type: string
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
+    PageOffsetParam:
+      type: string
+      default: '0'
+    TpSlListPageLimitParam:
+      type: string
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

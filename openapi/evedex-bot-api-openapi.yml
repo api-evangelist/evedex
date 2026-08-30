@@ -1,0 +1,462 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Bot API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Bot
+paths:
+  /api/bot/result:
+    put:
+      tags:
+      - Bot
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  wallet:
+                    type: string
+                  botId:
+                    type: string
+                  inv:
+                    type: string
+                  real:
+                    type: string
+                required:
+                - wallet
+                - botId
+                - inv
+                - real
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - success
+                    - error
+                  message:
+                    type: string
+                required:
+                - status
+  /api/bot/order:
+    put:
+      tags:
+      - Bot
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  wallet:
+                    type: string
+                  botId:
+                    type: string
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        state:
+                          type: string
+                        side:
+                          type: string
+                        orderType:
+                          type: string
+                        amount:
+                          type: string
+                        price:
+                          type: string
+                        orderId:
+                          type: string
+                      required:
+                      - state
+                      - side
+                      - orderType
+                      - amount
+                      - price
+                      - orderId
+                required:
+                - wallet
+                - botId
+                - items
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - success
+                    - error
+                  message:
+                    type: string
+                required:
+                - status
+  /api/bot:
+    put:
+      tags:
+      - Bot
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  wallet:
+                    type: string
+                  exUserId:
+                    type: string
+                  type:
+                    type: string
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        botId:
+                          type: string
+                        pair:
+                          type: string
+                        trend:
+                          type: string
+                          enum:
+                          - long
+                          - short
+                          - neutral
+                          - unknown
+                        leverage:
+                          type: integer
+                          exclusiveMinimum: 0
+                      required:
+                      - botId
+                      - pair
+                      - trend
+                      - leverage
+                required:
+                - wallet
+                - exUserId
+                - type
+                - items
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - success
+                    - error
+                  message:
+                    type: string
+                required:
+                - status
+  /api/bot/list:
+    get:
+      tags:
+      - Bot
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: integration
+        schema:
+          type: string
+          enum:
+          - bitsgap
+      - in: query
+        name: instrument
+        schema:
+          type: string
+      - in: query
+        name: trend
+        schema:
+          type: string
+          enum:
+          - long
+          - short
+          - neutral
+          - unknown
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - pnl-asc
+          - pnl-desc
+          default: pnl-desc
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type:
+                          - string
+                          - 'null'
+                        integration:
+                          type: string
+                          enum:
+                          - bitsgap
+                        instrument:
+                          type: string
+                        trend:
+                          type: string
+                          enum:
+                          - long
+                          - short
+                          - neutral
+                          - unknown
+                        leverage:
+                          type: integer
+                          exclusiveMinimum: 0
+                        externalId:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                        inv:
+                          type: string
+                        real:
+                          type: string
+                      required:
+                      - id
+                      - type
+                      - integration
+                      - instrument
+                      - trend
+                      - leverage
+                      - externalId
+                      - createdAt
+                      - updatedAt
+                      - inv
+                      - real
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/bot/marketplace/bitsgap:
+    put:
+      tags:
+      - Bot
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+                pairs:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      profit_1y:
+                        type: number
+                      trend:
+                        type: string
+                        enum:
+                        - long
+                        - short
+                        - neutral
+                        - unknown
+                      pair:
+                        type: string
+                      pair_evedex:
+                        type: string
+                      link:
+                        type: string
+                    required:
+                    - profit_1y
+                    - trend
+                    - pair
+                    - pair_evedex
+                    - link
+              required:
+              - pairs
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/bot/marketplace:
+    get:
+      tags:
+      - Bot
+      security: []
+      parameters:
+      - in: query
+        name: integration
+        schema:
+          type: string
+          enum:
+          - bitsgap
+      - in: query
+        name: instrument
+        schema:
+          type: string
+      - in: query
+        name: trend
+        schema:
+          type: string
+          enum:
+          - long
+          - short
+          - neutral
+          - unknown
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - apy-asc
+          - apy-desc
+          default: apy-desc
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type:
+                          - string
+                          - 'null'
+                        integration:
+                          type: string
+                          enum:
+                          - bitsgap
+                        instrument:
+                          type: string
+                        externalInstrument:
+                          type: string
+                        apy:
+                          type: number
+                        trend:
+                          type: string
+                          enum:
+                          - long
+                          - short
+                          - neutral
+                          - unknown
+                        link:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - type
+                      - integration
+                      - instrument
+                      - externalInstrument
+                      - apy
+                      - trend
+                      - link
+                      - createdAt
+                      - updatedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

@@ -1,0 +1,70 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Notifications Notification API
+  version: 1.0.0
+servers:
+- url: https://notifications-api.evedex.com
+tags:
+- name: Notification
+paths:
+  /api/notifications/web-activity:
+    get:
+      tags:
+      - Notification
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebActivityNotificationResponse'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    WebActivityNotificationResponse:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+      - content
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer

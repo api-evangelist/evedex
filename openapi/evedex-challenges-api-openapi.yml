@@ -1,0 +1,360 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Challenges API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Challenges
+paths:
+  /api/challenges/sync-tickets:
+    post:
+      tags:
+      - Challenges
+      security:
+      - InternalKey: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/challenges/summary:
+    get:
+      tags:
+      - Challenges
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: showAll
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengesSummaryResponse'
+  /api/challenges/streak/summary:
+    get:
+      tags:
+      - Challenges
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestoreStreakBalanceResponse'
+  /api/challenges/streak/restore:
+    post:
+      tags:
+      - Challenges
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/challenges/restart:
+    post:
+      tags:
+      - Challenges
+      security:
+      - InternalKey: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/challenges/manual-claim:
+    post:
+      tags:
+      - Challenges
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualChallengeClaimBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualChallengeClaimResponse'
+  /api/challenges/{userId}/increase:
+    post:
+      tags:
+      - Challenges
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/challenges/{challengeId}/claim:
+    post:
+      tags:
+      - Challenges
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: challengeId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/challenges/leaderboard/me:
+    get:
+      tags:
+      - Challenges
+      summary: Return leaderboard me
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeCompetitionLeaderboardMeResponse'
+  /api/challenges/{challengeTitle}/leaderboard:
+    get:
+      tags:
+      - Challenges
+      summary: Return leaderboard
+      security: []
+      parameters:
+      - in: path
+        name: challengeTitle
+        schema:
+          type: string
+          enum:
+          - sprint
+          - middleRace
+          - marathon
+        required: true
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeCompetitionLeaderboardResponse'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+    ManualChallengeClaimBody:
+      type: object
+      properties:
+        wallet:
+          type: string
+          description: User wallet address
+        authId:
+          type: string
+          format: uuid
+          description: User Auth Id
+        userChallengeId:
+          type: string
+          format: uuid
+          description: User Challenge Id (if known)
+        challengeTitle:
+          type: string
+          enum:
+          - sprint
+          - middleRace
+          - marathon
+          description: Challenge title (sprint, middleRace, marathon)
+        month:
+          type: string
+          description: Month in format YYYY-MM (e.g. 2025-01)
+    ChallengeCompetitionLeaderboardResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              user:
+                type: string
+                format: uuid
+              tradingVolume:
+                type: number
+              tickets:
+                type: number
+              total:
+                type: number
+              avatar:
+                type: string
+              smartAccountAddress:
+                type: string
+            required:
+            - user
+            - tradingVolume
+            - tickets
+            - total
+            - avatar
+            - smartAccountAddress
+        count:
+          type: number
+        next:
+          type: string
+        startAt:
+          type:
+          - string
+          - 'null'
+        finishAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - list
+      - count
+      - startAt
+      - finishAt
+    ChallengesSummaryResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          date:
+            type: string
+          progress:
+            type: integer
+          goal:
+            type: integer
+          userChallengeId:
+            type:
+            - string
+            - 'null'
+            format: uuid
+            default: null
+          isClaimed:
+            type: boolean
+          isAvailable:
+            type: boolean
+        required:
+        - id
+        - title
+        - date
+        - progress
+        - goal
+        - userChallengeId
+        - isClaimed
+        - isAvailable
+    RestoreStreakBalanceResponse:
+      type: object
+      properties:
+        used:
+          type: integer
+        total:
+          type: integer
+        isAvailable:
+          type: boolean
+      required:
+      - used
+      - total
+      - isAvailable
+    ChallengeCompetitionLeaderboardMeResponse:
+      type: object
+      properties:
+        tradingVolume:
+          type: number
+        targetVolume:
+          type: number
+        tickets:
+          type: number
+        total:
+          type: number
+      required:
+      - tradingVolume
+      - targetVolume
+      - tickets
+      - total
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    ManualChallengeClaimResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        userId:
+          type: string
+          format: uuid
+        userChallengeId:
+          type: string
+          format: uuid
+        challengeTitle:
+          type: string
+        xpAwarded:
+          type: number
+        newExperience:
+          type: string
+      required:
+      - success
+      - userId
+      - userChallengeId
+      - challengeTitle
+      - xpAwarded
+      - newExperience
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

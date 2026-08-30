@@ -1,0 +1,388 @@
+openapi: 3.2.0
+info:
+  title: Evedex Tariff API
+  version: 1.0.0
+  description: 'Operations tagged Tariff across 2 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-backoffice-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://backoffice-api.private.evedex.com
+tags:
+- name: Tariff
+paths:
+  /auth/user/{id}/tariff:
+    put:
+      tags:
+      - Tariff
+      description: Update student tariff
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TariffUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TariffObject'
+    get:
+      tags:
+      - Tariff
+      description: Get list of student tariffs
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TariffList'
+    post:
+      tags:
+      - Tariff
+      description: Create student tariff
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TariffCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TariffObject'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/{id}/tariff/active:
+    get:
+      tags:
+      - Tariff
+      description: Get last active student tariff
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/TariffObject'
+                - type: 'null'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/{id}/tariff/cancel:
+    post:
+      tags:
+      - Tariff
+      description: Cancel active tariff
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TariffObject'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/tariff/user/{authId}:
+    put:
+      tags:
+      - Tariff
+      description: Update tariff
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TariffUpdateBody_2'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TariffObject_2'
+    post:
+      tags:
+      - Tariff
+      description: Create tariff
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TariffCreateBody_2'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TariffObject_2'
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+components:
+  schemas:
+    TariffList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TariffObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    TariffCreateBody:
+      type: object
+      properties:
+        product:
+          type: string
+          format: uuid
+        paymentDate:
+          type: string
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+        issuedBy:
+          type: string
+      required:
+      - product
+      - issuedBy
+    TariffUpdateBody:
+      type: object
+      properties:
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+    PageOffsetParam:
+      type: string
+      default: '0'
+    TariffObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+        paymentDate:
+          type:
+          - string
+          - 'null'
+        privilegies:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - premium
+              - academyCourse
+            courses:
+              type: array
+              items:
+                type: string
+          required:
+          - type
+        issuedBy:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - user
+      - startedAt
+      - endedAt
+      - paymentDate
+      - privilegies
+      - issuedBy
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
+    TariffCreateBody_2:
+      type: object
+      properties:
+        product:
+          type: string
+          format: uuid
+        paymentDate:
+          type: string
+          format: date-time
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        issuedBy:
+          type: string
+      required:
+      - product
+      - issuedBy
+    TariffObject_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        paymentDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        privilegies:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - premium
+              - academyCourse
+            courses:
+              type: array
+              items:
+                type: string
+          required:
+          - type
+        issuedBy:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - user
+      - startedAt
+      - endedAt
+      - paymentDate
+      - privilegies
+      - issuedBy
+      - createdAt
+      - updatedAt
+    TariffUpdateBody_2:
+      type: object
+      properties:
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-backoffice-openapi.json

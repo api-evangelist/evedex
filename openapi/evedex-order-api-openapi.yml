@@ -1,0 +1,1721 @@
+openapi: 3.2.0
+info:
+  title: Evedex Order API
+  version: 1.0.0
+  description: 'Operations tagged Order across 2 of this provider''s published API definitions: evedex-ai-strategies-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ai-strategies-api.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: Order
+paths:
+  /api/position/open:
+    post:
+      tags:
+      - Order
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  exclusiveMinimum: 0
+                subscribeId:
+                  type: integer
+                  exclusiveMinimum: 0
+                instrument:
+                  type: string
+                  minLength: 3
+                side:
+                  type: string
+                  enum:
+                  - Buy
+                  - Sell
+                quantity:
+                  type: number
+                  exclusiveMinimum: 0
+                cashQuantity:
+                  type: number
+                  exclusiveMinimum: 0
+                leverage:
+                  type: number
+                  exclusiveMinimum: 0
+                  maximum: 1000
+                takeProfit:
+                  type: number
+                  exclusiveMinimum: 0
+                stopLoss:
+                  type: number
+                  exclusiveMinimum: 0
+                tif:
+                  type: string
+                  enum:
+                  - FOK
+                  - IOC
+                  default: IOC
+              required:
+              - userId
+              - subscribeId
+              - instrument
+              - side
+              - quantity
+              - cashQuantity
+              - leverage
+              - takeProfit
+              - stopLoss
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  market:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      instrument:
+                        type: string
+                      side:
+                        type: string
+                        enum:
+                        - BUY
+                        - SELL
+                      cashQuantity:
+                        type: string
+                      leverage:
+                        type: number
+                      timeInForce:
+                        type: string
+                        enum:
+                        - FOK
+                        - IOC
+                      tpsl:
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - take-profit
+                              - stop-loss
+                            side:
+                              type: string
+                              enum:
+                              - BUY
+                              - SELL
+                            quantity:
+                              type: string
+                            price:
+                              type: string
+                          required:
+                          - type
+                          - side
+                          - quantity
+                          - price
+                      chainId:
+                        type: string
+                      signature:
+                        type: string
+                    required:
+                    - id
+                    - instrument
+                    - side
+                    - cashQuantity
+                    - leverage
+                    - timeInForce
+                    - chainId
+                    - signature
+                required:
+                - ok
+                - market
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '451':
+          description: 451 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://ai-strategies-api.evedex.com
+  /api/order:
+    get:
+      tags:
+      - Order
+      security:
+      - InternalToken: []
+      parameters:
+      - in: query
+        name: evedexUserId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: subscribeId
+        schema:
+          type: string
+      - in: query
+        name: pairId
+        schema:
+          type: string
+      - in: query
+        name: after
+        schema:
+          type: string
+      - in: query
+        name: before
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        evedexId:
+                          type: string
+                        instrument:
+                          type: string
+                        side:
+                          type: string
+                          enum:
+                          - BUY
+                          - SELL
+                        cashQuantity:
+                          type: string
+                        leverage:
+                          type: number
+                        timeInForce:
+                          type: string
+                          enum:
+                          - FOK
+                          - IOC
+                        status:
+                          type: string
+                          enum:
+                          - INTENTION
+                          - NEW
+                          - PARTIALLY_FILLED
+                          - FILLED
+                          - CANCELLED
+                          - REJECTED
+                          - EXPIRED
+                          - REPLACED
+                          - ERROR
+                        realizedPnl:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - evedexId
+                      - instrument
+                      - side
+                      - cashQuantity
+                      - leverage
+                      - timeInForce
+                      - status
+                      - realizedPnl
+                      - createdAt
+                      - updatedAt
+                  count:
+                    type: number
+                required:
+                - list
+                - count
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '451':
+          description: 451 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://ai-strategies-api.evedex.com
+  /api/v2/order/stop-limit:
+    post:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instrument:
+                  type: string
+                side:
+                  $ref: '#/components/schemas/Side'
+                leverage:
+                  type: integer
+                  minimum: 1
+                  maximum: 300
+                  default: 1
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                limitPrice:
+                  anyOf:
+                  - type: string
+                  - type: number
+                stopPrice:
+                  anyOf:
+                  - type: string
+                  - type: number
+                tpsl:
+                  type:
+                  - array
+                  - 'null'
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - take-profit
+                        - stop-loss
+                      side:
+                        $ref: '#/components/schemas/Side'
+                      quantity:
+                        anyOf:
+                        - type: string
+                        - type: number
+                        description: Zero for full position
+                      price:
+                        anyOf:
+                        - type: string
+                        - type: number
+                    required:
+                    - type
+                    - side
+                    - quantity
+                    - price
+                signature:
+                  type: string
+                chainId:
+                  type: string
+                smp:
+                  type: object
+                  properties:
+                    smp:
+                      type: boolean
+                    smpId:
+                      type: string
+                  required:
+                  - smp
+                  - smpId
+                id:
+                  $ref: '#/components/schemas/OrderIdV2Input'
+              required:
+              - instrument
+              - side
+              - quantity
+              - limitPrice
+              - stopPrice
+              - signature
+              - chainId
+              - id
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/OrderIdOutput'
+                  user:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - LIMIT
+                    - MARKET
+                    - STOP
+                    - STOP_LIMIT
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  status:
+                    type: string
+                    enum:
+                    - INTENTION
+                    - NEW
+                    - PARTIALLY_FILLED
+                    - FILLED
+                    - CANCELLED
+                    - REJECTED
+                    - EXPIRED
+                    - REPLACED
+                    - ERROR
+                  rejectedReason:
+                    type: string
+                  quantity:
+                    type: number
+                  limitPrice:
+                    type: number
+                  stopPrice:
+                    type:
+                    - number
+                    - 'null'
+                  group:
+                    type: string
+                    enum:
+                    - manually
+                    - tpsl
+                    - take-profit
+                    - stop-loss
+                    - liquidation
+                    - adl
+                    - otc
+                    - otc-hidden
+                  unFilledQuantity:
+                    type: number
+                  cashQuantity:
+                    type: number
+                  filledAvgPrice:
+                    type: number
+                  realizedPnL:
+                    type: number
+                  fee:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                        quantity:
+                          type: number
+                      required:
+                      - coin
+                      - quantity
+                  triggeredAt:
+                    type:
+                    - string
+                    - 'null'
+                  exchangeRequestId:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - user
+                - instrument
+                - type
+                - side
+                - status
+                - rejectedReason
+                - quantity
+                - limitPrice
+                - stopPrice
+                - group
+                - unFilledQuantity
+                - cashQuantity
+                - filledAvgPrice
+                - realizedPnL
+                - fee
+                - triggeredAt
+                - createdAt
+                - updatedAt
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/v2/order/market:
+    post:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instrument:
+                  type: string
+                side:
+                  $ref: '#/components/schemas/Side'
+                leverage:
+                  type: integer
+                  minimum: 1
+                  maximum: 300
+                  default: 1
+                cashQuantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                timeInForce:
+                  type: string
+                  enum:
+                  - FOK
+                  - IOC
+                tpsl:
+                  type:
+                  - array
+                  - 'null'
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - take-profit
+                        - stop-loss
+                      side:
+                        $ref: '#/components/schemas/Side'
+                      quantity:
+                        anyOf:
+                        - type: string
+                        - type: number
+                        description: Zero for full position
+                      price:
+                        anyOf:
+                        - type: string
+                        - type: number
+                    required:
+                    - type
+                    - side
+                    - quantity
+                    - price
+                signature:
+                  type: string
+                chainId:
+                  type: string
+                smp:
+                  type: object
+                  properties:
+                    smp:
+                      type: boolean
+                    smpId:
+                      type: string
+                  required:
+                  - smp
+                  - smpId
+                id:
+                  $ref: '#/components/schemas/OrderIdV2Input'
+              required:
+              - instrument
+              - side
+              - cashQuantity
+              - timeInForce
+              - signature
+              - chainId
+              - id
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/OrderIdOutput'
+                  user:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - LIMIT
+                    - MARKET
+                    - STOP
+                    - STOP_LIMIT
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  status:
+                    type: string
+                    enum:
+                    - INTENTION
+                    - NEW
+                    - PARTIALLY_FILLED
+                    - FILLED
+                    - CANCELLED
+                    - REJECTED
+                    - EXPIRED
+                    - REPLACED
+                    - ERROR
+                  rejectedReason:
+                    type: string
+                  quantity:
+                    type: number
+                  limitPrice:
+                    type: number
+                  stopPrice:
+                    type:
+                    - number
+                    - 'null'
+                  group:
+                    type: string
+                    enum:
+                    - manually
+                    - tpsl
+                    - take-profit
+                    - stop-loss
+                    - liquidation
+                    - adl
+                    - otc
+                    - otc-hidden
+                  unFilledQuantity:
+                    type: number
+                  cashQuantity:
+                    type: number
+                  filledAvgPrice:
+                    type: number
+                  realizedPnL:
+                    type: number
+                  fee:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                        quantity:
+                          type: number
+                      required:
+                      - coin
+                      - quantity
+                  triggeredAt:
+                    type:
+                    - string
+                    - 'null'
+                  exchangeRequestId:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - user
+                - instrument
+                - type
+                - side
+                - status
+                - rejectedReason
+                - quantity
+                - limitPrice
+                - stopPrice
+                - group
+                - unFilledQuantity
+                - cashQuantity
+                - filledAvgPrice
+                - realizedPnL
+                - fee
+                - triggeredAt
+                - createdAt
+                - updatedAt
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/v2/order/limit:
+    post:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instrument:
+                  type: string
+                side:
+                  $ref: '#/components/schemas/Side'
+                leverage:
+                  type: integer
+                  minimum: 1
+                  maximum: 300
+                  default: 1
+                timeInForce:
+                  type: string
+                  enum:
+                  - DAY
+                  - GTC
+                  - FOK
+                  - IOC
+                  default: GTC
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                limitPrice:
+                  anyOf:
+                  - type: string
+                  - type: number
+                tpsl:
+                  type:
+                  - array
+                  - 'null'
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - take-profit
+                        - stop-loss
+                      side:
+                        $ref: '#/components/schemas/Side'
+                      quantity:
+                        anyOf:
+                        - type: string
+                        - type: number
+                        description: Zero for full position
+                      price:
+                        anyOf:
+                        - type: string
+                        - type: number
+                    required:
+                    - type
+                    - side
+                    - quantity
+                    - price
+                postOnly:
+                  type: string
+                signature:
+                  type: string
+                chainId:
+                  type: string
+                smp:
+                  type: object
+                  properties:
+                    smp:
+                      type: boolean
+                    smpId:
+                      type: string
+                  required:
+                  - smp
+                  - smpId
+                id:
+                  $ref: '#/components/schemas/OrderIdV2Input'
+              required:
+              - instrument
+              - side
+              - quantity
+              - limitPrice
+              - signature
+              - chainId
+              - id
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/OrderIdOutput'
+                  user:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - LIMIT
+                    - MARKET
+                    - STOP
+                    - STOP_LIMIT
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  status:
+                    type: string
+                    enum:
+                    - INTENTION
+                    - NEW
+                    - PARTIALLY_FILLED
+                    - FILLED
+                    - CANCELLED
+                    - REJECTED
+                    - EXPIRED
+                    - REPLACED
+                    - ERROR
+                  rejectedReason:
+                    type: string
+                  quantity:
+                    type: number
+                  limitPrice:
+                    type: number
+                  stopPrice:
+                    type:
+                    - number
+                    - 'null'
+                  group:
+                    type: string
+                    enum:
+                    - manually
+                    - tpsl
+                    - take-profit
+                    - stop-loss
+                    - liquidation
+                    - adl
+                    - otc
+                    - otc-hidden
+                  unFilledQuantity:
+                    type: number
+                  cashQuantity:
+                    type: number
+                  filledAvgPrice:
+                    type: number
+                  realizedPnL:
+                    type: number
+                  fee:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                        quantity:
+                          type: number
+                      required:
+                      - coin
+                      - quantity
+                  triggeredAt:
+                    type:
+                    - string
+                    - 'null'
+                  exchangeRequestId:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - user
+                - instrument
+                - type
+                - side
+                - status
+                - rejectedReason
+                - quantity
+                - limitPrice
+                - stopPrice
+                - group
+                - unFilledQuantity
+                - cashQuantity
+                - filledAvgPrice
+                - realizedPnL
+                - fee
+                - triggeredAt
+                - createdAt
+                - updatedAt
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/v2/order/mass-limit/{instrument}:
+    post:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  instrument:
+                    type: string
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  leverage:
+                    type: integer
+                    minimum: 1
+                    maximum: 300
+                    default: 1
+                  timeInForce:
+                    type: string
+                    enum:
+                    - DAY
+                    - GTC
+                    - FOK
+                    - IOC
+                    default: GTC
+                  quantity:
+                    anyOf:
+                    - type: string
+                    - type: number
+                  limitPrice:
+                    anyOf:
+                    - type: string
+                    - type: number
+                  postOnly:
+                    type: string
+                  signature:
+                    type: string
+                  chainId:
+                    type: string
+                  smp:
+                    type: object
+                    properties:
+                      smp:
+                        type: boolean
+                      smpId:
+                        type: string
+                    required:
+                    - smp
+                    - smpId
+                  id:
+                    $ref: '#/components/schemas/OrderIdV2Input'
+                required:
+                - instrument
+                - side
+                - quantity
+                - limitPrice
+                - signature
+                - chainId
+                - id
+              maxItems: 20
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                  - type: object
+                    properties:
+                      orderId:
+                        $ref: '#/components/schemas/OrderIdOutput'
+                    required:
+                    - orderId
+                  - anyOf:
+                    - type: object
+                      properties:
+                        success:
+                          type: boolean
+                          const: true
+                      required:
+                      - success
+                    - type: object
+                      properties:
+                        success:
+                          type: boolean
+                          const: false
+                        failReason:
+                          type: string
+                      required:
+                      - success
+                      - failReason
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/{orderId}/stop-limit:
+    put:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: orderId
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderIdInput'
+          - $ref: '#/components/schemas/OrderIdV2Input'
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                limitPrice:
+                  anyOf:
+                  - type: string
+                  - type: number
+                stopPrice:
+                  anyOf:
+                  - type: string
+                  - type: number
+                signature:
+                  type: string
+                smp:
+                  type: object
+                  properties:
+                    smp:
+                      type: boolean
+                    smpId:
+                      type: string
+                  required:
+                  - smp
+                  - smpId
+              required:
+              - quantity
+              - limitPrice
+              - stopPrice
+              - signature
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/{orderId}/limit:
+    put:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: orderId
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderIdInput'
+          - $ref: '#/components/schemas/OrderIdV2Input'
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                limitPrice:
+                  anyOf:
+                  - type: string
+                  - type: number
+                postOnly:
+                  type: string
+                signature:
+                  type: string
+                smp:
+                  type: object
+                  properties:
+                    smp:
+                      type: boolean
+                    smpId:
+                      type: string
+                  required:
+                  - smp
+                  - smpId
+              required:
+              - quantity
+              - limitPrice
+              - signature
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/{orderId}/fill:
+    get:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: orderId
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderIdInput'
+          - $ref: '#/components/schemas/OrderIdV2Input'
+        required: true
+      - in: query
+        name: version
+        schema:
+          anyOf:
+          - type: string
+          - type: number
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderFillListResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/opened:
+    get:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      $ref: '#/components/schemas/OrderIdOutput'
+                    user:
+                      type: string
+                    instrument:
+                      type: string
+                    type:
+                      type: string
+                      enum:
+                      - LIMIT
+                      - MARKET
+                      - STOP
+                      - STOP_LIMIT
+                    side:
+                      $ref: '#/components/schemas/Side'
+                    status:
+                      type: string
+                      enum:
+                      - INTENTION
+                      - NEW
+                      - PARTIALLY_FILLED
+                      - FILLED
+                      - CANCELLED
+                      - REJECTED
+                      - EXPIRED
+                      - REPLACED
+                      - ERROR
+                    quantity:
+                      type: number
+                    cashQuantity:
+                      type: number
+                    stopPrice:
+                      type:
+                      - number
+                      - 'null'
+                    limitPrice:
+                      type: number
+                    unFilledQuantity:
+                      type: number
+                    fee:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          coin:
+                            type: string
+                          quantity:
+                            type: number
+                        required:
+                        - coin
+                        - quantity
+                    triggeredAt:
+                      type:
+                      - string
+                      - 'null'
+                    updatedAt:
+                      type: string
+                    createdAt:
+                      type: string
+                  required:
+                  - id
+                  - user
+                  - instrument
+                  - type
+                  - side
+                  - status
+                  - quantity
+                  - cashQuantity
+                  - stopPrice
+                  - limitPrice
+                  - unFilledQuantity
+                  - fee
+                  - triggeredAt
+                  - updatedAt
+                  - createdAt
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/mass-cancel-by-id:
+    post:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderIds:
+                  type: array
+                  items:
+                    anyOf:
+                    - $ref: '#/components/schemas/OrderIdInput'
+                    - $ref: '#/components/schemas/OrderIdV2Input'
+                  minItems: 1
+              required:
+              - orderIds
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LimitOrderCancelObject'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/mass-cancel:
+    post:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                instrument:
+                  type: string
+                dbSync:
+                  type: boolean
+                  default: false
+              required:
+              - instrument
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/limit/{instrument}:
+    put:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  quantity:
+                    anyOf:
+                    - type: string
+                    - type: number
+                  limitPrice:
+                    anyOf:
+                    - type: string
+                    - type: number
+                  postOnly:
+                    type: string
+                  signature:
+                    type: string
+                  smp:
+                    type: object
+                    properties:
+                      smp:
+                        type: boolean
+                      smpId:
+                        type: string
+                    required:
+                    - smp
+                    - smpId
+                  orderId:
+                    anyOf:
+                    - $ref: '#/components/schemas/OrderIdInput'
+                    - $ref: '#/components/schemas/OrderIdV2Input'
+                required:
+                - quantity
+                - limitPrice
+                - signature
+                - orderId
+              minItems: 1
+              maxItems: 50
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                  - type: object
+                    properties:
+                      orderId:
+                        $ref: '#/components/schemas/OrderIdOutput'
+                    required:
+                    - orderId
+                  - anyOf:
+                    - type: object
+                      properties:
+                        success:
+                          type: boolean
+                          const: true
+                      required:
+                      - success
+                    - type: object
+                      properties:
+                        success:
+                          type: boolean
+                          const: false
+                        failReason:
+                          type: string
+                      required:
+                      - success
+                      - failReason
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/{orderId}:
+    get:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: orderId
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderIdInput'
+          - $ref: '#/components/schemas/OrderIdV2Input'
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/OrderIdOutput'
+                  user:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - LIMIT
+                    - MARKET
+                    - STOP
+                    - STOP_LIMIT
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  status:
+                    type: string
+                    enum:
+                    - INTENTION
+                    - NEW
+                    - PARTIALLY_FILLED
+                    - FILLED
+                    - CANCELLED
+                    - REJECTED
+                    - EXPIRED
+                    - REPLACED
+                    - ERROR
+                  rejectedReason:
+                    type: string
+                  quantity:
+                    type: number
+                  limitPrice:
+                    type: number
+                  stopPrice:
+                    type:
+                    - number
+                    - 'null'
+                  group:
+                    type: string
+                    enum:
+                    - manually
+                    - tpsl
+                    - take-profit
+                    - stop-loss
+                    - liquidation
+                    - adl
+                    - otc
+                    - otc-hidden
+                  unFilledQuantity:
+                    type: number
+                  cashQuantity:
+                    type: number
+                  filledAvgPrice:
+                    type: number
+                  realizedPnL:
+                    type: number
+                  fee:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                        quantity:
+                          type: number
+                      required:
+                      - coin
+                      - quantity
+                  triggeredAt:
+                    type:
+                    - string
+                    - 'null'
+                  exchangeRequestId:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - user
+                - instrument
+                - type
+                - side
+                - status
+                - rejectedReason
+                - quantity
+                - limitPrice
+                - stopPrice
+                - group
+                - unFilledQuantity
+                - cashQuantity
+                - filledAvgPrice
+                - realizedPnL
+                - fee
+                - triggeredAt
+                - createdAt
+                - updatedAt
+    delete:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: orderId
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderIdInput'
+          - $ref: '#/components/schemas/OrderIdV2Input'
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/fill:
+    get:
+      tags:
+      - Order
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: instrument
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      - in: query
+        name: after
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: before
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        order:
+                          type: string
+                        instrument:
+                          type: string
+                        fillQuantity:
+                          type: number
+                        fillPrice:
+                          type: number
+                        fillRole:
+                          type: string
+                          enum:
+                          - MAKER
+                          - TAKER
+                          - NONE
+                        createdAt:
+                          type: string
+                      required:
+                      - id
+                      - order
+                      - instrument
+                      - fillQuantity
+                      - fillPrice
+                      - fillRole
+                      - createdAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    OrderIdOutput:
+      type: string
+    OrderFillListResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          fillQuantity:
+            type: number
+          fillPrice:
+            type: number
+          fee:
+            type: array
+            items:
+              type: object
+              properties:
+                coin:
+                  type: string
+                quantity:
+                  type: number
+              required:
+              - coin
+              - quantity
+          createdAt:
+            type: string
+        required:
+        - id
+        - fillQuantity
+        - fillPrice
+        - fee
+        - createdAt
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    LimitOrderCancelObject:
+      allOf:
+      - type: object
+        properties:
+          orderId:
+            $ref: '#/components/schemas/OrderIdOutput'
+        required:
+        - orderId
+      - anyOf:
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: true
+          required:
+          - success
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: false
+            failReason:
+              type: string
+          required:
+          - success
+          - failReason
+    PageNextParam:
+      type: string
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-ai-strategies-openapi.json
+- evedex-exchange-openapi.json

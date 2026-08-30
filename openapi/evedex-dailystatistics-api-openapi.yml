@@ -1,0 +1,66 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Market Data Daily Statistics API
+  version: 1.0.0
+servers:
+- url: https://market-data-api.evedex.com
+tags:
+- name: DailyStatistics
+paths:
+  /api/daily-statistics:
+    get:
+      tags:
+      - DailyStatistics
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: instrument
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyStatisticsResponse'
+components:
+  schemas:
+    DailyStatisticsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          instrument:
+            type: string
+          high:
+            type: number
+          low:
+            type: number
+          price:
+            type: number
+          volume:
+            type: number
+          volumeBase:
+            type: number
+          timecode:
+            type: number
+        required:
+        - instrument
+        - high
+        - low
+        - price
+        - volume
+        - volumeBase
+        - timecode
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer

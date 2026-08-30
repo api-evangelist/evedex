@@ -1,0 +1,251 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Invitation API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Invitation
+paths:
+  /api/user/{userId}/invitation:
+    put:
+      tags:
+      - Invitation
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInvitationUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInvitationResponse'
+    get:
+      tags:
+      - Invitation
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInvitationResponse'
+    delete:
+      tags:
+      - Invitation
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    post:
+      tags:
+      - Invitation
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInvitationCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInvitationResponse'
+components:
+  schemas:
+    UserInvitationUpdateBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Invitation title displayed on landing
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Short welcome message for invitees
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Detailed description of benefits for invitees
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          description: Personal leaderboard title
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Description of the personal competition
+        referralMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Personal message shown to referrals under the avatar
+        image:
+          type: string
+          format: uri
+          description: Image url
+    UserInvitationCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Invitation title displayed on landing
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Short welcome message for invitees
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Detailed description of benefits for invitees
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          description: Personal leaderboard title
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Description of the personal competition
+        referralMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Personal message shown to referrals under the avatar
+        image:
+          type: string
+          format: uri
+          description: Image url
+      required:
+      - name
+    UserInvitationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        name:
+          type: string
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+        referralMessage:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - user
+      - name
+      - welcomeMessage
+      - benefitsDescription
+      - leaderboardName
+      - competitionDescription
+      - referralMessage
+      - image
+      - createdAt
+      - updatedAt
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

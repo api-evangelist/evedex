@@ -1,0 +1,230 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Comment API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: Comment
+paths:
+  /api/course/{courseId}/lesson/{lessonId}/comment/{commentId}:
+    put:
+      tags:
+      - Comment
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: commentId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentObject'
+    delete:
+      tags:
+      - Comment
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: commentId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/lesson/{lessonId}/comment:
+    get:
+      tags:
+      - Comment
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: homework
+        schema:
+          type: string
+      - in: query
+        name: author
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentListResponse'
+    post:
+      tags:
+      - Comment
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: student
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentObject'
+components:
+  schemas:
+    CommentObject:
+      type: object
+      properties:
+        id:
+          type: string
+        author:
+          type: string
+        homework:
+          type:
+          - string
+          - 'null'
+        parentComment:
+          type:
+          - string
+          - 'null'
+        isEdited:
+          type: boolean
+        text:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - author
+      - homework
+      - parentComment
+      - isEdited
+      - text
+      - createdAt
+      - updatedAt
+    CommentCreateBody:
+      type: object
+      properties:
+        homework:
+          type: string
+        parentComment:
+          type: string
+        text:
+          type: string
+      required:
+      - text
+    PageOffsetParam:
+      type: string
+      default: '0'
+    CommentListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    CommentUpdateBody:
+      type: object
+      properties:
+        text:
+          type: string
+      required:
+      - text
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

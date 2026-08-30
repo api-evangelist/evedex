@@ -1,0 +1,325 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Share Content API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: ShareContent
+paths:
+  /api/share-content/{shareContentId}:
+    put:
+      tags:
+      - ShareContent
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: shareContentId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShareContentBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareContentResponse'
+    delete:
+      tags:
+      - ShareContent
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: shareContentId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/share-content:
+    get:
+      tags:
+      - ShareContent
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: socialType
+        schema:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+      - in: query
+        name: name
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 128
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareContentList'
+    post:
+      tags:
+      - ShareContent
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShareContentBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareContentResponse'
+components:
+  schemas:
+    ShareContentTexts:
+      type: object
+      properties:
+        en-US:
+          $ref: '#/components/schemas/ShareContentText'
+        ru-RU:
+          $ref: '#/components/schemas/ShareContentText'
+        es-ES:
+          $ref: '#/components/schemas/ShareContentText'
+        fr-FR:
+          $ref: '#/components/schemas/ShareContentText'
+        de-DE:
+          $ref: '#/components/schemas/ShareContentText'
+        it-IT:
+          $ref: '#/components/schemas/ShareContentText'
+        pt-BR:
+          $ref: '#/components/schemas/ShareContentText'
+        ja-JP:
+          $ref: '#/components/schemas/ShareContentText'
+        ko-KR:
+          $ref: '#/components/schemas/ShareContentText'
+        zh-CN:
+          $ref: '#/components/schemas/ShareContentText'
+        zh-TW:
+          $ref: '#/components/schemas/ShareContentText'
+        ar-SA:
+          $ref: '#/components/schemas/ShareContentText'
+        pt-PT:
+          $ref: '#/components/schemas/ShareContentText'
+        tr-TR:
+          $ref: '#/components/schemas/ShareContentText'
+        uk-UA:
+          $ref: '#/components/schemas/ShareContentText'
+      additionalProperties: false
+    CreateShareContentBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        socialType:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        content:
+          allOf:
+          - $ref: '#/components/schemas/ShareContentTexts'
+          - default: {}
+        images:
+          allOf:
+          - $ref: '#/components/schemas/ShareContentImages'
+          - default: {}
+      required:
+      - name
+      - socialType
+    ShareContentList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShareContent'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    ShareContent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        socialType:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        content:
+          $ref: '#/components/schemas/ShareContentTexts'
+        images:
+          $ref: '#/components/schemas/ShareContentImages'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - socialType
+      - content
+      - images
+      - createdAt
+      - updatedAt
+    UpdateShareContentBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        socialType:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        content:
+          $ref: '#/components/schemas/ShareContentTexts'
+        images:
+          $ref: '#/components/schemas/ShareContentImages'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    ShareContentImages:
+      type: object
+      properties:
+        vertical:
+          type: string
+          format: uri
+        horizontal:
+          type: string
+          format: uri
+        square:
+          type: string
+          format: uri
+    PageLimitParam:
+      type: string
+      default: '50'
+    ShareContentText:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+      required:
+      - title
+      - body
+    ShareContentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        socialType:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        content:
+          $ref: '#/components/schemas/ShareContentTexts'
+        images:
+          $ref: '#/components/schemas/ShareContentImages'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - socialType
+      - content
+      - images
+      - createdAt
+      - updatedAt
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

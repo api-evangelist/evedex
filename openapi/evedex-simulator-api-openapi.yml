@@ -1,0 +1,111 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Simulator API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: Simulator
+paths:
+  /api/simulator/results/share:
+    post:
+      tags:
+      - Simulator
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradingBadgeShareBodyParams'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingBadgeShareResponse'
+  /api/simulator/{pageId}/share/{code}:
+    get:
+      tags:
+      - Simulator
+      security: []
+      parameters:
+      - in: path
+        name: pageId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadgeByIdResponse'
+components:
+  schemas:
+    BadgeByIdResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
+    TradingBadgeShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+        code:
+          type: string
+        pageId:
+          type: string
+      required:
+      - badgeUrl
+      - code
+      - pageId
+    TradingBadgeShareBodyParams:
+      type: object
+      properties:
+        mode:
+          type: string
+          enum:
+          - narrow
+          - wide
+        pair:
+          type: string
+        title:
+          type: string
+        value:
+          type: string
+        side:
+          type: string
+          enum:
+          - long
+          - short
+        leverage:
+          type: string
+        isWinning:
+          type: boolean
+          default: true
+        referralCode:
+          type: string
+      required:
+      - mode
+      - pair
+      - title
+      - value
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

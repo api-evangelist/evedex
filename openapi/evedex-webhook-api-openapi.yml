@@ -1,0 +1,225 @@
+openapi: 3.2.0
+info:
+  title: Evedex Webhook API
+  version: 1.0.0
+  description: 'Operations tagged Webhook across 2 of this provider''s published API definitions: evedex-billing-openapi.json, evedex-bridge-middleware-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://billing-api.evedex.com
+- url: https://bridge-middleware-api.evedex.com
+tags:
+- name: Webhook
+paths:
+  /api/webhook/{paymentService}:
+    post:
+      tags:
+      - Webhook
+      security: []
+      parameters:
+      - in: path
+        name: paymentService
+        schema:
+          type: string
+          enum:
+          - stripe
+          - crypto
+          - evedex
+          - applePay
+          - googlePay
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookResponse'
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://billing-api.evedex.com
+  /api/webhook/quick-node/transfer/{network}:
+    post:
+      tags:
+      - Webhook
+      security:
+      - ExternalKey: []
+      parameters:
+      - in: path
+        name: network
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuickNodeStreamEventListBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+  /api/webhook/elliptic/alert:
+    post:
+      tags:
+      - Webhook
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EllipticWebhookBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+components:
+  schemas:
+    WebhookResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          default: ok
+      required:
+      - status
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    EllipticWebhookBody:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            analysis:
+              type: object
+              properties:
+                id:
+                  type: string
+                screening_id:
+                  type: string
+                type:
+                  type: string
+                subject:
+                  type: object
+                  properties:
+                    blockchain:
+                      type: string
+                    asset:
+                      type: string
+                    type:
+                      type: string
+                    hash:
+                      type: string
+                customer:
+                  type: object
+                  properties:
+                    id:
+                      type:
+                      - string
+                      - 'null'
+                    reference:
+                      type: string
+                analysed_at:
+                  type: string
+                created_at:
+                  type: string
+                risk_score:
+                  type:
+                  - number
+                  - 'null'
+                evaluation_detail: {}
+                changes:
+                  type: object
+                  properties:
+                    risk_score_change:
+                      type: number
+                analysis_url:
+                  type: string
+            analysis_url:
+              type: string
+        event:
+          type: object
+          properties:
+            id:
+              type: string
+            time:
+              type: string
+            type:
+              type: string
+    QuickNodeStreamEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - erc20
+          - eth
+          - eth_internal
+        token:
+          type: string
+        from:
+          type: string
+        to:
+          type: string
+        value:
+          type: string
+        txHash:
+          type: string
+        blockNumber:
+          type: string
+        logIndex:
+          type: string
+      required:
+      - type
+      - from
+      - to
+      - value
+      - txHash
+      - blockNumber
+    QuickNodeStreamEventListBody:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuickNodeStreamEvent'
+      required:
+      - events
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ExternalKey:
+      type: http
+      scheme: bearer
+x-refined-from:
+- evedex-billing-openapi.json
+- evedex-bridge-middleware-openapi.json

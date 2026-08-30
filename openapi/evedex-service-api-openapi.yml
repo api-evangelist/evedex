@@ -1,0 +1,93 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Auth Service API
+  version: 1.0.0
+servers:
+- url: https://auth-api.evedex.com
+tags:
+- name: Service
+paths:
+  /auth/user/me/service:
+    get:
+      tags:
+      - Service
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserServiceListResponse'
+  /auth/user/{id}/service:
+    post:
+      tags:
+      - Service
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserServiceBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserServiceListResponse'
+components:
+  schemas:
+    UserServiceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserService'
+    UserService:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        service:
+          type: string
+          enum:
+          - affiliate
+          - exchange
+          - academy
+        createdAt:
+          type: string
+      required:
+      - user
+      - service
+      - createdAt
+    CreateUserServiceBody:
+      type: object
+      properties:
+        service:
+          type: string
+          enum:
+          - affiliate
+          - exchange
+          - academy
+      required:
+      - service
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer

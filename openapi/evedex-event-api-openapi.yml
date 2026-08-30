@@ -1,0 +1,125 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Event API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Event
+paths:
+  /api/event/bulk:
+    post:
+      tags:
+      - Event
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEventBulk'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/event:
+    post:
+      tags:
+      - Event
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvent'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/event/{eventId}/calc:
+    post:
+      tags:
+      - Event
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: eventId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    CreateEvent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique event ID
+        codeType:
+          type: string
+          enum:
+          - wallet
+          - link
+          description: Code type
+        code:
+          type: string
+          description: Code
+        weight:
+          type: number
+          description: Weight of event
+        currency:
+          type: string
+          description: Weight currency
+        type:
+          type: string
+          description: Event type
+        metadata:
+          default: {}
+          description: Event metadata
+        emitAt:
+          type:
+          - number
+          - 'null'
+          description: Event emit date (timestamp)
+      required:
+      - code
+      - weight
+      - currency
+      - type
+    CreateEventBulk:
+      type: array
+      items:
+        $ref: '#/components/schemas/CreateEvent'
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

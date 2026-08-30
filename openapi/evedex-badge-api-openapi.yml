@@ -1,0 +1,494 @@
+openapi: 3.2.0
+info:
+  title: Evedex Badge API
+  version: 1.0.0
+  description: 'Operations tagged Badge across 2 of this provider''s published API definitions: evedex-backoffice-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://backoffice-api.private.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: Badge
+paths:
+  /api/badge/list:
+    get:
+      tags:
+      - Badge
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BadgeObject'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/position/history/{positionId}/share:
+    post:
+      tags:
+      - Badge
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: positionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BadgeShareBodyParams'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionHistoryShareResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/position/history/{positionHistoryId}/share/{code}:
+    get:
+      tags:
+      - Badge
+      security: []
+      parameters:
+      - in: path
+        name: positionHistoryId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadgePositionGetResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/position/{positionId}/share/{code}:
+    get:
+      tags:
+      - Badge
+      security: []
+      parameters:
+      - in: path
+        name: positionId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadgePositionGetResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/points/share:
+    post:
+      tags:
+      - Badge
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PointsBadgeShareBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  badgeUrl:
+                    type: string
+                required:
+                - badgeUrl
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/points/share/{code}:
+    get:
+      tags:
+      - Badge
+      security: []
+      parameters:
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: renderingMode
+        schema:
+          type: string
+          enum:
+          - narrow
+          - wide
+          default: wide
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  badgeUrl:
+                    type: string
+                required:
+                - badgeUrl
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/shared/{pageId}:
+    get:
+      tags:
+      - Badge
+      security: []
+      parameters:
+      - in: path
+        name: pageId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            text/html:
+              schema:
+                type: string
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/{orderId}/share:
+    post:
+      tags:
+      - Badge
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: orderId
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderIdInput'
+          - $ref: '#/components/schemas/OrderIdV2Input'
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BadgeShareBodyParams'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderShareResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/order/history/{orderHistoryId}/share/{code}:
+    get:
+      tags:
+      - Badge
+      security: []
+      parameters:
+      - in: path
+        name: orderHistoryId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadgeOrderGetResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/position/{instrument}/share:
+    post:
+      tags:
+      - Badge
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BadgeShareBodyParams'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionShareResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    BadgeObject:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        linkUrl:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+      required:
+      - id
+      - title
+      - content
+      - createdAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    BadgeShareBodyParams:
+      type: object
+      properties:
+        badgeType:
+          type: string
+          enum:
+          - pnl
+          - roi
+        localeCode:
+          type: string
+          enum:
+          - en-US
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+        date:
+          type: string
+          default: 25.08.2026 13:42
+        prompt:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - badgeType
+      - localeCode
+      - renderingMode
+    OrderShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+      required:
+      - badgeUrl
+      - pageUrl
+      - referralCode
+      - createdAt
+    PointsBadgeShareBody:
+      type: object
+      properties:
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+      required:
+      - renderingMode
+    BadgeShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+      required:
+      - badgeUrl
+      - pageUrl
+      - referralCode
+      - createdAt
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    BadgePositionGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
+    BadgeObject_2:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        linkUrl:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - title
+      - content
+      - createdAt
+      - updatedAt
+    PositionShareResponse:
+      allOf:
+      - $ref: '#/components/schemas/BadgeShareResponse'
+      type: object
+      properties:
+        positionId:
+          type: string
+      required:
+      - positionId
+    PositionHistoryShareResponse:
+      allOf:
+      - $ref: '#/components/schemas/BadgeShareResponse'
+      type: object
+      properties:
+        positionId:
+          type: string
+      required:
+      - positionId
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    BadgeOrderGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-backoffice-openapi.json
+- evedex-exchange-openapi.json

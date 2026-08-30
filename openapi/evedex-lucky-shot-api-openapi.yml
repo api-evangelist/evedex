@@ -1,0 +1,424 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Lucky Shot API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Lucky Shot
+paths:
+  /api/lucky-shot/winners:
+    get:
+      tags:
+      - Lucky Shot
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: best
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    smartAccountAddress:
+                      type: string
+                    avatar:
+                      type: string
+                    amount:
+                      type: number
+                    transactionHash:
+                      type: string
+                    createdAt:
+                      type: string
+                  required:
+                  - smartAccountAddress
+                  - avatar
+                  - amount
+                  - transactionHash
+                  - createdAt
+  /api/lucky-shot:
+    post:
+      tags:
+      - Lucky Shot
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  level:
+                    type: number
+                  status:
+                    type: string
+                    enum:
+                    - process
+                    - fail
+                    - claimed
+                    - withdrawn
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - level
+                - status
+                - createdAt
+                - updatedAt
+    get:
+      tags:
+      - Lucky Shot
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                  level:
+                    type: number
+                  status:
+                    type: string
+                    enum:
+                    - process
+                    - fail
+                    - claimed
+                    - withdrawn
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  history:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        level:
+                          type: number
+                        value:
+                          type: number
+                        createdAt:
+                          type: string
+                      required:
+                      - level
+                      - value
+                      - createdAt
+                required:
+                - id
+                - level
+                - status
+                - createdAt
+                - updatedAt
+                - history
+  /api/lucky-shot/share/{code}:
+    get:
+      tags:
+      - Lucky Shot
+      summary: Get image for user lucky shot
+      security: []
+      parameters:
+      - in: path
+        name: code
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: renderingMode
+        schema:
+          type: string
+          enum:
+          - narrow
+          - wide
+          default: wide
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LuckyShotImageGetResponse'
+  /api/lucky-shot/share:
+    post:
+      tags:
+      - Lucky Shot
+      summary: Share image for user lucky shot
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LuckyShotImageShareBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LuckyShotImageShareResponse'
+  /api/lucky-shot/select:
+    post:
+      tags:
+      - Lucky Shot
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  anyOf:
+                  - type: number
+                    const: 0
+                  - type: number
+                    const: 1
+              required:
+              - value
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  level:
+                    type: number
+                  status:
+                    type: string
+                    enum:
+                    - process
+                    - fail
+                    - claimed
+                    - withdrawn
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  awardedPoints:
+                    type: number
+                required:
+                - id
+                - level
+                - status
+                - createdAt
+                - updatedAt
+                - awardedPoints
+  /api/lucky-shot/levels:
+    get:
+      tags:
+      - Lucky Shot
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    winningAmount:
+                      type: number
+                    points:
+                      type: number
+                  required:
+                  - id
+                  - winningAmount
+                  - points
+  /api/lucky-shot/claim:
+    post:
+      tags:
+      - Lucky Shot
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lottery:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      level:
+                        type: number
+                      status:
+                        type: string
+                        enum:
+                        - process
+                        - fail
+                        - claimed
+                        - withdrawn
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                    required:
+                    - id
+                    - level
+                    - status
+                    - createdAt
+                    - updatedAt
+                  payload:
+                    type: object
+                    properties:
+                      nonce:
+                        type: string
+                      recipient:
+                        type: string
+                      token:
+                        type: string
+                      amount:
+                        type: string
+                      signature:
+                        type: string
+                    required:
+                    - nonce
+                    - recipient
+                    - token
+                    - amount
+                    - signature
+                required:
+                - lottery
+                - payload
+  /api/lucky-shot/award:
+    post:
+      tags:
+      - Lucky Shot
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwardLuckyShotTicketsBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwardLuckyShotTicketsResponse'
+components:
+  schemas:
+    AwardLuckyShotTicketsResponse:
+      type: object
+      properties:
+        authId:
+          type: string
+        amount:
+          type: number
+        tickets:
+          $ref: '#/components/schemas/LuckyShotTickets'
+      required:
+      - authId
+      - amount
+      - tickets
+    LuckyShotImageShareBody:
+      type: object
+      properties:
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+      required:
+      - renderingMode
+    AwardLuckyShotTicketsBody:
+      type: object
+      properties:
+        authId:
+          type: string
+          description: User Auth Id
+        amount:
+          type: integer
+          exclusiveMinimum: 0
+          description: Number of tickets to award
+      required:
+      - authId
+      - amount
+    LuckyShotTickets:
+      type: object
+      properties:
+        received:
+          type: number
+          description: Total Lucky Shot tickets received
+        used:
+          type: number
+          description: Total Lucky Shot tickets used
+        available:
+          type: number
+          description: Available Lucky Shot tickets (received - used)
+      required:
+      - received
+      - used
+      - available
+    LuckyShotImageShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+          format: uri
+      required:
+      - badgeUrl
+    LuckyShotImageGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+          format: uri
+      required:
+      - badgeUrl
+    PageLimitParam:
+      type: string
+      default: '50'
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

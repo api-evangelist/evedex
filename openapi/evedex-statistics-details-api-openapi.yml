@@ -1,0 +1,124 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Statistics details API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Statistics details
+paths:
+  /api/affiliate-statistics/volumes:
+    get:
+      tags:
+      - Statistics details
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: before
+        description: Before date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Before date
+      - in: query
+        name: after
+        description: After date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: After date
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsVolumesResponse'
+  /api/affiliate-statistics/{userId}:
+    get:
+      tags:
+      - Statistics details
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsDetailsResponse'
+components:
+  schemas:
+    StatisticsVolumesResponse:
+      type: object
+      properties:
+        tradingVolume:
+          type: number
+        firstDepositVolume:
+          type: number
+        firstDepositCount:
+          type: number
+        signupCount:
+          type: number
+        depositCount:
+          type: number
+        totalDepositVolume:
+          type: number
+      required:
+      - tradingVolume
+      - firstDepositVolume
+      - firstDepositCount
+      - signupCount
+      - depositCount
+      - totalDepositVolume
+    StatisticsDetailsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        totalSignupCount:
+          type: integer
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              isDeleted:
+                type: boolean
+              signupCount:
+                type: number
+            required:
+            - code
+            - isDeleted
+            - signupCount
+      required:
+      - id
+      - totalSignupCount
+      - links
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

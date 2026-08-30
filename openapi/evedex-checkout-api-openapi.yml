@@ -1,0 +1,83 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange/billing-backend Checkout API
+  version: 1.0.0
+servers:
+- url: https://billing-api.evedex.com
+tags:
+- name: Checkout
+paths:
+  /api/checkout/{billId}:
+    post:
+      tags:
+      - Checkout
+      security: []
+      parameters:
+      - in: path
+        name: billId
+        schema:
+          anyOf:
+          - type: string
+          - type: string
+            format: uuid
+        required: true
+      requestBody:
+        description: Create checkout for customer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCheckoutBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CreateCheckoutBody:
+      type: object
+      properties:
+        paymentMethods:
+          type: array
+          items:
+            type: string
+            enum:
+            - card
+        mode:
+          type: string
+          enum:
+          - oneTime
+          - subscription
+      required:
+      - paymentMethods
+      - mode
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    CheckoutResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer

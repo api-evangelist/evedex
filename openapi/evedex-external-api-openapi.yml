@@ -1,0 +1,248 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange External API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: External
+paths:
+  /api/external/{system}/v1/orderbook:
+    get:
+      tags:
+      - External
+      security: []
+      parameters:
+      - in: path
+        name: system
+        schema:
+          type: string
+          enum:
+          - cmc
+          - cg
+        required: true
+      - in: query
+        name: pair
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: level
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticker_id:
+                    type: string
+                  timestamp:
+                    type: number
+                  bids:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: number
+                  asks:
+                    type: array
+                    items:
+                      type: array
+                      items:
+                        type: number
+                required:
+                - ticker_id
+                - timestamp
+                - bids
+                - asks
+                description: Order book response for coinmarketcap
+  /api/external/{system}/v1/contract_specs:
+    get:
+      tags:
+      - External
+      security: []
+      parameters:
+      - in: path
+        name: system
+        schema:
+          type: string
+          enum:
+          - cmc
+          - cg
+        required: true
+      - in: query
+        name: pair
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contract_type:
+                    type: string
+                    enum:
+                    - vanilla
+                    - inverse
+                    - quanto
+                  contract_price:
+                    type: number
+                  contract_price_currency:
+                    type: string
+                required:
+                - contract_type
+                - contract_price
+                - contract_price_currency
+                description: Instruments stats response
+  /api/external/{system}/v1/contracts:
+    get:
+      tags:
+      - External
+      security: []
+      parameters:
+      - in: path
+        name: system
+        schema:
+          type: string
+          enum:
+          - cmc
+          - cg
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - type: array
+                  items:
+                    type: object
+                    properties:
+                      ticker_id:
+                        type: string
+                      base_currency:
+                        type: string
+                      target_currency:
+                        type: string
+                      last_price:
+                        type: number
+                      base_volume:
+                        type: number
+                      target_volume:
+                        type: number
+                      bid:
+                        type: number
+                      ask:
+                        type: number
+                      high:
+                        type: number
+                      low:
+                        type: number
+                      product_type:
+                        type: string
+                      open_interest:
+                        type: number
+                      index_price:
+                        type: number
+                      index_currency:
+                        type: string
+                      funding_rate:
+                        type: number
+                      next_funding_rate:
+                        type: number
+                      next_funding_rate_timestamp:
+                        type: number
+                    required:
+                    - ticker_id
+                    - base_currency
+                    - target_currency
+                    - last_price
+                    - base_volume
+                    - target_volume
+                    - bid
+                    - ask
+                    - high
+                    - low
+                    - product_type
+                    - open_interest
+                    - index_price
+                    - index_currency
+                    - funding_rate
+                    - next_funding_rate
+                    - next_funding_rate_timestamp
+                  description: Instruments coingecko response
+                - type: array
+                  items:
+                    type: object
+                    properties:
+                      ticker_id:
+                        type: string
+                      base_currency:
+                        type: string
+                      quote_currency:
+                        type: string
+                      last_price:
+                        type: number
+                      base_volume:
+                        type: number
+                      quote_volume:
+                        type: number
+                      bid:
+                        type: number
+                      ask:
+                        type: number
+                      high:
+                        type: number
+                      low:
+                        type: number
+                      product_type:
+                        type: string
+                      open_interest:
+                        type: number
+                      open_interest_usd:
+                        type: number
+                      index_price:
+                        type: number
+                      funding_rate:
+                        type: number
+                      next_funding_rate_timestamp:
+                        type: number
+                    required:
+                    - ticker_id
+                    - base_currency
+                    - quote_currency
+                    - last_price
+                    - base_volume
+                    - quote_volume
+                    - bid
+                    - ask
+                    - high
+                    - low
+                    - product_type
+                    - open_interest
+                    - open_interest_usd
+                    - index_price
+                    - funding_rate
+                    - next_funding_rate_timestamp
+                  description: Instruments coinmarketcap response
+components:
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

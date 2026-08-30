@@ -1,0 +1,42 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Notifications Mail API
+  version: 1.0.0
+servers:
+- url: https://notifications-api.evedex.com
+tags:
+- name: Mail
+paths:
+  /api/mail/unsubscribe:
+    get:
+      tags:
+      - Mail
+      security: []
+      parameters:
+      - in: query
+        name: authId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: event
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer

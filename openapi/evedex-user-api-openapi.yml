@@ -1,0 +1,6090 @@
+openapi: 3.2.0
+info:
+  title: Evedex User API
+  version: 1.0.0
+  description: 'Operations tagged User across 7 of this provider''s published API definitions: evedex-academy-openapi.json, evedex-auth-openapi.json, evedex-backoffice-openapi.json, evedex-exchange-openapi.json, evedex-game-openapi.json, evedex-notifications-openapi.json, evedex-referral-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://academy.evedex.com
+- url: https://auth-api.evedex.com
+- url: https://backoffice-api.private.evedex.com
+- url: https://exchange-api.evedex.com
+- url: https://game-api.evedex.com
+- url: https://notifications-api.evedex.com
+- url: https://partner-api.evedex.com
+tags:
+- name: User
+paths:
+  /api/user/me:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    servers:
+    - url: https://academy.evedex.com
+  /api/user/account:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    servers:
+    - url: https://academy.evedex.com
+  /auth/user/subscriptions/lookup:
+    post:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLookupBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSubscriptionsResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/media/list:
+    get:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: authId
+        description: Filter by specific user ID
+        schema:
+          type: string
+          format: uuid
+          description: Filter by specific user ID
+      - in: query
+        name: authIds
+        description: Filter by specific user IDs
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+          maxItems: 20
+          description: Filter by specific user IDs
+      - in: query
+        name: email
+        schema:
+          type: string
+      - in: query
+        name: telegram
+        schema:
+          type: string
+      - in: query
+        name: discord
+        schema:
+          type: string
+      - in: query
+        name: mobilePushEnabled
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserMediaListResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/{authId}/balance:
+    get:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WalletBalanceObject'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/balance:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WalletBalanceObject'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/{id}:
+    put:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_2'
+    delete:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/sign-up:
+    post:
+      tags:
+      - User
+      security: []
+      parameters:
+      - in: query
+        name: noCookieReplace
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+          - ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/{id}/referral-code:
+    put:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserReferralCodeBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/me:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_2'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/logout:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/location:
+    get:
+      tags:
+      - User
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/links/{type}:
+    get:
+      tags:
+      - User
+      security: []
+      parameters:
+      - in: path
+        name: type
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: utm_source
+        schema:
+          type: string
+      - in: query
+        name: utm_medium
+        schema:
+          type: string
+      - in: query
+        name: utm_campaign
+        schema:
+          type: string
+      - in: query
+        name: utm_term
+        schema:
+          type: string
+      - in: query
+        name: utm_content
+        schema:
+          type: string
+      responses:
+        '302':
+          description: 302 OK
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user:
+    get:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      parameters:
+      - in: query
+        name: id
+        description: Account ID
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Account ID
+      - in: query
+        name: wallet
+        description: Wallet address
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Wallet address
+      - in: query
+        name: smartAccountAddress
+        description: Smart account address
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Smart account address
+      - in: query
+        name: email
+        description: Email address
+        schema:
+          type: string
+          description: Email address
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type:
+                - object
+                - 'null'
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  avatar:
+                    type:
+                    - string
+                    - 'null'
+                  cover:
+                    type:
+                    - string
+                    - 'null'
+                  wallet:
+                    type: string
+                  role:
+                    type: string
+                    enum:
+                    - admin
+                    - manager
+                    - user
+                    - academy-curator
+                    - academy-moderator
+                  name:
+                    type:
+                    - string
+                    - 'null'
+                  status:
+                    type:
+                    - string
+                    - 'null'
+                  description:
+                    type:
+                    - string
+                    - 'null'
+                  email:
+                    type:
+                    - string
+                    - 'null'
+                  locale:
+                    type: string
+                    enum:
+                    - en-US
+                    - ru-RU
+                    - es-ES
+                    - fr-FR
+                    - de-DE
+                    - it-IT
+                    - pt-BR
+                    - ja-JP
+                    - ko-KR
+                    - zh-CN
+                    - zh-TW
+                    - ar-SA
+                    - pt-PT
+                    - tr-TR
+                    - uk-UA
+                  telegramProfile:
+                    type:
+                    - object
+                    - 'null'
+                    properties:
+                      shortUsername:
+                        type: string
+                    required:
+                    - shortUsername
+                  discordId:
+                    type:
+                    - string
+                    - 'null'
+                  discordName:
+                    type:
+                    - string
+                    - 'null'
+                  mobilePushEnabled:
+                    type: boolean
+                  referralCode:
+                    type:
+                    - string
+                    - 'null'
+                  smartAccountsList:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        network:
+                          type: string
+                        address:
+                          type: string
+                        version:
+                          type: number
+                        isDeployed:
+                          type: boolean
+                      required:
+                      - network
+                      - address
+                      - version
+                      - isDeployed
+                    description: User owned smart accounts list
+                  parentSmartAccountList:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        network:
+                          type: string
+                        address:
+                          type: string
+                        version:
+                          type: number
+                        isDeployed:
+                          type: boolean
+                      required:
+                      - network
+                      - address
+                      - version
+                      - isDeployed
+                    description: Parent user owned smart accounts list (for sub accounts)
+                  subAccountIndex:
+                    type: string
+                  signUpMethod:
+                    type: string
+                    enum:
+                    - email
+                    - google
+                    - apple
+                    - wallet
+                    - telegram
+                    - twitter
+                  platform:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - WEB_MOB
+                    - WEB_DESKTOP
+                    - WEB_OTHER
+                    - APP_ANDROID
+                    - APP_IOS
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  lastSignInAt:
+                    type:
+                    - string
+                    - 'null'
+                  subscriptionStatus:
+                    type: string
+                    enum:
+                    - none
+                    - expired
+                    - active
+                    - canceling
+                    - renewed
+                    default: none
+                  privilegiesType:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - premium
+                    - academyCourse
+                    default: null
+                  type:
+                    type: string
+                    enum:
+                    - user
+                    - autotest
+                    description: User type
+                  accountType:
+                    type: string
+                    enum:
+                    - main
+                    - sub
+                    - funded
+                    description: Account type (main or sub)
+                  accountStatus:
+                    type: string
+                    enum:
+                    - active
+                    - inactive
+                    - initial
+                    - smartAccountReady
+                    description: Account status (active, inactive, etc.)
+                  parent:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                    description: Parent account ID for sub accounts
+                  isArchived:
+                    type: boolean
+                    description: Whether the sub account is archived
+                  twofa:
+                    type: boolean
+                  permissions:
+                    type: array
+                    items:
+                      type: string
+                  subscriptionEndedAt:
+                    type:
+                    - string
+                    - 'null'
+                    default: null
+                required:
+                - id
+                - avatar
+                - cover
+                - wallet
+                - role
+                - name
+                - status
+                - description
+                - email
+                - locale
+                - telegramProfile
+                - discordId
+                - discordName
+                - mobilePushEnabled
+                - referralCode
+                - smartAccountsList
+                - signUpMethod
+                - platform
+                - createdAt
+                - updatedAt
+                - lastSignInAt
+                - subscriptionStatus
+                - privilegiesType
+                - type
+                - accountType
+                - accountStatus
+                - parent
+                - isArchived
+                - twofa
+                - permissions
+                - subscriptionEndedAt
+    post:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_2'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/{authId}/block:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                blocked:
+                  type: boolean
+                  default: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/wallet/transfer:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: status
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - pending
+            - blocked
+            - process
+            - detained
+            - done
+            - refunded
+            - error
+          - type: array
+            items:
+              type: string
+              enum:
+              - pending
+              - blocked
+              - process
+              - detained
+              - done
+              - refunded
+              - error
+      - in: query
+        name: type
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - deposit
+            - withdraw
+            - transfer-pfutures-balance
+            - transfer-balance-pfutures
+            - paymaster-fee
+            - paymaster-refund
+            - cashback-withdraw
+            - lucky-shot-withdraw
+            - smart-account-transfer
+            - transfer-balance-sub-pfutures
+          - type: array
+            items:
+              type: string
+              enum:
+              - deposit
+              - withdraw
+              - transfer-pfutures-balance
+              - transfer-balance-pfutures
+              - paymaster-fee
+              - paymaster-refund
+              - cashback-withdraw
+              - lucky-shot-withdraw
+              - smart-account-transfer
+              - transfer-balance-sub-pfutures
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WalletTransferWithFeesObject'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/transfer:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - deposit
+          - withdrawal
+          - smartAccountTransfer
+          - partnerRewardTransfer
+          - all
+          default: deposit
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      oneOf:
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          authId:
+                            type: string
+                            format: uuid
+                          type:
+                            type: string
+                            const: deposit
+                          network:
+                            type: string
+                          destinationNetwork:
+                            type:
+                            - string
+                            - 'null'
+                          transactionHash:
+                            type: string
+                          wallet:
+                            type: string
+                            description: initial funds sender
+                          depositor:
+                            type: string
+                            description: funds receiver (bridgeMiddleware contracts)
+                          token:
+                            type: string
+                          amount:
+                            type:
+                            - string
+                            - 'null'
+                          status:
+                            type: string
+                            enum:
+                            - pending
+                            - detained
+                            - process
+                            - done
+                            - refunded
+                            - error
+                          amlStatus:
+                            type:
+                            - string
+                            - 'null'
+                            enum:
+                            - blocked
+                            - pending
+                            - process
+                            - skip
+                            - green
+                            - red
+                            - approve
+                            - refund
+                            - manual-red
+                            - manual-green
+                          originToken:
+                            type:
+                            - string
+                            - 'null'
+                          originAmount:
+                            type:
+                            - string
+                            - 'null'
+                          originAmountUsdt:
+                            type:
+                            - string
+                            - 'null'
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                        required:
+                        - id
+                        - authId
+                        - type
+                        - network
+                        - destinationNetwork
+                        - transactionHash
+                        - wallet
+                        - depositor
+                        - token
+                        - amount
+                        - status
+                        - amlStatus
+                        - originToken
+                        - originAmount
+                        - originAmountUsdt
+                        - createdAt
+                        - updatedAt
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          authId:
+                            type: string
+                            format: uuid
+                          type:
+                            type: string
+                            const: withdrawal
+                          network:
+                            type: string
+                          destinationNetwork:
+                            type:
+                            - string
+                            - 'null'
+                          transactionHash:
+                            type: string
+                          destinationTransactionHash:
+                            type:
+                            - string
+                            - 'null'
+                          recipient:
+                            type: string
+                            description: funds receiver (in different network)
+                          depositor:
+                            type: string
+                            description: funds sender
+                          token:
+                            type: string
+                          amount:
+                            type:
+                            - string
+                            - 'null'
+                          status:
+                            type: string
+                            enum:
+                            - pending
+                            - detained
+                            - process
+                            - done
+                            - refunded
+                            - error
+                          externalId:
+                            type:
+                            - string
+                            - 'null'
+                          fee:
+                            type:
+                            - object
+                            - 'null'
+                            properties:
+                              total:
+                                type:
+                                - string
+                                - 'null'
+                              platform:
+                                type:
+                                - string
+                                - 'null'
+                              percentage:
+                                type:
+                                - string
+                                - 'null'
+                              gas:
+                                type:
+                                - string
+                                - 'null'
+                              feeCurrency:
+                                type:
+                                - string
+                                - 'null'
+                            required:
+                            - total
+                            - platform
+                            - percentage
+                            - gas
+                            - feeCurrency
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                        required:
+                        - id
+                        - authId
+                        - type
+                        - network
+                        - destinationNetwork
+                        - transactionHash
+                        - destinationTransactionHash
+                        - recipient
+                        - depositor
+                        - token
+                        - amount
+                        - status
+                        - externalId
+                        - fee
+                        - createdAt
+                        - updatedAt
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          authId:
+                            type: string
+                            format: uuid
+                          type:
+                            type: string
+                            const: smartAccountTransfer
+                          network:
+                            type: string
+                          transactionHash:
+                            type: string
+                          token:
+                            type: string
+                          amount:
+                            type:
+                            - string
+                            - 'null'
+                          status:
+                            type: string
+                            enum:
+                            - pending
+                            - detained
+                            - process
+                            - done
+                            - refunded
+                            - error
+                          from:
+                            type: string
+                          to:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                        required:
+                        - id
+                        - authId
+                        - type
+                        - network
+                        - transactionHash
+                        - token
+                        - amount
+                        - status
+                        - from
+                        - to
+                        - createdAt
+                        - updatedAt
+                      - type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          authId:
+                            type: string
+                            format: uuid
+                          type:
+                            type: string
+                            const: partnerRewardTransfer
+                          network:
+                            type: string
+                          transactionHash:
+                            type: string
+                          token:
+                            type: string
+                          amount:
+                            type:
+                            - string
+                            - 'null'
+                          from:
+                            type: string
+                          to:
+                            type: string
+                          status:
+                            type: string
+                            enum:
+                            - pending
+                            - detained
+                            - process
+                            - done
+                            - refunded
+                            - error
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                        required:
+                        - id
+                        - authId
+                        - type
+                        - network
+                        - transactionHash
+                        - token
+                        - amount
+                        - from
+                        - to
+                        - status
+                        - createdAt
+                        - updatedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/trading-view-settings:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserTradingViewSettingsBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTradingViewSettingsResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user-profile:
+    put:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_2'
+    delete:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileDeleteBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user-profile/{authId}:
+    delete:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user-profile/deletion-confirmation:
+    get:
+      tags:
+      - User
+      security: []
+      parameters:
+      - in: query
+        name: token
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/2fa/verify:
+    post:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authId:
+                  type: string
+                code:
+                  type: string
+              required:
+              - authId
+              - code
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verified:
+                    type: boolean
+                required:
+                - verified
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/2fa/enable:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    const: TOTP
+                required:
+                - type
+                additionalProperties: false
+              - type: object
+                properties:
+                  type:
+                    type: string
+                    const: TOTP
+                  code:
+                    type: string
+                required:
+                - type
+                - code
+                additionalProperties: false
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - type: object
+                  properties:
+                    secret:
+                      type: string
+                    secretUrl:
+                      type: string
+                  required:
+                  - secret
+                - type: object
+                  properties:
+                    token:
+                      $ref: '#/components/schemas/JWT'
+                  required:
+                  - token
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/2fa/disable:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+              required:
+              - code
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    $ref: '#/components/schemas/JWT'
+                required:
+                - token
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/fingerprint/verify:
+    post:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FingerprintVerifyBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FingerprintVerifyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/{authId}/fingerprint:
+    get:
+      tags:
+      - User
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFingerprintResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/api-key/{apiKeyId}/restore:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/api-key/{apiKeyId}/regenerate:
+    put:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyRegenerateResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/api-key:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: withDeleted
+        schema:
+          type: string
+      - in: query
+        name: withExpired
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyList'
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyCreateResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/api-key/{apiKeyId}:
+    delete:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/user/{userId}/trade-info:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authId:
+                    type: string
+                    format: uuid
+                  ordersCreated:
+                    type: number
+                  totalBalanceAmount:
+                    type: string
+                  tradeVolume:
+                    type: string
+                  feeVolume:
+                    type: string
+                required:
+                - authId
+                - ordersCreated
+                - totalBalanceAmount
+                - tradeVolume
+                - feeVolume
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/user/{userId}/general-info:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authId:
+                    type: string
+                    format: uuid
+                  registrationDate:
+                    type: string
+                  firstDepositDate:
+                    type:
+                    - string
+                    - 'null'
+                  totalDepositAmount:
+                    type: string
+                    default: '0'
+                  totalWithdrawAmount:
+                    type: string
+                    default: '0'
+                required:
+                - authId
+                - registrationDate
+                - firstDepositDate
+                - totalDepositAmount
+                - totalWithdrawAmount
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/user/{userId}/affiliate-info:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authId:
+                    type: string
+                    format: uuid
+                  referrer:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                  referralsCounter:
+                    type: number
+                  referrerEarnings:
+                    type: string
+                required:
+                - authId
+                - referrer
+                - referralsCounter
+                - referrerEarnings
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/user/{userId}:
+    put:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        description: UserId
+        schema:
+          type: string
+          description: UserId
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserBody_2'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateResponse'
+    delete:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/statistics:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: after
+        schema:
+          type: string
+          default: '2026-07-25T13:42:45.165Z'
+      - in: query
+        name: before
+        schema:
+          type: string
+          default: '2026-08-25T13:42:45.166Z'
+      - in: query
+        name: group
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - day
+          - week
+          - month
+          - year
+          default: month
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatisticsResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/sign-up/{wallet}/check:
+    get:
+      tags:
+      - User
+      security: []
+      parameters:
+      - in: path
+        name: wallet
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckSignUpBadgeResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/sign-up/quota:
+    get:
+      tags:
+      - User
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignUpQuotaResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/list:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: authId
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: search
+        schema:
+          type: string
+          minLength: 3
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/faucet/check:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  ttl:
+                    type: number
+                required:
+                - ok
+                - ttl
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/faucet:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/balance/chart:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: after
+        schema:
+          type: string
+          default: '2026-07-25T13:42:45.170Z'
+      - in: query
+        name: before
+        schema:
+          type: string
+          default: '2026-08-25T13:42:45.171Z'
+      - in: query
+        name: group
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          - year
+          default: month
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - date-asc
+          - date-desc
+          default: date-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceChart'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/balance:
+    get:
+      tags:
+      - User
+      deprecated: true
+      description: Use GET /auth/user/balance from auth-backend instead
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BalanceItem'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/yield/earned:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserYieldEarned'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/oct/delegate:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DelegateList'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/funding-transfer:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: after
+        schema:
+          type: string
+      - in: query
+        name: before
+        schema:
+          type: string
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FundingTransferObject'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/funding:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FundingObject'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/api-key/{apiKeyId}:
+    put:
+      deprecated: true
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    delete:
+      deprecated: true
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses: {}
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/api-key/{apiKeyId}/regenerate:
+    put:
+      deprecated: true
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses: {}
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/api-key:
+    get:
+      deprecated: true
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: withDeleted
+        schema:
+          type: string
+      - in: query
+        name: withExpired
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses: {}
+    post:
+      deprecated: true
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyCreateBody_2'
+      responses: {}
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/deposit/details:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositObject'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/user/{id}:
+    put:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                competitionJoinAt:
+                  type: string
+              required:
+              - competitionJoinAt
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_4'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/referral-fee-batch:
+    post:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    authId:
+                      type: string
+                      format: uuid
+                    percent:
+                      type: number
+                  required:
+                  - authId
+                  - percent
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/manual-xp-award:
+    post:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualXpAwardBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualXpAwardResponse'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/manual-award-upload:
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    line:
+                      type: string
+                    reason:
+                      type: string
+                  required:
+                  - line
+                  - reason
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/manual-award-batch:
+    post:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualAwardBatchBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualAwardListResponse'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/manual-award:
+    post:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualAward'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualAwardListResponse'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/lookup:
+    post:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLookupBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserLookup'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user:
+    get:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: wallet
+        description: Wallet address
+        schema:
+          type: string
+          description: Wallet address
+      - in: query
+        name: authId
+        description: authId
+        schema:
+          type: string
+          description: authId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInternal'
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_5'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/fee-rates:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeeRates'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/user/notification-config:
+    put:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNotificationConfigPayload'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserObject_2'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserObject_2'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserObject_2'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://notifications-api.evedex.com
+  /api/user/{userId}/promote-to-partner:
+    post:
+      tags:
+      - User
+      summary: Promote user role from User to Partner (admin only)
+      description: Меняет тип пользователя с User на Partner. Доступно только администратору. Обратного перехода нет.
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_5'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/invites:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInvites'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/find:
+    get:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: authId
+        description: Auth Id
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Auth Id
+      - in: query
+        name: wallet
+        description: Wallet address
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Wallet address
+      - in: query
+        name: smartAccountAddress
+        description: Smart account address
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Smart account address
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/InternalUser'
+                - type: 'null'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/{authId}/data:
+    get:
+      tags:
+      - User
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDataResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/{userId}/weight:
+    put:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserWeightBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  type:
+                    type: string
+                    enum:
+                    - user
+                  target:
+                    type: string
+                    format: uuid
+                  eventType:
+                    type: string
+                  level:
+                    type: number
+                  weight:
+                    type: number
+                required:
+                - id
+                - type
+                - target
+                - eventType
+                - level
+                - weight
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    type:
+                      type: string
+                      enum:
+                      - user
+                    target:
+                      type: string
+                      format: uuid
+                    eventType:
+                      type: string
+                    level:
+                      type: number
+                    weight:
+                      type: number
+                  required:
+                  - id
+                  - type
+                  - target
+                  - eventType
+                  - level
+                  - weight
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/{userId}/transaction:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - all
+          - income
+          - withdrawal
+          default: all
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - created-at-asc
+          - created-at-desc
+          default: created-at-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionListResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/reward/vault:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        currency:
+                          type: string
+                        amount:
+                          type: number
+                      required:
+                      - type
+                      - currency
+                      - amount
+                required:
+                - list
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/{userId}/reward:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: type
+        schema:
+          type: array
+          items:
+            type: string
+        required: true
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - created-at-asc
+          - created-at-desc
+          default: created-at-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RewardList'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/{userId}/reward/chart:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: type
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: group
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          default: month
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - date-asc
+          - date-desc
+          default: date-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RewardChart'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/{userId}/reward/balance:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: type
+        schema:
+          type: array
+          items:
+            type: string
+        required: true
+      - in: query
+        name: currency
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RewardBalanceList'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/{userId}/event:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: type
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - created-at-asc
+          - created-at-desc
+          default: created-at-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventList'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/user/me/manager-contact:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/statistics/chart:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: query
+        name: group
+        description: Group by timespan
+        schema:
+          type: string
+          enum:
+          - 1d
+          - 1M
+          description: Group by timespan
+        required: true
+      - in: query
+        name: before
+        description: Before date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Before date
+      - in: query
+        name: after
+        description: After date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: After date
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatisticsChartResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/partner/list:
+    get:
+      tags:
+      - User
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: affiliate
+        schema:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - created-at-asc
+          - created-at-desc
+          - tradingVolume-asc
+          - tradingVolume-desc
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerlList'
+    servers:
+    - url: https://partner-api.evedex.com
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        authId:
+          type: string
+          format: uuid
+        wallet:
+          type: string
+        avatar:
+          type: string
+          format: uri
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - authId
+      - wallet
+      - avatar
+      - createdAt
+      - updatedAt
+    UpdateUserBody:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+      required:
+      - role
+    TelegramProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type:
+          - string
+          - 'null'
+        firstName:
+          type:
+          - string
+          - 'null'
+        lastName:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - username
+      - firstName
+      - lastName
+    JWT:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
+      required:
+      - accessToken
+      description: JWT tokens
+    UserMediaListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserMedia'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    UpdateUserReferralCodeBody:
+      type: object
+      properties:
+        referralCode:
+          type: string
+      required:
+      - referralCode
+    UserTradingViewSettingsBody:
+      type: object
+      properties:
+        settings:
+          type: string
+      required:
+      - settings
+    SignUpBody:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ''
+          description: Account name
+        wallet:
+          type: string
+          description: Wallet address
+        message:
+          type: string
+          description: Signed message
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        referralCode:
+          type:
+          - string
+          - 'null'
+          description: Referral code
+        source:
+          type: string
+          default: unknown
+          description: Source
+        method:
+          type: string
+          enum:
+          - email
+          - google
+          - apple
+          - wallet
+          - telegram
+          - twitter
+          default: wallet
+          description: Used sign-up method
+        nonce:
+          type: string
+          minLength: 1
+          description: Nonce
+        userId:
+          type: string
+          format: uuid
+          description: Target user id
+        type:
+          type: string
+          enum:
+          - user
+          - autotest
+          default: user
+          description: User type
+        utm:
+          type: object
+          properties:
+            source:
+              type: string
+            medium:
+              type: string
+            campaign:
+              type: string
+            term:
+              type: string
+            content:
+              type: string
+        tracking:
+          type: object
+          properties:
+            params:
+              type: object
+              propertyNames:
+                type: string
+                maxLength: 64
+              additionalProperties:
+                type: string
+                maxLength: 512
+          required:
+          - params
+        twofa:
+          type: object
+          properties:
+            code:
+              type: string
+          required:
+          - code
+        fingerprint:
+          type: string
+        visitorId:
+          type: string
+        walletSource:
+          type: string
+          enum:
+          - evedex
+          - evedex_mobile_create
+          - evedex_mobile_import
+          default: evedex
+      required:
+      - wallet
+      - message
+      - signature
+      - nonce
+      additionalProperties: false
+    UserTradingViewSettingsResponse:
+      type: object
+      properties:
+        settings:
+          type:
+          - string
+          - 'null'
+      required:
+      - settings
+    WalletTransferWithFeesObject:
+      allOf:
+      - $ref: '#/components/schemas/WalletTransferObject'
+      type: object
+      properties:
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/WalletTransferObject'
+      required:
+      - fees
+    ApiKeyCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        apiKey:
+          type: string
+      required:
+      - id
+      - expireAt
+      - apiKey
+    PageLimitParam:
+      type: string
+      default: '50'
+    EmptyResponse:
+      type: object
+    UserSubscriptionsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          subscriptionStatus:
+            type: string
+            enum:
+            - none
+            - expired
+            - active
+            - canceling
+            - renewed
+            default: none
+          privilegiesType:
+            type:
+            - string
+            - 'null'
+            enum:
+            - premium
+            - academyCourse
+            default: null
+        required:
+        - id
+        - subscriptionStatus
+        - privilegiesType
+    FingerprintVerifyBody:
+      type: object
+      properties:
+        visitorId:
+          type: string
+        authId:
+          type: string
+          format: uuid
+      required:
+      - visitorId
+      - authId
+    ApiKeyObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        mask:
+          type: string
+        isArchived:
+          type: boolean
+        expireAt:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type:
+          - string
+          - 'null'
+        deletedAt:
+          type:
+          - string
+          - 'null'
+        settings:
+          type: object
+          properties:
+            scopes:
+              type: array
+              items:
+                type: string
+                enum:
+                - partner
+                - exchange
+              default: []
+          required:
+          - scopes
+      required:
+      - id
+      - name
+      - mask
+      - isArchived
+      - expireAt
+      - createdAt
+      - updatedAt
+      - deletedAt
+      - settings
+    PageOffsetParam:
+      type: string
+      default: '0'
+    ApiKeyCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        scopes:
+          type: array
+          items:
+            type: string
+            enum:
+            - partner
+            - exchange
+          default: []
+      required:
+      - name
+    UserFingerprintResponse:
+      type: object
+      properties:
+        visitorId:
+          type:
+          - string
+          - 'null'
+        relatedAuthIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - visitorId
+      - relatedAuthIds
+    UserProfileDeleteBody:
+      type: object
+      properties:
+        emailForConfirmation:
+          type: string
+          format: email
+      required:
+      - emailForConfirmation
+    WalletBalanceObject:
+      type: object
+      properties:
+        coin:
+          type: string
+        amount:
+          type: string
+      required:
+      - coin
+      - amount
+    CreateUserBody:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ''
+          description: Account name
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          default: en-US
+          description: User locale
+        referralCode:
+          type:
+          - string
+          - 'null'
+          description: Referral code
+        source:
+          type: string
+          default: unknown
+          description: Source
+      required:
+      - wallet
+      - role
+    UserMedia:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        telegramProfile:
+          oneOf:
+          - $ref: '#/components/schemas/TelegramProfile'
+          - type: 'null'
+        discordId:
+          type:
+          - string
+          - 'null'
+        discordName:
+          type:
+          - string
+          - 'null'
+        mobilePushEnabled:
+          type: boolean
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+      required:
+      - id
+      - email
+      - telegramProfile
+      - discordId
+      - discordName
+      - mobilePushEnabled
+      - locale
+    LocationResponse:
+      type: object
+      properties:
+        country:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
+            code:
+              type: string
+        region:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
+            code:
+              type: string
+        city:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
+        ipAddress:
+          type: string
+      required:
+      - country
+      - region
+      - city
+      - ipAddress
+    ApiKeyRegenerateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        apiKey:
+          type: string
+      required:
+      - id
+      - expireAt
+      - apiKey
+    WalletTransferObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        authId:
+          type: string
+          format: uuid
+        smartAccount:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - deposit
+          - withdraw
+          - transfer-pfutures-balance
+          - transfer-balance-pfutures
+          - paymaster-fee
+          - paymaster-refund
+          - cashback-withdraw
+          - lucky-shot-withdraw
+          - smart-account-transfer
+          - transfer-balance-sub-pfutures
+        coin:
+          type: string
+        amount:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - blocked
+          - process
+          - detained
+          - done
+          - refunded
+          - error
+        network:
+          type: string
+        transactionHash:
+          type: string
+        transactionEventIndex:
+          type:
+          - string
+          - 'null'
+        from:
+          type:
+          - string
+          - 'null'
+        to:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - smartAccount
+      - type
+      - coin
+      - amount
+      - status
+      - network
+      - transactionHash
+      - transactionEventIndex
+      - from
+      - to
+      - createdAt
+      - updatedAt
+    ApiKeyList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeyObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    User_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        avatar:
+          type:
+          - string
+          - 'null'
+        cover:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        name:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        telegramProfile:
+          type:
+          - object
+          - 'null'
+          properties:
+            shortUsername:
+              type: string
+          required:
+          - shortUsername
+        discordId:
+          type:
+          - string
+          - 'null'
+        discordName:
+          type:
+          - string
+          - 'null'
+        mobilePushEnabled:
+          type: boolean
+        referralCode:
+          type:
+          - string
+          - 'null'
+        smartAccountsList:
+          type: array
+          items:
+            type: object
+            properties:
+              network:
+                type: string
+              address:
+                type: string
+              version:
+                type: number
+              isDeployed:
+                type: boolean
+            required:
+            - network
+            - address
+            - version
+            - isDeployed
+          description: User owned smart accounts list
+        parentSmartAccountList:
+          type: array
+          items:
+            type: object
+            properties:
+              network:
+                type: string
+              address:
+                type: string
+              version:
+                type: number
+              isDeployed:
+                type: boolean
+            required:
+            - network
+            - address
+            - version
+            - isDeployed
+          description: Parent user owned smart accounts list (for sub accounts)
+        subAccountIndex:
+          type: string
+        signUpMethod:
+          type: string
+          enum:
+          - email
+          - google
+          - apple
+          - wallet
+          - telegram
+          - twitter
+        platform:
+          type:
+          - string
+          - 'null'
+          enum:
+          - WEB_MOB
+          - WEB_DESKTOP
+          - WEB_OTHER
+          - APP_ANDROID
+          - APP_IOS
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        lastSignInAt:
+          type:
+          - string
+          - 'null'
+        subscriptionStatus:
+          type: string
+          enum:
+          - none
+          - expired
+          - active
+          - canceling
+          - renewed
+          default: none
+        privilegiesType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - premium
+          - academyCourse
+          default: null
+        type:
+          type: string
+          enum:
+          - user
+          - autotest
+          description: User type
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          description: Account type (main or sub)
+        accountStatus:
+          type: string
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+          description: Account status (active, inactive, etc.)
+        parent:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: Parent account ID for sub accounts
+        isArchived:
+          type: boolean
+          description: Whether the sub account is archived
+        twofa:
+          type: boolean
+        permissions:
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - avatar
+      - cover
+      - wallet
+      - role
+      - name
+      - status
+      - description
+      - email
+      - locale
+      - telegramProfile
+      - discordId
+      - discordName
+      - mobilePushEnabled
+      - referralCode
+      - smartAccountsList
+      - signUpMethod
+      - platform
+      - createdAt
+      - updatedAt
+      - lastSignInAt
+      - subscriptionStatus
+      - privilegiesType
+      - type
+      - accountType
+      - accountStatus
+      - parent
+      - isArchived
+      - twofa
+      - permissions
+    FingerprintVerifyResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+      required:
+      - ok
+    Auth:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User_2'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
+    UserProfileUpdateBody:
+      type: object
+      properties:
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+        mobilePushEnabled:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          - 'yes'
+          - 'no'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        name:
+          type: string
+        status:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        avatar:
+          type:
+          - string
+          - 'null'
+        cover:
+          type:
+          - string
+          - 'null'
+    UserLookupBody:
+      type: object
+      properties:
+        authIds:
+          type: array
+          items:
+            type: string
+            description: User Auth Id
+          description: Список Auth Id пользователей
+      required:
+      - authIds
+    UpdateUserBody_2:
+      type: object
+      properties:
+        name:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-SA
+          - zh-CN
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          - ko-KR
+          - fr-FR
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm:ss A
+          - DD.MM.YYYY, HH:mm:ss
+          - DD MMM YYYY, HH:mm:ss
+          - MMM DD, YYYY, hh:mm:ss A
+        publicProfile:
+          type: object
+          properties:
+            statistics:
+              type: boolean
+            chart:
+              type: boolean
+            positionHistory:
+              type: boolean
+          required:
+          - statistics
+          - chart
+          - positionHistory
+    UserUpdateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: UserId
+        authId:
+          type: string
+          description: AuthId
+        exchangeId:
+          type: number
+          description: UserExchangeId
+        name:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+        avatar:
+          type: string
+          format: uri
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-SA
+          - zh-CN
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          - ko-KR
+          - fr-FR
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm:ss A
+          - DD.MM.YYYY, HH:mm:ss
+          - DD MMM YYYY, HH:mm:ss
+          - MMM DD, YYYY, hh:mm:ss A
+        disabledPFTrading:
+          type: boolean
+        marginCall:
+          type: boolean
+        tradingRole:
+          type: string
+          enum:
+          - trader
+          - market-maker
+          - chart-maker
+          - system
+        tradingFees:
+          type: object
+          properties:
+            taker:
+              type: number
+            maker:
+              type: number
+            liquidation:
+              type: number
+          required:
+          - taker
+          - maker
+          - liquidation
+        settings:
+          type:
+          - object
+          - 'null'
+          properties:
+            fundedLiquidity:
+              type: number
+              default: 0
+            minBalance:
+              type: number
+              default: 0
+          required:
+          - fundedLiquidity
+          - minBalance
+          default: null
+        publicProfileSettings:
+          type: object
+          properties:
+            statistics:
+              type: boolean
+            chart:
+              type: boolean
+            positionHistory:
+              type: boolean
+          required:
+          - statistics
+          - chart
+          - positionHistory
+        riskFactorOverride:
+          type: object
+          properties:
+            leverageLimit:
+              type: object
+              additionalProperties:
+                type: number
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        authAccountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+      required:
+      - name
+      - wallet
+      - smartAccountAddress
+      - social
+      - avatar
+      - locale
+      - dateTimeFormat
+      - disabledPFTrading
+      - marginCall
+      - tradingRole
+      - tradingFees
+      - settings
+      - publicProfileSettings
+      - riskFactorOverride
+      - createdAt
+      - updatedAt
+      - authAccountType
+    DelegateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegateObject'
+      required:
+      - list
+    UserStatisticsResponse:
+      type: object
+      properties:
+        profitDeals:
+          type: number
+        lossDeals:
+          type: number
+        minRealizedPnL:
+          type: number
+        maxRealizedPnL:
+          type: number
+        longOrdersCount:
+          type: number
+        shortOrdersCount:
+          type: number
+        positivePnL:
+          type: number
+        negativePnL:
+          type: number
+        avgLeverage:
+          type: number
+        tradingFee:
+          type: number
+        fundingRate:
+          type: number
+        winRate:
+          type: number
+        pnlRatio:
+          type: number
+        buyVolume:
+          type: number
+        sellVolume:
+          type: number
+        tradingVolume:
+          type: number
+      required:
+      - profitDeals
+      - lossDeals
+      - minRealizedPnL
+      - maxRealizedPnL
+      - longOrdersCount
+      - shortOrdersCount
+      - positivePnL
+      - negativePnL
+      - avgLeverage
+      - tradingFee
+      - fundingRate
+      - winRate
+      - pnlRatio
+      - buyVolume
+      - sellVolume
+      - tradingVolume
+    BalanceChartPoint:
+      type: object
+      properties:
+        date:
+          type: string
+        marginBalance:
+          type: number
+        pnl:
+          type: number
+        funding:
+          type: number
+        unrealizedPnl:
+          type: number
+        currentPnl:
+          type: number
+        availableBalance:
+          type: number
+      required:
+      - date
+      - marginBalance
+      - pnl
+      - funding
+      - unrealizedPnl
+      - currentPnl
+      - availableBalance
+    FundingTransferObject:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - deposit
+          - withdraw
+          - faucet
+          - faucetLiquidity
+          - realizedPnl
+          - orderFillFee
+          - fundingRate
+          - liquidationFee
+          - bonusRefund
+          - yieldReward
+        coin:
+          type: string
+        quantity:
+          type: number
+        createdAt:
+          type: string
+      required:
+      - type
+      - coin
+      - quantity
+      - createdAt
+    SignUpQuotaResponse:
+      type: object
+      properties:
+        quota:
+          type: number
+      required:
+      - quota
+    DelegateObject:
+      type: object
+      properties:
+        delegate:
+          type: string
+      required:
+      - delegate
+    UserSocial:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
+    ApiKeyCreateBody_2:
+      type: object
+      properties:
+        name:
+          type: string
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - name
+    UserList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    CheckSignUpBadgeResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+      required:
+      - ok
+    UserYieldEarned:
+      type: object
+      properties:
+        total:
+          type: string
+      required:
+      - total
+    UserObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        authId:
+          type: string
+          format: uuid
+        exchangeId:
+          type: number
+        name:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        avatar:
+          type: string
+          format: uri
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-SA
+          - zh-CN
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          - ko-KR
+          - fr-FR
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm:ss A
+          - DD.MM.YYYY, HH:mm:ss
+          - DD MMM YYYY, HH:mm:ss
+          - MMM DD, YYYY, hh:mm:ss A
+        disabledPFTrading:
+          type: boolean
+        marginCall:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - exchangeId
+      - name
+      - wallet
+      - smartAccountAddress
+      - avatar
+      - locale
+      - dateTimeFormat
+      - disabledPFTrading
+      - marginCall
+      - createdAt
+      - updatedAt
+    DepositObject:
+      type: object
+      properties:
+        depositor:
+          type: string
+        version:
+          type: number
+      required:
+      - depositor
+      - version
+    BalanceChart:
+      type: array
+      items:
+        $ref: '#/components/schemas/BalanceChartPoint'
+    User_3:
+      type: object
+      properties:
+        id:
+          type: string
+          description: UserId
+        authId:
+          type: string
+          description: AuthId
+        exchangeId:
+          type: number
+          description: UserExchangeId
+        name:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+        avatar:
+          type: string
+          format: uri
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-SA
+          - zh-CN
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          - ko-KR
+          - fr-FR
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm:ss A
+          - DD.MM.YYYY, HH:mm:ss
+          - DD MMM YYYY, HH:mm:ss
+          - MMM DD, YYYY, hh:mm:ss A
+        disabledPFTrading:
+          type: boolean
+        favoriteInstruments:
+          type: array
+          items:
+            type: string
+        marginCall:
+          type: boolean
+        tradingRole:
+          type: string
+          enum:
+          - trader
+          - market-maker
+          - chart-maker
+          - system
+        tradingFees:
+          type: object
+          properties:
+            taker:
+              type: number
+            maker:
+              type: number
+            liquidation:
+              type: number
+          required:
+          - taker
+          - maker
+          - liquidation
+        settings:
+          type:
+          - object
+          - 'null'
+          properties:
+            fundedLiquidity:
+              type: number
+              default: 0
+            minBalance:
+              type: number
+              default: 0
+          required:
+          - fundedLiquidity
+          - minBalance
+          default: null
+        publicProfileSettings:
+          type: object
+          properties:
+            statistics:
+              type: boolean
+            chart:
+              type: boolean
+            positionHistory:
+              type: boolean
+          required:
+          - statistics
+          - chart
+          - positionHistory
+        riskFactorOverride:
+          type: object
+          properties:
+            leverageLimit:
+              type: object
+              additionalProperties:
+                type: number
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        authAccountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+      required:
+      - name
+      - wallet
+      - smartAccountAddress
+      - social
+      - avatar
+      - locale
+      - dateTimeFormat
+      - disabledPFTrading
+      - favoriteInstruments
+      - marginCall
+      - tradingRole
+      - tradingFees
+      - settings
+      - publicProfileSettings
+      - riskFactorOverride
+      - createdAt
+      - updatedAt
+      - authAccountType
+    ApiKeyUpdateBody:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+      required:
+      - isActive
+    BalanceItem:
+      type: object
+      properties:
+        currency:
+          type: string
+        balance:
+          type: number
+        balanceUSD:
+          type: number
+      required:
+      - currency
+      - balance
+      - balanceUSD
+    FundingObject:
+      type: object
+      properties:
+        user:
+          type: string
+        coin:
+          type: string
+        quantity:
+          type: number
+        updatedAt:
+          type: string
+      required:
+      - user
+      - coin
+      - quantity
+      - updatedAt
+    CreateAccountBody:
+      type: object
+      properties:
+        inviteLinkCode:
+          type: string
+          description: Invite link code
+        referralCode:
+          type:
+          - string
+          - 'null'
+          description: Referral code
+    ManualAwardBatchBody:
+      type: object
+      properties:
+        batch:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualAward'
+      required:
+      - batch
+    ManualAwardListResponse:
+      type: object
+      properties:
+        inserted:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualAwardResponse'
+        updated:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualAwardResponse'
+        ignored:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualAwardResponse'
+      required:
+      - inserted
+      - updated
+      - ignored
+    UserLookup:
+      type: object
+      properties:
+        authId:
+          type: string
+          format: uuid
+        level:
+          type: object
+          properties:
+            number:
+              type: number
+            bonus:
+              $ref: '#/components/schemas/LevelBonus'
+          required:
+          - number
+          - bonus
+        quests:
+          type:
+          - object
+          - 'null'
+          properties:
+            claimedCount:
+              type: number
+              description: Number of quests with isClaimed=true
+          required:
+          - claimedCount
+        experience:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - authId
+      - level
+      - experience
+      - createdAt
+      - updatedAt
+    UserMe:
+      type: object
+      properties:
+        authId:
+          type: string
+          format: uuid
+        level:
+          type: object
+          properties:
+            number:
+              type: number
+            bonus:
+              $ref: '#/components/schemas/LevelBonus'
+            experience:
+              type: string
+            nextLevelExperience:
+              type:
+              - string
+              - 'null'
+          required:
+          - number
+          - bonus
+          - experience
+          - nextLevelExperience
+        skill:
+          type: object
+          properties:
+            points:
+              type: number
+            name:
+              type: string
+            id:
+              type: string
+            readyToClaimCount:
+              type: number
+          required:
+          - points
+          - readyToClaimCount
+        quests:
+          type:
+          - object
+          - 'null'
+          properties:
+            claimedCount:
+              type: number
+              description: Number of quests with isClaimed=true
+            readyToClaimCount:
+              type: number
+              description: Number of quests with isReadyToClaim=true
+          required:
+          - claimedCount
+          - readyToClaimCount
+        experience:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        challenges:
+          type: object
+          properties:
+            claimedCount:
+              type: number
+              description: Number of claimed challenges
+            readyToClaimCount:
+              type: number
+              description: Number of challenges ready to claim
+          required:
+          - claimedCount
+          - readyToClaimCount
+        tradingVolume:
+          type: string
+        dailyTradingVolume:
+          type: number
+        buff:
+          type:
+          - object
+          - 'null'
+          properties:
+            EducationDiscount:
+              type: number
+            TradeDiscount:
+              type: number
+            ReferralPercentage:
+              type: number
+            expiredAt:
+              type: string
+          required:
+          - EducationDiscount
+          - TradeDiscount
+          - ReferralPercentage
+          - expiredAt
+          description: 'Deprecated: use buffs array instead. First active buff for backward compatibility.'
+        buffs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Buff'
+          description: All active buffs for the user
+        points:
+          $ref: '#/components/schemas/PointsSummary'
+        collectableTickets:
+          type: object
+          properties:
+            received:
+              type: number
+              description: Total tickets received
+            used:
+              type: number
+              description: Total tickets used
+            available:
+              type: number
+              description: Available tickets (received - used)
+          required:
+          - received
+          - used
+          - available
+          description: Collectable tickets balance for the collectables system
+        luckyShotTickets:
+          type: object
+          properties:
+            received:
+              type: number
+              description: Total Lucky Shot tickets received
+            used:
+              type: number
+              description: Total Lucky Shot tickets used
+            available:
+              type: number
+              description: Available Lucky Shot tickets (received - used)
+          required:
+          - received
+          - used
+          - available
+          description: Lucky Shot tickets balance for the lottery system
+        levelDiscount:
+          type: number
+          description: Скидка на торговую комиссию, обусловленная только уровнем
+        skillDiscount:
+          type: number
+          description: Скидка на торговую комиссию из навыков/артефактов/подписки
+        userLeague:
+          $ref: '#/components/schemas/UserLeague'
+      required:
+      - authId
+      - level
+      - skill
+      - experience
+      - createdAt
+      - updatedAt
+      - challenges
+      - tradingVolume
+      - dailyTradingVolume
+      - buff
+      - buffs
+      - points
+      - collectableTickets
+      - luckyShotTickets
+      - levelDiscount
+      - skillDiscount
+      - userLeague
+    ManualXpAwardBody:
+      type: object
+      properties:
+        wallet:
+          type: string
+          description: User wallet address
+        authId:
+          type: string
+          format: uuid
+          description: User Auth Id
+        amount:
+          type: number
+          exclusiveMinimum: 0
+          description: Amount of XP to award
+        reason:
+          type: string
+          description: Reason for awarding XP
+      required:
+      - amount
+    League:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        level:
+          type: number
+        steps:
+          type: number
+        image:
+          type:
+          - string
+          - 'null'
+          description: League image URL
+      required:
+      - id
+      - name
+      - level
+      - steps
+      - image
+    UserLeague:
+      type: object
+      properties:
+        league:
+          oneOf:
+          - $ref: '#/components/schemas/League'
+          - type: 'null'
+        rank:
+          type: number
+        nextLeague:
+          oneOf:
+          - $ref: '#/components/schemas/League'
+          - type: 'null'
+      required:
+      - league
+      - rank
+      - nextLeague
+    User_4:
+      type: object
+      properties:
+        authId:
+          type: string
+          format: uuid
+        level:
+          type: object
+          properties:
+            number:
+              type: number
+            bonus:
+              $ref: '#/components/schemas/LevelBonus'
+          required:
+          - number
+          - bonus
+        skill:
+          type: object
+          properties:
+            points:
+              type: number
+          required:
+          - points
+        quests:
+          type:
+          - object
+          - 'null'
+          properties:
+            claimedCount:
+              type: number
+              description: Number of quests with isClaimed=true
+          required:
+          - claimedCount
+        experience:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - authId
+      - level
+      - skill
+      - experience
+      - createdAt
+      - updatedAt
+    FeeRates:
+      type: object
+      properties:
+        cashback:
+          type: number
+        referral:
+          type: number
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeeRateRow'
+      required:
+      - cashback
+      - referral
+      - rows
+    ManualAwardResponse:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        quest:
+          type: string
+          format: uuid
+        isReadyToClaim:
+          type: boolean
+      required:
+      - user
+      - quest
+      - isReadyToClaim
+    FeeRateRow:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - level
+          - subscription
+          - traderArtifact
+          - influencerArtifact
+          - affiliateWeight
+          - referral
+          - chestCashback
+          - chestReferral
+          - collectable
+        cashback:
+          type: number
+        referral:
+          type: number
+        expiredAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - type
+      - cashback
+      - referral
+      - expiredAt
+    ManualAward:
+      type: object
+      properties:
+        authId:
+          type: string
+          description: User Auth Id
+        questId:
+          type: string
+          description: Quest Id
+      required:
+      - authId
+      - questId
+    LevelBonus:
+      type: object
+      properties:
+        EducationDiscount:
+          type: number
+        TradeDiscount:
+          type: number
+        ReferralPercentage:
+          type: number
+        TradeDiscountOld:
+          type: number
+        ReferralPercentageOld:
+          type: number
+      required:
+      - EducationDiscount
+      - TradeDiscount
+      - ReferralPercentage
+      - TradeDiscountOld
+      - ReferralPercentageOld
+    UserInternal:
+      allOf:
+      - $ref: '#/components/schemas/User_4'
+      type: object
+      properties:
+        buff:
+          type:
+          - object
+          - 'null'
+          properties:
+            EducationDiscount:
+              type: number
+            TradeDiscount:
+              type: number
+            ReferralPercentage:
+              type: number
+            expiredAt:
+              type: string
+          required:
+          - EducationDiscount
+          - TradeDiscount
+          - ReferralPercentage
+          - expiredAt
+      required:
+      - buff
+    ManualXpAwardResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        userId:
+          type: string
+          format: uuid
+        authId:
+          type: string
+          format: uuid
+        xpAwarded:
+          type: number
+        previousExperience:
+          type: string
+        newExperience:
+          type: string
+      required:
+      - success
+      - userId
+      - authId
+      - xpAwarded
+      - previousExperience
+      - newExperience
+    Buff:
+      type: object
+      properties:
+        source:
+          type: string
+          enum:
+          - referral
+          - chestCashback
+          - chestReferral
+          - collectable
+        EducationDiscount:
+          type: number
+        TradeDiscount:
+          type: number
+        ReferralPercentage:
+          type: number
+        expiredAt:
+          type: string
+      required:
+      - source
+      - EducationDiscount
+      - TradeDiscount
+      - ReferralPercentage
+      - expiredAt
+    PointsSummary:
+      type: object
+      properties:
+        totalPoints:
+          type: string
+        unclaimedPoints:
+          type: string
+        rankId:
+          type: string
+        leagueId:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - totalPoints
+      - unclaimedPoints
+      - rankId
+      - leagueId
+      - updatedAt
+    UserObject_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        authId:
+          type: string
+        notificationConfig:
+          $ref: '#/components/schemas/UserNotificationConfig'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - notificationConfig
+      - createdAt
+      - updatedAt
+    UserNotificationConfig:
+      type: object
+      properties:
+        enabledChannels:
+          type: array
+          items:
+            type: string
+            enum:
+            - email
+            - telegram
+            - mobilePush
+            - browserPush
+            - web
+            - discord
+        enabledGroups:
+          type: array
+          items:
+            type: string
+            enum:
+            - security
+            - news
+            - system
+            - dailyTasksReminders
+            - trade
+            - assets
+            - gamification
+            - activities
+            - affiliate
+      required:
+      - enabledChannels
+      - enabledGroups
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    UserNotificationConfigPayload:
+      type: object
+      properties:
+        enabledChannels:
+          type: array
+          items:
+            type: string
+            enum:
+            - email
+            - telegram
+            - mobilePush
+            - browserPush
+            - web
+            - discord
+        enabledGroups:
+          type: array
+          items:
+            type: string
+            enum:
+            - security
+            - news
+            - system
+            - dailyTasksReminders
+            - trade
+            - assets
+            - gamification
+            - activities
+            - affiliate
+      required:
+      - enabledChannels
+      - enabledGroups
+    UpdateUserBody_3:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+        partner:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm A
+          - DD.MM.YYYY, HH:mm
+          - DD MMM YYYY, HH:mm
+          - MMM DD, YYYY, hh:mm A
+        maxInvites:
+          type:
+          - number
+          - 'null'
+    RewardEvent:
+      type: object
+      properties:
+        metadata: {}
+        weight:
+          type: number
+        currency:
+          type: string
+      required:
+      - weight
+      - currency
+    UserStatisticsChartResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+          signupVolume:
+            type: number
+          tradingVolume:
+            type: number
+          depositVolume:
+            type: number
+          rewardVolume:
+            type: number
+        required:
+        - date
+        - signupVolume
+        - tradingVolume
+        - depositVolume
+        - rewardVolume
+    InternalUser:
+      allOf:
+      - $ref: '#/components/schemas/User_5'
+      type: object
+      properties:
+        weights:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                - user
+              target:
+                type: string
+                format: uuid
+              eventType:
+                type: string
+              level:
+                type: number
+              weight:
+                type: number
+            required:
+            - id
+            - type
+            - target
+            - eventType
+            - level
+            - weight
+          default: []
+      required:
+      - weights
+    CreateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        code:
+          type: string
+          description: Unique code
+        calculator:
+          type: string
+          enum:
+          - greedy
+          - full
+          - bd
+          description: Reward calculation type
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          description: Invitation welcome message
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          description: Invitation benefits description
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Invitation image URL
+      required:
+      - name
+      - type
+      - calculator
+    UserWithBalance:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum:
+          - user
+          - partner
+          - bd-manager
+        authId:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+          default: null
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+        partner:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm A
+          - DD.MM.YYYY, HH:mm
+          - DD MMM YYYY, HH:mm
+          - MMM DD, YYYY, hh:mm A
+        maxInvites:
+          type:
+          - number
+          - 'null'
+          default: null
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        balance:
+          type: array
+          items:
+            $ref: '#/components/schemas/RewardBalance'
+        weights:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                - user
+              target:
+                type: string
+                format: uuid
+              eventType:
+                type: string
+              level:
+                type: number
+              weight:
+                type: number
+            required:
+            - id
+            - type
+            - target
+            - eventType
+            - level
+            - weight
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+      required:
+      - id
+      - role
+      - authId
+      - name
+      - email
+      - wallet
+      - smartAccountAddress
+      - social
+      - partner
+      - locale
+      - dateTimeFormat
+      - maxInvites
+      - createdAt
+      - updatedAt
+      - balance
+      - weights
+      - links
+    Event:
+      type: object
+      properties:
+        link:
+          oneOf:
+          - $ref: '#/components/schemas/Link'
+          - type: 'null'
+        code:
+          type: string
+        type:
+          type: string
+        weight:
+          type: number
+        currency:
+          type: string
+        emitAt:
+          type: string
+        metadata: {}
+      required:
+      - link
+      - code
+      - type
+      - weight
+      - currency
+      - emitAt
+    RewardBalanceList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RewardBalance'
+    Link:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        type:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        isDefault:
+          type: boolean
+          default: false
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+        createdAt:
+          type: string
+      required:
+      - id
+      - user
+      - type
+      - code
+      - name
+      - isDefault
+      - welcomeMessage
+      - benefitsDescription
+      - image
+      - createdAt
+    UserSocial_2:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
+    UserInvites:
+      type: object
+      properties:
+        invitesCount:
+          type: number
+        maxInvites:
+          type: number
+        invitesEarnings:
+          type: number
+      required:
+      - invitesCount
+      - maxInvites
+      - invitesEarnings
+    RewardChart:
+      type: array
+      items:
+        $ref: '#/components/schemas/RewardChartPoint'
+    Reward:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        currency:
+          type: string
+        event:
+          $ref: '#/components/schemas/RewardEvent'
+        type:
+          type: string
+        createdAt:
+          type: string
+      required:
+      - user
+      - amount
+      - currency
+      - event
+      - type
+      - createdAt
+    ContactResponse:
+      type:
+      - object
+      - 'null'
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+      required:
+      - name
+      - email
+      - social
+    UserDataResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User_5'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+      required:
+      - user
+      - links
+    EventList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    CreateUser:
+      type: object
+      properties:
+        wallet:
+          type: string
+          description: Wallet address
+        name:
+          type:
+          - string
+          - 'null'
+          description: User name
+        role:
+          type: string
+          enum:
+          - user
+          - partner
+          - bd-manager
+          default: user
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          description: Contact email
+        social:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+          description: User social contacts
+        partner:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: Partner ID
+        weight:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UpdateUserWeightBody'
+        link:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CreateLink'
+      required:
+      - wallet
+      - name
+      - email
+    UserWithBalanceList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserWithBalance'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PartnerResponseObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+        wallet:
+          type: string
+        balance:
+          type: array
+          items:
+            $ref: '#/components/schemas/RewardBalance'
+        weights:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                - user
+              target:
+                type: string
+                format: uuid
+              eventType:
+                type: string
+              level:
+                type: number
+              weight:
+                type: number
+            required:
+            - id
+            - type
+            - target
+            - eventType
+            - level
+            - weight
+        tradingVolume:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - email
+      - wallet
+      - balance
+      - weights
+      - tradingVolume
+      - createdAt
+      - updatedAt
+    RewardList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reward'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PartnerlList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerResponseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    User_5:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum:
+          - user
+          - partner
+          - bd-manager
+        authId:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+          default: null
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+        partner:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm A
+          - DD.MM.YYYY, HH:mm
+          - DD MMM YYYY, HH:mm
+          - MMM DD, YYYY, hh:mm A
+        maxInvites:
+          type:
+          - number
+          - 'null'
+          default: null
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - role
+      - authId
+      - name
+      - email
+      - wallet
+      - smartAccountAddress
+      - social
+      - partner
+      - locale
+      - dateTimeFormat
+      - maxInvites
+      - createdAt
+      - updatedAt
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        currency:
+          type: string
+          enum:
+          - usdt
+        type:
+          type: string
+          enum:
+          - all
+          - income
+          - withdrawal
+        createdAt:
+          type: string
+      required:
+      - id
+      - user
+      - amount
+      - currency
+      - type
+      - createdAt
+    RewardChartPoint:
+      type: object
+      properties:
+        date:
+          type: string
+        currency:
+          type: string
+        sum:
+          type: number
+        count:
+          type: number
+      required:
+      - date
+      - currency
+      - sum
+      - count
+    UpdateUserWeightBody:
+      type: object
+      properties:
+        type:
+          type: string
+        level:
+          type: number
+        weight:
+          type: number
+      required:
+      - type
+      - level
+      - weight
+    TransactionListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    RewardBalance:
+      type: object
+      properties:
+        type:
+          type: string
+        currency:
+          type: string
+        count:
+          type: number
+        balance:
+          type: number
+      required:
+      - type
+      - currency
+      - count
+      - balance
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    InternalToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-academy-openapi.json
+- evedex-auth-openapi.json
+- evedex-backoffice-openapi.json
+- evedex-exchange-openapi.json
+- evedex-game-openapi.json
+- evedex-notifications-openapi.json
+- evedex-referral-openapi.json

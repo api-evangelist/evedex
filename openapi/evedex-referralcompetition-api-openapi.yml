@@ -1,0 +1,159 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Referral Competition API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: ReferralCompetition
+paths:
+  /api/leaderboard-podium/referral:
+    get:
+      tags:
+      - ReferralCompetition
+      summary: Get Referral Competition Leaderboard (2-week referral contest)
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leaderboard:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: number
+                        user:
+                          type: string
+                        level:
+                          type: number
+                        experience:
+                          type: string
+                        avatar:
+                          type:
+                          - string
+                          - 'null'
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                        skill:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                        achievements:
+                          type: number
+                        wallet:
+                          type: string
+                        smartAccountAddress:
+                          type: string
+                        score:
+                          type: number
+                      required:
+                      - rank
+                      - user
+                      - level
+                      - experience
+                      - avatar
+                      - skill
+                      - achievements
+                      - wallet
+                      - smartAccountAddress
+                      - score
+                  podium:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: number
+                        user:
+                          type: string
+                        level:
+                          type: number
+                        experience:
+                          type: string
+                        avatar:
+                          type:
+                          - string
+                          - 'null'
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                        skill:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                        achievements:
+                          type: number
+                        wallet:
+                          type: string
+                        smartAccountAddress:
+                          type: string
+                        score:
+                          type: number
+                      required:
+                      - rank
+                      - user
+                      - level
+                      - experience
+                      - avatar
+                      - skill
+                      - achievements
+                      - wallet
+                      - smartAccountAddress
+                      - score
+                  competition:
+                    type:
+                    - object
+                    - 'null'
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      startAt:
+                        type: string
+                      finishAt:
+                        type: string
+                    required:
+                    - id
+                    - startAt
+                    - finishAt
+                  podiumPrizes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        place:
+                          type: number
+                        reward:
+                          type: number
+                        prize:
+                          type: string
+                      required:
+                      - place
+                      - reward
+                  minReferralVolume:
+                    type: number
+                required:
+                - leaderboard
+                - podium
+                - competition
+                - podiumPrizes
+                - minReferralVolume
+components:
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

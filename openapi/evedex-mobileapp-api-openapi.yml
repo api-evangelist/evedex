@@ -1,0 +1,884 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Mobile App API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: MobileApp
+paths:
+  /api/mobile-app/blocked-version/{id}:
+    put:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                platform:
+                  type: string
+                  enum:
+                  - android
+                  - ios
+                  - web
+                versionMin:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                versionMax:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                blockType:
+                  type: string
+                  enum:
+                  - '0'
+                  - '1'
+                  - '2'
+                blockMessage:
+                  type: string
+                blockHead:
+                  type: string
+                blockButton:
+                  type: string
+                blockButtonLink:
+                  type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  platform:
+                    type: string
+                    enum:
+                    - android
+                    - ios
+                    - web
+                  versionMin:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                    default: 0.0.0
+                  versionMax:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                  blockType:
+                    type: string
+                    enum:
+                    - '0'
+                    - '1'
+                    - '2'
+                  blockMessage:
+                    type: string
+                  blockHead:
+                    type: string
+                  blockButton:
+                    type: string
+                  blockButtonLink:
+                    type: string
+                required:
+                - platform
+                - versionMin
+                - versionMax
+                - blockType
+                - blockMessage
+    get:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  platform:
+                    type: string
+                    enum:
+                    - android
+                    - ios
+                    - web
+                  versionMin:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                    default: 0.0.0
+                  versionMax:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                  blockType:
+                    type: string
+                    enum:
+                    - '0'
+                    - '1'
+                    - '2'
+                  blockMessage:
+                    type: string
+                  blockHead:
+                    type: string
+                  blockButton:
+                    type: string
+                  blockButtonLink:
+                    type: string
+                required:
+                - platform
+                - versionMin
+                - versionMax
+                - blockType
+                - blockMessage
+  /api/mobile-app/blocked-version/list:
+    get:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    platform:
+                      type: string
+                      enum:
+                      - android
+                      - ios
+                      - web
+                    versionMin:
+                      type: string
+                      format: semver
+                      example: 1.0.3
+                      default: 0.0.0
+                    versionMax:
+                      type: string
+                      format: semver
+                      example: 1.0.3
+                    blockType:
+                      type: string
+                      enum:
+                      - '0'
+                      - '1'
+                      - '2'
+                    blockMessage:
+                      type: string
+                    blockHead:
+                      type: string
+                    blockButton:
+                      type: string
+                    blockButtonLink:
+                      type: string
+                  required:
+                  - platform
+                  - versionMin
+                  - versionMax
+                  - blockType
+                  - blockMessage
+  /api/mobile-app/blocked-version:
+    post:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                platform:
+                  type: string
+                  enum:
+                  - android
+                  - ios
+                  - web
+                versionMin:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                  default: 0.0.0
+                versionMax:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                blockType:
+                  type: string
+                  enum:
+                  - '0'
+                  - '1'
+                  - '2'
+                blockMessage:
+                  type: string
+                blockHead:
+                  type: string
+                blockButton:
+                  type: string
+                blockButtonLink:
+                  type: string
+              required:
+              - platform
+              - versionMax
+              - blockType
+              - blockMessage
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  platform:
+                    type: string
+                    enum:
+                    - android
+                    - ios
+                    - web
+                  versionMin:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                    default: 0.0.0
+                  versionMax:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                  blockType:
+                    type: string
+                    enum:
+                    - '0'
+                    - '1'
+                    - '2'
+                  blockMessage:
+                    type: string
+                  blockHead:
+                    type: string
+                  blockButton:
+                    type: string
+                  blockButtonLink:
+                    type: string
+                required:
+                - platform
+                - versionMin
+                - versionMax
+                - blockType
+                - blockMessage
+  /api/mobile-app/blocked-sdk-version/{id}:
+    put:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                platform:
+                  type: string
+                  enum:
+                  - android
+                  - ios
+                  - web
+                versionMin:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                versionMax:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                blockType:
+                  type: string
+                  enum:
+                  - '0'
+                  - '1'
+                  - '2'
+                blockMessage:
+                  type: string
+                blockHead:
+                  type: string
+                blockButton:
+                  type: string
+                blockButtonLink:
+                  type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  platform:
+                    type: string
+                    enum:
+                    - android
+                    - ios
+                    - web
+                  versionMin:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                    default: 0.0.0
+                  versionMax:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                  blockType:
+                    type: string
+                    enum:
+                    - '0'
+                    - '1'
+                    - '2'
+                  blockMessage:
+                    type: string
+                  blockHead:
+                    type: string
+                  blockButton:
+                    type: string
+                  blockButtonLink:
+                    type: string
+                required:
+                - platform
+                - versionMin
+                - versionMax
+                - blockType
+                - blockMessage
+    get:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  platform:
+                    type: string
+                    enum:
+                    - android
+                    - ios
+                    - web
+                  versionMin:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                    default: 0.0.0
+                  versionMax:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                  blockType:
+                    type: string
+                    enum:
+                    - '0'
+                    - '1'
+                    - '2'
+                  blockMessage:
+                    type: string
+                  blockHead:
+                    type: string
+                  blockButton:
+                    type: string
+                  blockButtonLink:
+                    type: string
+                required:
+                - platform
+                - versionMin
+                - versionMax
+                - blockType
+                - blockMessage
+  /api/mobile-app/blocked-sdk-version/list:
+    get:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    platform:
+                      type: string
+                      enum:
+                      - android
+                      - ios
+                      - web
+                    versionMin:
+                      type: string
+                      format: semver
+                      example: 1.0.3
+                      default: 0.0.0
+                    versionMax:
+                      type: string
+                      format: semver
+                      example: 1.0.3
+                    blockType:
+                      type: string
+                      enum:
+                      - '0'
+                      - '1'
+                      - '2'
+                    blockMessage:
+                      type: string
+                    blockHead:
+                      type: string
+                    blockButton:
+                      type: string
+                    blockButtonLink:
+                      type: string
+                  required:
+                  - platform
+                  - versionMin
+                  - versionMax
+                  - blockType
+                  - blockMessage
+  /api/mobile-app/blocked-sdk-version:
+    post:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                platform:
+                  type: string
+                  enum:
+                  - android
+                  - ios
+                  - web
+                versionMin:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                  default: 0.0.0
+                versionMax:
+                  type: string
+                  format: semver
+                  example: 1.0.3
+                blockType:
+                  type: string
+                  enum:
+                  - '0'
+                  - '1'
+                  - '2'
+                blockMessage:
+                  type: string
+                blockHead:
+                  type: string
+                blockButton:
+                  type: string
+                blockButtonLink:
+                  type: string
+              required:
+              - platform
+              - versionMax
+              - blockType
+              - blockMessage
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  platform:
+                    type: string
+                    enum:
+                    - android
+                    - ios
+                    - web
+                  versionMin:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                    default: 0.0.0
+                  versionMax:
+                    type: string
+                    format: semver
+                    example: 1.0.3
+                  blockType:
+                    type: string
+                    enum:
+                    - '0'
+                    - '1'
+                    - '2'
+                  blockMessage:
+                    type: string
+                  blockHead:
+                    type: string
+                  blockButton:
+                    type: string
+                  blockButtonLink:
+                    type: string
+                required:
+                - platform
+                - versionMin
+                - versionMax
+                - blockType
+                - blockMessage
+  /api/mobile-app/version-info/{id}:
+    put:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileAppVersionInfoUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileAppVersionInfoResponse'
+    get:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileAppVersionInfoResponse'
+  /api/mobile-app/version-info/list:
+    get:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileAppVersionInfoListResponse'
+  /api/mobile-app/version-info:
+    post:
+      tags:
+      - MobileApp
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MobileAppVersionInfoCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileAppVersionInfoResponse'
+    get:
+      tags:
+      - MobileApp
+      security: []
+      parameters:
+      - in: query
+        name: platform
+        schema:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+          default: android
+      - in: query
+        name: version
+        schema:
+          type: string
+          format: semver
+          example: 1.0.3
+        required: true
+      - in: query
+        name: sdk-version
+        schema:
+          type: string
+          format: semver
+          example: 1.0.3
+      - in: query
+        name: locale
+        schema:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-SA
+          - zh-CN
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          - ko-KR
+          - fr-FR
+          default: en-US
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MobileAppVersionInfo'
+components:
+  schemas:
+    MobileAppVersionInfoListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/MobileAppVersionInfoResponse'
+    MobileAppVersionInfoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+        version:
+          type: string
+          format: semver
+          example: 1.0.3
+        blockType:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - '2'
+        blockHead:
+          type: string
+        blockMessage:
+          type: string
+        blockButton:
+          type: string
+        blockButtonLink:
+          type: string
+        referralNeeded:
+          type: boolean
+          default: false
+      required:
+      - platform
+      - version
+      - blockType
+      - blockHead
+      - blockMessage
+      - blockButton
+      - referralNeeded
+    MobileAppVersionInfoUpdateBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+        version:
+          type: string
+          format: semver
+          example: 1.0.3
+        blockType:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - '2'
+        blockHead:
+          type: string
+        blockMessage:
+          type: string
+        blockButton:
+          type: string
+        blockButtonLink:
+          type: string
+        referralNeeded:
+          type: boolean
+          default: false
+    MobileAppVersionInfoCreateBody:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+        version:
+          type: string
+          format: semver
+          example: 1.0.3
+        blockType:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - '2'
+        blockHead:
+          type: string
+        blockMessage:
+          type: string
+        blockButton:
+          type: string
+        blockButtonLink:
+          type: string
+        referralNeeded:
+          type: boolean
+          default: false
+      required:
+      - platform
+      - version
+      - blockType
+      - blockHead
+      - blockMessage
+      - blockButton
+    MobileAppVersionInfo:
+      type: object
+      properties:
+        blockTypeId:
+          type: string
+        blockHead:
+          type: string
+        blockMessage:
+          type: string
+        blockButton:
+          type: string
+        blockButtonLink:
+          type: string
+        referralNeeded:
+          type: boolean
+      required:
+      - blockTypeId
+      - blockHead
+      - blockMessage
+      - blockButton
+      - referralNeeded
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

@@ -1,0 +1,493 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Link API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Link
+paths:
+  /api/user/{userId}/link/{linkId}:
+    put:
+      tags:
+      - Link
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: linkId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLink'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+    delete:
+      tags:
+      - Link
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: linkId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/user/{userId}/link:
+    get:
+      tags:
+      - Link
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: type
+        schema:
+          type: string
+      - in: query
+        name: default
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Link'
+    post:
+      tags:
+      - Link
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLink'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+  /api/user/{userId}/link/{code}:
+    get:
+      tags:
+      - Link
+      security: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: code
+        description: Referral link code
+        schema:
+          type: string
+          description: Referral link code
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInvitationPublicResponse'
+  /api/user/check-invites:
+    get:
+      tags:
+      - Link
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: code
+        description: Unique code
+        schema:
+          type: string
+          description: Unique code
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isAccessible:
+                    type: boolean
+                required:
+                - isAccessible
+  /api/user/{userId}/link/reward/balance:
+    get:
+      tags:
+      - Link
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: type
+        schema:
+          type: array
+          items:
+            type: string
+        required: true
+      - in: query
+        name: currency
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkRewardBalanceList'
+  /api/links/by-codes:
+    post:
+      tags:
+      - Link
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinksByCodesBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkOwnerInfoList'
+  /api/invitation/{code}:
+    get:
+      tags:
+      - Link
+      security: []
+      parameters:
+      - in: path
+        name: code
+        description: Referral link code
+        schema:
+          type: string
+          description: Referral link code
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkInvitationPublicResponse'
+components:
+  schemas:
+    UpdateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        isDefault:
+          type: boolean
+          description: Is link default?
+    LinkInvitationPublicResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+      required:
+      - code
+      - name
+      - welcomeMessage
+      - benefitsDescription
+      - image
+    LinkRewardBalanceList:
+      type: array
+      items:
+        $ref: '#/components/schemas/LinkRewardBalance'
+    CreateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        code:
+          type: string
+          description: Unique code
+        calculator:
+          type: string
+          enum:
+          - greedy
+          - full
+          - bd
+          description: Reward calculation type
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          description: Invitation welcome message
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          description: Invitation benefits description
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Invitation image URL
+      required:
+      - name
+      - type
+      - calculator
+    LinkOwnerInfo:
+      type: object
+      properties:
+        code:
+          type: string
+        authId:
+          type: string
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+      required:
+      - code
+      - authId
+      - wallet
+      - smartAccountAddress
+    Link:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        type:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        isDefault:
+          type: boolean
+          default: false
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+        createdAt:
+          type: string
+      required:
+      - id
+      - user
+      - type
+      - code
+      - name
+      - isDefault
+      - welcomeMessage
+      - benefitsDescription
+      - image
+      - createdAt
+    UserInvitationPublicResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+        referralMessage:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+      required:
+      - code
+      - name
+      - welcomeMessage
+      - benefitsDescription
+      - leaderboardName
+      - competitionDescription
+      - referralMessage
+      - image
+    LinkOwnerInfoList:
+      type: array
+      items:
+        $ref: '#/components/schemas/LinkOwnerInfo'
+    LinksByCodesBody:
+      type: object
+      properties:
+        codes:
+          type: array
+          items:
+            type: string
+          description: Array of link codes
+      required:
+      - codes
+    LinkRewardBalance:
+      type: object
+      properties:
+        code:
+          type: string
+        type:
+          type: string
+        currency:
+          type: string
+        count:
+          type: number
+        balance:
+          type: number
+      required:
+      - code
+      - type
+      - currency
+      - count
+      - balance
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

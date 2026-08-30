@@ -1,0 +1,537 @@
+openapi: 3.2.0
+info:
+  title: Evedex Bill API
+  version: 1.0.0
+  description: 'Operations tagged Bill across 2 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-billing-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://billing-api.evedex.com
+tags:
+- name: Bill
+paths:
+  /auth/user/bill/{id}/payment:
+    post:
+      tags:
+      - Bill
+      security: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillUpdatePaymentMethodBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                required:
+                - url
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/bill/list:
+    get:
+      tags:
+      - Bill
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillListResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/user/bill:
+    get:
+      tags:
+      - Bill
+      security: []
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - in: query
+        name: email
+        schema:
+          type: string
+      - in: query
+        name: phone
+        schema:
+          type: string
+      - in: query
+        name: redirectTo
+        schema:
+          type: string
+          format: uri
+      - in: query
+        name: product
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: paymentService
+        schema:
+          type: string
+          enum:
+          - stripe
+          - crypto
+          - evedex
+          - applePay
+          - googlePay
+          default: stripe
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBillResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/bill/{billId}:
+    get:
+      tags:
+      - Bill
+      security: []
+      parameters:
+      - in: path
+        name: billId
+        schema:
+          anyOf:
+          - type: string
+          - type: string
+            format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillObject_2'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://billing-api.evedex.com
+  /api/bill:
+    post:
+      tags:
+      - Bill
+      security:
+      - InternalKey: []
+      requestBody:
+        description: Create bill for customer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBillBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillResponse'
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://billing-api.evedex.com
+components:
+  schemas:
+    BillListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    BillObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        bill:
+          type: string
+          format: uuid
+        redirectTo:
+          type:
+          - string
+          - 'null'
+        checkoutUrl:
+          type: string
+          format: uri
+        status:
+          type: string
+          enum:
+          - awaiting
+          - canceled
+          - expired
+          - paid
+          - returned
+          - error
+          - verified
+          - pending_cancel
+        payerEmail:
+          type:
+          - string
+          - 'null'
+        paidAt:
+          type:
+          - string
+          - 'null'
+        productInfo:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+            description:
+              type: string
+            paymentInfo:
+              type: object
+              properties:
+                mode:
+                  type: string
+                period:
+                  type: string
+              required:
+              - mode
+              - period
+            price:
+              type: number
+            discount:
+              type: number
+            currency:
+              type: string
+              enum:
+              - USD
+              - EUR
+              - CNY
+              - RUB
+            privilegies:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - premium
+                  - academyCourse
+                courses:
+                  type: array
+                  items:
+                    type: string
+              required:
+              - type
+            availability:
+              type: boolean
+            lastSaleDate:
+              type:
+              - string
+              - 'null'
+            createdAt:
+              type: string
+            updatedAt:
+              type: string
+          required:
+          - id
+          - name
+          - description
+          - paymentInfo
+          - price
+          - discount
+          - currency
+          - privilegies
+          - availability
+          - lastSaleDate
+          - createdAt
+          - updatedAt
+        paymentDetails:
+          type:
+          - object
+          - 'null'
+          properties:
+            type:
+              type: string
+              enum:
+              - stripe
+              - crypto
+              - evedex
+              - applePay
+              - googlePay
+            details:
+              type: object
+              properties:
+                cardLast4:
+                  type: string
+          required:
+          - type
+          - details
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - bill
+      - redirectTo
+      - checkoutUrl
+      - status
+      - payerEmail
+      - paidAt
+      - productInfo
+      - paymentDetails
+      - createdAt
+      - updatedAt
+    CreateBillResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        url:
+          type: string
+          format: uri
+        billingId:
+          type: string
+          format: uuid
+      required:
+      - id
+      - url
+      - billingId
+    BillUpdatePaymentMethodBody:
+      type: object
+      properties:
+        returnUrl:
+          type: string
+          format: uri
+      required:
+      - returnUrl
+    BillResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        url:
+          type: string
+          format: uri
+        paymentService:
+          type: string
+          enum:
+          - stripe
+          - crypto
+          - evedex
+          - applePay
+          - googlePay
+      required:
+      - id
+      - url
+      - paymentService
+    CreateBillBody:
+      type: object
+      properties:
+        user:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        product:
+          type: array
+          items:
+            type: string
+        trialPeriodDays:
+          type: number
+          default: 0
+        paymentService:
+          type: string
+          enum:
+          - stripe
+          - crypto
+          - evedex
+          - applePay
+          - googlePay
+          default: stripe
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    BillObject_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        product:
+          type:
+          - string
+          - 'null'
+        linkCode:
+          type:
+          - string
+          - 'null'
+        amount:
+          type:
+          - number
+          - 'null'
+        comission:
+          anyOf:
+          - type: object
+            additionalProperties:
+              type: number
+          - type: object
+        currency:
+          type:
+          - string
+          - 'null'
+        payerName:
+          type:
+          - string
+          - 'null'
+        payerEmail:
+          type:
+          - string
+          - 'null'
+        payerPhone:
+          type:
+          - string
+          - 'null'
+        paymentService:
+          type:
+          - string
+          - 'null'
+          enum:
+          - stripe
+          - crypto
+          - evedex
+          - applePay
+          - googlePay
+          - null
+        paymentSystem:
+          type:
+          - string
+          - 'null'
+          enum:
+          - card
+          - null
+        status:
+          type: string
+          enum:
+          - awaiting
+          - expired
+          - canceled
+          - paid
+          - returned
+          - error
+          - verified
+          - pending_cancel
+        failReason:
+          type: string
+        paidAt:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - product
+      - linkCode
+      - amount
+      - comission
+      - currency
+      - payerName
+      - payerEmail
+      - payerPhone
+      - paymentService
+      - paymentSystem
+      - status
+      - failReason
+      - paidAt
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-billing-openapi.json

@@ -1,0 +1,270 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange OAUTH API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Oauth
+paths:
+  /api/oauth/request/{id}:
+    delete:
+      tags:
+      - Oauth
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/oauth/request/list:
+    get:
+      tags:
+      - Oauth
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: withRejected
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OauthRequestListResponse'
+  /api/oauth:
+    get:
+      tags:
+      - Oauth
+      security: []
+      parameters:
+      - in: query
+        name: integrationId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: scopes
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          default: []
+      - in: query
+        name: state
+        schema:
+          type: string
+          default: ''
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OauthGetClientResponse'
+  /api/oauth/deny:
+    post:
+      tags:
+      - Oauth
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OauthDenyBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OauthDenyResponse'
+  /api/oauth/approve:
+    post:
+      tags:
+      - Oauth
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OauthApproveBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OauthResponse'
+components:
+  schemas:
+    OauthResponse:
+      type: object
+      properties:
+        redirectURI:
+          type: string
+      required:
+      - redirectURI
+    OauthApproveBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+        apiKey:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+            key:
+              type: string
+          required:
+          - id
+          - key
+          default: null
+        octWallet:
+          type:
+          - object
+          - 'null'
+          properties:
+            key:
+              type: string
+          required:
+          - key
+          default: null
+      required:
+      - integrationId
+    OauthDenyResponse:
+      type: object
+      properties:
+        redirectURI:
+          type: string
+      required:
+      - redirectURI
+    OauthDenyBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+      required:
+      - integrationId
+    OauthGetClientResponse:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        state:
+          type: string
+      required:
+      - integrationId
+      - name
+      - scopes
+      - state
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    OauthRequestListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              clientName:
+                type: string
+              createdAt:
+                type: string
+              status:
+                type: string
+                enum:
+                - approved
+                - denied
+                - revoked
+              apiKeyId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+              octDelegateId:
+                type:
+                - string
+                - 'null'
+                format: uuid
+            required:
+            - id
+            - clientName
+            - createdAt
+            - status
+            - apiKeyId
+            - octDelegateId
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

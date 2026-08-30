@@ -1,0 +1,183 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Trade signal API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Trade signal
+paths:
+  /api/trade/signal:
+    get:
+      tags:
+      - Trade signal
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeSignalListResponse'
+    post:
+      tags:
+      - Trade signal
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradeSignalCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeSignalItem'
+  /api/trade/signal/{id}:
+    get:
+      tags:
+      - Trade signal
+      security: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeSignalItemWithUser'
+components:
+  schemas:
+    TradeSignalCreateBody:
+      type: object
+      properties:
+        instrument:
+          type: string
+        priceMin:
+          type: string
+        priceMax:
+          type: string
+        refcode:
+          type: string
+        side:
+          type: string
+          enum:
+          - BUY
+          - SELL
+        tpsl:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - take-profit
+                - stop-loss
+              quantityPercent:
+                type: string
+              price:
+                type: string
+            required:
+            - type
+        expireAt:
+          type: string
+      required:
+      - instrument
+      - refcode
+      - side
+      - tpsl
+      - expireAt
+    TradeSignalItemWithUser:
+      allOf:
+      - $ref: '#/components/schemas/TradeSignalItem'
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        avatar:
+          type: string
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+      required:
+      - name
+      - avatar
+      - wallet
+      - smartAccountAddress
+    TradeSignalListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/TradeSignalItem'
+    TradeSignalItem:
+      type: object
+      properties:
+        id:
+          type: string
+        instrument:
+          type: string
+        priceMin:
+          type: string
+        priceMax:
+          type: string
+        refcode:
+          type: string
+        side:
+          type: string
+          enum:
+          - BUY
+          - SELL
+        tpsl:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - take-profit
+                - stop-loss
+              quantityPercent:
+                type: string
+              price:
+                type: string
+            required:
+            - type
+        expireAt:
+          type: string
+        createdAt:
+          type: string
+      required:
+      - id
+      - instrument
+      - priceMin
+      - priceMax
+      - refcode
+      - side
+      - tpsl
+      - expireAt
+      - createdAt
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

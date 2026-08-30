@@ -1,0 +1,953 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Backoffice general Trading Platform API
+  version: 1.0.0
+servers:
+- url: https://backoffice-api.private.evedex.com
+tags:
+- name: Trading Platform
+paths:
+  /api/trading-platform/pair/{pairId}:
+    put:
+      tags:
+      - Trading Platform
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: pairId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bps:
+                  type: number
+                spreadBps:
+                  type: number
+                depthBps:
+                  type: number
+                levelsBid:
+                  type: number
+                levelsAsk:
+                  type: number
+                notionalBid:
+                  type: number
+                notionalAsk:
+                  type: number
+              required:
+              - bps
+              - spreadBps
+              - depthBps
+              - levelsBid
+              - levelsAsk
+              - notionalBid
+              - notionalAsk
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  bybit:
+                    type: string
+                  evedex:
+                    type: object
+                    properties:
+                      dev:
+                        type: string
+                      demo:
+                        type: string
+                      prod:
+                        type: string
+                      local:
+                        type: string
+                      docker:
+                        type: string
+                    required:
+                    - dev
+                    - demo
+                    - prod
+                    - local
+                    - docker
+                  bps:
+                    type: number
+                  spreadBps:
+                    type: number
+                  depthBps:
+                    type: number
+                  levelsBid:
+                    type: number
+                  levelsAsk:
+                    type: number
+                  notionalBid:
+                    type: number
+                  notionalAsk:
+                    type: number
+                  orderBookInterval:
+                    type: number
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - bybit
+                - evedex
+                - bps
+                - spreadBps
+                - depthBps
+                - levelsBid
+                - levelsAsk
+                - notionalBid
+                - notionalAsk
+                - orderBookInterval
+                - createdAt
+                - updatedAt
+  /api/trading-platform/pair/{pairId}/order-book:
+    get:
+      tags:
+      - Trading Platform
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: pairId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type:
+                - object
+                - 'null'
+                properties:
+                  pair:
+                    type: string
+                  bestBidPrice:
+                    type: string
+                  bestAskPrice:
+                    type: string
+                  midPrice:
+                    type: string
+                  bpsSize:
+                    type: number
+                  bidSpreadPrice:
+                    type: number
+                  bidDepthPrice:
+                    type: number
+                  askSpreadPrice:
+                    type: number
+                  askDepthPrice:
+                    type: number
+                  bidLevels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        price:
+                          type: string
+                        notional:
+                          type: string
+                        qty:
+                          type: string
+                        bybitVolume:
+                          type: string
+                      required:
+                      - id
+                      - price
+                      - notional
+                      - qty
+                      - bybitVolume
+                  askLevels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        price:
+                          type: string
+                        notional:
+                          type: string
+                        qty:
+                          type: string
+                        bybitVolume:
+                          type: string
+                      required:
+                      - id
+                      - price
+                      - notional
+                      - qty
+                      - bybitVolume
+                required:
+                - pair
+                - bestBidPrice
+                - bestAskPrice
+                - midPrice
+                - bpsSize
+                - bidSpreadPrice
+                - bidDepthPrice
+                - askSpreadPrice
+                - askDepthPrice
+                - bidLevels
+                - askLevels
+  /api/trading-platform/pair:
+    get:
+      tags:
+      - Trading Platform
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        bybit:
+                          type: string
+                        evedex:
+                          type: object
+                          properties:
+                            dev:
+                              type: string
+                            demo:
+                              type: string
+                            prod:
+                              type: string
+                            local:
+                              type: string
+                            docker:
+                              type: string
+                          required:
+                          - dev
+                          - demo
+                          - prod
+                          - local
+                          - docker
+                        bps:
+                          type: number
+                        spreadBps:
+                          type: number
+                        depthBps:
+                          type: number
+                        levelsBid:
+                          type: number
+                        levelsAsk:
+                          type: number
+                        notionalBid:
+                          type: number
+                        notionalAsk:
+                          type: number
+                        orderBookInterval:
+                          type: number
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - bybit
+                      - evedex
+                      - bps
+                      - spreadBps
+                      - depthBps
+                      - levelsBid
+                      - levelsAsk
+                      - notionalBid
+                      - notionalAsk
+                      - orderBookInterval
+                      - createdAt
+                      - updatedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    post:
+      tags:
+      - Trading Platform
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                bybit:
+                  type: string
+                evedex:
+                  type: object
+                  properties:
+                    dev:
+                      type: string
+                    demo:
+                      type: string
+                    prod:
+                      type: string
+                    local:
+                      type: string
+                    docker:
+                      type: string
+                  required:
+                  - dev
+                  - demo
+                  - prod
+                  - local
+                  - docker
+                bps:
+                  type: number
+                spreadBps:
+                  type: number
+                depthBps:
+                  type: number
+                levelsBid:
+                  type: number
+                levelsAsk:
+                  type: number
+                notionalBid:
+                  type: number
+                notionalAsk:
+                  type: number
+                orderBookInterval:
+                  type: number
+              required:
+              - id
+              - bybit
+              - evedex
+              - bps
+              - spreadBps
+              - depthBps
+              - levelsBid
+              - levelsAsk
+              - notionalBid
+              - notionalAsk
+              - orderBookInterval
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  bybit:
+                    type: string
+                  evedex:
+                    type: object
+                    properties:
+                      dev:
+                        type: string
+                      demo:
+                        type: string
+                      prod:
+                        type: string
+                      local:
+                        type: string
+                      docker:
+                        type: string
+                    required:
+                    - dev
+                    - demo
+                    - prod
+                    - local
+                    - docker
+                  bps:
+                    type: number
+                  spreadBps:
+                    type: number
+                  depthBps:
+                    type: number
+                  levelsBid:
+                    type: number
+                  levelsAsk:
+                    type: number
+                  notionalBid:
+                    type: number
+                  notionalAsk:
+                    type: number
+                  orderBookInterval:
+                    type: number
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - bybit
+                - evedex
+                - bps
+                - spreadBps
+                - depthBps
+                - levelsBid
+                - levelsAsk
+                - notionalBid
+                - notionalAsk
+                - orderBookInterval
+                - createdAt
+                - updatedAt
+  /api/trading-platform/account/{accountId}:
+    put:
+      tags:
+      - Trading Platform
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: accountId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                riskLevels:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      volume:
+                        type: number
+                      level:
+                        type: string
+                        enum:
+                        - low
+                        - medium
+                        - high
+                        - critical
+                      liquidity:
+                        type: string
+                        enum:
+                        - enable
+                        - disable
+                        - skip
+                        - pause
+                      positionClose:
+                        type: object
+                        properties:
+                          interval:
+                            type: number
+                          volume:
+                            anyOf:
+                            - type: number
+                            - type: object
+                              properties:
+                                min:
+                                  type: number
+                                max:
+                                  type: number
+                                step:
+                                  type: number
+                              required:
+                              - min
+                              - max
+                              - step
+                        required:
+                        - interval
+                        - volume
+                    required:
+                    - volume
+                    - level
+                    - liquidity
+                orderTTL:
+                  type: number
+              required:
+              - riskLevels
+              - orderTTL
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  pair:
+                    type: string
+                  name:
+                    type: string
+                  positionSide:
+                    type: string
+                    enum:
+                    - BUY
+                    - SELL
+                  positionQuantity:
+                    type: string
+                  positionVolume:
+                    type: string
+                  riskLevel:
+                    type: string
+                    enum:
+                    - low
+                    - medium
+                    - high
+                    - critical
+                  liquidityProviderMode:
+                    type: string
+                    enum:
+                    - enable
+                    - disable
+                    - skip
+                    - pause
+                  leverage:
+                    type: number
+                  riskLevels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        volume:
+                          type: number
+                        level:
+                          type: string
+                          enum:
+                          - low
+                          - medium
+                          - high
+                          - critical
+                        liquidity:
+                          type: string
+                          enum:
+                          - enable
+                          - disable
+                          - skip
+                          - pause
+                        positionClose:
+                          type: object
+                          properties:
+                            interval:
+                              type: number
+                            volume:
+                              anyOf:
+                              - type: number
+                              - type: object
+                                properties:
+                                  min:
+                                    type: number
+                                  max:
+                                    type: number
+                                  step:
+                                    type: number
+                                required:
+                                - min
+                                - max
+                                - step
+                          required:
+                          - interval
+                          - volume
+                      required:
+                      - volume
+                      - level
+                      - liquidity
+                  orderTTL:
+                    type: number
+                  liquidityUpdateInterval:
+                    type: number
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - pair
+                - name
+                - positionSide
+                - positionQuantity
+                - positionVolume
+                - riskLevel
+                - liquidityProviderMode
+                - leverage
+                - riskLevels
+                - orderTTL
+                - liquidityUpdateInterval
+                - createdAt
+                - updatedAt
+  /api/trading-platform/account:
+    get:
+      tags:
+      - Trading Platform
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        pair:
+                          type: string
+                        name:
+                          type: string
+                        positionSide:
+                          type: string
+                          enum:
+                          - BUY
+                          - SELL
+                        positionQuantity:
+                          type: string
+                        positionVolume:
+                          type: string
+                        riskLevel:
+                          type: string
+                          enum:
+                          - low
+                          - medium
+                          - high
+                          - critical
+                        liquidityProviderMode:
+                          type: string
+                          enum:
+                          - enable
+                          - disable
+                          - skip
+                          - pause
+                        leverage:
+                          type: number
+                        riskLevels:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              volume:
+                                type: number
+                              level:
+                                type: string
+                                enum:
+                                - low
+                                - medium
+                                - high
+                                - critical
+                              liquidity:
+                                type: string
+                                enum:
+                                - enable
+                                - disable
+                                - skip
+                                - pause
+                              positionClose:
+                                type: object
+                                properties:
+                                  interval:
+                                    type: number
+                                  volume:
+                                    anyOf:
+                                    - type: number
+                                    - type: object
+                                      properties:
+                                        min:
+                                          type: number
+                                        max:
+                                          type: number
+                                        step:
+                                          type: number
+                                      required:
+                                      - min
+                                      - max
+                                      - step
+                                required:
+                                - interval
+                                - volume
+                            required:
+                            - volume
+                            - level
+                            - liquidity
+                        orderTTL:
+                          type: number
+                        liquidityUpdateInterval:
+                          type: number
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - pair
+                      - name
+                      - positionSide
+                      - positionQuantity
+                      - positionVolume
+                      - riskLevel
+                      - liquidityProviderMode
+                      - leverage
+                      - riskLevels
+                      - orderTTL
+                      - liquidityUpdateInterval
+                      - createdAt
+                      - updatedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    post:
+      tags:
+      - Trading Platform
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pair:
+                  type: string
+                name:
+                  type: string
+                leverage:
+                  type: number
+                privateKey:
+                  type: string
+                apiKey:
+                  type: string
+                riskLevels:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      volume:
+                        type: number
+                      level:
+                        type: string
+                        enum:
+                        - low
+                        - medium
+                        - high
+                        - critical
+                      liquidity:
+                        type: string
+                        enum:
+                        - enable
+                        - disable
+                        - skip
+                        - pause
+                      positionClose:
+                        type: object
+                        properties:
+                          interval:
+                            type: number
+                          volume:
+                            anyOf:
+                            - type: number
+                            - type: object
+                              properties:
+                                min:
+                                  type: number
+                                max:
+                                  type: number
+                                step:
+                                  type: number
+                              required:
+                              - min
+                              - max
+                              - step
+                        required:
+                        - interval
+                        - volume
+                    required:
+                    - volume
+                    - level
+                    - liquidity
+                orderTTL:
+                  type: number
+                liquidityUpdateInterval:
+                  type: number
+              required:
+              - pair
+              - name
+              - leverage
+              - privateKey
+              - apiKey
+              - riskLevels
+              - orderTTL
+              - liquidityUpdateInterval
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  pair:
+                    type: string
+                  name:
+                    type: string
+                  positionSide:
+                    type: string
+                    enum:
+                    - BUY
+                    - SELL
+                  positionQuantity:
+                    type: string
+                  positionVolume:
+                    type: string
+                  riskLevel:
+                    type: string
+                    enum:
+                    - low
+                    - medium
+                    - high
+                    - critical
+                  liquidityProviderMode:
+                    type: string
+                    enum:
+                    - enable
+                    - disable
+                    - skip
+                    - pause
+                  leverage:
+                    type: number
+                  riskLevels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        volume:
+                          type: number
+                        level:
+                          type: string
+                          enum:
+                          - low
+                          - medium
+                          - high
+                          - critical
+                        liquidity:
+                          type: string
+                          enum:
+                          - enable
+                          - disable
+                          - skip
+                          - pause
+                        positionClose:
+                          type: object
+                          properties:
+                            interval:
+                              type: number
+                            volume:
+                              anyOf:
+                              - type: number
+                              - type: object
+                                properties:
+                                  min:
+                                    type: number
+                                  max:
+                                    type: number
+                                  step:
+                                    type: number
+                                required:
+                                - min
+                                - max
+                                - step
+                          required:
+                          - interval
+                          - volume
+                      required:
+                      - volume
+                      - level
+                      - liquidity
+                  orderTTL:
+                    type: number
+                  liquidityUpdateInterval:
+                    type: number
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - pair
+                - name
+                - positionSide
+                - positionQuantity
+                - positionVolume
+                - riskLevel
+                - liquidityProviderMode
+                - leverage
+                - riskLevels
+                - orderTTL
+                - liquidityUpdateInterval
+                - createdAt
+                - updatedAt
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer

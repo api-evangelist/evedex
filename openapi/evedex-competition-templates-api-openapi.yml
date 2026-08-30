@@ -1,0 +1,642 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Competition Templates API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Competition Templates
+paths:
+  /api/competition-templates/{id}:
+    put:
+      tags:
+      - Competition Templates
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompetitionTemplateUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetitionTemplateUpdateResponse'
+    get:
+      tags:
+      - Competition Templates
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetitionTemplateGetResponse'
+  /api/competition-templates/list:
+    get:
+      tags:
+      - Competition Templates
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: archived
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          default: 'false'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetitionTemplateListResponse'
+  /api/competition-templates:
+    post:
+      tags:
+      - Competition Templates
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompetitionTemplateCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetitionTemplateCreateResponse'
+components:
+  schemas:
+    CompetitionTemplateListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              scoringStrategyType:
+                type: string
+                enum:
+                - experience
+                - tradingVolume
+                - realizedPnL
+                - referrals
+                - points
+              eligibilityType:
+                type: string
+                enum:
+                - open
+                - closed
+              enrollmentType:
+                type: string
+                enum:
+                - manual
+                - automatic
+              rewardType:
+                type: string
+                enum:
+                - points
+                - gift
+                - usdt
+                - none
+              rewards:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        place:
+                          type: integer
+                          minimum: 1
+                        reward:
+                          type: number
+                          minimum: 0
+                          default: 0
+                        prize:
+                          type: string
+                      required:
+                      - place
+                      - reward
+                required:
+                - list
+              eligiblePartnerCodes:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: string
+                required:
+                - list
+              blacklistAuthIds:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                required:
+                - list
+              visible:
+                type: boolean
+              archived:
+                type: boolean
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+            required:
+            - id
+            - name
+            - scoringStrategyType
+            - eligibilityType
+            - enrollmentType
+            - rewardType
+            - rewards
+            - eligiblePartnerCodes
+            - blacklistAuthIds
+            - visible
+            - archived
+            - createdAt
+            - updatedAt
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    CompetitionTemplateUpdateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+          - referrals
+          - points
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: integer
+                    minimum: 1
+                  reward:
+                    type: number
+                    minimum: 0
+                    default: 0
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+          required:
+          - list
+        eligiblePartnerCodes:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+          required:
+          - list
+        blacklistAuthIds:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+                format: uuid
+          required:
+          - list
+        visible:
+          type: boolean
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - eligiblePartnerCodes
+      - blacklistAuthIds
+      - visible
+      - archived
+      - createdAt
+      - updatedAt
+    CompetitionTemplateCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+          - referrals
+          - points
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: integer
+                    minimum: 1
+                  reward:
+                    type: number
+                    minimum: 0
+                    default: 0
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+          required:
+          - list
+        eligiblePartnerCodes:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+          required:
+          - list
+        blacklistAuthIds:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+                format: uuid
+          required:
+          - list
+        visible:
+          type: boolean
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - eligiblePartnerCodes
+      - blacklistAuthIds
+      - visible
+      - archived
+      - createdAt
+      - updatedAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    CompetitionTemplateUpdateBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 512
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: array
+          items:
+            type: object
+            properties:
+              place:
+                type: integer
+                minimum: 1
+              reward:
+                type: number
+                minimum: 0
+                default: 0
+              prize:
+                type: string
+            required:
+            - place
+        eligiblePartnerCodes:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        blacklistAuthIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        visible:
+          type: boolean
+        archived:
+          type: boolean
+    CompetitionTemplateGetResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+          - referrals
+          - points
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: integer
+                    minimum: 1
+                  reward:
+                    type: number
+                    minimum: 0
+                    default: 0
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+          required:
+          - list
+        eligiblePartnerCodes:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+          required:
+          - list
+        blacklistAuthIds:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+                format: uuid
+          required:
+          - list
+        visible:
+          type: boolean
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - eligiblePartnerCodes
+      - blacklistAuthIds
+      - visible
+      - archived
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
+    CompetitionTemplateCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 512
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+          default: manual
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: array
+          items:
+            type: object
+            properties:
+              place:
+                type: integer
+                minimum: 1
+              reward:
+                type: number
+                minimum: 0
+                default: 0
+              prize:
+                type: string
+            required:
+            - place
+          default: []
+        eligiblePartnerCodes:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          default: []
+        blacklistAuthIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          default: []
+        visible:
+          type: boolean
+          default: true
+      required:
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - rewardType
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

@@ -1,0 +1,105 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Coin API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Coin
+paths:
+  /api/pair/{pairId}/favorite:
+    put:
+      tags:
+      - Coin
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: pairId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                favorite:
+                  type: boolean
+              required:
+              - favorite
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/coin:
+    get:
+      tags:
+      - Coin
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoinList'
+components:
+  schemas:
+    CoinList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              price:
+                type: number
+              id:
+                type: string
+              name:
+                type: string
+              symbol:
+                type: string
+              image:
+                type:
+                - string
+                - 'null'
+                format: uri
+              precision:
+                type: number
+              showPrecision:
+                type: number
+                deprecated: true
+              createdAt:
+                type: string
+            required:
+            - price
+            - id
+            - name
+            - symbol
+            - image
+            - precision
+            - showPrecision
+            - createdAt
+      required:
+      - list
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

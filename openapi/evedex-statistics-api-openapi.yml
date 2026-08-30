@@ -1,0 +1,222 @@
+openapi: 3.2.0
+info:
+  title: Evedex Statistics API
+  version: 1.0.0
+  description: 'Operations tagged Statistics across 2 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: Statistics
+paths:
+  /auth/statistics/total:
+    get:
+      tags:
+      - Statistics
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TotalStatisticResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/statistics/online-users:
+    get:
+      tags:
+      - Statistics
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnlineUsersCountResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/statistics/charts:
+    get:
+      tags:
+      - Statistics
+      security: []
+      parameters:
+      - in: query
+        name: from
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: to
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: instrument
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+          enum:
+          - dailyActiveUsers
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticChartResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/public/statistics/total:
+    get:
+      tags:
+      - Statistics
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TotalStatisticResponse_2'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/public/statistics/online-users:
+    get:
+      tags:
+      - Statistics
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnlineUsersCountResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/public/statistics/charts:
+    get:
+      tags:
+      - Statistics
+      security: []
+      parameters:
+      - in: query
+        name: from
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: to
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: instrument
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+          enum:
+          - tradingVolume
+          - userRegistred
+          - activeDepositors
+          - feesVolume
+          - totalValueLocked
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticChartResponse'
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  schemas:
+    OnlineUsersCountResponse:
+      type: object
+      properties:
+        onlineUsersCount:
+          type: integer
+          default: 0
+      required:
+      - onlineUsersCount
+    StatisticChartResponse:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+            value:
+              type: number
+            instrument:
+              type: string
+            name:
+              type: string
+            cumulative:
+              type: number
+          required:
+          - date
+          - value
+          - name
+          - cumulative
+    TotalStatisticResponse:
+      type: object
+      properties:
+        weeklyActiveUsers:
+          type: integer
+          default: 0
+      required:
+      - weeklyActiveUsers
+    TotalStatisticResponse_2:
+      type: object
+      properties:
+        registredUsers:
+          type: integer
+          default: 0
+        tradingVolume:
+          type: number
+          default: 0
+        activeDepositors:
+          type: integer
+          default: 0
+        feesVolume:
+          type: number
+          default: 0
+        totalValueLocked:
+          type: number
+          default: 0
+      required:
+      - registredUsers
+      - tradingVolume
+      - activeDepositors
+      - feesVolume
+      - totalValueLocked
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-exchange-openapi.json

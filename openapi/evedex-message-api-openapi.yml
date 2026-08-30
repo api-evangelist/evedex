@@ -1,0 +1,580 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Notifications Message API
+  version: 1.0.0
+servers:
+- url: https://notifications-api.evedex.com
+tags:
+- name: Message
+paths:
+  /api/message/read:
+    post:
+      tags:
+      - Message
+      description: Used in bell
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadMessageBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/message:
+    get:
+      tags:
+      - Message
+      description: Used in bell and for persistent notifications
+      security: []
+      parameters:
+      - in: query
+        name: viewed
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: after
+        schema:
+          type: string
+      - in: query
+        name: appearance
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - constantly
+            - once
+            - persistent
+          - type: array
+            items:
+              type: string
+              enum:
+              - constantly
+              - once
+              - persistent
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageListWeb'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      deprecated: true
+      tags:
+      - Message
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMessageBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/message/{id}:
+    get:
+      deprecated: true
+      tags:
+      - Message
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageObject'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+      - Message
+      description: Used in bell
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/message/telegram:
+    post:
+      deprecated: true
+      tags:
+      - Message
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSytemTelegramMessage'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+    WebContentBody:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        link:
+          type: string
+        imageUrl:
+          type: string
+      required:
+      - title
+    WebContentObject:
+      allOf:
+      - $ref: '#/components/schemas/WebDefaultContentObject'
+      type: object
+      properties:
+        locales:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WebDefaultContentObject'
+    ReadMessageBody:
+      type: object
+      properties:
+        pattern:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: string
+            const: '*'
+      required:
+      - pattern
+    MessageContentBody:
+      anyOf:
+      - $ref: '#/components/schemas/EmailContent'
+      - $ref: '#/components/schemas/TelegramContentBody'
+      - $ref: '#/components/schemas/WebContentBody'
+      - $ref: '#/components/schemas/SlackContentBody'
+    CreateSytemTelegramMessage:
+      type: object
+      properties:
+        content:
+          type: string
+        image:
+          type: string
+          format: uri
+        chatId:
+          type: string
+      required:
+      - content
+      - chatId
+    MessageObjectWeb:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - pending
+          - sent
+          - error
+          - blocked
+        group:
+          type: string
+        source:
+          type: string
+          enum:
+          - exchange
+          - exchange-demo
+          - partner
+          - academy
+          - game
+          - group-manager
+          - unknown
+          - bridge
+          - bridge-demo
+          - backoffice
+          - auth
+          - trading-platform
+          - watcher
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        content:
+          $ref: '#/components/schemas/WebContentObject'
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+        locale:
+          type: string
+        targetDeviceType:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        isViewed:
+          type: boolean
+        endTime:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - status
+      - group
+      - source
+      - authId
+      - content
+      - appearance
+      - locale
+      - targetDeviceType
+      - createdAt
+      - updatedAt
+      - isViewed
+      - endTime
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    TelegramContentBody:
+      type: object
+      properties:
+        chatId:
+          type: number
+        message:
+          type: string
+      required:
+      - message
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    WebDefaultContentObject:
+      type: object
+      properties:
+        title:
+          type: string
+        level:
+          type: string
+        content:
+          type: string
+        link:
+          type: string
+        imageUrl:
+          type: string
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+      required:
+      - title
+    MessageListWeb:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageObjectWeb'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    EmailContent:
+      type: object
+      properties:
+        to:
+          type: string
+        templateId:
+          type: string
+        payload:
+          type: object
+      required:
+      - templateId
+      - payload
+    CreateMessageBody:
+      type: object
+      properties:
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        source:
+          type: string
+          enum:
+          - exchange
+          - exchange-demo
+          - partner
+          - academy
+          - game
+          - group-manager
+          - unknown
+          - bridge
+          - bridge-demo
+          - backoffice
+          - auth
+          - trading-platform
+          - watcher
+          default: unknown
+        content:
+          $ref: '#/components/schemas/MessageContentBody'
+        group:
+          type: string
+        targetDeviceType:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        locale:
+          type: string
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+          default: once
+      required:
+      - authId
+      - content
+      - group
+      - targetDeviceType
+      - locale
+    MessageObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - pending
+          - sent
+          - error
+          - blocked
+        group:
+          type: string
+        source:
+          type: string
+          enum:
+          - exchange
+          - exchange-demo
+          - partner
+          - academy
+          - game
+          - group-manager
+          - unknown
+          - bridge
+          - bridge-demo
+          - backoffice
+          - auth
+          - trading-platform
+          - watcher
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        content: {}
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+        locale:
+          type: string
+        targetDeviceType:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        isViewed:
+          type: boolean
+        endTime:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - status
+      - group
+      - source
+      - authId
+      - appearance
+      - locale
+      - targetDeviceType
+      - createdAt
+      - updatedAt
+      - isViewed
+      - endTime
+    SlackContentBody:
+      type: object
+      properties:
+        webhookName:
+          type: string
+          enum:
+          - amlAlerts
+        content:
+          type: string
+      required:
+      - webhookName
+      - content
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer

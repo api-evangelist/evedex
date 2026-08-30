@@ -1,0 +1,78 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Backoffice general Liquidation API
+  version: 1.0.0
+servers:
+- url: https://backoffice-api.private.evedex.com
+tags:
+- name: Liquidation
+paths:
+  /api/exchange/liquidation/levels/{pair}:
+    get:
+      tags:
+      - Liquidation
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: pair
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: from
+        schema:
+          type: string
+      - in: query
+        name: to
+        schema:
+          type: string
+      - in: query
+        name: step
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiquidationLevelStatisticsResponse'
+components:
+  schemas:
+    LiquidationLevelStatisticsResponse:
+      type: object
+      properties:
+        markPrice:
+          type: number
+        timecode:
+          type: string
+        pair:
+          type: string
+        levels:
+          type: array
+          items:
+            type: object
+            properties:
+              from:
+                type: number
+              to:
+                type: number
+              users:
+                type: number
+              volume:
+                type: number
+            required:
+            - from
+            - to
+            - users
+            - volume
+      required:
+      - markPrice
+      - timecode
+      - pair
+      - levels
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer

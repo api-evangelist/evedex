@@ -1,0 +1,344 @@
+openapi: 3.2.0
+info:
+  title: Evedex Tag API
+  version: 1.0.0
+  description: 'Operations tagged Tag across 2 of this provider''s published API definitions: evedex-academy-openapi.json, evedex-referral-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://academy.evedex.com
+- url: https://partner-api.evedex.com
+tags:
+- name: Tag
+paths:
+  /api/tag:
+    get:
+      tags:
+      - Tag
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    name:
+                      type: string
+                    courseCount:
+                      type: number
+                      default: 0
+                  required:
+                  - id
+                  - name
+                  - courseCount
+    post:
+      tags:
+      - Tag
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTagBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponse'
+    servers:
+    - url: https://academy.evedex.com
+  /api/tag/users:
+    get:
+      tags:
+      - Tag
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: tagIds
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWithTagsList'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/tag/{tagId}:
+    put:
+      tags:
+      - Tag
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: tagId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTagBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponse'
+    delete:
+      tags:
+      - Tag
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: tagId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/tag/user/{userId}/unassign:
+    post:
+      tags:
+      - Tag
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignTagsBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/tag/user/{userId}:
+    post:
+      tags:
+      - Tag
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignTagsBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignTagsResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+components:
+  schemas:
+    AssignTagsBody:
+      type: object
+      properties:
+        tagIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+      required:
+      - tagIds
+    TagList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    Tag:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - createdAt
+      - updatedAt
+    CreateTagBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+      required:
+      - name
+    PageOffsetParam:
+      type: string
+      default: '0'
+    AssignTagsResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+      required:
+      - tags
+    UserWithTagsList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserWithTags'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    UserWithTags:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        wallet:
+          type: string
+        email:
+          type:
+          - string
+          - 'null'
+        referralCount:
+          type: number
+        totalReferralDepositsVolume:
+          type: number
+        totalReferralTradingVolume:
+          type: number
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+      required:
+      - id
+      - wallet
+      - email
+      - referralCount
+      - totalReferralDepositsVolume
+      - totalReferralTradingVolume
+      - tags
+    TagResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - createdAt
+      - updatedAt
+    UpdateTagBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+      required:
+      - name
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-academy-openapi.json
+- evedex-referral-openapi.json

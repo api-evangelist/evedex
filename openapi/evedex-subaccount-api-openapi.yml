@@ -1,0 +1,615 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Auth Sub Account API
+  version: 1.0.0
+servers:
+- url: https://auth-api.evedex.com
+tags:
+- name: SubAccount
+paths:
+  /auth/sub-account/{id}:
+    put:
+      tags:
+      - SubAccount
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubAccountUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /auth/sub-account/{id}/unarchive:
+    put:
+      tags:
+      - SubAccount
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /auth/sub-account/switch:
+    post:
+      tags:
+      - SubAccount
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: noCookieReplace
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+          - ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SwitchAccountBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+  /auth/sub-account/list:
+    get:
+      tags:
+      - SubAccount
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: isArchived
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          - 'yes'
+          - 'no'
+      - in: query
+        name: search
+        description: Search by name or address
+        schema:
+          type: string
+          description: Search by name or address
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubAccountListResponse'
+  /auth/sub-account/create:
+    post:
+      tags:
+      - SubAccount
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: noCookieReplace
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+          - ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubAccountBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+  /auth/sub-account/{parentId}/{id}/check:
+    get:
+      tags:
+      - SubAccount
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: parentId
+        description: Parent account ID
+        schema:
+          type: string
+          format: uuid
+          description: Parent account ID
+        required: true
+      - in: query
+        name: type
+        description: Account type to check
+        schema:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          description: Account type to check
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /auth/sub-account/{id}/archive:
+    put:
+      tags:
+      - SubAccount
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    JWT:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
+      required:
+      - accessToken
+      description: JWT tokens
+    SubAccountListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubAccount'
+        count:
+          type: number
+        next:
+          type: string
+        limit:
+          type: number
+        total:
+          type: number
+      required:
+      - list
+      - count
+      - limit
+      - total
+    CreateSubAccountBody:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ''
+          description: Sub account name
+        network:
+          type: string
+          minLength: 1
+          description: Network name
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          default: sub
+          description: Sub account type
+        fundedAccountOptionId:
+          type: string
+          format: uuid
+          description: Funded account option ID (required if accountType is Funded)
+      required:
+      - network
+    SwitchAccountBody:
+      type: object
+      properties:
+        accountId:
+          type: string
+          format: uuid
+          description: Target account ID to switch to
+      required:
+      - accountId
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        avatar:
+          type:
+          - string
+          - 'null'
+        cover:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        name:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        telegramProfile:
+          type:
+          - object
+          - 'null'
+          properties:
+            shortUsername:
+              type: string
+          required:
+          - shortUsername
+        discordId:
+          type:
+          - string
+          - 'null'
+        discordName:
+          type:
+          - string
+          - 'null'
+        mobilePushEnabled:
+          type: boolean
+        referralCode:
+          type:
+          - string
+          - 'null'
+        smartAccountsList:
+          type: array
+          items:
+            type: object
+            properties:
+              network:
+                type: string
+              address:
+                type: string
+              version:
+                type: number
+              isDeployed:
+                type: boolean
+            required:
+            - network
+            - address
+            - version
+            - isDeployed
+          description: User owned smart accounts list
+        parentSmartAccountList:
+          type: array
+          items:
+            type: object
+            properties:
+              network:
+                type: string
+              address:
+                type: string
+              version:
+                type: number
+              isDeployed:
+                type: boolean
+            required:
+            - network
+            - address
+            - version
+            - isDeployed
+          description: Parent user owned smart accounts list (for sub accounts)
+        subAccountIndex:
+          type: string
+        signUpMethod:
+          type: string
+          enum:
+          - email
+          - google
+          - apple
+          - wallet
+          - telegram
+          - twitter
+        platform:
+          type:
+          - string
+          - 'null'
+          enum:
+          - WEB_MOB
+          - WEB_DESKTOP
+          - WEB_OTHER
+          - APP_ANDROID
+          - APP_IOS
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        lastSignInAt:
+          type:
+          - string
+          - 'null'
+        subscriptionStatus:
+          type: string
+          enum:
+          - none
+          - expired
+          - active
+          - canceling
+          - renewed
+          default: none
+        privilegiesType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - premium
+          - academyCourse
+          default: null
+        type:
+          type: string
+          enum:
+          - user
+          - autotest
+          description: User type
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          description: Account type (main or sub)
+        accountStatus:
+          type: string
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+          description: Account status (active, inactive, etc.)
+        parent:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: Parent account ID for sub accounts
+        isArchived:
+          type: boolean
+          description: Whether the sub account is archived
+        twofa:
+          type: boolean
+        permissions:
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - avatar
+      - cover
+      - wallet
+      - role
+      - name
+      - status
+      - description
+      - email
+      - locale
+      - telegramProfile
+      - discordId
+      - discordName
+      - mobilePushEnabled
+      - referralCode
+      - smartAccountsList
+      - signUpMethod
+      - platform
+      - createdAt
+      - updatedAt
+      - lastSignInAt
+      - subscriptionStatus
+      - privilegiesType
+      - type
+      - accountType
+      - accountStatus
+      - parent
+      - isArchived
+      - twofa
+      - permissions
+    Auth:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
+    SubAccountUpdateBody:
+      type: object
+      properties:
+        accountStatus:
+          type: string
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+          description: New account status
+      required:
+      - accountStatus
+    SmartAccountEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        network:
+          type: string
+        address:
+          type: string
+        version:
+          type: number
+        isDeployed:
+          type: boolean
+      required:
+      - id
+      - network
+      - address
+      - version
+      - isDeployed
+    SubAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+        accountStatus:
+          type: string
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+        parent:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isArchived:
+          type: boolean
+        createdAt:
+          type: string
+        smartAccount:
+          oneOf:
+          - $ref: '#/components/schemas/SmartAccountEntry'
+          - type: 'null'
+        subAccountIndex:
+          type:
+          - string
+          - 'null'
+          description: On-chain smart account index (null for main account)
+        fundedAccountOptionId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          default: null
+      required:
+      - id
+      - name
+      - wallet
+      - accountType
+      - accountStatus
+      - parent
+      - isArchived
+      - createdAt
+      - smartAccount
+      - subAccountIndex
+      - fundedAccountOptionId
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer

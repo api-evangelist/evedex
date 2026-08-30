@@ -1,0 +1,116 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange/billing-backend Refund API
+  version: 1.0.0
+servers:
+- url: https://billing-api.evedex.com
+tags:
+- name: Refund
+paths:
+  /api/refund/{billId}:
+    post:
+      tags:
+      - Refund
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: billId
+        schema:
+          anyOf:
+          - type: string
+          - type: string
+            format: uuid
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRefundBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundObject'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CreateRefundBody:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+        failReason:
+          type: string
+        rollbackType:
+          type: string
+          enum:
+          - notNeeded
+          - full
+          - manual
+      required:
+      - amount
+      - currency
+      - rollbackType
+    RefundObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        bill:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        status:
+          type: string
+          enum:
+          - awaiting
+          - returned
+          - error
+        failReason:
+          type: string
+        rollbackType:
+          type: string
+          enum:
+          - notNeeded
+          - full
+          - manual
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - bill
+      - amount
+      - currency
+      - status
+      - failReason
+      - rollbackType
+      - createdAt
+      - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer

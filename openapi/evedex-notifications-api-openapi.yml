@@ -1,0 +1,727 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Backoffice general Notifications API
+  version: 1.0.0
+servers:
+- url: https://backoffice-api.private.evedex.com
+tags:
+- name: Notifications
+paths:
+  /api/notifications/email/send:
+    post:
+      deprecated: true
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                templateId:
+                  type: string
+                payload:
+                  type: object
+                  additionalProperties: {}
+                  default: {}
+                locale:
+                  type: string
+                  enum:
+                  - en-US
+                  default: en-US
+                authId:
+                  type: string
+                  format: uuid
+              required:
+              - templateId
+              - authId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/notifications/send:
+    post:
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event:
+                  type: string
+                authId:
+                  anyOf:
+                  - type: string
+                  - type: string
+                    enum:
+                    - all
+                    - registred
+                    - unregistred
+                  - type: 'null'
+                data:
+                  type: object
+                  additionalProperties: {}
+                  default: {}
+                source:
+                  type: string
+                  enum:
+                  - exchange
+                  - exchange-demo
+                  - unknown
+                  - backoffice
+                  default: unknown
+                appearance:
+                  type: string
+                  enum:
+                  - constantly
+                  - once
+                  - persistent
+                  default: once
+                deliveryTime:
+                  type: string
+                endTime:
+                  type: string
+                channels:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - web
+                    - webActivity
+                    - mobilePush
+                    - browserPush
+                    - email
+                    - telegram
+                    - telegramChannel
+                    - slack
+                    - discord
+                  minItems: 1
+              required:
+              - event
+              - authId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/notifications/list:
+    get:
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: authId
+        schema:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+      - in: query
+        name: appearance
+        schema:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+      - in: query
+        name: createdAfter
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListNotificationsResponse'
+  /api/notifications/templates/{id}:
+    put:
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateUpdatePayload'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    get:
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateGetDetailsResponse'
+    delete:
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/notifications/templates/list:
+    get:
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: templateId
+        schema:
+          type: string
+      - in: query
+        name: channel
+        schema:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+      - in: query
+        name: locale
+        schema:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+      - in: query
+        name: group
+        schema:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateList'
+  /api/notifications/templates:
+    post:
+      tags:
+      - Notifications
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplatePayload'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateCreateResponse'
+components:
+  schemas:
+    TemplateListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - group
+      - locale
+      - dataSchema
+      - createdAt
+      - updatedAt
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        source:
+          type: string
+        event:
+          type: string
+        data:
+          type: object
+          additionalProperties: {}
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+        endTime:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - source
+      - event
+      - data
+      - appearance
+      - endTime
+      - createdAt
+      - updatedAt
+    TemplatePayload:
+      type: object
+      properties:
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+          default: null
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          default: null
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          default: en-US
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+          default: null
+      required:
+      - templateId
+      - channel
+      - title
+      - body
+      - group
+    TemplateUpdatePayload:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+    TemplateCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+          default: null
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          default: null
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - locale
+      - title
+      - body
+      - group
+      - link
+      - imageUrl
+      - dataSchema
+      - channelExtra
+      - createdAt
+      - updatedAt
+    ListNotificationsResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    TemplateGetDetailsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+          default: null
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          default: null
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - locale
+      - title
+      - body
+      - group
+      - link
+      - imageUrl
+      - dataSchema
+      - channelExtra
+      - createdAt
+      - updatedAt
+    TemplateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
+      required:
+      - list
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer

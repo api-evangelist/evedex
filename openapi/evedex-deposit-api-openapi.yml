@@ -1,0 +1,59 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Deposit API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Deposit
+paths:
+  /api/deposit/referral-info:
+    get:
+      tags:
+      - Deposit
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferralInfoResponse'
+components:
+  schemas:
+    ReferralInfoResponse:
+      type: object
+      properties:
+        averagetDeposit:
+          type: string
+        count:
+          type: number
+      required:
+      - averagetDeposit
+      - count
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

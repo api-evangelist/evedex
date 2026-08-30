@@ -1,0 +1,281 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Backoffice general Blocked API
+  version: 1.0.0
+servers:
+- url: https://backoffice-api.private.evedex.com
+tags:
+- name: Blocked
+paths:
+  /api/withdraw/unblock:
+    post:
+      tags:
+      - Blocked
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                withdrawId:
+                  type: string
+              required:
+              - withdrawId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/withdraw/reject:
+    post:
+      tags:
+      - Blocked
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                withdrawId:
+                  type: string
+              required:
+              - withdrawId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/withdraw/blocked-list:
+    get:
+      tags:
+      - Blocked
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: userId
+        schema:
+          type: string
+      - in: query
+        name: authId
+        schema:
+          type: string
+      - in: query
+        name: smartAccount
+        schema:
+          type: string
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: status
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - pending
+            - blocked
+            - done
+            - error
+          - type: array
+            items:
+              type: string
+              enum:
+              - pending
+              - blocked
+              - done
+              - error
+      - in: query
+        name: amountFrom
+        schema:
+          type: number
+      - in: query
+        name: amountTo
+        schema:
+          type: number
+      - in: query
+        name: riskScore
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+      - in: query
+        name: riskType
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - depositRisk
+            - withdrawRisk
+            - withdrawalByIpRisk
+            - withdrawalByFingerprintRisk
+            - httpClientDetectionRisk
+            - pnlRisk
+            - tradingBalanceRisk
+            - amlBlockRisk
+            - highWinRateRisk
+            - sharpeAnomalyRisk
+          - type: array
+            items:
+              type: string
+              enum:
+              - depositRisk
+              - withdrawRisk
+              - withdrawalByIpRisk
+              - withdrawalByFingerprintRisk
+              - httpClientDetectionRisk
+              - pnlRisk
+              - tradingBalanceRisk
+              - amlBlockRisk
+              - highWinRateRisk
+              - sharpeAnomalyRisk
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockedPfWithdrawListObject'
+components:
+  schemas:
+    BlockedPfWithdrawListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockedPfWithdraw'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    BlockedPfWithdraw:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          description: UserId
+        authId:
+          type: string
+          description: AuthId
+        type:
+          type: string
+          enum:
+          - deposit
+          - withdraw
+          - transfer-pfutures-balance
+          - transfer-balance-pfutures
+          - paymaster-fee
+          - paymaster-refund
+          - cashback-withdraw
+        coin:
+          type: string
+        amount:
+          type: number
+        status:
+          type: string
+          enum:
+          - pending
+          - blocked
+          - done
+          - error
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        transactionHash:
+          type:
+          - string
+          - 'null'
+        requestId:
+          type:
+          - number
+          - 'null'
+        failReason:
+          type: string
+        requestTagId:
+          type: string
+        prevAvailableBalance:
+          type: string
+        isManual:
+          type: boolean
+        riskScore:
+          type:
+          - number
+          - 'null'
+        riskTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            enum:
+            - depositRisk
+            - withdrawRisk
+            - withdrawalByIpRisk
+            - withdrawalByFingerprintRisk
+            - httpClientDetectionRisk
+            - pnlRisk
+            - tradingBalanceRisk
+            - amlBlockRisk
+            - highWinRateRisk
+            - sharpeAnomalyRisk
+      required:
+      - id
+      - type
+      - coin
+      - amount
+      - status
+      - createdAt
+      - updatedAt
+      - transactionHash
+      - failReason
+      - requestTagId
+      - prevAvailableBalance
+      - isManual
+      - riskScore
+      - riskTypes
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer

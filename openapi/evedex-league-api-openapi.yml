@@ -1,0 +1,64 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game League API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: League
+paths:
+  /api/league/list:
+    get:
+      tags:
+      - League
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublicLeague'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+components:
+  schemas:
+    PublicLeague:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        level:
+          type: number
+        steps:
+          type: number
+        image:
+          type:
+          - string
+          - 'null'
+          description: League image URL
+      required:
+      - id
+      - name
+      - level
+      - steps
+      - image
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

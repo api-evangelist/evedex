@@ -1,0 +1,75 @@
+openapi: 3.2.0
+info:
+  title: Evedex Paysystem API
+  version: 1.0.0
+  description: 'Operations tagged Paysystem across 2 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-billing-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://billing-api.evedex.com
+tags:
+- name: Paysystem
+paths:
+  /api/paysystem/list/{billId}:
+    get:
+      tags:
+      - Paysystem
+      security: []
+      parameters:
+      - in: path
+        name: billId
+        schema:
+          anyOf:
+          - type: string
+          - type: string
+            format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaysystemListResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+components:
+  schemas:
+    PaysystemListResponse:
+      type: object
+      properties:
+        recommended:
+          type: array
+          items:
+            type: string
+        other:
+          type: array
+          items:
+            type: string
+      required:
+      - recommended
+      - other
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-billing-openapi.json

@@ -1,0 +1,332 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange/billing-backend Subscription API
+  version: 1.0.0
+servers:
+- url: https://billing-api.evedex.com
+tags:
+- name: Subscription
+paths:
+  /api/billing/subscription/{subscriptionId}/payment:
+    post:
+      tags:
+      - Subscription
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: subscriptionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        description: Update payment method for subscription
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionUpdatePaymentMethodBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionUpdatePaymentMethodResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/subscription/list:
+    get:
+      tags:
+      - Subscription
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          anyOf:
+          - type: number
+          - type: string
+          default: 20
+      - in: query
+        name: offset
+        schema:
+          anyOf:
+          - type: number
+          - type: string
+          default: 0
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - active
+          - canceled
+          - finished
+          - incomplete
+          - incomplete_expired
+          - past_due
+          - paused
+          - trialing
+          - unpaid
+          - awaiting
+          - pending_cancel
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionListResponse'
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/subscription/{subscriptionId}:
+    get:
+      tags:
+      - Subscription
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: subscriptionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionObject'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/billing/subscriptions/{subscriptionId}/cancel:
+    post:
+      tags:
+      - Subscription
+      security: []
+      parameters:
+      - in: path
+        name: subscriptionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  validUntil:
+                    type: string
+                required:
+                - validUntil
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    SubscriptionObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        product:
+          type: string
+          format: uuid
+        providerData:
+          type: object
+          properties:
+            provider:
+              type: string
+            subscriptionId:
+              type: string
+          required:
+          - provider
+          - subscriptionId
+        status:
+          type: string
+        currentPeriodEnd:
+          type:
+          - string
+          - 'null'
+        cancelAtPeriodEnd:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        productInfo:
+          oneOf:
+          - $ref: '#/components/schemas/ProductObject'
+          - type: 'null'
+      required:
+      - id
+      - product
+      - providerData
+      - status
+      - currentPeriodEnd
+      - cancelAtPeriodEnd
+      - createdAt
+      - updatedAt
+    SubscriptionUpdatePaymentMethodResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
+    ProductObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        price:
+          type: number
+        currency:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        access:
+          type: string
+          enum:
+          - buffOnly
+          - all
+          - public
+        privilegies:
+          anyOf:
+          - type: object
+            properties:
+              type:
+                type: string
+                const: premium
+            required:
+            - type
+          - type: object
+            properties:
+              type:
+                type: string
+                const: academyCourse
+              courses:
+                type: array
+                items:
+                  type: string
+            required:
+            - type
+            - courses
+        availability:
+          type: boolean
+        paymentInfo:
+          anyOf:
+          - type: object
+            properties:
+              mode:
+                type: string
+                const: subscription
+              period:
+                type: string
+                enum:
+                - 1d
+                - 1m
+                - 6m
+                - 1y
+            required:
+            - mode
+            - period
+          - type: object
+            properties:
+              mode:
+                type: string
+                const: oneTime
+            required:
+            - mode
+        discount:
+          type: number
+        lastSaleDate:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - price
+      - currency
+      - description
+      - name
+      - access
+      - privilegies
+      - availability
+      - paymentInfo
+      - discount
+      - lastSaleDate
+      - createdAt
+      - updatedAt
+    SubscriptionUpdatePaymentMethodBody:
+      type: object
+      properties:
+        returnUrl:
+          type: string
+          format: uri
+      required:
+      - returnUrl
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    SubscriptionListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer

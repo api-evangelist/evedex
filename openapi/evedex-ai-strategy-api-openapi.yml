@@ -1,0 +1,815 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange AI Strategy API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: AI Strategy
+paths:
+  /api/ai-strategy:
+    put:
+      tags:
+      - AI Strategy
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                strategyId:
+                  type: number
+                initialDeposit:
+                  type: string
+              required:
+              - strategyId
+              - initialDeposit
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  strategyId:
+                    type: number
+                  pairId:
+                    type: number
+                  riskPercent:
+                    type: string
+                    enum:
+                    - '0.50'
+                    - '1.00'
+                    - '2.00'
+                    - '3.00'
+                    - '5.00'
+                  bias:
+                    type: string
+                    enum:
+                    - long
+                    - short
+                    - neutral
+                  timeframe:
+                    type: string
+                    enum:
+                    - 1m
+                    - 3m
+                    - 5m
+                    - 15m
+                  initialDeposit:
+                    type: string
+                  currentBalance:
+                    type: string
+                  realizedPnl:
+                    type: string
+                  reinvestEarnings:
+                    type: boolean
+                  isActive:
+                    type: boolean
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  activatedAt:
+                    type:
+                    - string
+                    - 'null'
+                required:
+                - id
+                - strategyId
+                - pairId
+                - riskPercent
+                - bias
+                - timeframe
+                - initialDeposit
+                - currentBalance
+                - realizedPnl
+                - reinvestEarnings
+                - isActive
+                - createdAt
+                - updatedAt
+                - activatedAt
+    delete:
+      tags:
+      - AI Strategy
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: strategyId
+        schema:
+          type: number
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    get:
+      tags:
+      - AI Strategy
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    strategyId:
+                      type: number
+                    pairId:
+                      type: number
+                    riskPercent:
+                      type: string
+                      enum:
+                      - '0.50'
+                      - '1.00'
+                      - '2.00'
+                      - '3.00'
+                      - '5.00'
+                    bias:
+                      type: string
+                      enum:
+                      - long
+                      - short
+                      - neutral
+                    timeframe:
+                      type: string
+                      enum:
+                      - 1m
+                      - 3m
+                      - 5m
+                      - 15m
+                    initialDeposit:
+                      type: string
+                    currentBalance:
+                      type: string
+                    realizedPnl:
+                      type: string
+                    reinvestEarnings:
+                      type: boolean
+                    isActive:
+                      type: boolean
+                    createdAt:
+                      type: string
+                    updatedAt:
+                      type: string
+                    activatedAt:
+                      type:
+                      - string
+                      - 'null'
+                  required:
+                  - id
+                  - strategyId
+                  - pairId
+                  - riskPercent
+                  - bias
+                  - timeframe
+                  - initialDeposit
+                  - currentBalance
+                  - realizedPnl
+                  - reinvestEarnings
+                  - isActive
+                  - createdAt
+                  - updatedAt
+                  - activatedAt
+    post:
+      tags:
+      - AI Strategy
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                strategyId:
+                  type: number
+                initialDeposit:
+                  type: string
+                apiKey:
+                  type: string
+                privateKey:
+                  type: string
+              required:
+              - strategyId
+              - initialDeposit
+              - apiKey
+              - privateKey
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  strategyId:
+                    type: number
+                  pairId:
+                    type: number
+                  riskPercent:
+                    type: string
+                    enum:
+                    - '0.50'
+                    - '1.00'
+                    - '2.00'
+                    - '3.00'
+                    - '5.00'
+                  bias:
+                    type: string
+                    enum:
+                    - long
+                    - short
+                    - neutral
+                  timeframe:
+                    type: string
+                    enum:
+                    - 1m
+                    - 3m
+                    - 5m
+                    - 15m
+                  initialDeposit:
+                    type: string
+                  currentBalance:
+                    type: string
+                  realizedPnl:
+                    type: string
+                  reinvestEarnings:
+                    type: boolean
+                  isActive:
+                    type: boolean
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  activatedAt:
+                    type:
+                    - string
+                    - 'null'
+                required:
+                - id
+                - strategyId
+                - pairId
+                - riskPercent
+                - bias
+                - timeframe
+                - initialDeposit
+                - currentBalance
+                - realizedPnl
+                - reinvestEarnings
+                - isActive
+                - createdAt
+                - updatedAt
+                - activatedAt
+  /api/ai-strategy/pairs:
+    get:
+      tags:
+      - AI Strategy
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    pair:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        baseCoin:
+                          type: string
+                        quoteCoin:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - baseCoin
+                      - quoteCoin
+                      - createdAt
+                      - updatedAt
+                    strategy:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        pairId:
+                          type: number
+                        ticker:
+                          type: string
+                        timeframe:
+                          type: string
+                          enum:
+                          - 1m
+                          - 3m
+                          - 5m
+                          - 15m
+                        instrument:
+                          type:
+                          - string
+                          - 'null'
+                        bias:
+                          type: string
+                          enum:
+                          - long
+                          - short
+                          - neutral
+                        riskPercent:
+                          type: string
+                          enum:
+                          - '0.50'
+                          - '1.00'
+                          - '2.00'
+                          - '3.00'
+                          - '5.00'
+                        reinvestEarnings:
+                          type: boolean
+                        maxDeviation:
+                          type: string
+                        outOfDeviation:
+                          type: string
+                        period:
+                          type: number
+                        rrRatio:
+                          type: string
+                        leverage:
+                          type: number
+                        isActive:
+                          type: boolean
+                        avgSl:
+                          type: string
+                        totalPnlPercent:
+                          type: string
+                        pnl7dPercent:
+                          type: string
+                        apyPercent:
+                          type: string
+                        trades7d:
+                          type: string
+                        trades365d:
+                          type: string
+                        tradeNumberFrom:
+                          type: string
+                        tradeNumberTo:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                        baseCoin:
+                          type: string
+                        quoteCoin:
+                          type: string
+                      required:
+                      - id
+                      - pairId
+                      - ticker
+                      - timeframe
+                      - instrument
+                      - bias
+                      - riskPercent
+                      - reinvestEarnings
+                      - maxDeviation
+                      - outOfDeviation
+                      - period
+                      - rrRatio
+                      - leverage
+                      - isActive
+                      - avgSl
+                      - totalPnlPercent
+                      - pnl7dPercent
+                      - apyPercent
+                      - trades7d
+                      - trades365d
+                      - tradeNumberFrom
+                      - tradeNumberTo
+                      - createdAt
+                      - updatedAt
+                      - baseCoin
+                      - quoteCoin
+                    totalSum:
+                      type: string
+                    totalLimit:
+                      type:
+                      - string
+                      - 'null'
+                  required:
+                  - pair
+                  - strategy
+                  - totalSum
+                  - totalLimit
+  /api/ai-strategy/best:
+    get:
+      tags:
+      - AI Strategy
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    pairId:
+                      type: number
+                    ticker:
+                      type: string
+                    timeframe:
+                      type: string
+                      enum:
+                      - 1m
+                      - 3m
+                      - 5m
+                      - 15m
+                    instrument:
+                      type:
+                      - string
+                      - 'null'
+                    bias:
+                      type: string
+                      enum:
+                      - long
+                      - short
+                      - neutral
+                    riskPercent:
+                      type: string
+                      enum:
+                      - '0.50'
+                      - '1.00'
+                      - '2.00'
+                      - '3.00'
+                      - '5.00'
+                    reinvestEarnings:
+                      type: boolean
+                    maxDeviation:
+                      type: string
+                    outOfDeviation:
+                      type: string
+                    period:
+                      type: number
+                    rrRatio:
+                      type: string
+                    leverage:
+                      type: number
+                    isActive:
+                      type: boolean
+                    avgSl:
+                      type: string
+                    totalPnlPercent:
+                      type: string
+                    pnl7dPercent:
+                      type: string
+                    apyPercent:
+                      type: string
+                    trades7d:
+                      type: string
+                    trades365d:
+                      type: string
+                    tradeNumberFrom:
+                      type: string
+                    tradeNumberTo:
+                      type: string
+                    createdAt:
+                      type: string
+                    updatedAt:
+                      type: string
+                    baseCoin:
+                      type: string
+                    quoteCoin:
+                      type: string
+                  required:
+                  - id
+                  - pairId
+                  - ticker
+                  - timeframe
+                  - instrument
+                  - bias
+                  - riskPercent
+                  - reinvestEarnings
+                  - maxDeviation
+                  - outOfDeviation
+                  - period
+                  - rrRatio
+                  - leverage
+                  - isActive
+                  - avgSl
+                  - totalPnlPercent
+                  - pnl7dPercent
+                  - apyPercent
+                  - trades7d
+                  - trades365d
+                  - tradeNumberFrom
+                  - tradeNumberTo
+                  - createdAt
+                  - updatedAt
+                  - baseCoin
+                  - quoteCoin
+  /api/ai-strategy/all:
+    get:
+      tags:
+      - AI Strategy
+      security: []
+      parameters:
+      - in: query
+        name: pairId
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+      - in: query
+        name: timeframe
+        schema:
+          type: string
+          enum:
+          - 1m
+          - 3m
+          - 5m
+          - 15m
+      - in: query
+        name: bias
+        schema:
+          type: string
+          enum:
+          - long
+          - short
+          - neutral
+      - in: query
+        name: riskPercent
+        schema:
+          type: string
+          enum:
+          - '0.50'
+          - '1.00'
+          - '2.00'
+          - '3.00'
+          - '5.00'
+      - in: query
+        name: reinvestEarnings
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    pairId:
+                      type: number
+                    ticker:
+                      type: string
+                    timeframe:
+                      type: string
+                      enum:
+                      - 1m
+                      - 3m
+                      - 5m
+                      - 15m
+                    instrument:
+                      type:
+                      - string
+                      - 'null'
+                    bias:
+                      type: string
+                      enum:
+                      - long
+                      - short
+                      - neutral
+                    riskPercent:
+                      type: string
+                      enum:
+                      - '0.50'
+                      - '1.00'
+                      - '2.00'
+                      - '3.00'
+                      - '5.00'
+                    reinvestEarnings:
+                      type: boolean
+                    maxDeviation:
+                      type: string
+                    outOfDeviation:
+                      type: string
+                    period:
+                      type: number
+                    rrRatio:
+                      type: string
+                    leverage:
+                      type: number
+                    isActive:
+                      type: boolean
+                    avgSl:
+                      type: string
+                    totalPnlPercent:
+                      type: string
+                    pnl7dPercent:
+                      type: string
+                    apyPercent:
+                      type: string
+                    trades7d:
+                      type: string
+                    trades365d:
+                      type: string
+                    tradeNumberFrom:
+                      type: string
+                    tradeNumberTo:
+                      type: string
+                    createdAt:
+                      type: string
+                    updatedAt:
+                      type: string
+                    baseCoin:
+                      type: string
+                    quoteCoin:
+                      type: string
+                  required:
+                  - id
+                  - pairId
+                  - ticker
+                  - timeframe
+                  - instrument
+                  - bias
+                  - riskPercent
+                  - reinvestEarnings
+                  - maxDeviation
+                  - outOfDeviation
+                  - period
+                  - rrRatio
+                  - leverage
+                  - isActive
+                  - avgSl
+                  - totalPnlPercent
+                  - pnl7dPercent
+                  - apyPercent
+                  - trades7d
+                  - trades365d
+                  - tradeNumberFrom
+                  - tradeNumberTo
+                  - createdAt
+                  - updatedAt
+                  - baseCoin
+                  - quoteCoin
+  /api/ai-strategy/order:
+    get:
+      tags:
+      - AI Strategy
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: subscribeId
+        schema:
+          type: string
+      - in: query
+        name: pairId
+        schema:
+          type: string
+      - in: query
+        name: after
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: before
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        evedexId:
+                          type: string
+                        instrument:
+                          type: string
+                        side:
+                          type: string
+                          enum:
+                          - BUY
+                          - SELL
+                        cashQuantity:
+                          type: string
+                        leverage:
+                          type: number
+                        timeInForce:
+                          type: string
+                          enum:
+                          - DAY
+                          - GTC
+                          - FOK
+                          - IOC
+                        status:
+                          type: string
+                          enum:
+                          - INTENTION
+                          - NEW
+                          - PARTIALLY_FILLED
+                          - FILLED
+                          - CANCELLED
+                          - REJECTED
+                          - EXPIRED
+                          - REPLACED
+                          - ERROR
+                        realizedPnl:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - evedexId
+                      - instrument
+                      - side
+                      - cashQuantity
+                      - leverage
+                      - timeInForce
+                      - status
+                      - realizedPnl
+                      - createdAt
+                      - updatedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

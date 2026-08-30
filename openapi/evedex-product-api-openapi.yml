@@ -1,0 +1,284 @@
+openapi: 3.2.0
+info:
+  title: Evedex Product API
+  version: 1.0.0
+  description: 'Operations tagged Product across 2 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-billing-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://billing-api.evedex.com
+tags:
+- name: Product
+paths:
+  /auth/user/product/list:
+    get:
+      tags:
+      - Product
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductObject'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/product/list:
+    get:
+      tags:
+      - Product
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductObject_2'
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://billing-api.evedex.com
+  /api/product/{productId}:
+    get:
+      tags:
+      - Product
+      security: []
+      parameters:
+      - in: path
+        name: productId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductObject_2'
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://billing-api.evedex.com
+components:
+  schemas:
+    ProductObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        price:
+          type: number
+        currency:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        accesss:
+          type: string
+          enum:
+          - buffOnly
+          - public
+        privilegies:
+          anyOf:
+          - type: object
+            properties:
+              type:
+                type: string
+                const: premium
+            required:
+            - type
+          - type: object
+            properties:
+              type:
+                type: string
+                const: academyCourse
+              courses:
+                type: array
+                items:
+                  type: string
+            required:
+            - type
+            - courses
+        availability:
+          type: boolean
+        paymentInfo:
+          anyOf:
+          - type: object
+            properties:
+              mode:
+                type: string
+                const: subscription
+              period:
+                type: string
+                enum:
+                - 1d
+                - 1m
+                - 6m
+                - 1y
+            required:
+            - mode
+            - period
+          - type: object
+            properties:
+              mode:
+                type: string
+                const: oneTime
+            required:
+            - mode
+        discount:
+          type: number
+        lastSaleDate:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - price
+      - currency
+      - description
+      - name
+      - accesss
+      - privilegies
+      - availability
+      - paymentInfo
+      - discount
+      - lastSaleDate
+      - createdAt
+      - updatedAt
+    ProductObject_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        price:
+          type: number
+        currency:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        access:
+          type: string
+          enum:
+          - buffOnly
+          - all
+          - public
+        privilegies:
+          anyOf:
+          - type: object
+            properties:
+              type:
+                type: string
+                const: premium
+            required:
+            - type
+          - type: object
+            properties:
+              type:
+                type: string
+                const: academyCourse
+              courses:
+                type: array
+                items:
+                  type: string
+            required:
+            - type
+            - courses
+        availability:
+          type: boolean
+        paymentInfo:
+          anyOf:
+          - type: object
+            properties:
+              mode:
+                type: string
+                const: subscription
+              period:
+                type: string
+                enum:
+                - 1d
+                - 1m
+                - 6m
+                - 1y
+            required:
+            - mode
+            - period
+          - type: object
+            properties:
+              mode:
+                type: string
+                const: oneTime
+            required:
+            - mode
+        discount:
+          type: number
+        lastSaleDate:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - price
+      - currency
+      - description
+      - name
+      - access
+      - privilegies
+      - availability
+      - paymentInfo
+      - discount
+      - lastSaleDate
+      - createdAt
+      - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-billing-openapi.json

@@ -1,0 +1,101 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Backoffice general Journal API
+  version: 1.0.0
+servers:
+- url: https://backoffice-api.private.evedex.com
+tags:
+- name: Journal
+paths:
+  /api/journal/list:
+    get:
+      tags:
+      - Journal
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: type
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalList'
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    JournalList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    JournalObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+        type:
+          type: string
+          enum:
+          - general_stat
+        status:
+          type: string
+          enum:
+          - new
+          - process
+          - done
+          - error
+        linkUrl:
+          type:
+          - string
+          - 'null'
+        fromDate:
+          type: string
+        toDate:
+          type: string
+        createdAt:
+          type: string
+      required:
+      - id
+      - user
+      - type
+      - status
+      - linkUrl
+      - fromDate
+      - toDate
+      - createdAt
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer

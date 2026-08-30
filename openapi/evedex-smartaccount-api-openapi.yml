@@ -1,0 +1,156 @@
+openapi: 3.2.0
+info:
+  title: Evedex Smart Account API
+  version: 1.0.0
+  description: 'Operations tagged SmartAccount across 2 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: SmartAccount
+paths:
+  /auth/smart-account/validate:
+    post:
+      tags:
+      - SmartAccount
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateSmartAccountsBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateSmartAccountsResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/smart-account/validate:
+    post:
+      tags:
+      - SmartAccount
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateSmartAccountsBody_2'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateSmartAccountsResponse_2'
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  schemas:
+    ValidateSmartAccountsResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              exists:
+                type: boolean
+            required:
+            - address
+            - exists
+      required:
+      - results
+    ValidateSmartAccountsBody:
+      type: object
+      properties:
+        networkName:
+          type: string
+        addresses:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          minItems: 1
+          maxItems: 100
+      required:
+      - addresses
+    ValidateSmartAccountsResponse_2:
+      type: object
+      properties:
+        allValid:
+          type: boolean
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              exists:
+                type: boolean
+              amount:
+                type: string
+            required:
+            - address
+            - exists
+      required:
+      - allValid
+      - results
+    ValidateSmartAccountsBody_2:
+      anyOf:
+      - type: object
+        properties:
+          addresses:
+            type: array
+            items:
+              type: string
+              minLength: 1
+            minItems: 1
+            maxItems: 100
+        required:
+        - addresses
+      - type: object
+        properties:
+          entries:
+            type: array
+            items:
+              type: object
+              properties:
+                address:
+                  type: string
+                  minLength: 1
+                amount:
+                  type: string
+              required:
+              - address
+            minItems: 1
+            maxItems: 100
+        required:
+        - entries
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-exchange-openapi.json

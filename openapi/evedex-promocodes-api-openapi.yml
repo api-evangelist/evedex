@@ -1,0 +1,374 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Promocodes API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Promocodes
+paths:
+  /api/promocodes/{id}:
+    put:
+      tags:
+      - Promocodes
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromocodeUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromocodeUpdateResponse'
+  /api/promocodes/redeem:
+    post:
+      tags:
+      - Promocodes
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromocodeRedeemBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromocodeRedeemResponse'
+  /api/promocodes/list:
+    get:
+      tags:
+      - Promocodes
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromocodeListResponse'
+  /api/promocodes:
+    post:
+      tags:
+      - Promocodes
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromocodeCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromocodeCreateResponse'
+components:
+  schemas:
+    PromocodeUpdateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        user:
+          type: string
+          format: uuid
+        expiresAt:
+          type: string
+        availableUses:
+          type: integer
+          minimum: 0
+        totalUses:
+          type: integer
+          minimum: 0
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        reward:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - points
+                    - luckyShotTickets
+                    - streakFreeze
+                  amount:
+                    type: number
+                    minimum: 0
+                required:
+                - type
+                - amount
+          required:
+          - list
+      required:
+      - id
+      - code
+      - user
+      - expiresAt
+      - availableUses
+      - totalUses
+      - createdAt
+      - updatedAt
+      - reward
+    PromocodeCreateBody:
+      type: object
+      properties:
+        code:
+          type: string
+        expiresAt:
+          type: string
+        totalUses:
+          type: integer
+          minimum: 0
+        reward:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - points
+                    - luckyShotTickets
+                    - streakFreeze
+                  amount:
+                    type: number
+                    minimum: 0
+                required:
+                - type
+                - amount
+          required:
+          - list
+      required:
+      - code
+      - expiresAt
+      - totalUses
+      - reward
+    PromocodeListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              code:
+                type: string
+              user:
+                type: string
+                format: uuid
+              expiresAt:
+                type: string
+              availableUses:
+                type: integer
+                minimum: 0
+              totalUses:
+                type: integer
+                minimum: 0
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+              reward:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          enum:
+                          - points
+                          - luckyShotTickets
+                          - streakFreeze
+                        amount:
+                          type: number
+                          minimum: 0
+                      required:
+                      - type
+                      - amount
+                required:
+                - list
+            required:
+            - id
+            - code
+            - user
+            - expiresAt
+            - availableUses
+            - totalUses
+            - createdAt
+            - updatedAt
+            - reward
+      required:
+      - list
+    PromocodeUpdateBody:
+      type: object
+      properties:
+        code:
+          type: string
+        expiresAt:
+          type: string
+        totalUses:
+          type: integer
+          minimum: 0
+        reward:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - points
+                    - luckyShotTickets
+                    - streakFreeze
+                  amount:
+                    type: number
+                    minimum: 0
+                required:
+                - type
+                - amount
+          required:
+          - list
+    PromocodeRedeemResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        reward:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - points
+                    - luckyShotTickets
+                    - streakFreeze
+                  amount:
+                    type: number
+                    minimum: 0
+                required:
+                - type
+                - amount
+          required:
+          - list
+      required:
+      - success
+    PromocodeRedeemBody:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
+    PromocodeCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        user:
+          type: string
+          format: uuid
+        expiresAt:
+          type: string
+        availableUses:
+          type: integer
+          minimum: 0
+        totalUses:
+          type: integer
+          minimum: 0
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        reward:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - points
+                    - luckyShotTickets
+                    - streakFreeze
+                  amount:
+                    type: number
+                    minimum: 0
+                required:
+                - type
+                - amount
+          required:
+          - list
+      required:
+      - id
+      - code
+      - user
+      - expiresAt
+      - availableUses
+      - totalUses
+      - createdAt
+      - updatedAt
+      - reward
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

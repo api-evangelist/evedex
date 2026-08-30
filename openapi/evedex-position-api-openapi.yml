@@ -1,0 +1,555 @@
+openapi: 3.2.0
+info:
+  title: Evedex Position API
+  version: 1.0.0
+  description: 'Operations tagged Position across 2 of this provider''s published API definitions: evedex-ai-strategies-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ai-strategies-api.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: Position
+paths:
+  /api/position:
+    get:
+      tags:
+      - Position
+      security:
+      - InternalToken: []
+      parameters:
+      - in: query
+        name: evedexUserId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: side
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - Buy
+          - Sell
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        user:
+                          type: string
+                        instrument:
+                          type: string
+                        side:
+                          type: string
+                          enum:
+                          - Buy
+                          - Sell
+                        quantity:
+                          type: string
+                        avgPrice:
+                          type: string
+                        leverage:
+                          type: number
+                        maintenanceMargin:
+                          type: string
+                        unRealizedPnL:
+                          type: string
+                        adlLevel:
+                          type: string
+                        fee:
+                          type: string
+                        fundingRate:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - user
+                      - instrument
+                      - side
+                      - quantity
+                      - avgPrice
+                      - leverage
+                      - maintenanceMargin
+                      - unRealizedPnL
+                      - adlLevel
+                      - fee
+                      - fundingRate
+                      - createdAt
+                      - updatedAt
+                required:
+                - list
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '451':
+          description: 451 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://ai-strategies-api.evedex.com
+  /api/v2/position/{instrument}/close:
+    post:
+      tags:
+      - Position
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  anyOf:
+                  - type: string
+                  - type: number
+                leverage:
+                  type: integer
+                signature:
+                  type: string
+                chainId:
+                  type: string
+                smp:
+                  type: object
+                  properties:
+                    smp:
+                      type: boolean
+                    smpId:
+                      type: string
+                  required:
+                  - smp
+                  - smpId
+                id:
+                  $ref: '#/components/schemas/OrderIdV2Input'
+              required:
+              - quantity
+              - leverage
+              - signature
+              - chainId
+              - id
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/OrderIdOutput'
+                  user:
+                    type: string
+                  instrument:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - LIMIT
+                    - MARKET
+                    - STOP
+                    - STOP_LIMIT
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  status:
+                    type: string
+                    enum:
+                    - INTENTION
+                    - NEW
+                    - PARTIALLY_FILLED
+                    - FILLED
+                    - CANCELLED
+                    - REJECTED
+                    - EXPIRED
+                    - REPLACED
+                    - ERROR
+                  rejectedReason:
+                    type: string
+                  quantity:
+                    type: number
+                  limitPrice:
+                    type: number
+                  stopPrice:
+                    type:
+                    - number
+                    - 'null'
+                  group:
+                    type: string
+                    enum:
+                    - manually
+                    - tpsl
+                    - take-profit
+                    - stop-loss
+                    - liquidation
+                    - adl
+                    - otc
+                    - otc-hidden
+                  unFilledQuantity:
+                    type: number
+                  cashQuantity:
+                    type: number
+                  filledAvgPrice:
+                    type: number
+                  realizedPnL:
+                    type: number
+                  fee:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        coin:
+                          type: string
+                        quantity:
+                          type: number
+                      required:
+                      - coin
+                      - quantity
+                  triggeredAt:
+                    type:
+                    - string
+                    - 'null'
+                  exchangeRequestId:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - user
+                - instrument
+                - type
+                - side
+                - status
+                - rejectedReason
+                - quantity
+                - limitPrice
+                - stopPrice
+                - group
+                - unFilledQuantity
+                - cashQuantity
+                - filledAvgPrice
+                - realizedPnL
+                - fee
+                - triggeredAt
+                - createdAt
+                - updatedAt
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/position/{instrument}:
+    put:
+      tags:
+      - Position
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                leverage:
+                  type: integer
+                  minimum: 1
+                  maximum: 300
+              required:
+              - leverage
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instrument:
+                    type: string
+                  side:
+                    $ref: '#/components/schemas/Side'
+                  quantity:
+                    type: number
+                  avgPrice:
+                    type: number
+                  leverage:
+                    type: number
+                  maintenanceMargin:
+                    type: number
+                required:
+                - instrument
+                - side
+                - quantity
+                - avgPrice
+                - leverage
+                - maintenanceMargin
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/position/history:
+    get:
+      tags:
+      - Position
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: fields
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+              enum:
+              - fill
+          - type: string
+            enum:
+            - fill
+          deprecated: true
+      - in: query
+        name: instrument
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+      - in: query
+        name: closeType
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/CloseType'
+          - type: array
+            items:
+              $ref: '#/components/schemas/CloseType'
+          - type: 'null'
+      - in: query
+        name: side
+        schema:
+          $ref: '#/components/schemas/Side'
+      - in: query
+        name: openAfter
+        schema:
+          type: string
+      - in: query
+        name: openBefore
+        schema:
+          type: string
+      - in: query
+        name: closeAfter
+        schema:
+          type: string
+      - in: query
+        name: closeBefore
+        schema:
+          type: string
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - open-at-asc
+          - open-at-desc
+          - close-at-asc
+          - close-at-desc
+          default: open-at-desc
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PositionHistoryFillList'
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    CloseType:
+      type: string
+      enum:
+      - manually
+      - take-profit
+      - stop-loss
+      - liquidated
+      - adl
+    PositionHistoryObject:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        leverage:
+          type: number
+        version:
+          type: number
+        closeType:
+          type: string
+          enum:
+          - manually
+          - take-profit
+          - stop-loss
+          - liquidated
+          - adl
+      required:
+      - id
+      - user
+      - instrument
+      - side
+      - leverage
+      - version
+      - closeType
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    OrderIdOutput:
+      type: string
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PositionHistoryFillObject:
+      allOf:
+      - $ref: '#/components/schemas/PositionHistoryObject'
+      - type: object
+        properties:
+          buyQuantity:
+            type: number
+          sellQuantity:
+            type: number
+          buyVolume:
+            type: number
+          sellVolume:
+            type: number
+          buyAvgPrice:
+            type: number
+          sellAvgPrice:
+            type: number
+          realizedPnL:
+            type: number
+          realizedPnLPercent:
+            type: number
+          fee:
+            type: number
+          fundingRate:
+            type: number
+          openAt:
+            type: string
+          closeAt:
+            type: string
+        required:
+        - buyQuantity
+        - sellQuantity
+        - buyVolume
+        - sellVolume
+        - buyAvgPrice
+        - sellAvgPrice
+        - realizedPnL
+        - realizedPnLPercent
+        - fee
+        - fundingRate
+        - openAt
+        - closeAt
+    PositionHistoryFillList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionHistoryFillObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-ai-strategies-openapi.json
+- evedex-exchange-openapi.json

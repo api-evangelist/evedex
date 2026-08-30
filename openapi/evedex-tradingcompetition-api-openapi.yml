@@ -1,0 +1,264 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Trading Competition API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: TradingCompetition
+paths:
+  /api/leaderboard-podium/trading:
+    get:
+      tags:
+      - TradingCompetition
+      summary: Get top Trading Competition
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leaderboard:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: number
+                        user:
+                          type: string
+                          format: uuid
+                        level:
+                          type: number
+                        experience:
+                          type: string
+                        realizedPnL:
+                          type: string
+                        score:
+                          type: string
+                          default: '0'
+                        tradingVolume:
+                          type: string
+                        partnerTradingVolume:
+                          type: string
+                          default: '0'
+                        avatar:
+                          type:
+                          - string
+                          - 'null'
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                        skill:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                        achievements:
+                          type: number
+                        wallet:
+                          type: string
+                        smartAccountAddress:
+                          type: string
+                      required:
+                      - rank
+                      - user
+                      - level
+                      - experience
+                      - realizedPnL
+                      - score
+                      - tradingVolume
+                      - partnerTradingVolume
+                      - avatar
+                      - skill
+                      - achievements
+                      - wallet
+                      - smartAccountAddress
+                  podium:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rank:
+                          type: number
+                        user:
+                          type: string
+                          format: uuid
+                        level:
+                          type: number
+                        experience:
+                          type: string
+                        realizedPnL:
+                          type: string
+                        score:
+                          type: string
+                          default: '0'
+                        tradingVolume:
+                          type: string
+                        partnerTradingVolume:
+                          type: string
+                          default: '0'
+                        avatar:
+                          type:
+                          - string
+                          - 'null'
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                        skill:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                        achievements:
+                          type: number
+                        wallet:
+                          type: string
+                        smartAccountAddress:
+                          type: string
+                      required:
+                      - rank
+                      - user
+                      - level
+                      - experience
+                      - realizedPnL
+                      - score
+                      - tradingVolume
+                      - partnerTradingVolume
+                      - avatar
+                      - skill
+                      - achievements
+                      - wallet
+                      - smartAccountAddress
+                  competition:
+                    type:
+                    - object
+                    - 'null'
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      startAt:
+                        type: string
+                      finishAt:
+                        type: string
+                    required:
+                    - id
+                    - startAt
+                    - finishAt
+                  totalTradingVolume:
+                    type: string
+                  podiumPrizes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        place:
+                          type: number
+                        reward:
+                          type: number
+                        prize:
+                          type: string
+                      required:
+                      - place
+                      - reward
+                  prizeVolumeScale:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        requireTradingVolume:
+                          type: string
+                        prizePool:
+                          type: number
+                        prizePlaces:
+                          type: number
+                        isReached:
+                          type: boolean
+                      required:
+                      - id
+                      - requireTradingVolume
+                      - prizePool
+                      - prizePlaces
+                      - isReached
+                  activePrizePool:
+                    type:
+                    - object
+                    - 'null'
+                    properties:
+                      id:
+                        type: string
+                      requireTradingVolume:
+                        type: string
+                      prizePool:
+                        type: number
+                      prizePlaces:
+                        type: number
+                    required:
+                    - id
+                    - requireTradingVolume
+                    - prizePool
+                    - prizePlaces
+                  user:
+                    type: object
+                    properties:
+                      personalVolume:
+                        type: string
+                      partnerVolume:
+                        type: string
+                      points:
+                        type: string
+                      multiplier:
+                        type: number
+                      lastMultiplierUpgrade:
+                        type:
+                        - string
+                        - 'null'
+                    required:
+                    - personalVolume
+                    - partnerVolume
+                    - points
+                    - multiplier
+                    - lastMultiplierUpgrade
+                  multiplierScale:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        multiplier:
+                          type: number
+                        requirePartnerVolume:
+                          type: string
+                        achievedAt:
+                          type:
+                          - string
+                          - 'null'
+                      required:
+                      - multiplier
+                      - requirePartnerVolume
+                      - achievedAt
+                required:
+                - leaderboard
+                - podium
+                - competition
+                - totalTradingVolume
+                - podiumPrizes
+                - prizeVolumeScale
+                - activePrizePool
+                - user
+                - multiplierScale
+components:
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

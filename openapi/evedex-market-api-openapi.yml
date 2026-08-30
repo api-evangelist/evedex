@@ -1,0 +1,1375 @@
+openapi: 3.2.0
+info:
+  title: Evedex Market API
+  version: 1.0.0
+  description: 'Operations tagged Market across 2 of this provider''s published API definitions: evedex-ai-strategies-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://ai-strategies-api.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: Market
+paths:
+  /api/price/{inst}:
+    get:
+      tags:
+      - Market
+      security:
+      - InternalToken: []
+      parameters:
+      - in: path
+        name: inst
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  markPrice:
+                    type: number
+                  lastPrice:
+                    type: number
+                required:
+                - ok
+                - markPrice
+                - lastPrice
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '451':
+          description: 451 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://ai-strategies-api.evedex.com
+  /api/instrument:
+    get:
+      tags:
+      - Market
+      security:
+      - InternalToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        displayName:
+                          type: string
+                        from:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                            symbol:
+                              type: string
+                            image:
+                              type:
+                              - string
+                              - 'null'
+                              format: uri
+                            precision:
+                              type: number
+                            showPrecision:
+                              type: number
+                            createdAt:
+                              type: string
+                          required:
+                          - id
+                          - name
+                          - symbol
+                          - image
+                          - precision
+                          - showPrecision
+                          - createdAt
+                        to:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                            symbol:
+                              type: string
+                            image:
+                              type:
+                              - string
+                              - 'null'
+                              format: uri
+                            precision:
+                              type: number
+                            showPrecision:
+                              type: number
+                            createdAt:
+                              type: string
+                          required:
+                          - id
+                          - name
+                          - symbol
+                          - image
+                          - precision
+                          - showPrecision
+                          - createdAt
+                        maxLeverage:
+                          type: integer
+                        leverageLimit:
+                          type: object
+                          additionalProperties:
+                            type: number
+                        lotSize:
+                          type: number
+                        quantityIncrement:
+                          type: number
+                        priceIncrement:
+                          type: number
+                        multiplier:
+                          type: number
+                        minPrice:
+                          type: number
+                        maxPrice:
+                          type: number
+                        minQuantity:
+                          type: number
+                        maxQuantity:
+                          type: number
+                        slippageLimit:
+                          type: number
+                        lastPrice:
+                          type: number
+                        markPrice:
+                          type: number
+                        fatFingerPriceProtection:
+                          type: number
+                        markPriceLimit:
+                          type: number
+                        visibility:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                        trading:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                          - onlyClose
+                          - marketMakerOnly
+                        marketState:
+                          type: string
+                          enum:
+                          - INHERITED
+                          - OPEN
+                          - CLOSED
+                          - PAUSED
+                          - HALTED
+                          - PRE_OPEN_NO_CANCEL
+                          - PRE_OPEN
+                        updatedAt:
+                          type: string
+                        startDate:
+                          type:
+                          - string
+                          - 'null'
+                        isPopular:
+                          type: boolean
+                      required:
+                      - id
+                      - name
+                      - displayName
+                      - from
+                      - to
+                      - maxLeverage
+                      - leverageLimit
+                      - lotSize
+                      - quantityIncrement
+                      - priceIncrement
+                      - multiplier
+                      - minPrice
+                      - maxPrice
+                      - minQuantity
+                      - maxQuantity
+                      - slippageLimit
+                      - lastPrice
+                      - markPrice
+                      - fatFingerPriceProtection
+                      - markPriceLimit
+                      - visibility
+                      - trading
+                      - marketState
+                      - updatedAt
+                      - startDate
+                      - isPopular
+                required:
+                - ok
+                - list
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '451':
+          description: 451 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://ai-strategies-api.evedex.com
+  /api/market/{instrument}/trades:
+    get:
+      tags:
+      - Market
+      deprecated: true
+      security: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TradeObject'
+                deprecated: true
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/market/{instrument}/recent-trades:
+    get:
+      tags:
+      - Market
+      security: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecentTradeObject'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/market/power:
+    get:
+      tags:
+      - Market
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: instrument
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: leverage
+        schema:
+          anyOf:
+          - type: number
+          - type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  funding:
+                    type: number
+                    deprecated: true
+                  anotherPositionVolume:
+                    type: number
+                    deprecated: true
+                  buy:
+                    type: object
+                    properties:
+                      position:
+                        type: number
+                        deprecated: true
+                      unFilledOrder:
+                        type: number
+                        deprecated: true
+                      power:
+                        type: number
+                    required:
+                    - position
+                    - unFilledOrder
+                    - power
+                  sell:
+                    type: object
+                    properties:
+                      position:
+                        type: number
+                        deprecated: true
+                      unFilledOrder:
+                        type: number
+                        deprecated: true
+                      power:
+                        type: number
+                    required:
+                    - position
+                    - unFilledOrder
+                    - power
+                required:
+                - funding
+                - anotherPositionVolume
+                - buy
+                - sell
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/market:
+    get:
+      tags:
+      - Market
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketInfo'
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/market/{instrument}/deep:
+    get:
+      tags:
+      - Market
+      security: []
+      parameters:
+      - in: path
+        name: instrument
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: marketLevel
+        schema:
+          type: string
+      - in: query
+        name: roundPrice
+        schema:
+          type: string
+          enum:
+          - '0.1'
+          - '1'
+          - '10'
+          - '50'
+          - '100'
+          default: '0.1'
+          deprecated: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  t:
+                    type: number
+                  asks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        price:
+                          type: number
+                        quantity:
+                          type: number
+                      required:
+                      - price
+                      - quantity
+                  bids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        price:
+                          type: number
+                        quantity:
+                          type: number
+                      required:
+                      - price
+                      - quantity
+                required:
+                - t
+                - asks
+                - bids
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/market/available-balance:
+    get:
+      tags:
+      - Market
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: currency
+        schema:
+          type: string
+          enum:
+          - usdt
+          default: usdt
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currency:
+                    type: string
+                    enum:
+                    - usdt
+                  funding:
+                    type: object
+                    properties:
+                      currency:
+                        type: string
+                        enum:
+                        - usdt
+                      balance:
+                        type: number
+                    required:
+                    - currency
+                    - balance
+                  position:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AvailableBalancePosition'
+                  negativeUnPnL:
+                    type: number
+                  openOrder:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AvailableBalanceOpenOrder'
+                  positions:
+                    type: object
+                    additionalProperties:
+                      type: number
+                    deprecated: true
+                  openOrders:
+                    type: object
+                    additionalProperties:
+                      type: number
+                    deprecated: true
+                  availableBalance:
+                    type: number
+                  updatedAt:
+                    type: string
+                required:
+                - currency
+                - funding
+                - position
+                - negativeUnPnL
+                - openOrder
+                - positions
+                - openOrders
+                - availableBalance
+                - updatedAt
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/market/instrument:
+    get:
+      tags:
+      - Market
+      security: []
+      parameters:
+      - in: query
+        name: fields
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - metrics
+          - type: array
+            items:
+              type: string
+              enum:
+              - metrics
+          - type: 'null'
+      - in: query
+        name: instrument
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/InstrumentObject'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/InstrumentMetricsObject'
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    AvailableBalanceOpenOrder:
+      type: object
+      properties:
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        unFilledVolume:
+          $ref: '#/components/schemas/BigNumber'
+        unFilledInitialMargin:
+          $ref: '#/components/schemas/BigNumber'
+      required:
+      - instrument
+      - side
+      - unFilledVolume
+      - unFilledInitialMargin
+    MarketInfo:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - active
+          - request-status-fail
+          - me-dead
+          - db-admin-dead
+          - manually-off
+          - market-makers-only
+        states:
+          type: object
+          properties:
+            devex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+            evex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+          additionalProperties: false
+        fees:
+          type: object
+          properties:
+            taker:
+              type: number
+            maker:
+              type: number
+            liquidation:
+              type: number
+          required:
+          - taker
+          - maker
+          - liquidation
+        orderDay:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - state
+      - states
+      - fees
+      - orderDay
+      - updatedAt
+    TradeObject:
+      type: object
+      properties:
+        user:
+          type: string
+        orderId:
+          $ref: '#/components/schemas/OrderIdOutput'
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        fillQuantity:
+          type: number
+        fillPrice:
+          type: number
+        status:
+          type: string
+          enum:
+          - INTENTION
+          - NEW
+          - PARTIALLY_FILLED
+          - FILLED
+          - CANCELLED
+          - REJECTED
+          - EXPIRED
+          - REPLACED
+          - ERROR
+        createdAt:
+          type: string
+      required:
+      - user
+      - orderId
+      - instrument
+      - side
+      - fillQuantity
+      - fillPrice
+      - status
+      - createdAt
+      deprecated: true
+    RecentTradeObject:
+      type: object
+      properties:
+        executionId:
+          type: string
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        fillQuantity:
+          type: number
+        fillPrice:
+          type: number
+        createdAt:
+          type: string
+      required:
+      - executionId
+      - instrument
+      - side
+      - fillQuantity
+      - fillPrice
+      - createdAt
+    InstrumentMetricsObject:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        displayName:
+          type: string
+        from:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            symbol:
+              type: string
+            image:
+              type:
+              - string
+              - 'null'
+              format: uri
+            precision:
+              type: number
+            showPrecision:
+              type: number
+              deprecated: true
+            createdAt:
+              type: string
+            avgLastPrice:
+              type: number
+          required:
+          - id
+          - name
+          - symbol
+          - image
+          - precision
+          - showPrecision
+          - createdAt
+          - avgLastPrice
+        to:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            symbol:
+              type: string
+            image:
+              type:
+              - string
+              - 'null'
+              format: uri
+            precision:
+              type: number
+            showPrecision:
+              type: number
+              deprecated: true
+            createdAt:
+              type: string
+          required:
+          - id
+          - name
+          - symbol
+          - image
+          - precision
+          - showPrecision
+          - createdAt
+        schedule:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            timezone:
+              type: string
+              example: Europe/Paris
+            days:
+              type: array
+              items:
+                type: object
+                properties:
+                  day:
+                    type: integer
+                    minimum: 1
+                    maximum: 7
+                    description: 1 - monday, 7 - sunday
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                          - onlyClose
+                          - marketMakerOnly
+                          - schedule
+                        start:
+                          type: string
+                          example: 08:00:00
+                        end:
+                          type: string
+                          example: '20:00:00'
+                      required:
+                      - status
+                      - start
+                      - end
+                required:
+                - day
+                - sessions
+            specificDates:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    example: 2026.04.30
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                          - onlyClose
+                          - marketMakerOnly
+                          - schedule
+                        start:
+                          type: string
+                          example: 08:00:00
+                        end:
+                          type: string
+                          example: '20:00:00'
+                      required:
+                      - status
+                      - start
+                      - end
+                required:
+                - date
+                - sessions
+          required:
+          - id
+          - name
+          - timezone
+          - days
+          - specificDates
+        type:
+          type: string
+          enum:
+          - perpetual-futures
+          - commodities
+          - forex
+          - cfd
+          - indices
+          - stocks
+          - premarket
+        isPopular:
+          type: boolean
+        minVolume:
+          type: number
+        minPrice:
+          type: number
+        maxPrice:
+          type: number
+        minQuantity:
+          type: number
+        maxQuantity:
+          type: number
+        maxLeverage:
+          type: integer
+        slippageLimit:
+          type: number
+        fatFingerPriceProtection:
+          type: number
+        markPriceLimit:
+          type: number
+        leverageLimit:
+          type: object
+          additionalProperties:
+            type: number
+        lotSize:
+          type: number
+        priceIncrement:
+          type: number
+        quantityIncrement:
+          type: number
+        multiplier:
+          type: number
+        maintenanceMargin:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              percent:
+                type: number
+              deviance:
+                type: number
+            required:
+            - percent
+            - deviance
+        fundingRate:
+          type: number
+        fundingRateCreatedAt:
+          type: string
+        lastPrice:
+          type: number
+        openInterest:
+          type: number
+        markPrice:
+          type: number
+        volume:
+          type: number
+        closePrice:
+          type: number
+        high:
+          type: number
+        low:
+          type: number
+        volumeBase:
+          type: number
+        visibility:
+          type: string
+          enum:
+          - all
+          - restricted
+          - none
+        trading:
+          type: string
+          enum:
+          - all
+          - restricted
+          - none
+          - onlyClose
+          - marketMakerOnly
+          - schedule
+        marketState:
+          type: string
+          enum:
+          - INHERITED
+          - OPEN
+          - CLOSED
+          - PAUSED
+          - HALTED
+          - PRE_OPEN_NO_CANCEL
+          - PRE_OPEN
+        startDate:
+          type:
+          - string
+          - 'null'
+        newLabel:
+          type: boolean
+        fundingRateImpactMarginNotional:
+          type:
+          - number
+          - 'null'
+        valueAtRisk:
+          type: number
+          default: 0
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - displayName
+      - from
+      - to
+      - schedule
+      - type
+      - isPopular
+      - minVolume
+      - minPrice
+      - maxPrice
+      - minQuantity
+      - maxQuantity
+      - maxLeverage
+      - slippageLimit
+      - fatFingerPriceProtection
+      - markPriceLimit
+      - leverageLimit
+      - lotSize
+      - priceIncrement
+      - quantityIncrement
+      - multiplier
+      - maintenanceMargin
+      - fundingRate
+      - fundingRateCreatedAt
+      - lastPrice
+      - openInterest
+      - markPrice
+      - volume
+      - closePrice
+      - high
+      - low
+      - volumeBase
+      - visibility
+      - trading
+      - marketState
+      - startDate
+      - newLabel
+      - fundingRateImpactMarginNotional
+      - valueAtRisk
+      - updatedAt
+    OrderIdOutput:
+      type: string
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
+    InstrumentObject:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        displayName:
+          type: string
+        from:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            symbol:
+              type: string
+            image:
+              type:
+              - string
+              - 'null'
+              format: uri
+            precision:
+              type: number
+            showPrecision:
+              type: number
+              deprecated: true
+            createdAt:
+              type: string
+            avgLastPrice:
+              type: number
+          required:
+          - id
+          - name
+          - symbol
+          - image
+          - precision
+          - showPrecision
+          - createdAt
+          - avgLastPrice
+        to:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            symbol:
+              type: string
+            image:
+              type:
+              - string
+              - 'null'
+              format: uri
+            precision:
+              type: number
+            showPrecision:
+              type: number
+              deprecated: true
+            createdAt:
+              type: string
+          required:
+          - id
+          - name
+          - symbol
+          - image
+          - precision
+          - showPrecision
+          - createdAt
+        schedule:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            timezone:
+              type: string
+              example: Europe/Paris
+            days:
+              type: array
+              items:
+                type: object
+                properties:
+                  day:
+                    type: integer
+                    minimum: 1
+                    maximum: 7
+                    description: 1 - monday, 7 - sunday
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                          - onlyClose
+                          - marketMakerOnly
+                          - schedule
+                        start:
+                          type: string
+                          example: 08:00:00
+                        end:
+                          type: string
+                          example: '20:00:00'
+                      required:
+                      - status
+                      - start
+                      - end
+                required:
+                - day
+                - sessions
+            specificDates:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    example: 2026.04.30
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                          - onlyClose
+                          - marketMakerOnly
+                          - schedule
+                        start:
+                          type: string
+                          example: 08:00:00
+                        end:
+                          type: string
+                          example: '20:00:00'
+                      required:
+                      - status
+                      - start
+                      - end
+                required:
+                - date
+                - sessions
+          required:
+          - id
+          - name
+          - timezone
+          - days
+          - specificDates
+        type:
+          type: string
+          enum:
+          - perpetual-futures
+          - commodities
+          - forex
+          - cfd
+          - indices
+          - stocks
+          - premarket
+        maxLeverage:
+          type: integer
+        leverageLimit:
+          type: object
+          additionalProperties:
+            type: number
+        lotSize:
+          type: number
+        priceIncrement:
+          type: number
+        quantityIncrement:
+          type: number
+        multiplier:
+          type: number
+        maintenanceMargin:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              percent:
+                type: number
+              deviance:
+                type: number
+            required:
+            - percent
+            - deviance
+        minVolume:
+          type: number
+        minPrice:
+          type: number
+        maxPrice:
+          type: number
+        minQuantity:
+          type: number
+        maxQuantity:
+          type: number
+        slippageLimit:
+          type: number
+        lastPrice:
+          type: number
+        markPrice:
+          type: number
+        fatFingerPriceProtection:
+          type: number
+        markPriceLimit:
+          type: number
+        visibility:
+          type: string
+          enum:
+          - all
+          - restricted
+          - none
+        trading:
+          type: string
+          enum:
+          - all
+          - restricted
+          - none
+          - onlyClose
+          - marketMakerOnly
+          - schedule
+        marketState:
+          type: string
+          enum:
+          - INHERITED
+          - OPEN
+          - CLOSED
+          - PAUSED
+          - HALTED
+          - PRE_OPEN_NO_CANCEL
+          - PRE_OPEN
+        updatedAt:
+          type: string
+        startDate:
+          type:
+          - string
+          - 'null'
+        isPopular:
+          type: boolean
+        newLabel:
+          type: boolean
+        fundingRateImpactMarginNotional:
+          type:
+          - number
+          - 'null'
+      required:
+      - id
+      - name
+      - displayName
+      - from
+      - to
+      - schedule
+      - type
+      - maxLeverage
+      - leverageLimit
+      - lotSize
+      - priceIncrement
+      - quantityIncrement
+      - multiplier
+      - maintenanceMargin
+      - minVolume
+      - minPrice
+      - maxPrice
+      - minQuantity
+      - maxQuantity
+      - slippageLimit
+      - lastPrice
+      - markPrice
+      - fatFingerPriceProtection
+      - markPriceLimit
+      - visibility
+      - trading
+      - marketState
+      - updatedAt
+      - startDate
+      - isPopular
+      - newLabel
+      - fundingRateImpactMarginNotional
+    AvailableBalancePosition:
+      type: object
+      properties:
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        volume:
+          $ref: '#/components/schemas/BigNumber'
+        initialMargin:
+          $ref: '#/components/schemas/BigNumber'
+      required:
+      - instrument
+      - side
+      - volume
+      - initialMargin
+    BigNumber:
+      type: string
+      description: Big number value
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-ai-strategies-openapi.json
+- evedex-exchange-openapi.json

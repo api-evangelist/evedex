@@ -1,0 +1,73 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Auth Discord API
+  version: 1.0.0
+servers:
+- url: https://auth-api.evedex.com
+tags:
+- name: Discord
+paths:
+  /auth/discord/revoke:
+    post:
+      tags:
+      - Discord
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /auth/discord/link:
+    get:
+      tags:
+      - Discord
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uri:
+                    type: string
+                required:
+                - uri
+  /auth/discord/callback:
+    get:
+      tags:
+      - Discord
+      security: []
+      parameters:
+      - in: query
+        name: state
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '302':
+          description: 302 OK
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer

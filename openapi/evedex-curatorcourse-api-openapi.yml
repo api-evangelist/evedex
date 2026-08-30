@@ -1,0 +1,119 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Curator Course API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: CuratorCourse
+paths:
+  /api/course/{courseId}/curator:
+    get:
+      tags:
+      - CuratorCourse
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseCuratorObjectList'
+    post:
+      tags:
+      - CuratorCourse
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourseCurator'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseCuratorObject'
+  /api/course/{courseId}/curator/{curatorId}:
+    delete:
+      tags:
+      - CuratorCourse
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: curatorId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+    CreateCourseCurator:
+      type: object
+      properties:
+        curator:
+          type: string
+      required:
+      - curator
+    CourseCuratorObjectList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CourseCuratorObject'
+    CourseCuratorObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        course:
+          type: string
+          format: uuid
+        curator:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+      required:
+      - id
+      - course
+      - curator
+      - createdAt
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

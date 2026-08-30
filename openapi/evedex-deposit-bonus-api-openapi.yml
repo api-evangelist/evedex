@@ -1,0 +1,256 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Deposit Bonus API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Deposit Bonus
+paths:
+  /api/deposit-bonus/transfer:
+    get:
+      tags:
+      - Deposit Bonus
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: order
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        user:
+                          type: string
+                        quantity:
+                          type: string
+                        order:
+                          type:
+                          - string
+                          - 'null'
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                      - id
+                      - user
+                      - quantity
+                      - order
+                      - createdAt
+                      - updatedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/deposit-bonus/state:
+    get:
+      tags:
+      - Deposit Bonus
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  user:
+                    type: string
+                  bonusSettings:
+                    type: object
+                    properties:
+                      deposit:
+                        type: number
+                        minimum: 0
+                      tradeVolume:
+                        type: number
+                        minimum: 0
+                      bonus:
+                        type: number
+                        minimum: 0
+                      mode:
+                        type: string
+                        enum:
+                        - newUser
+                        - oldUser
+                    required:
+                    - deposit
+                    - tradeVolume
+                    - bonus
+                    - mode
+                  deposit:
+                    type: string
+                  tradeVolume:
+                    type: string
+                  expectedTradeVolume:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                    - pending
+                    - review
+                    - activated
+                    - blocked
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - user
+                - bonusSettings
+                - deposit
+                - tradeVolume
+                - expectedTradeVolume
+                - status
+                - createdAt
+                - updatedAt
+  /api/deposit-bonus/rules:
+    get:
+      tags:
+      - Deposit Bonus
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  newUser:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        deposit:
+                          type: number
+                          minimum: 0
+                        tradeVolume:
+                          type: number
+                          minimum: 0
+                        bonus:
+                          type: number
+                          minimum: 0
+                        mode:
+                          type: string
+                          enum:
+                          - newUser
+                          - oldUser
+                      required:
+                      - deposit
+                      - tradeVolume
+                      - bonus
+                      - mode
+                  oldUser:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        deposit:
+                          type: number
+                          minimum: 0
+                        tradeVolume:
+                          type: number
+                          minimum: 0
+                        bonus:
+                          type: number
+                          minimum: 0
+                        mode:
+                          type: string
+                          enum:
+                          - newUser
+                          - oldUser
+                      required:
+                      - deposit
+                      - tradeVolume
+                      - bonus
+                      - mode
+                required:
+                - newUser
+                - oldUser
+  /api/deposit-bonus/balance:
+    get:
+      tags:
+      - Deposit Bonus
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  user:
+                    type: string
+                  balance:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                required:
+                - id
+                - user
+                - balance
+                - createdAt
+                - updatedAt
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

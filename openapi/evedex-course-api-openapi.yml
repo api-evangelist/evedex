@@ -1,0 +1,913 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Course API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: Course
+paths:
+  /api/course/{courseId}/tag/detach:
+    post:
+      tags:
+      - Course
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tagNames:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+              required:
+              - tagNames
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/tag:
+    post:
+      tags:
+      - Course
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tagNames:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+              required:
+              - tagNames
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/opengraph/{opengraphId}:
+    put:
+      tags:
+      - Course
+      description: Update an existing course OpenGraph record by its ID
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: opengraphId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locale:
+                  type: string
+                  enum:
+                  - en-US
+                  - ru-RU
+                  - ar-AE
+                  - zh-HK
+                  - de-DE
+                  - es-ES
+                  - pt-PT
+                  - tr-TR
+                tag:
+                  type: string
+                  minLength: 1
+                value:
+                  type: string
+                  default: ''
+              required:
+              - locale
+              - tag
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  course:
+                    type: string
+                  locale:
+                    type: string
+                    enum:
+                    - en-US
+                    - ru-RU
+                    - ar-AE
+                    - zh-HK
+                    - de-DE
+                    - es-ES
+                    - pt-PT
+                    - tr-TR
+                  tag:
+                    type: string
+                  value:
+                    type: string
+                required:
+                - id
+                - course
+                - locale
+                - tag
+                - value
+    delete:
+      tags:
+      - Course
+      description: Delete a course OpenGraph record by its ID
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: opengraphId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/opengraph:
+    post:
+      tags:
+      - Course
+      description: Create a new course OpenGraph record
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locale:
+                  type: string
+                  enum:
+                  - en-US
+                  - ru-RU
+                  - ar-AE
+                  - zh-HK
+                  - de-DE
+                  - es-ES
+                  - pt-PT
+                  - tr-TR
+                tag:
+                  type: string
+                  minLength: 1
+                value:
+                  type: string
+                  default: ''
+              required:
+              - locale
+              - tag
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  course:
+                    type: string
+                  locale:
+                    type: string
+                    enum:
+                    - en-US
+                    - ru-RU
+                    - ar-AE
+                    - zh-HK
+                    - de-DE
+                    - es-ES
+                    - pt-PT
+                    - tr-TR
+                  tag:
+                    type: string
+                  value:
+                    type: string
+                required:
+                - id
+                - course
+                - locale
+                - tag
+                - value
+  /api/course/{courseId}/translation-group:
+    put:
+      tags:
+      - Course
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseTranslationLinkBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseTranslationLinkResponse'
+  /api/course/{courseId}:
+    put:
+      tags:
+      - Course
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseUpdateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseObject'
+    get:
+      tags:
+      - Course
+      security: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: locale
+        schema:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-AE
+          - zh-HK
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          default: en-US
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseObject'
+    delete:
+      tags:
+      - Course
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/progress-reset:
+    post:
+      tags:
+      - Course
+      description: Сбрасывает для текущего пользователя все уроки курса с `LessonCompleted` → `NotStarted`
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/participants:
+    get:
+      tags:
+      - Course
+      security: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId:
+                          type: string
+                        userAvatar:
+                          type:
+                          - string
+                          - 'null'
+                        joinedAt:
+                          type: string
+                      required:
+                      - userId
+                      - userAvatar
+                      - joinedAt
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/course:
+    get:
+      tags:
+      - Course
+      security: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: popular
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      - in: query
+        name: locale
+        schema:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-AE
+          - zh-HK
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+      - in: query
+        name: my
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      - in: query
+        name: tags
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseList'
+    post:
+      tags:
+      - Course
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseObject'
+  /api/course/blocks:
+    get:
+      tags:
+      - Course
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/courseBlocksResponse'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+    CourseCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        accessType:
+          type: string
+          enum:
+          - free
+          - public
+          - paid
+          - subscription
+        visibility:
+          type: string
+          enum:
+          - none
+          - all
+          - restricted
+        learn:
+          $ref: '#/components/schemas/List_of_learnings_as_markdown'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-AE
+          - zh-HK
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          default: en-US
+        translationGroupId:
+          type: string
+          format: uuid
+        popular:
+          type: boolean
+        published:
+          type: boolean
+          default: false
+        releaseDate:
+          type:
+          - string
+          - 'null'
+      required:
+      - name
+      - description
+      - accessType
+      - visibility
+      - learn
+      - releaseDate
+    List_of_learnings_as_markdown:
+      type: string
+    courseBlocksResponse:
+      type: object
+      properties:
+        courseBlocks:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              filter:
+                type: object
+                properties:
+                  my:
+                    type: boolean
+                  withTags:
+                    type: array
+                    items:
+                      type: string
+                  withoutTags:
+                    type: array
+                    items:
+                      type: string
+              limit:
+                type: number
+            required:
+            - filter
+            - limit
+      required:
+      - courseBlocks
+    CourseTranslationLinkBody:
+      type: object
+      properties:
+        courseIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - courseIds
+    CourseObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        popular:
+          type: boolean
+        accessType:
+          type: string
+          enum:
+          - free
+          - public
+          - paid
+          - subscription
+        visibility:
+          type: string
+          enum:
+          - none
+          - all
+          - restricted
+        learn:
+          type: string
+        order:
+          type: number
+        duration:
+          type: number
+        slug:
+          type: string
+        progressPercent:
+          type: number
+        modulesCount:
+          type: number
+        lessonsCount:
+          type: number
+        lessonsDoneCount:
+          type: number
+        promo:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              courseCount:
+                type: number
+                default: 0
+            required:
+            - id
+            - name
+            - courseCount
+        subtitleLanguages:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              label:
+                type: string
+            required:
+            - code
+            - label
+        opengraph:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              course:
+                type: string
+              locale:
+                type: string
+                enum:
+                - en-US
+                - ru-RU
+                - ar-AE
+                - zh-HK
+                - de-DE
+                - es-ES
+                - pt-PT
+                - tr-TR
+              tag:
+                type: string
+              value:
+                type: string
+            required:
+            - id
+            - course
+            - locale
+            - tag
+            - value
+          default: []
+        translationGroupId:
+          type: string
+          format: uuid
+        translations:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              locale:
+                type: string
+                enum:
+                - en-US
+                - ru-RU
+                - ar-AE
+                - zh-HK
+                - de-DE
+                - es-ES
+                - pt-PT
+                - tr-TR
+              slug:
+                type: string
+            required:
+            - id
+            - locale
+            - slug
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-AE
+          - zh-HK
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+        published:
+          type: boolean
+        releaseDate:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - imageUrl
+      - popular
+      - accessType
+      - visibility
+      - learn
+      - order
+      - duration
+      - slug
+      - progressPercent
+      - modulesCount
+      - lessonsCount
+      - lessonsDoneCount
+      - promo
+      - createdAt
+      - updatedAt
+      - tags
+      - subtitleLanguages
+      - opengraph
+      - translationGroupId
+      - translations
+      - locale
+      - published
+      - releaseDate
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    CourseTranslationLinkResponse:
+      type: object
+      properties:
+        translationGroupId:
+          type: string
+          format: uuid
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              locale:
+                type: string
+                enum:
+                - en-US
+                - ru-RU
+                - ar-AE
+                - zh-HK
+                - de-DE
+                - es-ES
+                - pt-PT
+                - tr-TR
+              translationGroupId:
+                type: string
+                format: uuid
+            required:
+            - id
+            - locale
+            - translationGroupId
+      required:
+      - translationGroupId
+      - courses
+    CourseList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    CourseUpdateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        accessType:
+          type: string
+          enum:
+          - free
+          - public
+          - paid
+          - subscription
+        visibility:
+          type: string
+          enum:
+          - none
+          - all
+          - restricted
+        learn:
+          type: string
+          description: List of learnings as markdown
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-AE
+          - zh-HK
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          default: en-US
+        translationGroupId:
+          type: string
+          format: uuid
+        order:
+          type: number
+        popular:
+          type: boolean
+        published:
+          type: boolean
+          default: false
+        releaseDate:
+          type: string
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

@@ -1,0 +1,165 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Funded Account API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Funded Account
+paths:
+  /api/funded-account/user/list:
+    get:
+      tags:
+      - Funded Account
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundedAccountListResponse'
+  /api/funded-account/list:
+    get:
+      tags:
+      - Funded Account
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundedAccountOptionsListResponse'
+  /api/funded-account/create:
+    post:
+      tags:
+      - Funded Account
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                option:
+                  type: string
+                  format: uuid
+                userAuthId:
+                  type: string
+                  format: uuid
+              required:
+              - option
+              - userAuthId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    FundedAccountListResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          user:
+            type: string
+          option:
+            type: string
+          parent:
+            type: string
+          smartAccountAddress:
+            type: string
+          createdAt:
+            type: string
+        required:
+        - id
+        - user
+        - option
+        - parent
+        - smartAccountAddress
+        - createdAt
+    FundedAccountOptionsListResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          description:
+            type:
+            - string
+            - 'null'
+            default: null
+          instruments:
+            type: array
+            items:
+              type: object
+              properties:
+                instrument:
+                  type: string
+                leverageLimit:
+                  type: object
+                  additionalProperties:
+                    type: number
+                  default: {}
+                trading:
+                  type: string
+                  enum:
+                  - all
+                  - restricted
+                  - none
+                  - onlyClose
+                  - marketMakerOnly
+                  - schedule
+                visibility:
+                  type: string
+                  enum:
+                  - all
+                  - restricted
+                  - none
+              required:
+              - instrument
+              - leverageLimit
+              - trading
+              - visibility
+          fundedLiquidity:
+            type: number
+          initialDeposit:
+            type: number
+          minBalance:
+            type: number
+          createdAt:
+            type: string
+        required:
+        - id
+        - name
+        - description
+        - instruments
+        - fundedLiquidity
+        - initialDeposit
+        - minBalance
+        - createdAt
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

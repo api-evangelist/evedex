@@ -1,0 +1,177 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Points API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Points
+paths:
+  /api/points/summary:
+    get:
+      tags:
+      - Points
+      summary: Returns aggregated information about current user points.
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointsSummary'
+  /api/points/share/{authId}:
+    post:
+      tags:
+      - Points
+      summary: Returns shared image current user points badge URLs
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: authId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointsImageShareParams'
+  /api/points/history:
+    get:
+      tags:
+      - Points
+      summary: Returns user weekly history for the points competitions.
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointsHistoryList'
+  /api/points/claim:
+    post:
+      tags:
+      - Points
+      summary: Moves user points from the unclaimed bucket to claimed balance.
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointsClaimResponse'
+components:
+  schemas:
+    PointsHistoryList:
+      type: array
+      items:
+        $ref: '#/components/schemas/PointsHistoryItem'
+    PointsImageShareParams:
+      type: object
+      properties:
+        wide:
+          type: string
+          format: uri
+        narrow:
+          type: string
+          format: uri
+      required:
+      - wide
+      - narrow
+    PointsClaimResponse:
+      type: object
+      properties:
+        claimed:
+          type: string
+        totalPoints:
+          type: string
+        unclaimedPoints:
+          type: string
+      required:
+      - claimed
+      - totalPoints
+      - unclaimedPoints
+    PointsSummary:
+      type: object
+      properties:
+        totalPoints:
+          type: string
+        unclaimedPoints:
+          type: string
+        rankId:
+          type: string
+        leagueId:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - totalPoints
+      - unclaimedPoints
+      - rankId
+      - leagueId
+      - updatedAt
+    PointsHistoryItem:
+      type: object
+      properties:
+        fromDate:
+          type: string
+        toDate:
+          type: string
+        experience:
+          type:
+          - string
+          - 'null'
+        tradingVolume:
+          type:
+          - string
+          - 'null'
+        referralVolume:
+          type:
+          - string
+          - 'null'
+        referralPoints:
+          type:
+          - string
+          - 'null'
+        points:
+          type:
+          - string
+          - 'null'
+        pendingPoints:
+          type:
+          - string
+          - 'null'
+        status:
+          type: string
+          enum:
+          - hasData
+          - missing
+          - active
+          - zeroProgress
+      required:
+      - fromDate
+      - toDate
+      - experience
+      - tradingVolume
+      - referralVolume
+      - referralPoints
+      - points
+      - pendingPoints
+      - status
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

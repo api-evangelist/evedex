@@ -1,0 +1,73 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Claim stop list API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Claim stop list
+paths:
+  /api/claim-stop-list:
+    delete:
+      tags:
+      - Claim stop list
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  authId:
+                    type: string
+                    format: uuid
+                required:
+                - authId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    post:
+      tags:
+      - Claim stop list
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  authId:
+                    type: string
+                    format: uuid
+                required:
+                - authId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

@@ -1,0 +1,167 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Article API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Article
+paths:
+  /api/article:
+    get:
+      tags:
+      - Article
+      security: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleList'
+  /api/article/{articleId}:
+    get:
+      tags:
+      - Article
+      security: []
+      parameters:
+      - in: path
+        name: articleId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+components:
+  schemas:
+    ArticleList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleShort'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    ArticleShort:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        image:
+          type: string
+          format: uri
+        link:
+          type: object
+          properties:
+            url:
+              type: string
+            label:
+              type: string
+          required:
+          - url
+        main:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - title
+      - tags
+      - image
+      - link
+      - main
+      - createdAt
+      - updatedAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        image:
+          type: string
+          format: uri
+        link:
+          type: object
+          properties:
+            url:
+              type: string
+            label:
+              type: string
+          required:
+          - url
+        main:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type:
+          - string
+          - 'null'
+        description:
+          type: string
+      required:
+      - id
+      - title
+      - tags
+      - image
+      - link
+      - main
+      - createdAt
+      - updatedAt
+      - description
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

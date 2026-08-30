@@ -1,0 +1,203 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Short Link API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: ShortLink
+paths:
+  /api/user/{userId}/short-link/{shortLinkId}:
+    put:
+      tags:
+      - ShortLink
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: shortLinkId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShortLink'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortLink'
+    delete:
+      tags:
+      - ShortLink
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: path
+        name: shortLinkId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/user/{userId}/short-link:
+    get:
+      tags:
+      - ShortLink
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShortLink'
+    post:
+      tags:
+      - ShortLink
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShortLink'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShortLink'
+  /api/user/short-link/check:
+    get:
+      tags:
+      - ShortLink
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isAccessible:
+                    type: boolean
+                required:
+                - isAccessible
+components:
+  schemas:
+    ShortLink:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        referralCode:
+          type: string
+        name:
+          type: string
+        destinationLink:
+          type: string
+        shortLinkCode:
+          type: string
+        createdAt:
+          type: string
+        shortLinkPath:
+          type: string
+      required:
+      - id
+      - user
+      - referralCode
+      - name
+      - destinationLink
+      - shortLinkCode
+      - createdAt
+      - shortLinkPath
+    CreateShortLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Short link name
+        shortLinkCode:
+          type: string
+          description: Unique code
+        destinationLink:
+          type: string
+          format: uri
+          description: Destination link
+        referralCode:
+          type: string
+          description: Referral link code
+      required:
+      - name
+      - shortLinkCode
+      - destinationLink
+      - referralCode
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

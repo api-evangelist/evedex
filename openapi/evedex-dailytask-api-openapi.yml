@@ -1,0 +1,556 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Daily Task API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: DailyTask
+paths:
+  /api/daily-task/summary:
+    get:
+      tags:
+      - DailyTask
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  date:
+                    type: string
+                  crystals:
+                    type: number
+                  dailyTradingVolume:
+                    type: number
+                  tasks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - login
+                          - tradePair
+                          - tradeLeverage
+                          - openCloseShort
+                          - openCloseLong
+                          - limitOrderFilled
+                          - stopLossTakeProfit
+                          - increasePositionSize
+                          - activateAiStrategy
+                          - keepPositionOpen
+                          - closeTradeWithRoi
+                          - reachDailyVolume
+                          - claimCashback
+                          - twoPositions
+                          - threePositions
+                          - stopLimitTriggered
+                        name:
+                          type: string
+                        description:
+                          type: string
+                        difficulty:
+                          type: number
+                        rewardXp:
+                          type: number
+                        parameters:
+                          type: object
+                          properties:
+                            pair:
+                              type: string
+                            targetLeverage:
+                              type: number
+                            targetRoi:
+                              type: number
+                            targetVolume:
+                              type: string
+                            targetPositions:
+                              type: number
+                          additionalProperties: false
+                        action:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            id:
+                              type: string
+                            type:
+                              type: string
+                              enum:
+                              - navigate
+                              - modal
+                              - deeplink
+                              - external
+                            payload:
+                              type: object
+                              additionalProperties: {}
+                          required:
+                          - id
+                          - type
+                          - payload
+                          additionalProperties: false
+                        status:
+                          type: string
+                          enum:
+                          - assigned
+                          - readyToClaim
+                          - claimed
+                      required:
+                      - id
+                      - type
+                      - name
+                      - description
+                      - difficulty
+                      - rewardXp
+                      - parameters
+                      - action
+                      - status
+                      additionalProperties: false
+                  chests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - default
+                          - special
+                        requiredCrystals:
+                          type: number
+                        requiredTradingVolume:
+                          type: number
+                        rewardXp:
+                          type: number
+                        reward:
+                          type: object
+                          properties:
+                            cashbackBoost:
+                              type: object
+                              properties:
+                                percent:
+                                  type: number
+                                durationHours:
+                                  type: number
+                              required:
+                              - percent
+                              - durationHours
+                            referralBoost:
+                              type: object
+                              properties:
+                                percent:
+                                  type: number
+                                durationHours:
+                                  type: number
+                              required:
+                              - percent
+                              - durationHours
+                            collectibleChance:
+                              type: number
+                          additionalProperties: false
+                        status:
+                          type: string
+                          enum:
+                          - new
+                          - readyToClaim
+                          - claimed
+                      required:
+                      - id
+                      - type
+                      - requiredCrystals
+                      - requiredTradingVolume
+                      - rewardXp
+                      - reward
+                      - status
+                      additionalProperties: false
+                required:
+                - date
+                - crystals
+                - dailyTradingVolume
+                - tasks
+                - chests
+                additionalProperties: false
+  /api/daily-task/chest/{chestId}/claim:
+    post:
+      tags:
+      - DailyTask
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: chestId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  date:
+                    type: string
+                  crystals:
+                    type: number
+                  dailyTradingVolume:
+                    type: number
+                  tasks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - login
+                          - tradePair
+                          - tradeLeverage
+                          - openCloseShort
+                          - openCloseLong
+                          - limitOrderFilled
+                          - stopLossTakeProfit
+                          - increasePositionSize
+                          - activateAiStrategy
+                          - keepPositionOpen
+                          - closeTradeWithRoi
+                          - reachDailyVolume
+                          - claimCashback
+                          - twoPositions
+                          - threePositions
+                          - stopLimitTriggered
+                        name:
+                          type: string
+                        description:
+                          type: string
+                        difficulty:
+                          type: number
+                        rewardXp:
+                          type: number
+                        parameters:
+                          type: object
+                          properties:
+                            pair:
+                              type: string
+                            targetLeverage:
+                              type: number
+                            targetRoi:
+                              type: number
+                            targetVolume:
+                              type: string
+                            targetPositions:
+                              type: number
+                          additionalProperties: false
+                        action:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            id:
+                              type: string
+                            type:
+                              type: string
+                              enum:
+                              - navigate
+                              - modal
+                              - deeplink
+                              - external
+                            payload:
+                              type: object
+                              additionalProperties: {}
+                          required:
+                          - id
+                          - type
+                          - payload
+                          additionalProperties: false
+                        status:
+                          type: string
+                          enum:
+                          - assigned
+                          - readyToClaim
+                          - claimed
+                      required:
+                      - id
+                      - type
+                      - name
+                      - description
+                      - difficulty
+                      - rewardXp
+                      - parameters
+                      - action
+                      - status
+                      additionalProperties: false
+                  chests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - default
+                          - special
+                        requiredCrystals:
+                          type: number
+                        requiredTradingVolume:
+                          type: number
+                        rewardXp:
+                          type: number
+                        reward:
+                          type: object
+                          properties:
+                            cashbackBoost:
+                              type: object
+                              properties:
+                                percent:
+                                  type: number
+                                durationHours:
+                                  type: number
+                              required:
+                              - percent
+                              - durationHours
+                            referralBoost:
+                              type: object
+                              properties:
+                                percent:
+                                  type: number
+                                durationHours:
+                                  type: number
+                              required:
+                              - percent
+                              - durationHours
+                            collectibleChance:
+                              type: number
+                          additionalProperties: false
+                        status:
+                          type: string
+                          enum:
+                          - new
+                          - readyToClaim
+                          - claimed
+                      required:
+                      - id
+                      - type
+                      - requiredCrystals
+                      - requiredTradingVolume
+                      - rewardXp
+                      - reward
+                      - status
+                      additionalProperties: false
+                required:
+                - date
+                - crystals
+                - dailyTradingVolume
+                - tasks
+                - chests
+                additionalProperties: false
+  /api/daily-task/{taskId}/claim:
+    post:
+      tags:
+      - DailyTask
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: taskId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  date:
+                    type: string
+                  crystals:
+                    type: number
+                  dailyTradingVolume:
+                    type: number
+                  tasks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - login
+                          - tradePair
+                          - tradeLeverage
+                          - openCloseShort
+                          - openCloseLong
+                          - limitOrderFilled
+                          - stopLossTakeProfit
+                          - increasePositionSize
+                          - activateAiStrategy
+                          - keepPositionOpen
+                          - closeTradeWithRoi
+                          - reachDailyVolume
+                          - claimCashback
+                          - twoPositions
+                          - threePositions
+                          - stopLimitTriggered
+                        name:
+                          type: string
+                        description:
+                          type: string
+                        difficulty:
+                          type: number
+                        rewardXp:
+                          type: number
+                        parameters:
+                          type: object
+                          properties:
+                            pair:
+                              type: string
+                            targetLeverage:
+                              type: number
+                            targetRoi:
+                              type: number
+                            targetVolume:
+                              type: string
+                            targetPositions:
+                              type: number
+                          additionalProperties: false
+                        action:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            id:
+                              type: string
+                            type:
+                              type: string
+                              enum:
+                              - navigate
+                              - modal
+                              - deeplink
+                              - external
+                            payload:
+                              type: object
+                              additionalProperties: {}
+                          required:
+                          - id
+                          - type
+                          - payload
+                          additionalProperties: false
+                        status:
+                          type: string
+                          enum:
+                          - assigned
+                          - readyToClaim
+                          - claimed
+                      required:
+                      - id
+                      - type
+                      - name
+                      - description
+                      - difficulty
+                      - rewardXp
+                      - parameters
+                      - action
+                      - status
+                      additionalProperties: false
+                  chests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - default
+                          - special
+                        requiredCrystals:
+                          type: number
+                        requiredTradingVolume:
+                          type: number
+                        rewardXp:
+                          type: number
+                        reward:
+                          type: object
+                          properties:
+                            cashbackBoost:
+                              type: object
+                              properties:
+                                percent:
+                                  type: number
+                                durationHours:
+                                  type: number
+                              required:
+                              - percent
+                              - durationHours
+                            referralBoost:
+                              type: object
+                              properties:
+                                percent:
+                                  type: number
+                                durationHours:
+                                  type: number
+                              required:
+                              - percent
+                              - durationHours
+                            collectibleChance:
+                              type: number
+                          additionalProperties: false
+                        status:
+                          type: string
+                          enum:
+                          - new
+                          - readyToClaim
+                          - claimed
+                      required:
+                      - id
+                      - type
+                      - requiredCrystals
+                      - requiredTradingVolume
+                      - rewardXp
+                      - reward
+                      - status
+                      additionalProperties: false
+                required:
+                - date
+                - crystals
+                - dailyTradingVolume
+                - tasks
+                - chests
+                additionalProperties: false
+components:
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

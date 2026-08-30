@@ -1,0 +1,596 @@
+openapi: 3.2.0
+info:
+  title: Evedex Dev API
+  version: 1.0.0
+  description: 'Operations tagged Dev across 4 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-game-openapi.json, evedex-notifications-openapi.json, evedex-referral-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://game-api.evedex.com
+- url: https://notifications-api.evedex.com
+- url: https://partner-api.evedex.com
+tags:
+- name: Dev
+paths:
+  /auth/dev/promo-user:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet:
+                  type: string
+                refCode:
+                  type: string
+              required:
+              - wallet
+              - refCode
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/dev/trading-volume:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TradingVolumeCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/dev/exp:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authId:
+                  type: string
+                exp:
+                  type: number
+              required:
+              - authId
+              - exp
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/dev/competition:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompetitionCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetitionCreateResponse'
+    servers:
+    - url: https://game-api.evedex.com
+  /api/dev/telegram/{botId}/send:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: botId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTelegramMessageBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://notifications-api.evedex.com
+  /api/dev/centrifugo:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCentrifugoMessageBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://notifications-api.evedex.com
+  /api/dev/reward:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                  format: uuid
+                amount:
+                  type: number
+              required:
+              - user
+              - amount
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/dev/user:
+    get:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: code
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/dev/clear-redis:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+  /api/dev/clear-clickhouse:
+    post:
+      tags:
+      - Dev
+      security:
+      - InternalKey: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://partner-api.evedex.com
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+    CompetitionCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        startAt:
+          type: string
+        finishAt:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - finished
+          - pending
+        type:
+          type: string
+          enum:
+          - weekly
+          - trading
+          - points
+          - referral
+          - grand-contest
+          - challenges
+          - templateBased
+      required:
+      - id
+      - startAt
+      - finishAt
+      - status
+      - type
+    CompetitionCreateBody:
+      type: object
+      properties:
+        startAt:
+          type: string
+        finishAt:
+          type: string
+        type:
+          type: string
+          enum:
+          - weekly
+          - trading
+          - points
+          - referral
+          - grand-contest
+          - challenges
+          - templateBased
+        status:
+          type: string
+          enum:
+          - active
+          - finished
+          - pending
+        settings:
+          type: object
+          properties:
+            rewards:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: number
+                  reward:
+                    type: number
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+            poolSettings:
+              type: array
+              items:
+                type: object
+                properties:
+                  requireTradingVolume:
+                    type: string
+                  pricePool:
+                    type: number
+                  maxWinners:
+                    type: number
+                required:
+                - requireTradingVolume
+                - pricePool
+                - maxWinners
+            minVolumeTrade:
+              type: number
+            pointsDistribution:
+              type: object
+              properties:
+                pointsPool:
+                  anyOf:
+                  - type: number
+                  - type: string
+                payload:
+                  type:
+                  - object
+                  - 'null'
+                  additionalProperties: {}
+                weights:
+                  type: object
+                  properties:
+                    experience:
+                      type: number
+                    tradingVolume:
+                      type: number
+                    referralVolume:
+                      type: number
+                  required:
+                  - experience
+                  - tradingVolume
+                  - referralVolume
+              required:
+              - pointsPool
+            referralSettings:
+              type: object
+              properties:
+                minReferralVolume:
+                  type: number
+                excludePartners:
+                  type: boolean
+                useCompetitionTimeRange:
+                  type: boolean
+              required:
+              - minReferralVolume
+              - excludePartners
+              - useCompetitionTimeRange
+            grandContestSettings:
+              type: object
+              properties:
+                roundDurationMinutes:
+                  type: number
+                volumeTiers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      requireDailyVolume:
+                        type: string
+                      usdtPool:
+                        type: number
+                      pointsPool:
+                        type: number
+                    required:
+                    - requireDailyVolume
+                    - usdtPool
+                    - pointsPool
+                milestoneVolumeThreshold:
+                  type: string
+                milestoneReward:
+                  type: number
+                rankingMode:
+                  type: string
+                  enum:
+                  - daily
+                  - total
+              required:
+              - roundDurationMinutes
+              - volumeTiers
+              - milestoneVolumeThreshold
+              - milestoneReward
+          required:
+          - rewards
+          - poolSettings
+          - minVolumeTrade
+      required:
+      - startAt
+      - finishAt
+      - type
+      - status
+      - settings
+    TradingVolumeCreateBody:
+      type: array
+      items:
+        type: object
+        properties:
+          user:
+            type: string
+            format: uuid
+          referralCode:
+            type: string
+            default: ''
+          competition:
+            type: string
+            default: ''
+          experience:
+            type: number
+          realizedPnL:
+            type: number
+          tradingVolume:
+            type: number
+          createdAt:
+            type: string
+        required:
+        - user
+        - experience
+        - realizedPnL
+        - tradingVolume
+        - createdAt
+    CreateTelegramMessageBody:
+      type: object
+      properties:
+        message:
+          type: string
+        image:
+          type: string
+          format: uri
+        chatIds:
+          type: array
+          items:
+            type: integer
+          default: []
+      required:
+      - message
+    CreateCentrifugoMessageBody:
+      type: object
+      properties:
+        channel:
+          type: string
+        data: {}
+      required:
+      - channel
+    UserSocial:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum:
+          - user
+          - partner
+          - bd-manager
+        authId:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+          default: null
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+        partner:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm A
+          - DD.MM.YYYY, HH:mm
+          - DD MMM YYYY, HH:mm
+          - MMM DD, YYYY, hh:mm A
+        maxInvites:
+          type:
+          - number
+          - 'null'
+          default: null
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - role
+      - authId
+      - name
+      - email
+      - wallet
+      - smartAccountAddress
+      - social
+      - partner
+      - locale
+      - dateTimeFormat
+      - maxInvites
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-game-openapi.json
+- evedex-notifications-openapi.json
+- evedex-referral-openapi.json

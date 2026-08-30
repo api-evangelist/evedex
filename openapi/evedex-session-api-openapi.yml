@@ -1,0 +1,484 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Auth Session API
+  version: 1.0.0
+servers:
+- url: https://auth-api.evedex.com
+tags:
+- name: Session
+paths:
+  /auth/user/sessions:
+    get:
+      tags:
+      - Session
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: withDisabled
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionsActivityListResponse'
+  /auth/session:
+    put:
+      tags:
+      - Session
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                utm:
+                  type: object
+                  properties:
+                    source:
+                      type: string
+                    medium:
+                      type: string
+                    campaign:
+                      type: string
+                    term:
+                      type: string
+                    content:
+                      type: string
+                tracking:
+                  type: object
+                  properties:
+                    params:
+                      type: object
+                      propertyNames:
+                        type: string
+                        maxLength: 64
+                      additionalProperties:
+                        type: string
+                        maxLength: 512
+                  required:
+                  - params
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /auth/session/metadata:
+    post:
+      tags:
+      - Session
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sessionIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  minItems: 1
+                  maxItems: 100
+              required:
+              - sessionIds
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    currentSession:
+                      $ref: '#/components/schemas/UserSessionHistoryFullObject'
+                    firstSession:
+                      $ref: '#/components/schemas/UserSessionHistoryFullObject'
+                    totalSessions:
+                      type: integer
+                      minimum: 0
+                  required:
+                  - currentSession
+                  - firstSession
+                  - totalSessions
+  /auth/session/history:
+    get:
+      tags:
+      - Session
+      deprecated: true
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: id
+        description: Account ID
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Account ID
+      - in: query
+        name: wallet
+        description: Wallet address
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Wallet address
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSessionHistoryListResponse'
+  /auth/session/first:
+    post:
+      tags:
+      - Session
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  minItems: 1
+                  maxItems: 100
+              required:
+              - authIds
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSessionHistoryFullObject'
+components:
+  schemas:
+    UserSessionActivity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        ipAddress:
+          type: string
+        userAgentInfo:
+          type: string
+        refreshTokenId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        language:
+          type:
+          - string
+          - 'null'
+          default: null
+        referrer:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - id
+      - user
+      - createdAt
+      - country
+      - city
+      - ipAddress
+      - userAgentInfo
+      - refreshTokenId
+      - language
+      - referrer
+    UserSessionHistoryListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSessionHistory'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    UserSessionHistory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        signInById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdAt:
+          type: string
+        countryCode:
+          type: string
+        ipAddress:
+          type: string
+        userAgentInfo:
+          type: string
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        language:
+          type:
+          - string
+          - 'null'
+          default: null
+        referrer:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - id
+      - user
+      - signInById
+      - createdAt
+      - countryCode
+      - ipAddress
+      - userAgentInfo
+      - wallet
+      - role
+      - language
+      - referrer
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    UserSessionHistoryFullObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        signInById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdAt:
+          type: string
+        ipAddress:
+          type: string
+        countryCode:
+          type: string
+        userAgentInfo:
+          type: string
+        refreshTokenId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            region:
+              type: string
+            city:
+              type: string
+          required:
+          - country
+          - region
+          - city
+        utmSource:
+          type:
+          - string
+          - 'null'
+        utmMedium:
+          type:
+          - string
+          - 'null'
+        utmCampaign:
+          type:
+          - string
+          - 'null'
+        utmTerm:
+          type:
+          - string
+          - 'null'
+        utmContent:
+          type:
+          - string
+          - 'null'
+        language:
+          type:
+          - string
+          - 'null'
+          default: null
+        referrer:
+          type:
+          - string
+          - 'null'
+          default: null
+        clickId:
+          type:
+          - string
+          - 'null'
+          default: null
+        subId1:
+          type:
+          - string
+          - 'null'
+          default: null
+        subId2:
+          type:
+          - string
+          - 'null'
+          default: null
+        subId3:
+          type:
+          - string
+          - 'null'
+          default: null
+        subId4:
+          type:
+          - string
+          - 'null'
+          default: null
+        subId5:
+          type:
+          - string
+          - 'null'
+          default: null
+        offerId:
+          type:
+          - string
+          - 'null'
+          default: null
+        affiliateId:
+          type:
+          - string
+          - 'null'
+          default: null
+        trackingParams:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          default: null
+      required:
+      - id
+      - user
+      - signInById
+      - createdAt
+      - ipAddress
+      - countryCode
+      - userAgentInfo
+      - refreshTokenId
+      - location
+      - utmSource
+      - utmMedium
+      - utmCampaign
+      - utmTerm
+      - utmContent
+      - language
+      - referrer
+      - clickId
+      - subId1
+      - subId2
+      - subId3
+      - subId4
+      - subId5
+      - offerId
+      - affiliateId
+      - trackingParams
+    UserSessionsActivityListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSessionActivity'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer

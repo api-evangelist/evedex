@@ -1,0 +1,162 @@
+openapi: 3.2.0
+info:
+  title: Evedex Telegram API
+  version: 1.0.0
+  description: 'Operations tagged Telegram across 2 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-notifications-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://notifications-api.evedex.com
+tags:
+- name: Telegram
+paths:
+  /auth/telegram-profile:
+    delete:
+      tags:
+      - Telegram
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/telegram-bot/deep-link-for-start/internal:
+    post:
+      tags:
+      - Telegram
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authId:
+                  type: string
+              required:
+              - authId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelegramBot'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/telegram-bot/deep-link-for-start:
+    get:
+      tags:
+      - Telegram
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelegramBot'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/telegram/webhook:
+    post:
+      tags:
+      - Telegram
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://notifications-api.evedex.com
+  /api/telegram/link:
+    get:
+      tags:
+      - Telegram
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelegramLink'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://notifications-api.evedex.com
+components:
+  schemas:
+    TelegramBot:
+      type: object
+      properties:
+        uri:
+          type: string
+      required:
+      - uri
+    EmptyResponse:
+      type: object
+    TelegramLink:
+      type: object
+      properties:
+        link:
+          type: string
+      required:
+      - link
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-notifications-openapi.json

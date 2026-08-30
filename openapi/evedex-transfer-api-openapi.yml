@@ -1,0 +1,1083 @@
+openapi: 3.2.0
+info:
+  title: Evedex Transfer API
+  version: 1.0.0
+  description: 'Operations tagged Transfer across 3 of this provider''s published API definitions: evedex-backoffice-openapi.json, evedex-bridge-middleware-openapi.json, evedex-exchange-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://backoffice-api.private.evedex.com
+- url: https://bridge-middleware-api.evedex.com
+- url: https://exchange-api.evedex.com
+tags:
+- name: Transfer
+paths:
+  /api/bridge/transfer:
+    get:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: authId
+        schema:
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - deposit
+          - withdrawal
+          - all
+          default: deposit
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: network
+        schema:
+          type: string
+      - in: query
+        name: blockNumber
+        schema:
+          type: string
+      - in: query
+        name: depositStatus
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - pending
+            - detained
+            - process
+            - done
+            - refunded
+          - type: array
+            items:
+              type: string
+              enum:
+              - pending
+              - detained
+              - process
+              - done
+              - refunded
+      - in: query
+        name: withdrawalStatus
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - pending
+            - process
+            - done
+            - error
+          - type: array
+            items:
+              type: string
+              enum:
+              - pending
+              - process
+              - done
+              - error
+      - in: query
+        name: amlStatus
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - blocked
+            - pending
+            - process
+            - skip
+            - green
+            - red
+            - refund
+            - manual-red
+            - manual-green
+          - type: array
+            items:
+              type: string
+              enum:
+              - blocked
+              - pending
+              - process
+              - skip
+              - green
+              - red
+              - refund
+              - manual-red
+              - manual-green
+      - in: query
+        name: includeAlerts
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        authId:
+                          type:
+                          - string
+                          - 'null'
+                          format: uuid
+                        type:
+                          type: string
+                          enum:
+                          - deposit
+                          - withdrawal
+                        network:
+                          type: string
+                        destinationNetwork:
+                          type:
+                          - string
+                          - 'null'
+                        transactionHash:
+                          type: string
+                        destinationTransactionHash:
+                          type:
+                          - string
+                          - 'null'
+                        wallet:
+                          type: string
+                          description: For deposit - from wallet, for withdrawal - to wallet
+                        depositor:
+                          type: string
+                          description: From wallet
+                        externalId:
+                          type:
+                          - string
+                          - 'null'
+                        fee:
+                          type:
+                          - string
+                          - 'null'
+                          description: platformFee + gasFee + percentageFee
+                        platformFee:
+                          type:
+                          - string
+                          - 'null'
+                        gasFee:
+                          type:
+                          - string
+                          - 'null'
+                        percentageFee:
+                          type:
+                          - string
+                          - 'null'
+                        feeCurrency:
+                          type:
+                          - string
+                          - 'null'
+                        status:
+                          type: string
+                          enum:
+                          - pending
+                          - detained
+                          - process
+                          - done
+                          - refunded
+                          - error
+                        amlStatus:
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - blocked
+                          - pending
+                          - process
+                          - skip
+                          - green
+                          - red
+                          - refund
+                          - manual-red
+                          - manual-green
+                        token:
+                          type: string
+                          description: Token contract representing USDT
+                        amount:
+                          type:
+                          - string
+                          - 'null'
+                          description: Amount in USDT. Set to 0 if not swapped yet
+                        withdrawStrategy:
+                          type:
+                          - string
+                          - 'null'
+                          enum:
+                          - default
+                          - rhino
+                        originToken:
+                          type:
+                          - string
+                          - 'null'
+                        originAmount:
+                          type:
+                          - string
+                          - 'null'
+                        originAmountUsdt:
+                          type:
+                          - string
+                          - 'null'
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                        alerts:
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: object
+                            properties:
+                              alertIdentifier:
+                                type: string
+                              alertType:
+                                type: string
+                                enum:
+                                - TRANSFER
+                                - BEHAVIORAL
+                                - WITHDRAWAL
+                              level:
+                                type: string
+                                enum:
+                                - SEVERE
+                                - HIGH
+                                - MEDIUM
+                                - LOW
+                              createdAt:
+                                type: string
+                              isContinuousMonitoring:
+                                type:
+                                - boolean
+                                - 'null'
+                              assignedTo:
+                                type:
+                                - string
+                                - 'null'
+                              assignedBy:
+                                type:
+                                - string
+                                - 'null'
+                              assignedAt:
+                                type:
+                                - string
+                                - 'null'
+                              valid:
+                                type: boolean
+                              validity:
+                                type: string
+                                enum:
+                                - VALID
+                                - INVALID
+                                - REVALID
+                              validityUpdatedAt:
+                                type:
+                                - string
+                                - 'null'
+                              alertStatus:
+                                type: string
+                                enum:
+                                - Unreviewed
+                                - In Review
+                                - Flagged
+                                - No Review
+                                - Dismissed
+                              alertStatusCreatedBy:
+                                type:
+                                - string
+                                - 'null'
+                              statusChangedBy:
+                                type:
+                                - string
+                                - 'null'
+                              dispositionDate:
+                                type:
+                                - string
+                                - 'null'
+                              alertStatusCreatedAt:
+                                type:
+                                - string
+                                - 'null'
+                              statusChangedAt:
+                                type:
+                                - string
+                                - 'null'
+                              userId:
+                                type: string
+                                format: uuid
+                              rule:
+                                type: string
+                              minThreshold:
+                                type: number
+                              maxThreshold:
+                                type:
+                                - number
+                                - 'null'
+                              ruleAsset:
+                                type:
+                                - string
+                                - 'null'
+                              categoryId:
+                                type:
+                                - number
+                                - 'null'
+                              customGroupExternalId:
+                                type:
+                                - string
+                                - 'null'
+                              asset:
+                                type:
+                                - string
+                                - 'null'
+                              assetAmount:
+                                type:
+                                - number
+                                - 'null'
+                              direction:
+                                type:
+                                - string
+                                - 'null'
+                                enum:
+                                - SENT
+                                - RECEIVED
+                              alertAmountUsd:
+                                type: number
+                              transferredValuePercentage:
+                                type:
+                                - number
+                                - 'null'
+                              exposureType:
+                                type: string
+                                enum:
+                                - DIRECT
+                                - INDIRECT
+                              service:
+                                type:
+                                - string
+                                - 'null'
+                              transferReportedAt:
+                                type:
+                                - string
+                                - 'null'
+                              timestamp:
+                                type:
+                                - string
+                                - 'null'
+                              transferReference:
+                                type:
+                                - string
+                                - 'null'
+                              transactionHash:
+                                type:
+                                - string
+                                - 'null'
+                              transferOutputAddress:
+                                type:
+                                - string
+                                - 'null'
+                              memo:
+                                type:
+                                - string
+                                - 'null'
+                              transactionIndex:
+                                type:
+                                - number
+                                - 'null'
+                              transferCountWindow:
+                                type:
+                                - string
+                                - 'null'
+                              windowSize:
+                                type:
+                                - string
+                                - 'null'
+                                enum:
+                                - 1 day
+                                - 1 week
+                                - 1 month
+                              period:
+                                type:
+                                - string
+                                - 'null'
+                              transferCount:
+                                type:
+                                - number
+                                - 'null'
+                              category:
+                                type:
+                                - string
+                                - 'null'
+                              activityData:
+                                type:
+                                - object
+                                - 'null'
+                                additionalProperties: {}
+                            required:
+                            - alertIdentifier
+                            - alertType
+                            - level
+                            - createdAt
+                            - isContinuousMonitoring
+                            - assignedTo
+                            - assignedBy
+                            - assignedAt
+                            - valid
+                            - validity
+                            - validityUpdatedAt
+                            - alertStatus
+                            - alertStatusCreatedBy
+                            - statusChangedBy
+                            - dispositionDate
+                            - alertStatusCreatedAt
+                            - statusChangedAt
+                            - userId
+                            - rule
+                            - minThreshold
+                            - maxThreshold
+                            - ruleAsset
+                            - categoryId
+                            - customGroupExternalId
+                            - asset
+                            - assetAmount
+                            - direction
+                            - alertAmountUsd
+                            - transferredValuePercentage
+                            - exposureType
+                            - service
+                            - transferReportedAt
+                            - timestamp
+                            - transferReference
+                            - transactionHash
+                            - transferOutputAddress
+                            - memo
+                            - transactionIndex
+                            - transferCountWindow
+                            - windowSize
+                            - period
+                            - transferCount
+                            - category
+                            - activityData
+                          default: null
+                      required:
+                      - id
+                      - authId
+                      - type
+                      - network
+                      - destinationNetwork
+                      - transactionHash
+                      - destinationTransactionHash
+                      - wallet
+                      - depositor
+                      - externalId
+                      - fee
+                      - platformFee
+                      - gasFee
+                      - percentageFee
+                      - feeCurrency
+                      - status
+                      - amlStatus
+                      - token
+                      - amount
+                      - withdrawStrategy
+                      - originToken
+                      - originAmount
+                      - originAmountUsdt
+                      - createdAt
+                      - updatedAt
+                      - alerts
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/transfer/settings:
+    put:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isEnabled:
+                  type: boolean
+                comment:
+                  type:
+                  - string
+                  - 'null'
+              required:
+              - isEnabled
+              - comment
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isEnabled:
+                    type: boolean
+                  comment:
+                    type:
+                    - string
+                    - 'null'
+                required:
+                - isEnabled
+                - comment
+    get:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isEnabled:
+                    type: boolean
+                  comment:
+                    type:
+                    - string
+                    - 'null'
+                required:
+                - isEnabled
+                - comment
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+  /api/transfer/refund:
+    post:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transferId:
+                  type: string
+                  format: uuid
+                comment:
+                  type:
+                  - string
+                  - 'null'
+              required:
+              - transferId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+  /api/transfer:
+    get:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: authId
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: smartAccount
+        schema:
+          type: string
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: network
+        schema:
+          type: string
+      - in: query
+        name: depositStatus
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - pending
+            - detained
+            - process
+            - done
+            - refunded
+            - error
+          - type: array
+            items:
+              type: string
+              enum:
+              - pending
+              - detained
+              - process
+              - done
+              - refunded
+              - error
+      - in: query
+        name: amlStatus
+        schema:
+          anyOf:
+          - type: string
+            enum:
+            - blocked
+            - pending
+            - process
+            - skip
+            - green
+            - red
+            - refund
+            - manual-red
+            - manual-green
+          - type: array
+            items:
+              type: string
+              enum:
+              - blocked
+              - pending
+              - process
+              - skip
+              - green
+              - red
+              - refund
+              - manual-red
+              - manual-green
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        authId:
+                          type:
+                          - string
+                          - 'null'
+                          format: uuid
+                        network:
+                          type: string
+                        sourceNetwork:
+                          type: string
+                        destinationNetwork:
+                          type:
+                          - string
+                          - 'null'
+                        wallet:
+                          type: string
+                        depositor:
+                          type: string
+                        from:
+                          type: string
+                        transactionHash:
+                          type: string
+                        sourceTransactionHash:
+                          type: string
+                        originToken:
+                          type: string
+                        originAmount:
+                          type: string
+                        originAmountUsdt:
+                          type: string
+                        token:
+                          type: string
+                        amount:
+                          type:
+                          - string
+                          - 'null'
+                        depositStatus:
+                          type: string
+                          enum:
+                          - pending
+                          - detained
+                          - process
+                          - done
+                          - refunded
+                          - error
+                        amlStatus:
+                          type: string
+                          enum:
+                          - blocked
+                          - pending
+                          - process
+                          - skip
+                          - green
+                          - red
+                          - refund
+                          - manual-red
+                          - manual-green
+                        amlCheckUser:
+                          type:
+                          - string
+                          - 'null'
+                        amlCheckComment:
+                          type: string
+                        amlCheckAt:
+                          type:
+                          - string
+                          - 'null'
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                        walletPaused:
+                          type: boolean
+                      required:
+                      - id
+                      - authId
+                      - network
+                      - sourceNetwork
+                      - destinationNetwork
+                      - wallet
+                      - depositor
+                      - from
+                      - transactionHash
+                      - sourceTransactionHash
+                      - originToken
+                      - originAmount
+                      - originAmountUsdt
+                      - token
+                      - amount
+                      - depositStatus
+                      - amlStatus
+                      - amlCheckUser
+                      - amlCheckComment
+                      - amlCheckAt
+                      - createdAt
+                      - updatedAt
+                      - walletPaused
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+  /api/transfer/aml/unlock:
+    post:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transferId:
+                  type: string
+                  format: uuid
+                comment:
+                  type:
+                  - string
+                  - 'null'
+              required:
+              - transferId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+  /api/transfer/aml/allow-future-deposits:
+    post:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authId:
+                  type: string
+                  format: uuid
+                comment:
+                  type:
+                  - string
+                  - 'null'
+              required:
+              - authId
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://bridge-middleware-api.evedex.com
+  /api/transfer/detail:
+    get:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: target
+        description: Smart account or wallet address
+        schema:
+          type: string
+          description: Smart account or wallet address
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smartAccountAddress:
+                    type: string
+                  email:
+                    type:
+                    - string
+                    - 'null'
+                required:
+                - smartAccountAddress
+                - email
+    servers:
+    - url: https://exchange-api.evedex.com
+  /api/transfer/pf/withdraw:
+    post:
+      tags:
+      - Transfer
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipient:
+                  type: string
+                currency:
+                  type: string
+                  enum:
+                  - usdt
+                  default: usdt
+                amount:
+                  anyOf:
+                  - type: number
+                  - type: string
+                signature:
+                  type: string
+                twofa:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                  required:
+                  - code
+              required:
+              - recipient
+              - amount
+              - signature
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferObject'
+    servers:
+    - url: https://exchange-api.evedex.com
+components:
+  schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    EmptyResponse:
+      type: object
+    TransferWitHFeeObject:
+      allOf:
+      - $ref: '#/components/schemas/TransferObject'
+      type: object
+      properties:
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferObject'
+      required:
+      - fees
+    TransferObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          description: UserId
+        type:
+          type: string
+          enum:
+          - deposit
+          - withdraw
+          - transfer-pfutures-balance
+          - transfer-balance-pfutures
+          - paymaster-fee
+          - paymaster-refund
+          - cashback-withdraw
+          - lucky-shot-withdraw
+          - transfer-balance-sub-pfutures
+        coin:
+          type: string
+        amount:
+          type: number
+        fee:
+          type: number
+          deprecated: true
+        status:
+          type: string
+          enum:
+          - pending
+          - blocked
+          - done
+          - error
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - type
+      - coin
+      - amount
+      - fee
+      - status
+      - createdAt
+      - updatedAt
+    TransferListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferWitHFeeObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    ExternalKey:
+      type: http
+      scheme: bearer
+    InternalToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-backoffice-openapi.json
+- evedex-bridge-middleware-openapi.json
+- evedex-exchange-openapi.json

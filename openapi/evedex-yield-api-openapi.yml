@@ -1,0 +1,69 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange Yield API
+  version: 1.0.0
+servers:
+- url: https://exchange-api.evedex.com
+tags:
+- name: Yield
+paths:
+  /api/user/yield/status:
+    get:
+      tags:
+      - Yield
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YieldStatusObject'
+  /api/public/yield/apr:
+    get:
+      tags:
+      - Yield
+      security: []
+      parameters:
+      - in: query
+        name: days
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 365
+          default: 7
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YieldAprObject'
+components:
+  schemas:
+    YieldStatusObject:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+      - enabled
+    YieldAprObject:
+      type: object
+      properties:
+        apr:
+          type: number
+      required:
+      - apr
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key

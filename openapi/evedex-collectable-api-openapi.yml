@@ -1,0 +1,482 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Collectable API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Collectable
+paths:
+  /api/collectable:
+    get:
+      tags:
+      - Collectable
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: rarity
+        schema:
+          type: string
+          enum:
+          - common
+          - rare
+          - legendary
+      - in: query
+        name: usingType
+        schema:
+          type: string
+          enum:
+          - achievement-bonus
+          - right-away
+          - active
+          - passive
+      - in: query
+        name: consolation
+        schema:
+          type: string
+      - in: query
+        name: received
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        color:
+                          type: string
+                          description: HEX color code
+                          example: FF00AA
+                        image:
+                          type:
+                          - string
+                          - 'null'
+                          format: uri
+                        imageState:
+                          type: object
+                          properties:
+                            big:
+                              type:
+                              - string
+                              - 'null'
+                              format: uri
+                            regular:
+                              type:
+                              - string
+                              - 'null'
+                              format: uri
+                            disabled:
+                              type:
+                              - string
+                              - 'null'
+                              format: uri
+                          required:
+                          - big
+                          - regular
+                          - disabled
+                        description:
+                          type: object
+                          properties:
+                            common:
+                              type: string
+                            give:
+                              type: string
+                            howTo:
+                              type: string
+                        rarity:
+                          type: string
+                          enum:
+                          - common
+                          - rare
+                          - legendary
+                        usingType:
+                          type: string
+                          enum:
+                          - achievement-bonus
+                          - right-away
+                          - active
+                          - passive
+                        award:
+                          anyOf:
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: experience
+                              payload:
+                                type: object
+                                properties:
+                                  volume:
+                                    type: number
+                                required:
+                                - volume
+                            required:
+                            - type
+                            - payload
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: skill-point
+                              payload:
+                                type: object
+                                properties:
+                                  volume:
+                                    type: number
+                                required:
+                                - volume
+                            required:
+                            - type
+                            - payload
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: daily-task-freezer
+                              payload:
+                                type: object
+                                properties:
+                                  volume:
+                                    type: number
+                                required:
+                                - volume
+                            required:
+                            - type
+                            - payload
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: cashback-hour
+                              payload:
+                                type: object
+                                properties:
+                                  volume:
+                                    type: number
+                                    example: 0.2
+                                    description: 0.2 = 2%
+                                required:
+                                - volume
+                            required:
+                            - type
+                            - payload
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: referral-fee-hour
+                              payload:
+                                type: object
+                                properties:
+                                  volume:
+                                    type: number
+                                    example: 0.2
+                                    description: 0.2 = 2%
+                                required:
+                                - volume
+                            required:
+                            - type
+                            - payload
+                        consolation:
+                          type: boolean
+                        createdAt:
+                          type: string
+                        received:
+                          type: boolean
+                        progress:
+                          type: number
+                        target:
+                          type: number
+                        progressBarEnabled:
+                          type: boolean
+                      required:
+                      - id
+                      - name
+                      - color
+                      - image
+                      - imageState
+                      - description
+                      - rarity
+                      - usingType
+                      - award
+                      - consolation
+                      - createdAt
+                      - received
+                      - progress
+                      - target
+                      - progressBarEnabled
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/collectable/limit:
+    get:
+      tags:
+      - Collectable
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  limit:
+                    type: number
+                  flipped:
+                    type: number
+                  left:
+                    type: number
+                required:
+                - limit
+                - flipped
+                - left
+  /api/collectable/flip:
+    post:
+      tags:
+      - Collectable
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  card:
+                    type:
+                    - object
+                    - 'null'
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      name:
+                        type: string
+                      color:
+                        type: string
+                        description: HEX color code
+                        example: FF00AA
+                      image:
+                        type:
+                        - string
+                        - 'null'
+                        format: uri
+                      imageState:
+                        type: object
+                        properties:
+                          big:
+                            type:
+                            - string
+                            - 'null'
+                            format: uri
+                          regular:
+                            type:
+                            - string
+                            - 'null'
+                            format: uri
+                          disabled:
+                            type:
+                            - string
+                            - 'null'
+                            format: uri
+                        required:
+                        - big
+                        - regular
+                        - disabled
+                      description:
+                        type: object
+                        properties:
+                          common:
+                            type: string
+                          give:
+                            type: string
+                          howTo:
+                            type: string
+                      rarity:
+                        type: string
+                        enum:
+                        - common
+                        - rare
+                        - legendary
+                      usingType:
+                        type: string
+                        enum:
+                        - achievement-bonus
+                        - right-away
+                        - active
+                        - passive
+                      award:
+                        anyOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: experience
+                            payload:
+                              type: object
+                              properties:
+                                volume:
+                                  type: number
+                              required:
+                              - volume
+                          required:
+                          - type
+                          - payload
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: skill-point
+                            payload:
+                              type: object
+                              properties:
+                                volume:
+                                  type: number
+                              required:
+                              - volume
+                          required:
+                          - type
+                          - payload
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: daily-task-freezer
+                            payload:
+                              type: object
+                              properties:
+                                volume:
+                                  type: number
+                              required:
+                              - volume
+                          required:
+                          - type
+                          - payload
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: cashback-hour
+                            payload:
+                              type: object
+                              properties:
+                                volume:
+                                  type: number
+                                  example: 0.2
+                                  description: 0.2 = 2%
+                              required:
+                              - volume
+                          required:
+                          - type
+                          - payload
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: referral-fee-hour
+                            payload:
+                              type: object
+                              properties:
+                                volume:
+                                  type: number
+                                  example: 0.2
+                                  description: 0.2 = 2%
+                              required:
+                              - volume
+                          required:
+                          - type
+                          - payload
+                      consolation:
+                        type: boolean
+                      createdAt:
+                        type: string
+                    required:
+                    - id
+                    - name
+                    - color
+                    - image
+                    - imageState
+                    - description
+                    - rarity
+                    - usingType
+                    - award
+                    - consolation
+                    - createdAt
+                required:
+                - card
+  /api/collectable/{cardId}/claim:
+    post:
+      tags:
+      - Collectable
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: cardId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/collectable/{cardId}/activate:
+    post:
+      tags:
+      - Collectable
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: cardId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

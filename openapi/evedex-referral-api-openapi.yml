@@ -1,0 +1,111 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX Referral API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Referral
+paths:
+  /api/referral/list:
+    get:
+      tags:
+      - Referral
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferrallList'
+components:
+  schemas:
+    ReferrallList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferralResponseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    FirstDepositObject:
+      type: object
+      properties:
+        currency:
+          type: string
+          enum:
+          - usdt
+        createdAt:
+          type: string
+        amount:
+          type: number
+      required:
+      - currency
+      - createdAt
+      - amount
+    ReferralResponseObject:
+      type: object
+      properties:
+        smartAccountAddress:
+          type: string
+        code:
+          type: string
+        firstDeposit:
+          oneOf:
+          - $ref: '#/components/schemas/FirstDepositObject'
+          - type: 'null'
+          default: null
+        createdAt:
+          type: string
+      required:
+      - smartAccountAddress
+      - code
+      - firstDeposit
+      - createdAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

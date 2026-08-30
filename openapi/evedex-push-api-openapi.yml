@@ -1,0 +1,80 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Notifications Push API
+  version: 1.0.0
+servers:
+- url: https://notifications-api.evedex.com
+tags:
+- name: Push
+paths:
+  /api/push/{deviceId}:
+    delete:
+      tags:
+      - Push
+      security: []
+      parameters:
+      - in: path
+        name: deviceId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    post:
+      tags:
+      - Push
+      security: []
+      parameters:
+      - in: path
+        name: deviceId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePushTokenBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    CreatePushTokenBody:
+      type: object
+      properties:
+        token:
+          type: string
+          minLength: 32
+          maxLength: 512
+        platform:
+          type: string
+          enum:
+          - ios
+          - android
+          - huawei
+          - browser
+      required:
+      - token
+      - platform
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer

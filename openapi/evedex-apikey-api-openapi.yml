@@ -1,0 +1,195 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Auth API Key API
+  version: 1.0.0
+servers:
+- url: https://auth-api.evedex.com
+tags:
+- name: ApiKey
+paths:
+  /auth/api-key/verify:
+    post:
+      tags:
+      - ApiKey
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyVerifyBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyVerifyResponse'
+  /auth/api-key/sync:
+    post:
+      tags:
+      - ApiKey
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeySyncBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /auth/api-key/disable:
+    post:
+      tags:
+      - ApiKey
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyDisableBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+components:
+  schemas:
+    ApiKeySyncBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        mask:
+          type: string
+        isArchived:
+          type: boolean
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        createdAt:
+          type: string
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        deletedAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        settings:
+          type: object
+          properties:
+            scopes:
+              type: array
+              items:
+                type: string
+                enum:
+                - partner
+                - exchange
+              default: []
+        user:
+          type: string
+        hash:
+          type: string
+      required:
+      - id
+      - name
+      - mask
+      - isArchived
+      - createdAt
+      - settings
+      - user
+      - hash
+    ApiKeyVerifyBody:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum:
+          - partner
+          - exchange
+        apiKey:
+          type: string
+      required:
+      - scope
+      - apiKey
+    ApiKeyDisableBody:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum:
+          - partner
+          - exchange
+        apiKey:
+          type: string
+      required:
+      - scope
+      - apiKey
+    ApiKeyVerifyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+        parent:
+          type:
+          - string
+          - 'null'
+          default: null
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - id
+      - role
+      - accountType
+      - parent
+      - expireAt
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer

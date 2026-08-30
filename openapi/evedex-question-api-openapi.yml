@@ -1,0 +1,260 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Question API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: Question
+paths:
+  /api/course/{courseId}/lesson/{lessonId}/question/{questionId}:
+    put:
+      tags:
+      - Question
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: questionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionObject'
+    delete:
+      tags:
+      - Question
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: questionId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/course/{courseId}/lesson/{lessonId}/question:
+    get:
+      tags:
+      - Question
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuestionObject'
+    post:
+      tags:
+      - Question
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionObject'
+components:
+  schemas:
+    QuestionObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lesson:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - text
+          - file
+          - radio
+        question:
+          type: string
+        content:
+          anyOf:
+          - type: object
+            additionalProperties: false
+          - type: object
+            properties:
+              multiple:
+                type: number
+            required:
+            - multiple
+          - type: object
+            properties:
+              answers:
+                type: array
+                items:
+                  type: string
+            required:
+            - answers
+        order:
+          type: number
+        correctAnswer:
+          type: string
+          default: ''
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - lesson
+      - type
+      - question
+      - content
+      - order
+      - correctAnswer
+      - createdAt
+      - updatedAt
+    QuestionCreateBody:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            const: text
+          question:
+            type: string
+          content:
+            type: object
+            additionalProperties: false
+          order:
+            type: number
+          correctAnswer:
+            type: string
+        required:
+        - type
+        - question
+        - content
+      - type: object
+        properties:
+          type:
+            type: string
+            const: file
+          question:
+            type: string
+          content:
+            type: object
+            properties:
+              multiple:
+                type: number
+            required:
+            - multiple
+          order:
+            type: number
+          correctAnswer:
+            type: string
+        required:
+        - type
+        - question
+        - content
+      - type: object
+        properties:
+          type:
+            type: string
+            const: radio
+          question:
+            type: string
+          content:
+            type: object
+            properties:
+              answers:
+                type: array
+                items:
+                  type: string
+            required:
+            - answers
+          order:
+            type: number
+          correctAnswer:
+            type: string
+        required:
+        - type
+        - question
+        - content
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

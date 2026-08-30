@@ -1,0 +1,1051 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Quest API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Quest
+paths:
+  /api/quest:
+    get:
+      tags:
+      - Quest
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+          enum:
+          - basic
+          - trading
+          - education
+          - social
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: onlyUnclaimed
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      - in: query
+        name: onlyReadyToClaim
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserQuest'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/quest-partner:
+    get:
+      tags:
+      - Quest
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserQuest'
+  /api/quest/public:
+    get:
+      deprecated: true
+      tags:
+      - Quest
+      security: []
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+          enum:
+          - basic
+          - trading
+          - education
+          - social
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: onlyUnclaimed
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      - in: query
+        name: onlyReadyToClaim
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublicQuest'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/quest/{questId}:
+    get:
+      tags:
+      - Quest
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: questId
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserQuest'
+components:
+  schemas:
+    UserQuest:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+        experienceReward:
+          type: number
+        criteria:
+          anyOf:
+          - type: object
+            properties:
+              type:
+                type: string
+                const: userRegister
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: dailyActivity
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: manual
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: firstLiquidation
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: cashback
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: userDeposit
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: tradingVolume
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: diversifier
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: tradeCount
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: academyCourse
+              courseId:
+                type: string
+            required:
+            - type
+            - courseId
+          - type: object
+            properties:
+              type:
+                type: string
+                const: amaParticipation
+              events:
+                type: number
+            required:
+            - type
+            - events
+          - type: object
+            properties:
+              type:
+                type: string
+                const: referralCount
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: referralEarnings
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: positionLeverageUpdate
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: testnetParticipant
+              participation:
+                type: boolean
+            required:
+            - type
+            - participation
+          - type: object
+            properties:
+              type:
+                type: string
+                const: liquidityProvider
+              amount:
+                type: number
+              days:
+                type: number
+            required:
+            - type
+            - amount
+            - days
+          - type: object
+            properties:
+              type:
+                type: string
+                const: copyTrader
+              successRate:
+                type: number
+            required:
+            - type
+            - successRate
+          - type: object
+            properties:
+              type:
+                type: string
+                const: p2pExchanges
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: ehCardOwner
+              ownership:
+                type: boolean
+            required:
+            - type
+            - ownership
+          - type: object
+            properties:
+              type:
+                type: string
+                const: cautiousInvestor
+              stopLossUses:
+                type: number
+            required:
+            - type
+            - stopLossUses
+          - type: object
+            properties:
+              type:
+                type: string
+                const: riskManagementMaster
+              riskRatio:
+                type: number
+              periodDays:
+                type: number
+            required:
+            - type
+            - riskRatio
+            - periodDays
+          - type: object
+            properties:
+              type:
+                type: string
+                const: ironHands
+              durationDays:
+                type: number
+              recoveryPercentage:
+                type: number
+            required:
+            - type
+            - durationDays
+            - recoveryPercentage
+          - type: object
+            properties:
+              type:
+                type: string
+                const: friendOfFriends
+              referrals:
+                type: number
+            required:
+            - type
+            - referrals
+          - type: object
+            properties:
+              type:
+                type: string
+                const: firstProfitTrade
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: firstLostTrade
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: link
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: tradingDailyVolume
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: singleTradeProfit
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: singleTradePnL
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkEmail
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkTelegram
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: aiStrategyCreated
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkTwoFA
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkDiscordNotifications
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkMobilePushNotifications
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkWebPushNotifications
+              threshold:
+                type: number
+            required:
+            - type
+            - threshold
+        category:
+          type: string
+          enum:
+          - basic
+          - trading
+          - education
+          - social
+        progress:
+          anyOf:
+          - type: object
+            properties:
+              type:
+                type: string
+                const: userRegister
+              registered:
+                type: number
+            required:
+            - type
+            - registered
+          - type: object
+            properties:
+              type:
+                type: string
+                const: manual
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: firstLiquidation
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: cashback
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: dailyActivity
+              consecutiveDays:
+                type: number
+              lastActivityDate:
+                type: string
+            required:
+            - type
+            - consecutiveDays
+            - lastActivityDate
+          - type: object
+            properties:
+              type:
+                type: string
+                const: userDeposit
+              deposit:
+                type: number
+              coin:
+                type: string
+            required:
+            - type
+            - deposit
+            - coin
+          - type: object
+            properties:
+              type:
+                type: string
+                const: tradingVolume
+              totalVolume:
+                type: number
+            required:
+            - type
+            - totalVolume
+          - type: object
+            properties:
+              type:
+                type: string
+                const: diversifier
+              newInstrument:
+                type: string
+              uniqueInstruments:
+                type: array
+                items:
+                  type: string
+            required:
+            - type
+            - newInstrument
+            - uniqueInstruments
+          - type: object
+            properties:
+              type:
+                type: string
+                const: tradeCount
+              tradeCount:
+                type: number
+            required:
+            - type
+            - tradeCount
+          - type: object
+            properties:
+              type:
+                type: string
+                const: academyCourse
+              coursesCompleted:
+                type: array
+                items:
+                  type: string
+              newCourseCompleted:
+                type: string
+            required:
+            - type
+            - coursesCompleted
+            - newCourseCompleted
+          - type: object
+            properties:
+              type:
+                type: string
+                const: amaParticipation
+              eventsAttended:
+                type: number
+            required:
+            - type
+            - eventsAttended
+          - type: object
+            properties:
+              type:
+                type: string
+                const: referralCount
+              totalReferrals:
+                type: number
+            required:
+            - type
+            - totalReferrals
+          - type: object
+            properties:
+              type:
+                type: string
+                const: referralEarnings
+              totalEarnings:
+                type: number
+            required:
+            - type
+            - totalEarnings
+          - type: object
+            properties:
+              type:
+                type: string
+                const: positionLeverageUpdate
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: testnetParticipant
+              participated:
+                type: boolean
+            required:
+            - type
+            - participated
+          - type: object
+            properties:
+              type:
+                type: string
+                const: liquidityProvider
+              totalLiquidityProvided:
+                type: number
+              daysProvided:
+                type: number
+            required:
+            - type
+            - totalLiquidityProvided
+            - daysProvided
+          - type: object
+            properties:
+              type:
+                type: string
+                const: copyTrader
+              successRate:
+                type: number
+            required:
+            - type
+            - successRate
+          - type: object
+            properties:
+              type:
+                type: string
+                const: p2pExchanges
+              exchangeCount:
+                type: number
+            required:
+            - type
+            - exchangeCount
+          - type: object
+            properties:
+              type:
+                type: string
+                const: ehCardOwner
+              ownsCard:
+                type: boolean
+            required:
+            - type
+            - ownsCard
+          - type: object
+            properties:
+              type:
+                type: string
+                const: cautiousInvestor
+              stopLossUsed:
+                type: number
+            required:
+            - type
+            - stopLossUsed
+          - type: object
+            properties:
+              type:
+                type: string
+                const: riskManagementMaster
+              currentRiskRatio:
+                type: number
+              daysMaintained:
+                type: number
+            required:
+            - type
+            - currentRiskRatio
+            - daysMaintained
+          - type: object
+            properties:
+              type:
+                type: string
+                const: ironHands
+              positionHeldDays:
+                type: number
+              recoveredPercentage:
+                type: number
+            required:
+            - type
+            - positionHeldDays
+            - recoveredPercentage
+          - type: object
+            properties:
+              type:
+                type: string
+                const: friendOfFriends
+              referrals:
+                type: number
+            required:
+            - type
+            - referrals
+          - type: object
+            properties:
+              type:
+                type: string
+                const: firstProfitTrade
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: firstLostTrade
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: link
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: tradingDailyVolume
+              totalVolume:
+                type: number
+              day:
+                type: string
+            required:
+            - type
+            - totalVolume
+            - day
+          - type: object
+            properties:
+              type:
+                type: string
+                const: singleTradeProfit
+              pnl:
+                type: number
+            required:
+            - type
+            - pnl
+          - type: object
+            properties:
+              type:
+                type: string
+                const: singleTradePnL
+              pnl:
+                type: number
+            required:
+            - type
+            - pnl
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkEmail
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkTelegram
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: aiStrategyCreated
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkTwoFA
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkDiscordNotifications
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkMobilePushNotifications
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: object
+            properties:
+              type:
+                type: string
+                const: linkWebPushNotifications
+              count:
+                type: number
+            required:
+            - type
+            - count
+          - type: 'null'
+        isClaimed:
+          type: boolean
+          default: false
+        isExternalUrl:
+          type: boolean
+          default: false
+        isReadyToClaim:
+          type: boolean
+        rewardType:
+          type: string
+          enum:
+          - static
+          - dynamic
+        dynamicPercent:
+          type: number
+        dynamicMinExp:
+          type: number
+        viewType:
+          type: string
+          enum:
+          - card
+          - progressBarCard
+        progressBar:
+          type: object
+          properties:
+            current:
+              type: number
+            total:
+              type: number
+          required:
+          - current
+          - total
+        buttonText:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - type
+      - url
+      - experienceReward
+      - criteria
+      - category
+      - progress
+      - isClaimed
+      - isExternalUrl
+      - isReadyToClaim
+      - rewardType
+      - dynamicPercent
+      - dynamicMinExp
+      - viewType
+      - progressBar
+      - buttonText
+    PageLimitParam:
+      type: string
+      default: '50'
+    PublicQuest:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum:
+          - basic
+          - trading
+          - education
+          - social
+        type:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+        viewType:
+          type: string
+          enum:
+          - card
+          - progressBarCard
+        buttonText:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - category
+      - type
+      - url
+      - viewType
+      - buttonText
+    PageOffsetParam:
+      type: string
+      default: '0'
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

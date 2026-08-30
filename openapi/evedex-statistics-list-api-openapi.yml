@@ -1,0 +1,349 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Statistics List API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: Statistics List
+paths:
+  /api/affiliate-statistics/events:
+    get:
+      tags:
+      - Statistics List
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: before
+        description: Before date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Before date
+      - in: query
+        name: after
+        description: After date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: After date
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatisticsListResponse'
+  /api/affiliate-statistics/singup:
+    get:
+      tags:
+      - Statistics List
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: code
+        description: Search by referral code
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Search by referral code
+      - in: query
+        name: before
+        description: Before date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Before date
+      - in: query
+        name: after
+        description: After date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: After date
+      - in: query
+        name: tags
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+      - in: query
+        name: search
+        description: Search by user social, wallet, smart account, name, email
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Search by user social, wallet, smart account, name, email
+      - in: query
+        name: createdBefore
+        description: User created before date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: User created before date
+      - in: query
+        name: createdAfter
+        description: User created after date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: User created after date
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: sort
+        description: Sort by field
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Sort by field
+      - in: query
+        name: order
+        description: Order direction
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASC
+          - DESC
+          description: Order direction
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsListResponse'
+  /api/affiliate-statistics:
+    get:
+      tags:
+      - Statistics List
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: code
+        description: Search by referral code
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Search by referral code
+      - in: query
+        name: before
+        description: Before date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Before date
+      - in: query
+        name: after
+        description: After date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: After date
+      - in: query
+        name: tags
+        schema:
+          anyOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+      - in: query
+        name: search
+        description: Search by user social, wallet, smart account, name, email
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Search by user social, wallet, smart account, name, email
+      - in: query
+        name: createdBefore
+        description: User created before date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: User created before date
+      - in: query
+        name: createdAfter
+        description: User created after date
+        schema:
+          type:
+          - string
+          - 'null'
+          description: User created after date
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: sort
+        description: Sort by field
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Sort by field
+      - in: query
+        name: order
+        description: Order direction
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASC
+          - DESC
+          description: Order direction
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsListResponse'
+components:
+  schemas:
+    UserStatisticsListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserStatisticsResponse'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    StatisticsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+          default: null
+        email:
+          type:
+          - string
+          - 'null'
+          default: null
+        wallet:
+          type: string
+        usersCount:
+          type: number
+        linksCount:
+          type: number
+        signupCount:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+          default: []
+        tradingVolume:
+          type: number
+          default: 0
+        depositVolume:
+          type: number
+          default: 0
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - email
+      - wallet
+      - usersCount
+      - linksCount
+      - signupCount
+      - tags
+      - tradingVolume
+      - depositVolume
+      - createdAt
+      - updatedAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    StatisticsListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatisticsResponse'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    UserStatisticsResponse:
+      type: object
+      properties:
+        signupCount:
+          type: number
+      required:
+      - signupCount
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

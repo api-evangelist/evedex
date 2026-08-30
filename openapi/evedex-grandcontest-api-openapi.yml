@@ -1,0 +1,495 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Grand Contest API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: GrandContest
+paths:
+  /api/grand-contest/volume-scale:
+    get:
+      tags:
+      - GrandContest
+      summary: Returns volume tiers and current daily volume.
+      security: []
+      parameters:
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrandContestVolumeScaleResponse'
+  /api/grand-contest/top-earners:
+    get:
+      tags:
+      - GrandContest
+      summary: Returns top 50 users by total USDT earned.
+      security: []
+      parameters:
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrandContestTopEarnersResponse'
+  /api/grand-contest/me:
+    get:
+      tags:
+      - GrandContest
+      summary: Returns authenticated user grand contest stats.
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrandContestMeResponse'
+  /api/grand-contest:
+    get:
+      tags:
+      - GrandContest
+      summary: Returns all grant contest competitions
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type:
+                  - object
+                  - 'null'
+                  properties:
+                    id:
+                      type: string
+                    startAt:
+                      type: string
+                    finishAt:
+                      type: string
+                    status:
+                      type: string
+                  required:
+                  - id
+                  - startAt
+                  - finishAt
+                  - status
+  /api/grand-contest/leaderboard:
+    get:
+      tags:
+      - GrandContest
+      summary: Returns top 250 traders by total volume (filtered to daily-active users).
+      security: []
+      parameters:
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrandContestLeaderboardResponse'
+  /api/grand-contest/claim-milestone:
+    post:
+      tags:
+      - GrandContest
+      summary: Claim 100 USDT milestone reward.
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrandContestClaimMilestoneResponse'
+  /api/grand-contest/claim:
+    post:
+      tags:
+      - GrandContest
+      summary: Claim available USDT rewards.
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: competition
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrandContestClaimResponse'
+components:
+  schemas:
+    GrandContestClaimResponse:
+      type: object
+      properties:
+        claimed:
+          type: string
+        totalEarned:
+          type: string
+        availableToClaim:
+          type: string
+        payload:
+          type:
+          - object
+          - 'null'
+          properties:
+            nonce:
+              type: string
+            chainId:
+              type: number
+            recipient:
+              type: string
+            token:
+              type: string
+            amount:
+              type: string
+            contractAddress:
+              type: string
+            signature:
+              type: string
+          required:
+          - nonce
+          - chainId
+          - recipient
+          - token
+          - amount
+          - contractAddress
+          - signature
+      required:
+      - claimed
+      - totalEarned
+      - availableToClaim
+      - payload
+    GrandContestLeaderboardResponse:
+      type: object
+      properties:
+        leaderboard:
+          type: array
+          items:
+            type: object
+            properties:
+              rank:
+                type: number
+              avatar:
+                type:
+                - string
+                - 'null'
+              name:
+                type:
+                - string
+                - 'null'
+              smartAccountAddress:
+                type:
+                - string
+                - 'null'
+              dailyVolume:
+                type: string
+              totalVolume:
+                type: string
+              currentPlace:
+                type: number
+              yesterdayPlace:
+                type:
+                - number
+                - 'null'
+              expectedReward:
+                type:
+                - object
+                - 'null'
+                properties:
+                  type:
+                    type: string
+                  amount:
+                    type: string
+                  isActiveTier:
+                    type: boolean
+                required:
+                - type
+                - amount
+                - isActiveTier
+              xp:
+                type: string
+              tradingVolume:
+                type: string
+              skillTreeName:
+                type:
+                - string
+                - 'null'
+              totalClaimed:
+                type: string
+            required:
+            - rank
+            - avatar
+            - smartAccountAddress
+            - dailyVolume
+            - totalVolume
+            - currentPlace
+            - yesterdayPlace
+            - expectedReward
+            - xp
+            - tradingVolume
+            - skillTreeName
+        totalDailyVolume:
+          type: string
+        activeTier:
+          type: object
+          properties:
+            requireDailyVolume:
+              type: string
+            usdtPool:
+              type: number
+            pointsPool:
+              type: number
+          required:
+          - requireDailyVolume
+          - usdtPool
+          - pointsPool
+      required:
+      - leaderboard
+      - totalDailyVolume
+      - activeTier
+    GrandContestVolumeScaleResponse:
+      type: object
+      properties:
+        competition:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+            startAt:
+              type: string
+            finishAt:
+              type: string
+            status:
+              type: string
+          required:
+          - id
+          - startAt
+          - finishAt
+          - status
+        currentRound:
+          type:
+          - object
+          - 'null'
+          properties:
+            roundNumber:
+              type: number
+            startAt:
+              type: string
+            finishAt:
+              type: string
+          required:
+          - roundNumber
+          - startAt
+          - finishAt
+        dailyVolume:
+          type: string
+        activeTier:
+          type: object
+          properties:
+            requireDailyVolume:
+              type: string
+            usdtPool:
+              type: number
+            pointsPool:
+              type: number
+          required:
+          - requireDailyVolume
+          - usdtPool
+          - pointsPool
+        volumeScale:
+          type: array
+          items:
+            type: object
+            properties:
+              requireDailyVolume:
+                type: string
+              usdtPool:
+                type: number
+              pointsPool:
+                type: number
+            required:
+            - requireDailyVolume
+            - usdtPool
+            - pointsPool
+      required:
+      - competition
+      - currentRound
+      - dailyVolume
+      - activeTier
+      - volumeScale
+    GrandContestClaimMilestoneResponse:
+      type: object
+      properties:
+        claimed:
+          type: boolean
+        amount:
+          type: string
+        payload:
+          type:
+          - object
+          - 'null'
+          properties:
+            nonce:
+              type: string
+            chainId:
+              type: number
+            recipient:
+              type: string
+            token:
+              type: string
+            amount:
+              type: string
+            contractAddress:
+              type: string
+            signature:
+              type: string
+          required:
+          - nonce
+          - chainId
+          - recipient
+          - token
+          - amount
+          - contractAddress
+          - signature
+      required:
+      - claimed
+      - amount
+      - payload
+    GrandContestMeResponse:
+      type: object
+      properties:
+        totalVolume:
+          type: string
+        dailyVolume:
+          type: string
+        currentPlace:
+          type:
+          - number
+          - 'null'
+        yesterdayPlace:
+          type:
+          - number
+          - 'null'
+        totalClaimed:
+          type: string
+        rewards:
+          type: object
+          properties:
+            totalEarned:
+              type: string
+            claimed:
+              type: string
+            availableToClaim:
+              type: string
+            pendingClaim:
+              type: string
+          required:
+          - totalEarned
+          - claimed
+          - availableToClaim
+          - pendingClaim
+        milestone:
+          type: object
+          properties:
+            threshold:
+              type: string
+            currentVolume:
+              type: string
+            reward:
+              type: number
+            isClaimed:
+              type: boolean
+            isAvailable:
+              type: boolean
+          required:
+          - threshold
+          - currentVolume
+          - reward
+          - isClaimed
+          - isAvailable
+      required:
+      - totalVolume
+      - dailyVolume
+      - currentPlace
+      - yesterdayPlace
+      - totalClaimed
+      - rewards
+      - milestone
+    GrandContestTopEarnersResponse:
+      type: object
+      properties:
+        topEarners:
+          type: array
+          items:
+            type: object
+            properties:
+              rank:
+                type: number
+              avatar:
+                type:
+                - string
+                - 'null'
+              smartAccountAddress:
+                type:
+                - string
+                - 'null'
+              totalUsdtEarned:
+                type: string
+              totalVolume:
+                type: string
+            required:
+            - rank
+            - avatar
+            - smartAccountAddress
+            - totalUsdtEarned
+            - totalVolume
+      required:
+      - topEarners
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

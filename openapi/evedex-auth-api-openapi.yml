@@ -1,0 +1,936 @@
+openapi: 3.2.0
+info:
+  title: Evedex Auth API
+  version: 1.0.0
+  description: 'Operations tagged Auth across 3 of this provider''s published API definitions: evedex-auth-openapi.json, evedex-backoffice-openapi.json, evedex-market-data-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://auth-api.evedex.com
+- url: https://backoffice-api.private.evedex.com
+- url: https://market-data-api.evedex.com
+tags:
+- name: Auth
+paths:
+  /auth/verify-message:
+    post:
+      tags:
+      - Auth
+      security:
+      - InternalToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyMessageBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyMessageResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/sign-in/by:
+    post:
+      tags:
+      - Auth
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInByBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/revoke:
+    post:
+      tags:
+      - Auth
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/refresh:
+    post:
+      tags:
+      - Auth
+      security:
+      - RefreshToken: []
+      parameters:
+      - in: query
+        name: noCookieReplace
+        schema:
+          type: string
+          enum:
+          - 'yes'
+          - 'no'
+          - ''
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                utm:
+                  type: object
+                  properties:
+                    source:
+                      type: string
+                    medium:
+                      type: string
+                    campaign:
+                      type: string
+                    term:
+                      type: string
+                    content:
+                      type: string
+                tracking:
+                  type: object
+                  properties:
+                    params:
+                      type: object
+                      propertyNames:
+                        type: string
+                        maxLength: 64
+                      additionalProperties:
+                        type: string
+                        maxLength: 512
+                  required:
+                  - params
+                visitorId:
+                  type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/nonce:
+    get:
+      tags:
+      - Auth
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NonceResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/refresh/{id}/disable:
+    put:
+      tags:
+      - Auth
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DisableRefreshTokenBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /auth/refresh/{id}/disable-all:
+    put:
+      tags:
+      - Auth
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DisableAllRefreshTokensBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+  /api/auth/user/list:
+    get:
+      tags:
+      - Auth
+      security:
+      - AccessToken: []
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: wallet
+        schema:
+          type: string
+      - in: query
+        name: smartAccount
+        schema:
+          type: string
+      - in: query
+        name: role
+        schema:
+          type: string
+      - in: query
+        name: authRole
+        schema:
+          type: string
+      - in: query
+        name: exchangeId
+        schema:
+          type: string
+      - in: query
+        name: authId
+        schema:
+          type: string
+          description: AuthId
+      - in: query
+        name: email
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: '#/components/schemas/User_2'
+                      type: object
+                      properties:
+                        smartAccounts:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              network:
+                                type: string
+                              address:
+                                type: string
+                              version:
+                                type: number
+                              isDeployed:
+                                type: boolean
+                            required:
+                            - network
+                            - address
+                            - version
+                            - isDeployed
+                      required:
+                      - smartAccounts
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/auth/user/{id}:
+    get:
+      tags:
+      - Auth
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      - in: query
+        name: depositorChainId
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponse'
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/auth/user/{id}/role:
+    put:
+      tags:
+      - Auth
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRoleBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+    servers:
+    - url: https://backoffice-api.private.evedex.com
+  /api/auth:
+    get:
+      tags:
+      - Auth
+      security: []
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+          default: 94b21c68-c63b-4441-883a-61959c955f0b
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWT_2'
+    servers:
+    - url: https://market-data-api.evedex.com
+components:
+  schemas:
+    NonceResponse:
+      type: object
+      properties:
+        nonce:
+          type: string
+      required:
+      - nonce
+    VerifyMessageBody:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Signed message
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        wallet:
+          type: string
+          description: Wallet address
+        nonce:
+          type: string
+          description: Nonce
+      required:
+      - message
+      - signature
+      - wallet
+    JWT:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
+      required:
+      - accessToken
+      description: JWT tokens
+    SignInByBody:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: Target account ID
+      required:
+      - userId
+    DisableAllRefreshTokensBody:
+      type: object
+      properties:
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        chainId:
+          type: string
+          description: Chain id
+      required:
+      - signature
+      - chainId
+      additionalProperties: false
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        avatar:
+          type:
+          - string
+          - 'null'
+        cover:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        name:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        telegramProfile:
+          type:
+          - object
+          - 'null'
+          properties:
+            shortUsername:
+              type: string
+          required:
+          - shortUsername
+        discordId:
+          type:
+          - string
+          - 'null'
+        discordName:
+          type:
+          - string
+          - 'null'
+        mobilePushEnabled:
+          type: boolean
+        referralCode:
+          type:
+          - string
+          - 'null'
+        smartAccountsList:
+          type: array
+          items:
+            type: object
+            properties:
+              network:
+                type: string
+              address:
+                type: string
+              version:
+                type: number
+              isDeployed:
+                type: boolean
+            required:
+            - network
+            - address
+            - version
+            - isDeployed
+          description: User owned smart accounts list
+        parentSmartAccountList:
+          type: array
+          items:
+            type: object
+            properties:
+              network:
+                type: string
+              address:
+                type: string
+              version:
+                type: number
+              isDeployed:
+                type: boolean
+            required:
+            - network
+            - address
+            - version
+            - isDeployed
+          description: Parent user owned smart accounts list (for sub accounts)
+        subAccountIndex:
+          type: string
+        signUpMethod:
+          type: string
+          enum:
+          - email
+          - google
+          - apple
+          - wallet
+          - telegram
+          - twitter
+        platform:
+          type:
+          - string
+          - 'null'
+          enum:
+          - WEB_MOB
+          - WEB_DESKTOP
+          - WEB_OTHER
+          - APP_ANDROID
+          - APP_IOS
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        lastSignInAt:
+          type:
+          - string
+          - 'null'
+        subscriptionStatus:
+          type: string
+          enum:
+          - none
+          - expired
+          - active
+          - canceling
+          - renewed
+          default: none
+        privilegiesType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - premium
+          - academyCourse
+          default: null
+        type:
+          type: string
+          enum:
+          - user
+          - autotest
+          description: User type
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          description: Account type (main or sub)
+        accountStatus:
+          type: string
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+          description: Account status (active, inactive, etc.)
+        parent:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: Parent account ID for sub accounts
+        isArchived:
+          type: boolean
+          description: Whether the sub account is archived
+        twofa:
+          type: boolean
+        permissions:
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - avatar
+      - cover
+      - wallet
+      - role
+      - name
+      - status
+      - description
+      - email
+      - locale
+      - telegramProfile
+      - discordId
+      - discordName
+      - mobilePushEnabled
+      - referralCode
+      - smartAccountsList
+      - signUpMethod
+      - platform
+      - createdAt
+      - updatedAt
+      - lastSignInAt
+      - subscriptionStatus
+      - privilegiesType
+      - type
+      - accountType
+      - accountStatus
+      - parent
+      - isArchived
+      - twofa
+      - permissions
+    Auth:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
+    VerifyMessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Verification result
+        address:
+          type:
+          - string
+          - 'null'
+          default: null
+          description: Signer address
+        error:
+          type:
+          - string
+          - 'null'
+          default: null
+          description: Error message
+      required:
+      - success
+      - address
+      - error
+    DisableRefreshTokenBody:
+      type: object
+      properties:
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        chainId:
+          type: string
+          description: Chain id
+      required:
+      - signature
+      - chainId
+      additionalProperties: false
+    EmptyResponse:
+      type: object
+    UserDetailsResponse:
+      allOf:
+      - $ref: '#/components/schemas/User_2'
+      type: object
+      properties:
+        withdrawDisabled:
+          type: boolean
+        smartAccountAddress:
+          type:
+          - string
+          - 'null'
+          default: null
+        arbitrumDepositAddress:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - withdrawDisabled
+      - smartAccountAddress
+      - arbitrumDepositAddress
+    UpdateUserRoleBody:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+          - partner
+      required:
+      - role
+    User_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        avatar:
+          type:
+          - string
+          - 'null'
+        walletSource:
+          type: string
+          enum:
+          - evedex
+          - evedex_mobile_create
+          - evedex_mobile_import
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+          - partner
+        email:
+          type:
+          - string
+          - 'null'
+        telegramProfile:
+          type:
+          - object
+          - 'null'
+          properties:
+            shortUsername:
+              type: string
+          required:
+          - shortUsername
+        referralCode:
+          type:
+          - string
+          - 'null'
+        signUpMethod:
+          type: string
+          enum:
+          - email
+          - google
+          - apple
+          - wallet
+          - telegram
+          - twitter
+        platform:
+          type:
+          - string
+          - 'null'
+          enum:
+          - WEB_MOB
+          - WEB_DESKTOP
+          - WEB_OTHER
+          - APP_ANDROID
+          - APP_IOS
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        lastSignInAt:
+          type:
+          - string
+          - 'null'
+        tariff:
+          $ref: '#/components/schemas/TariffObject'
+        permissions:
+          type: array
+          items:
+            type: string
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        depositor:
+          type: string
+      required:
+      - id
+      - avatar
+      - walletSource
+      - wallet
+      - role
+      - email
+      - telegramProfile
+      - referralCode
+      - signUpMethod
+      - platform
+      - createdAt
+      - updatedAt
+      - lastSignInAt
+      - permissions
+      - locale
+    PageOffsetParam:
+      type: string
+      default: '0'
+    TariffObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        paymentDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        privilegies:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - premium
+              - academyCourse
+            courses:
+              type: array
+              items:
+                type: string
+          required:
+          - type
+        issuedBy:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - user
+      - startedAt
+      - endedAt
+      - paymentDate
+      - privilegies
+      - issuedBy
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
+    JWT_2:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+      required:
+      - accessToken
+      description: JWT tokens
+  securitySchemes:
+    InternalToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+x-refined-from:
+- evedex-auth-openapi.json
+- evedex-backoffice-openapi.json
+- evedex-market-data-openapi.json

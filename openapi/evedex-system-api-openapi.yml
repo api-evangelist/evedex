@@ -1,0 +1,91 @@
+openapi: 3.2.0
+info:
+  title: Evedex System API
+  version: 1.0.0
+  description: 'Operations tagged System across 11 of this provider''s published API definitions: evedex-academy-openapi.json, evedex-ai-strategies-openapi.json, evedex-auth-openapi.json, evedex-backoffice-openapi.json, evedex-billing-openapi.json, evedex-bridge-middleware-openapi.json, evedex-exchange-openapi.json, evedex-game-openapi.json, evedex-market-data-openapi.json, evedex-notifications-openapi.json, evedex-referral-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://academy.evedex.com
+- url: https://ai-strategies-api.evedex.com
+- url: https://auth-api.evedex.com
+- url: https://backoffice-api.private.evedex.com
+- url: https://billing-api.evedex.com
+- url: https://bridge-middleware-api.evedex.com
+- url: https://exchange-api.evedex.com
+- url: https://game-api.evedex.com
+- url: https://market-data-api.evedex.com
+- url: https://notifications-api.evedex.com
+- url: https://partner-api.evedex.com
+tags:
+- name: System
+paths:
+  /api/ping:
+    get:
+      tags:
+      - System
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+    servers:
+    - url: https://academy.evedex.com
+  /auth/ping:
+    get:
+      tags:
+      - System
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+    servers:
+    - url: https://auth-api.evedex.com
+components:
+  schemas:
+    PingResponse:
+      type: object
+      properties:
+        time:
+          type: number
+          description: Current timestamp
+      required:
+      - time
+      description: Ping response
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    InternalToken:
+      type: http
+      scheme: bearer
+    RefreshToken:
+      type: http
+      scheme: bearer
+    ExternalKey:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+x-refined-from:
+- evedex-academy-openapi.json
+- evedex-ai-strategies-openapi.json
+- evedex-auth-openapi.json
+- evedex-backoffice-openapi.json
+- evedex-billing-openapi.json
+- evedex-bridge-middleware-openapi.json
+- evedex-exchange-openapi.json
+- evedex-game-openapi.json
+- evedex-market-data-openapi.json
+- evedex-notifications-openapi.json
+- evedex-referral-openapi.json

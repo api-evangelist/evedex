@@ -1,0 +1,362 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Game Skill API
+  version: 1.0.0
+servers:
+- url: https://game-api.evedex.com
+tags:
+- name: Skill
+paths:
+  /api/skill/list:
+    get:
+      tags:
+      - Skill
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserSkillTree'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/skill:
+    get:
+      tags:
+      - Skill
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSkillTree'
+  /api/skill/select:
+    post:
+      tags:
+      - Skill
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectSkillBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectSkillResponse'
+  /api/skill/public:
+    get:
+      tags:
+      - Skill
+      security: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublicSkill'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+  /api/skill/flush:
+    post:
+      tags:
+      - Skill
+      security:
+      - AccessToken: []
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectSkillResponse'
+  /api/skill/claim:
+    post:
+      tags:
+      - Skill
+      security:
+      - AccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArtifactBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelectSkillResponse'
+components:
+  schemas:
+    SelectSkillResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    FreeTradingToolCountBonus:
+      type: object
+      properties:
+        freeTradingToolCount:
+          type: number
+      required:
+      - freeTradingToolCount
+    PublicSkill:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicArtifact'
+      required:
+      - id
+      - name
+      - description
+      - artifacts
+    TradingMentorBonus:
+      type: object
+      properties:
+        tradingMentor:
+          type: boolean
+      required:
+      - tradingMentor
+    FeaturePlatformBonus:
+      type: object
+      properties:
+        featurePlatform:
+          type: boolean
+      required:
+      - featurePlatform
+    UserArtifact:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        bonus:
+          $ref: '#/components/schemas/ArtifactBonus'
+        status:
+          type: string
+          enum:
+          - default
+          - open
+          - done
+          - claimed
+        skillPoints:
+          type: number
+        requiredSkillPoints:
+          type: number
+        claimedAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - image
+      - bonus
+      - status
+      - skillPoints
+      - requiredSkillPoints
+      - claimedAt
+    PublicArtifact:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        bonus:
+          $ref: '#/components/schemas/ArtifactBonus'
+        skillPoints:
+          type: number
+        skillTree:
+          type: string
+      required:
+      - id
+      - name
+      - description
+      - image
+      - bonus
+      - skillPoints
+      - skillTree
+    FreeCourseMonthBonus:
+      type: object
+      properties:
+        freeCourseMonth:
+          type: number
+      required:
+      - freeCourseMonth
+    IncreasedRefFeeBonus:
+      type: object
+      properties:
+        increasedRefFee:
+          type: number
+      required:
+      - increasedRefFee
+    EducationDiscountBonus:
+      type: object
+      properties:
+        educationDiscount:
+          type: number
+      required:
+      - educationDiscount
+    ReferralBonusPercentBonus:
+      type: object
+      properties:
+        referralBonusPercent:
+          type: number
+      required:
+      - referralBonusPercent
+    FreeCollaborationOpportunitiesBonus:
+      type: object
+      properties:
+        freeCollaborationOpportunities:
+          type: boolean
+      required:
+      - freeCollaborationOpportunities
+    SelectSkillBody:
+      type: object
+      properties:
+        skill:
+          type: string
+      required:
+      - skill
+    AccessAdvancedStrategiesBonus:
+      type: object
+      properties:
+        accessAdvancedStrategies:
+          type: boolean
+      required:
+      - accessAdvancedStrategies
+    FreeCourseForBeginnersBonus:
+      type: object
+      properties:
+        freeCourseForBeginers:
+          type: boolean
+      required:
+      - freeCourseForBeginers
+    ArtifactBonus:
+      anyOf:
+      - $ref: '#/components/schemas/EducationDiscountBonus'
+      - $ref: '#/components/schemas/FreeCourseMonthBonus'
+      - $ref: '#/components/schemas/FreeCourseForBeginnersBonus'
+      - $ref: '#/components/schemas/PersonalMentorshipAccessBonus'
+      - $ref: '#/components/schemas/TradingProfitPercentBonus'
+      - $ref: '#/components/schemas/AccessAdvancedStrategiesBonus'
+      - $ref: '#/components/schemas/FreeTradingToolCountBonus'
+      - $ref: '#/components/schemas/TradingMentorBonus'
+      - $ref: '#/components/schemas/IncreasedRefFeeBonus'
+      - $ref: '#/components/schemas/ReferralBonusPercentBonus'
+      - $ref: '#/components/schemas/AccessPremiumContentBonus'
+      - $ref: '#/components/schemas/FreeCollaborationOpportunitiesBonus'
+      - $ref: '#/components/schemas/FeaturePlatformBonus'
+    TradingProfitPercentBonus:
+      type: object
+      properties:
+        tradingProfitPercent:
+          type: number
+      required:
+      - tradingProfitPercent
+    PersonalMentorshipAccessBonus:
+      type: object
+      properties:
+        personalMentorshipAccess:
+          type: boolean
+      required:
+      - personalMentorshipAccess
+    AccessPremiumContentBonus:
+      type: object
+      properties:
+        accessPremiumContent:
+          type: boolean
+      required:
+      - accessPremiumContent
+    UserSkillTree:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserArtifact'
+        availableСhangeAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - artifacts
+      - availableСhangeAt
+    ArtifactBody:
+      type: object
+      properties:
+        artifact:
+          type: string
+      required:
+      - artifact
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer

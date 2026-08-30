@@ -1,0 +1,36 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Exchange/billing-backend Payment Service API
+  version: 1.0.0
+servers:
+- url: https://billing-api.evedex.com
+tags:
+- name: PaymentService
+paths:
+  /api/payment-service:
+    get:
+      tags:
+      - PaymentService
+      security: []
+      responses:
+        '200':
+          description: 200 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer

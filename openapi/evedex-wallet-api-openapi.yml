@@ -1,0 +1,158 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Bridge-middleware Wallet API
+  version: 1.0.0
+servers:
+- url: https://bridge-middleware-api.evedex.com
+tags:
+- name: Wallet
+paths:
+  /api/wallet:
+    get:
+      tags:
+      - Wallet
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: authId
+        description: User auth ID
+        schema:
+          type: string
+          format: uuid
+          description: User auth ID
+      - in: query
+        name: depositors
+        description: Depositor contract addresses
+        schema:
+          type: array
+          items:
+            type: string
+          maxItems: 250
+          description: Depositor contract addresses
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WalletObject'
+                  count:
+                    type: number
+                  next:
+                    type: string
+                required:
+                - list
+                - count
+    post:
+      tags:
+      - Wallet
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletCreateResponse'
+components:
+  schemas:
+    WalletCreateBody:
+      type: object
+      properties:
+        network:
+          anyOf:
+          - type: string
+          - type: integer
+          description: Parent network ID
+        authId:
+          type: string
+          description: User auth ID
+        owner:
+          type: string
+          description: Bridge middleware owner wallet address
+        wallet:
+          type: string
+          description: Recipient smart account address
+      required:
+      - network
+      - authId
+      - owner
+      - wallet
+    WalletObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        authId:
+          type: string
+          format: uuid
+        network:
+          type: string
+          description: Chain ID
+        owner:
+          type: string
+          description: Owner wallet address
+        wallet:
+          type: string
+          description: Recipient smart account address
+        depositor:
+          type: string
+          description: Depositor contract address
+        version:
+          type: number
+        deployStatus:
+          type: string
+          enum:
+          - pending
+          - process
+          - deploying
+          - done
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - network
+      - owner
+      - wallet
+      - depositor
+      - version
+      - deployStatus
+      - createdAt
+      - updatedAt
+    WalletCreateResponse:
+      type: object
+      properties:
+        depositor:
+          type: string
+        version:
+          type: number
+      required:
+      - depositor
+      - version
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
+    ExternalKey:
+      type: http
+      scheme: bearer

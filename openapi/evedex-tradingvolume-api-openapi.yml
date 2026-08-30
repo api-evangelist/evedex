@@ -1,0 +1,56 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Referral Trading Volume API
+  version: 1.0.0
+servers:
+- url: https://partner-api.evedex.com
+tags:
+- name: TradingVolume
+paths:
+  /api/tradingVolume/referral-info:
+    get:
+      tags:
+      - TradingVolume
+      security:
+      - AccessToken: []
+        ApiKey: []
+      parameters:
+      - in: query
+        name: after
+        schema:
+          type:
+          - string
+          - 'null'
+      - in: query
+        name: before
+        schema:
+          type:
+          - string
+          - 'null'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradingVolumeReferralInfoResponse'
+components:
+  schemas:
+    TradingVolumeReferralInfoResponse:
+      type: object
+      properties:
+        tradingVolume:
+          type: string
+      required:
+      - tradingVolume
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    InternalKey:
+      type: http
+      scheme: bearer

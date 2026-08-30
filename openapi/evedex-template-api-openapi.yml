@@ -1,0 +1,545 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Notifications Template API
+  version: 1.0.0
+servers:
+- url: https://notifications-api.evedex.com
+tags:
+- name: Template
+paths:
+  /api/templates/{id}:
+    put:
+      tags:
+      - Template
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateUpdatePayload'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateObject'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+      - Template
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateObject'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+      - Template
+      security:
+      - InternalKey: []
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+  /api/templates:
+    get:
+      tags:
+      - Template
+      security:
+      - InternalKey: []
+      parameters:
+      - in: query
+        name: templateId
+        schema:
+          type: string
+      - in: query
+        name: channel
+        schema:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+      - in: query
+        name: locale
+        schema:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+      - in: query
+        name: group
+        schema:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateList'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+      - Template
+      security:
+      - InternalKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplatePayload'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateObject'
+        '400':
+          description: 400 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 401 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 403 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 404 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 500 Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    TemplateListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - group
+      - locale
+      - dataSchema
+      - createdAt
+      - updatedAt
+    TemplateObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+          default: null
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          default: null
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - locale
+      - title
+      - body
+      - group
+      - link
+      - imageUrl
+      - dataSchema
+      - channelExtra
+      - createdAt
+      - updatedAt
+    TemplatePayload:
+      type: object
+      properties:
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+          default: null
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          default: null
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          default: en-US
+        dataSchema:
+          type: object
+          additionalProperties: {}
+          default:
+            type: object
+            properties: {}
+            required: []
+            additionalProperties: false
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+          default: null
+      required:
+      - templateId
+      - channel
+      - title
+      - body
+      - group
+    TemplateUpdatePayload:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+    TemplateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
+      required:
+      - list
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    EmptyResponse:
+      type: object
+  securitySchemes:
+    InternalKey:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer

@@ -1,0 +1,231 @@
+openapi: 3.2.0
+info:
+  title: EVEDEX - Academy Homework API
+  version: 1.0.0
+servers:
+- url: https://academy.evedex.com
+tags:
+- name: Homework
+paths:
+  /api/course/{courseId}/lesson/{lessonId}/homework:
+    get:
+      tags:
+      - Homework
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: student
+        schema:
+          type: string
+      - in: query
+        name: limit
+        schema:
+          $ref: '#/components/schemas/PageLimitParam'
+      - in: query
+        name: offset
+        schema:
+          $ref: '#/components/schemas/PageOffsetParam'
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - waitingForCheck
+          - passed
+          - failed
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeworkListResponse'
+    post:
+      tags:
+      - Homework
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeworkCreateBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeworkObject'
+  /api/course/{courseId}/lesson/{lessonId}/homework/{homeworkId}:
+    put:
+      tags:
+      - Homework
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: homeworkId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeworkCheckBody'
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeworkObject'
+    get:
+      tags:
+      - Homework
+      security:
+      - AccessToken: []
+      parameters:
+      - in: path
+        name: courseId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: lessonId
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: homeworkId
+        schema:
+          type: string
+          format: uuid
+        required: true
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeworkObject'
+components:
+  schemas:
+    HomeworkCreateBody:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeworkAnswerBody'
+      required:
+      - answers
+    HomeworkListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeworkObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    HomeworkAnswerBody:
+      type: object
+      properties:
+        question:
+          type: string
+          format: uuid
+        text:
+          type: string
+      required:
+      - question
+      - text
+    HomeworkObject:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - waitingForCheck
+          - passed
+          - failed
+        curatorComment:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - status
+      - curatorComment
+      - createdAt
+      - updatedAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
+    HomeworkCheckBody:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - passed
+          - failed
+        comment:
+          type: string
+      required:
+      - status
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+    InternalKey:
+      type: http
+      scheme: bearer
