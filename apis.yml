@@ -47,6 +47,18 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers
   baseURL: https://docs.evedex.com
   tags:
+  - Cryptocurrency Exchange
+  - DeFi
+  - Decentralized Exchange
+  - Derivatives
+  - Perpetual Futures
+  - Trading
+  - Market Data
+  - Blockchain
+  - Web3
+  - arbitrum-layer3
+  - Fintech
+  tags_raw:
   - cryptocurrency-exchange
   - defi
   - decentralized-exchange
@@ -74,6 +86,18 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/public_exchange_data
   baseURL: https://docs.evedex.com
   tags:
+  - Cryptocurrency Exchange
+  - DeFi
+  - Decentralized Exchange
+  - Derivatives
+  - Perpetual Futures
+  - Trading
+  - Market Data
+  - Blockchain
+  - Web3
+  - arbitrum-layer3
+  - Fintech
+  tags_raw:
   - cryptocurrency-exchange
   - defi
   - decentralized-exchange
@@ -152,6 +176,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - AML
+  tags_raw:
   - Aml
   properties:
   - type: OpenAPI
@@ -180,6 +206,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - APIKeys
+  tags_raw:
   - ApiKey
   properties:
   - type: OpenAPI
@@ -236,6 +264,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -656,6 +686,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - course
+  tags_raw:
   - Course
   properties:
   - type: OpenAPI
@@ -1188,6 +1220,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - journal
+  tags_raw:
   - Journal
   properties:
   - type: OpenAPI
@@ -1496,6 +1530,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Mobile App
+  tags_raw:
   - MobileApp
   properties:
   - type: OpenAPI
@@ -1608,6 +1644,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -1636,6 +1674,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
@@ -1692,6 +1732,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Payment Service
+  tags_raw:
   - PaymentService
   properties:
   - type: OpenAPI
@@ -1860,6 +1902,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Promo Codes
+  tags_raw:
   - Promocodes
   properties:
   - type: OpenAPI
@@ -2504,6 +2548,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Sub-Account
+  tags_raw:
   - SubAccount
   properties:
   - type: OpenAPI
@@ -2952,6 +2998,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Wallets
+  tags_raw:
   - Wallet
   properties:
   - type: OpenAPI
