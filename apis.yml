@@ -27,6 +27,18 @@ created: '2026-08-26'
 modified: '2026-08-26'
 specificationVersion: '0.21'
 tags: &id001
+- Cryptocurrency Exchange
+- DeFi
+- Decentralized Exchange
+- Derivatives
+- Perpetual Futures
+- Trading
+- Market Data
+- Blockchain
+- Web3
+- arbitrum-layer3
+- Fintech
+tags_raw:
 - cryptocurrency-exchange
 - defi
 - decentralized-exchange
@@ -686,7 +698,7 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
-  - course
+  - Course
   tags_raw:
   - Course
   properties:
@@ -1220,7 +1232,7 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
-  - journal
+  - Journal
   tags_raw:
   - Journal
   properties:
