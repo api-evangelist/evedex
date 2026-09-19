@@ -1,16 +1,17 @@
 name: EVEDEX
 aid: evedex
-description: EVEDEX is a hybrid decentralized perpetual-futures exchange built on Arbitrum (Layer 3) that pairs an off-chain
-  order book and matching engine with on-chain settlement and full self-custody, so users trade at centralized-exchange latency
-  without surrendering their keys. Its public developer program spans eleven live OpenAPI 3.1.0 services totalling 557 operations
-  — Auth, Exchange, Market Data, Referral/Affiliate, Notifications, Academy, Game, Billing, Bridge Middleware, AI Strategies
-  and Backoffice — all published from a single Swagger UI at swagger.evedex.com. Authentication is either an X-API-Key issued
-  from the exchange UI or a short-lived JWT minted through EIP-4361 Sign-In with Ethereum, and every write that moves value
-  (order creation, replacement, position closure, withdrawal) additionally requires an EIP-712 typed-data signature from the
-  user's own wallet. Asynchronous state is delivered over seventeen documented Centrifugo WebSocket channels using a snapshot-plus-updates
-  consistency pattern. EVEDEX ships an official TypeScript SDK (@evedex/exchange-bot-sdk) with separate demo and production
-  containers, and publishes agent-native documentation via llms.txt and per-page markdown with a GitBook ask-parameter query
-  interface.
+description: EVEDEX is a hybrid decentralized perpetual-futures exchange built on Arbitrum (Layer 3) that pairs an
+  off-chain order book and matching engine with on-chain settlement and full self-custody, so users trade at
+  centralized-exchange latency without surrendering their keys. Its public developer program spans eleven live OpenAPI
+  3.1.0 services totalling 557 operations — Auth, Exchange, Market Data, Referral/Affiliate, Notifications, Academy,
+  Game, Billing, Bridge Middleware, AI Strategies and Backoffice — all published from a single Swagger UI at
+  swagger.evedex.com. Authentication is either an X-API-Key issued from the exchange UI or a short-lived JWT minted
+  through EIP-4361 Sign-In with Ethereum, and every write that moves value (order creation, replacement, position
+  closure, withdrawal) additionally requires an EIP-712 typed-data signature from the user's own wallet. Asynchronous
+  state is delivered over seventeen documented Centrifugo WebSocket channels using a snapshot-plus-updates consistency
+  pattern. EVEDEX ships an official TypeScript SDK (@evedex/exchange-bot-sdk) with separate demo and production
+  containers, and publishes agent-native documentation via llms.txt and per-page markdown with a GitBook ask-parameter
+  query interface.
 url: https://raw.githubusercontent.com/api-evangelist/evedex/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
@@ -40,9 +41,9 @@ accessModel:
   generated: '2026-09-03'
   method: derived
 created: '2026-08-26'
-modified: '2026-08-26'
+modified: '2026-09-17'
 specificationVersion: '0.21'
-tags: &id001
+tags:
 - Cryptocurrency Exchange
 - DeFi
 - Decentralized Exchange
@@ -174,7 +175,7 @@ apis:
   name: EVEDEX AI Strategy API
   description: The AI Strategy API from EVEDEX — 5 operation(s) for ai strategy.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - AI Strategy
   properties:
@@ -202,7 +203,7 @@ apis:
   name: EVEDEX Aml API
   description: The Aml API from EVEDEX — 3 operation(s) for aml.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - AML
   tags_raw:
@@ -232,7 +233,7 @@ apis:
   name: EVEDEX Article API
   description: The Article API from EVEDEX — 2 operation(s) for article.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Article
   properties:
@@ -290,7 +291,7 @@ apis:
   name: EVEDEX Badge API
   description: The Badge API from EVEDEX — 10 operation(s) for badge.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Badge
   properties:
@@ -320,6 +321,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Bills
+  tags_raw:
   - Bill
   properties:
   - type: OpenAPI
@@ -346,7 +349,7 @@ apis:
   name: EVEDEX Blocked API
   description: The Blocked API from EVEDEX — 3 operation(s) for blocked.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - Blocked
   properties:
@@ -374,7 +377,7 @@ apis:
   name: EVEDEX Bot API
   description: The Bot API from EVEDEX — 6 operation(s) for bot.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Bot
   properties:
@@ -402,7 +405,7 @@ apis:
   name: EVEDEX Cashback API
   description: The Cashback API from EVEDEX — 2 operation(s) for cashback.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Cashback
   properties:
@@ -458,7 +461,7 @@ apis:
   name: EVEDEX Challenges API
   description: The Challenges API from EVEDEX — 10 operation(s) for challenges.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Challenges
   properties:
@@ -486,7 +489,7 @@ apis:
   name: EVEDEX Checkout API
   description: The Checkout API from EVEDEX — 1 operation(s) for checkout.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://billing-api.evedex.com
   tags:
   - Checkout
   properties:
@@ -514,7 +517,7 @@ apis:
   name: EVEDEX Claim stop list API
   description: The Claim stop list API from EVEDEX — 1 operation(s) for claim stop list.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Claim stop list
   properties:
@@ -542,7 +545,7 @@ apis:
   name: EVEDEX Coin API
   description: The Coin API from EVEDEX — 2 operation(s) for coin.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Coin
   properties:
@@ -570,7 +573,7 @@ apis:
   name: EVEDEX Collectable API
   description: The Collectable API from EVEDEX — 5 operation(s) for collectable.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Collectable
   properties:
@@ -598,7 +601,7 @@ apis:
   name: EVEDEX Comment API
   description: The Comment API from EVEDEX — 2 operation(s) for comment.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Comment
   properties:
@@ -626,7 +629,7 @@ apis:
   name: EVEDEX Competition Templates API
   description: The Competition Templates API from EVEDEX — 3 operation(s) for competition templates.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Competition Templates
   properties:
@@ -654,7 +657,7 @@ apis:
   name: EVEDEX Competitions API
   description: The Competitions API from EVEDEX — 8 operation(s) for competitions.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Competitions
   properties:
@@ -682,7 +685,7 @@ apis:
   name: EVEDEX Course API
   description: The Course API from EVEDEX — 10 operation(s) for course.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Course
   tags_raw:
@@ -712,7 +715,7 @@ apis:
   name: EVEDEX Curator Course API
   description: The CuratorCourse API from EVEDEX — 2 operation(s) for curatorcourse.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - CuratorCourse
   properties:
@@ -740,7 +743,7 @@ apis:
   name: EVEDEX Daily Statistics API
   description: The DailyStatistics API from EVEDEX — 1 operation(s) for dailystatistics.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://market-data-api.evedex.com
   tags:
   - DailyStatistics
   properties:
@@ -768,7 +771,7 @@ apis:
   name: EVEDEX Daily Task API
   description: The DailyTask API from EVEDEX — 3 operation(s) for dailytask.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - DailyTask
   properties:
@@ -796,7 +799,7 @@ apis:
   name: EVEDEX Deposit API
   description: The Deposit API from EVEDEX — 1 operation(s) for deposit.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Deposit
   properties:
@@ -824,7 +827,7 @@ apis:
   name: EVEDEX Deposit Bonus API
   description: The Deposit Bonus API from EVEDEX — 4 operation(s) for deposit bonus.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Deposit Bonus
   properties:
@@ -908,7 +911,7 @@ apis:
   name: EVEDEX Distribution API
   description: The Distribution API from EVEDEX — 5 operation(s) for distribution.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://notifications-api.evedex.com
   tags:
   - Distribution
   properties:
@@ -936,7 +939,7 @@ apis:
   name: EVEDEX Event API
   description: The Event API from EVEDEX — 3 operation(s) for event.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Event
   properties:
@@ -964,7 +967,7 @@ apis:
   name: EVEDEX Exchange API
   description: The Exchange API from EVEDEX — 5 operation(s) for exchange.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - Exchange
   properties:
@@ -992,7 +995,7 @@ apis:
   name: EVEDEX External API
   description: The External API from EVEDEX — 3 operation(s) for external.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - External
   properties:
@@ -1048,7 +1051,7 @@ apis:
   name: EVEDEX Funded Account API
   description: The Funded Account API from EVEDEX — 3 operation(s) for funded account.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Funded Account
   properties:
@@ -1076,7 +1079,7 @@ apis:
   name: EVEDEX Grand Contest API
   description: The GrandContest API from EVEDEX — 7 operation(s) for grandcontest.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - GrandContest
   properties:
@@ -1104,7 +1107,7 @@ apis:
   name: EVEDEX Hedging API
   description: The Hedging API from EVEDEX — 2 operation(s) for hedging.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - Hedging
   properties:
@@ -1132,7 +1135,7 @@ apis:
   name: EVEDEX History API
   description: The History API from EVEDEX — 5 operation(s) for history.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://market-data-api.evedex.com
   tags:
   - History
   properties:
@@ -1160,7 +1163,7 @@ apis:
   name: EVEDEX Homework API
   description: The Homework API from EVEDEX — 2 operation(s) for homework.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Homework
   properties:
@@ -1188,7 +1191,7 @@ apis:
   name: EVEDEX Invitation API
   description: The Invitation API from EVEDEX — 1 operation(s) for invitation.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Invitation
   properties:
@@ -1216,9 +1219,9 @@ apis:
   name: EVEDEX Journal API
   description: The Journal API from EVEDEX — 1 operation(s) for journal.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
-  - Journal
+  - Journals
   tags_raw:
   - Journal
   properties:
@@ -1246,8 +1249,10 @@ apis:
   name: EVEDEX Leaderboard API
   description: The Leaderboard API from EVEDEX — 7 operation(s) for leaderboard.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
+  - Leaderboards
+  tags_raw:
   - Leaderboard
   properties:
   - type: OpenAPI
@@ -1274,7 +1279,7 @@ apis:
   name: EVEDEX League API
   description: The League API from EVEDEX — 1 operation(s) for league.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - League
   properties:
@@ -1302,7 +1307,7 @@ apis:
   name: EVEDEX Lesson API
   description: The Lesson API from EVEDEX — 2 operation(s) for lesson.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Lesson
   properties:
@@ -1330,7 +1335,7 @@ apis:
   name: EVEDEX Link API
   description: The Link API from EVEDEX — 7 operation(s) for link.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Link
   properties:
@@ -1358,7 +1363,7 @@ apis:
   name: EVEDEX Liquidation API
   description: The Liquidation API from EVEDEX — 1 operation(s) for liquidation.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - Liquidation
   properties:
@@ -1386,7 +1391,7 @@ apis:
   name: EVEDEX Lucky Shot API
   description: The Lucky Shot API from EVEDEX — 8 operation(s) for lucky shot.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Lucky Shot
   properties:
@@ -1414,7 +1419,7 @@ apis:
   name: EVEDEX Mail API
   description: The Mail API from EVEDEX — 1 operation(s) for mail.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://notifications-api.evedex.com
   tags:
   - Mail
   properties:
@@ -1442,8 +1447,10 @@ apis:
   name: EVEDEX Market API
   description: The Market API from EVEDEX — 9 operation(s) for market.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
+  - Markets
+  tags_raw:
   - Market
   properties:
   - type: OpenAPI
@@ -1470,7 +1477,7 @@ apis:
   name: EVEDEX Material API
   description: The Material API from EVEDEX — 2 operation(s) for material.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Material
   properties:
@@ -1498,7 +1505,7 @@ apis:
   name: EVEDEX Message API
   description: The Message API from EVEDEX — 4 operation(s) for message.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://notifications-api.evedex.com
   tags:
   - Message
   properties:
@@ -1526,7 +1533,7 @@ apis:
   name: EVEDEX Module API
   description: The Module API from EVEDEX — 2 operation(s) for module.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Module
   properties:
@@ -1554,7 +1561,7 @@ apis:
   name: EVEDEX Newcomer API
   description: The Newcomer API from EVEDEX — 2 operation(s) for newcomer.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Newcomer
   properties:
@@ -1582,7 +1589,7 @@ apis:
   name: EVEDEX Notification API
   description: The Notification API from EVEDEX — 1 operation(s) for notification.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://notifications-api.evedex.com
   tags:
   - Notification
   properties:
@@ -1610,7 +1617,7 @@ apis:
   name: EVEDEX Notifications API
   description: The Notifications API from EVEDEX — 6 operation(s) for notifications.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - Notification
   tags_raw:
@@ -1640,7 +1647,7 @@ apis:
   name: EVEDEX Order API
   description: The Order API from EVEDEX — 15 operation(s) for order.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Order
   properties:
@@ -1696,7 +1703,7 @@ apis:
   name: EVEDEX Podium API
   description: The Podium API from EVEDEX — 4 operation(s) for podium.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Podium
   properties:
@@ -1724,7 +1731,7 @@ apis:
   name: EVEDEX Points API
   description: The Points API from EVEDEX — 4 operation(s) for points.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Points
   properties:
@@ -1752,7 +1759,7 @@ apis:
   name: EVEDEX Position API
   description: The Position API from EVEDEX — 4 operation(s) for position.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Position
   properties:
@@ -1836,7 +1843,7 @@ apis:
   name: EVEDEX Push API
   description: The Push API from EVEDEX — 1 operation(s) for push.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://notifications-api.evedex.com
   tags:
   - Push
   properties:
@@ -1864,7 +1871,7 @@ apis:
   name: EVEDEX Quest API
   description: The Quest API from EVEDEX — 4 operation(s) for quest.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Quest
   properties:
@@ -1892,7 +1899,7 @@ apis:
   name: EVEDEX Question API
   description: The Question API from EVEDEX — 2 operation(s) for question.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Question
   properties:
@@ -1920,7 +1927,7 @@ apis:
   name: EVEDEX Redirect API
   description: The Redirect API from EVEDEX — 6 operation(s) for redirect.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Redirect
   properties:
@@ -1948,8 +1955,10 @@ apis:
   name: EVEDEX Referral API
   description: The Referral API from EVEDEX — 1 operation(s) for referral.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
+  - Referrals
+  tags_raw:
   - Referral
   properties:
   - type: OpenAPI
@@ -1976,7 +1985,7 @@ apis:
   name: EVEDEX Referral Competition API
   description: The ReferralCompetition API from EVEDEX — 1 operation(s) for referralcompetition.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - ReferralCompetition
   properties:
@@ -2004,7 +2013,7 @@ apis:
   name: EVEDEX Refund API
   description: The Refund API from EVEDEX — 1 operation(s) for refund.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://billing-api.evedex.com
   tags:
   - Refund
   properties:
@@ -2032,7 +2041,7 @@ apis:
   name: EVEDEX Registration request API
   description: The Registration request API from EVEDEX — 3 operation(s) for registration request.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Registration request
   properties:
@@ -2060,7 +2069,7 @@ apis:
   name: EVEDEX Reward API
   description: The Reward API from EVEDEX — 8 operation(s) for reward.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Reward
   properties:
@@ -2088,7 +2097,7 @@ apis:
   name: EVEDEX Rhino API
   description: The Rhino API from EVEDEX — 2 operation(s) for rhino.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://bridge-middleware-api.evedex.com
   tags:
   - Rhino
   properties:
@@ -2118,6 +2127,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Services
+  tags_raw:
   - Service
   properties:
   - type: OpenAPI
@@ -2146,6 +2157,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Sessions
+  tags_raw:
   - Session
   properties:
   - type: OpenAPI
@@ -2172,7 +2185,7 @@ apis:
   name: EVEDEX Share Content API
   description: The ShareContent API from EVEDEX — 2 operation(s) for sharecontent.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - ShareContent
   properties:
@@ -2200,7 +2213,7 @@ apis:
   name: EVEDEX Simulator API
   description: The Simulator API from EVEDEX — 2 operation(s) for simulator.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Simulator
   properties:
@@ -2228,7 +2241,7 @@ apis:
   name: EVEDEX Skill API
   description: The Skill API from EVEDEX — 6 operation(s) for skill.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Skill
   properties:
@@ -2312,7 +2325,7 @@ apis:
   name: EVEDEX Statistics details API
   description: The Statistics details API from EVEDEX — 2 operation(s) for statistics details.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Statistics details
   properties:
@@ -2340,7 +2353,7 @@ apis:
   name: EVEDEX Statistics List API
   description: The Statistics List API from EVEDEX — 3 operation(s) for statistics list.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Statistics List
   properties:
@@ -2368,7 +2381,7 @@ apis:
   name: EVEDEX Strategy API
   description: The Strategy API from EVEDEX — 4 operation(s) for strategy.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://ai-strategies-api.evedex.com
   tags:
   - Strategy
   properties:
@@ -2396,7 +2409,7 @@ apis:
   name: EVEDEX Subscription API
   description: The Subscription API from EVEDEX — 4 operation(s) for subscription.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://billing-api.evedex.com
   tags:
   - Subscription
   properties:
@@ -2424,7 +2437,7 @@ apis:
   name: EVEDEX Subtitle API
   description: The Subtitle API from EVEDEX — 2 operation(s) for subtitle.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://academy.evedex.com
   tags:
   - Subtitle
   properties:
@@ -2480,7 +2493,7 @@ apis:
   name: EVEDEX Tag API
   description: The Tag API from EVEDEX — 5 operation(s) for tag.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Tag
   properties:
@@ -2510,6 +2523,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Tariffs
+  tags_raw:
   - Tariff
   properties:
   - type: OpenAPI
@@ -2564,8 +2579,10 @@ apis:
   name: EVEDEX Template API
   description: The Template API from EVEDEX — 2 operation(s) for template.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://notifications-api.evedex.com
   tags:
+  - Templates
+  tags_raw:
   - Template
   properties:
   - type: OpenAPI
@@ -2592,7 +2609,7 @@ apis:
   name: EVEDEX Tp Sl API
   description: The TpSl API from EVEDEX — 3 operation(s) for tpsl.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - TpSl
   properties:
@@ -2620,7 +2637,7 @@ apis:
   name: EVEDEX Trade signal API
   description: The Trade signal API from EVEDEX — 2 operation(s) for trade signal.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Trade signal
   properties:
@@ -2648,7 +2665,7 @@ apis:
   name: EVEDEX Trading Platform API
   description: The Trading Platform API from EVEDEX — 5 operation(s) for trading platform.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - Trading Platform
   properties:
@@ -2676,7 +2693,7 @@ apis:
   name: EVEDEX Trading Competition API
   description: The TradingCompetition API from EVEDEX — 1 operation(s) for tradingcompetition.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - TradingCompetition
   properties:
@@ -2704,7 +2721,7 @@ apis:
   name: EVEDEX Trading Volume API
   description: The TradingVolume API from EVEDEX — 1 operation(s) for tradingvolume.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - TradingVolume
   properties:
@@ -2732,7 +2749,7 @@ apis:
   name: EVEDEX Transfer API
   description: The Transfer API from EVEDEX — 8 operation(s) for transfer.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://bridge-middleware-api.evedex.com
   tags:
   - Transfer
   properties:
@@ -2788,7 +2805,7 @@ apis:
   name: EVEDEX User Image API
   description: The UserImage API from EVEDEX — 1 operation(s) for userimage.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - UserImage
   properties:
@@ -2816,7 +2833,7 @@ apis:
   name: EVEDEX Wallet API
   description: The Wallet API from EVEDEX — 1 operation(s) for wallet.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://bridge-middleware-api.evedex.com
   tags:
   - Wallets
   tags_raw:
@@ -2846,7 +2863,7 @@ apis:
   name: EVEDEX Webhook API
   description: The Webhook API from EVEDEX — 3 operation(s) for webhook.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://bridge-middleware-api.evedex.com
   tags:
   - Webhook
   properties:
@@ -2874,7 +2891,7 @@ apis:
   name: EVEDEX Winner API
   description: The Winner API from EVEDEX — 1 operation(s) for winner.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Winner
   properties:
@@ -2902,7 +2919,7 @@ apis:
   name: EVEDEX Withdraw API
   description: The Withdraw API from EVEDEX — 3 operation(s) for withdraw.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://backoffice-api.private.evedex.com
   tags:
   - Withdraw
   properties:
@@ -2930,7 +2947,7 @@ apis:
   name: EVEDEX Yield API
   description: The Yield API from EVEDEX — 2 operation(s) for yield.
   humanURL: https://docs.evedex.com/developers/developers/authorization
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Yield
   properties:
@@ -2958,8 +2975,10 @@ apis:
   name: EVEDEX OAUTH API
   description: The Oauth API from EVEDEX — 5 operation(s) for oauth.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://docs.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
@@ -2986,8 +3005,10 @@ apis:
   name: EVEDEX API Key API
   description: The API Key API from EVEDEX — 3 operation(s) for api key.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://docs.evedex.com
+  baseURL: https://auth-api.evedex.com
   tags:
+  - APIKeys
+  tags_raw:
   - API Key
   properties:
   - type: OpenAPI
@@ -3014,7 +3035,7 @@ apis:
   name: EVEDEX Mobile App API
   description: The Mobile App API from EVEDEX — 9 operation(s) for mobile app.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://docs.evedex.com
+  baseURL: https://exchange-api.evedex.com
   tags:
   - Mobile App
   properties:
@@ -3042,7 +3063,7 @@ apis:
   name: EVEDEX Payment Service API
   description: The Payment Service API from EVEDEX — 1 operation(s) for payment service.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://docs.evedex.com
+  baseURL: https://billing-api.evedex.com
   tags:
   - Payment Service
   properties:
@@ -3070,7 +3091,7 @@ apis:
   name: EVEDEX Promo Codes API
   description: The Promo Codes API from EVEDEX — 4 operation(s) for promo codes.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://docs.evedex.com
+  baseURL: https://game-api.evedex.com
   tags:
   - Promo Codes
   properties:
@@ -3098,7 +3119,7 @@ apis:
   name: EVEDEX Short Link API
   description: The Short Link API from EVEDEX — 3 operation(s) for short link.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://docs.evedex.com
+  baseURL: https://partner-api.evedex.com
   tags:
   - Short Link
   properties:
@@ -3126,7 +3147,7 @@ apis:
   name: EVEDEX Sub Account API
   description: The Sub Account API from EVEDEX — 7 operation(s) for sub account.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://docs.evedex.com
+  baseURL: https://auth-api.evedex.com
   tags:
   - Sub Account
   properties:
@@ -3216,13 +3237,17 @@ common:
   url: llms/evedex-llms.txt
 - type: X-MCPServerCandidate
   url: mcp/evedex-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived
+    from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server
+    correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
 - type: Conventions
   url: conventions/evedex-conventions.yml
 - type: ErrorCatalog
   url: errors/evedex-problem-types.yml
 - type: Lifecycle
   url: lifecycle/evedex-lifecycle.yml
+- type: StatusPage
+  url: https://status.evedex.com/
 - type: Conformance
   url: conformance/evedex-conformance.yml
 - type: DataModel
@@ -3248,7 +3273,8 @@ generated:
   at: '2026-08-26T12:39:57.019Z'
 image: https://static.evedex.com/images/opengraph/exchange.png
 x-enrichment:
-  date: '2026-08-26'
+  date: '2026-09-17'
   status: enriched
-  artifacts_added: 44
-  pass: local-v1
+  artifacts_added: 0
+  artifacts_updated: 8
+  pass: local-v3
