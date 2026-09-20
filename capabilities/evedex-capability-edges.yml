@@ -14,7 +14,8 @@ capability_model:
 edge_count: 6
 edges:
 - tag: Promocodes
-  spec_file: evedex-promocodes-api-openapi.yml
+  spec_file: evedex-promo-codes-api-openapi.yml
+  reanchored_from: evedex-promocodes-api-openapi.yml
   capability_id: BC-440.30
   capability_id_l1: BC-440
   capability_name: Discount & Promotion Management
