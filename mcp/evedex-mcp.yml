@@ -1,4 +1,4 @@
-generated: '2026-08-26'
+generated: '2026-09-17'
 method: derived
 status: candidate
 source: openapi/evedex-exchange-openapi.json, openapi/evedex-market-data-openapi.json, openapi/evedex-auth-openapi.json
@@ -13,6 +13,13 @@ deployment:
   mode: none
   auth: unknown
   verified: searched
+researched_rounds: ['2026-08-26', '2026-09-17']
+recheck_2026_09_17: >-
+  Re-searched on 2026-09-17: github.com/evedex-official still holds exactly ten repositories (four
+  Solidity/account-abstraction, three exchange contracts, three TypeScript SDK packages) and none is
+  an MCP server; the docs llms.txt still names no MCP page and https://docs.evedex.com/developers/developers/mcp
+  returns 404; a web search for an EVEDEX MCP server returns nothing. Verdict unchanged: no server
+  exists, deployment.mode stays `none`, and no endpoint is asserted.
 searched:
 - {surface: https://docs.evedex.com/llms.txt, result: no MCP endpoint listed}
 - {surface: https://docs.evedex.com/developers/developers, result: no MCP section}

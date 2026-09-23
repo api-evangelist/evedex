@@ -1,9 +1,11 @@
-generated: '2026-08-26'
-method: derived
-source: openapi/evedex-academy-openapi.json, openapi/evedex-ai-strategies-openapi.json, openapi/evedex-auth-openapi.json,
-  openapi/evedex-backoffice-openapi.json, openapi/evedex-billing-openapi.json, openapi/evedex-bridge-middleware-openapi.json,
-  openapi/evedex-exchange-openapi.json, openapi/evedex-game-openapi.json, openapi/evedex-market-data-openapi.json,
-  openapi/evedex-notifications-openapi.json, openapi/evedex-referral-openapi.json
+generated: '2026-09-17'
+method: searched
+docs: https://docs.evedex.com/developers/developers/authorization
+source: https://docs.evedex.com/developers/developers/authorization.md + openapi/evedex-acl-api-openapi.yml, openapi/evedex-ai-strategy-api-openapi.yml, openapi/evedex-aml-api-openapi.yml,
+  openapi/evedex-api-key-api-openapi.yml, openapi/evedex-article-api-openapi.yml, openapi/evedex-auth-api-openapi.yml,
+  openapi/evedex-badge-api-openapi.yml, openapi/evedex-bill-api-openapi.yml, openapi/evedex-blocked-api-openapi.yml,
+  openapi/evedex-bot-api-openapi.yml, openapi/evedex-cashback-api-openapi.yml, openapi/evedex-centrifugo-api-openapi.yml
+  ...
 summary:
   types:
   - apiKey
@@ -11,25 +13,208 @@ summary:
   api_key_in:
   - header
 schemes:
-- name: AccessToken
+- name: InternalToken
   type: http
   scheme: bearer
   sources:
-  - openapi/evedex-academy-openapi.json
-  - openapi/evedex-ai-strategies-openapi.json
-  - openapi/evedex-auth-openapi.json
-  - openapi/evedex-backoffice-openapi.json
-  - openapi/evedex-billing-openapi.json
-  - openapi/evedex-bridge-middleware-openapi.json
-  - openapi/evedex-exchange-openapi.json
-  - openapi/evedex-game-openapi.json
-  - openapi/evedex-market-data-openapi.json
-  - openapi/evedex-notifications-openapi.json
-  - openapi/evedex-referral-openapi.json
+  - openapi/evedex-acl-api-openapi.yml
+  - openapi/evedex-ai-strategy-api-openapi.yml
+  - openapi/evedex-aml-api-openapi.yml
+  - openapi/evedex-api-key-api-openapi.yml
+  - openapi/evedex-article-api-openapi.yml
+  - openapi/evedex-auth-api-openapi.yml
+  - openapi/evedex-badge-api-openapi.yml
+  - openapi/evedex-bill-api-openapi.yml
+  - openapi/evedex-blocked-api-openapi.yml
+  - openapi/evedex-bot-api-openapi.yml
+  - openapi/evedex-cashback-api-openapi.yml
+  - openapi/evedex-centrifugo-api-openapi.yml
+  - openapi/evedex-challenges-api-openapi.yml
+  - openapi/evedex-checkout-api-openapi.yml
+  - openapi/evedex-claim-stop-list-api-openapi.yml
+  - openapi/evedex-coin-api-openapi.yml
+  - openapi/evedex-collectable-api-openapi.yml
+  - openapi/evedex-comment-api-openapi.yml
+  - openapi/evedex-competition-templates-api-openapi.yml
+  - openapi/evedex-competitions-api-openapi.yml
+  - openapi/evedex-course-api-openapi.yml
+  - openapi/evedex-curatorcourse-api-openapi.yml
+  - openapi/evedex-dailystatistics-api-openapi.yml
+  - openapi/evedex-dailytask-api-openapi.yml
+  - openapi/evedex-deposit-api-openapi.yml
+  - openapi/evedex-deposit-bonus-api-openapi.yml
+  - openapi/evedex-dev-api-openapi.yml
+  - openapi/evedex-discord-api-openapi.yml
+  - openapi/evedex-distribution-api-openapi.yml
+  - openapi/evedex-event-api-openapi.yml
+  - openapi/evedex-exchange-api-openapi.yml
+  - openapi/evedex-external-api-openapi.yml
+  - openapi/evedex-file-api-openapi.yml
+  - openapi/evedex-funded-account-api-openapi.yml
+  - openapi/evedex-grandcontest-api-openapi.yml
+  - openapi/evedex-hedging-api-openapi.yml
+  - openapi/evedex-history-api-openapi.yml
+  - openapi/evedex-homework-api-openapi.yml
+  - openapi/evedex-invitation-api-openapi.yml
+  - openapi/evedex-journal-api-openapi.yml
+  - openapi/evedex-leaderboard-api-openapi.yml
+  - openapi/evedex-league-api-openapi.yml
+  - openapi/evedex-lesson-api-openapi.yml
+  - openapi/evedex-link-api-openapi.yml
+  - openapi/evedex-liquidation-api-openapi.yml
+  - openapi/evedex-lucky-shot-api-openapi.yml
+  - openapi/evedex-mail-api-openapi.yml
+  - openapi/evedex-market-api-openapi.yml
+  - openapi/evedex-material-api-openapi.yml
+  - openapi/evedex-message-api-openapi.yml
+  - openapi/evedex-mobile-app-api-openapi.yml
+  - openapi/evedex-module-api-openapi.yml
+  - openapi/evedex-newcomer-api-openapi.yml
+  - openapi/evedex-notification-api-openapi.yml
+  - openapi/evedex-notifications-api-openapi.yml
+  - openapi/evedex-oauth-api-openapi.yml
+  - openapi/evedex-order-api-openapi.yml
+  - openapi/evedex-payment-service-api-openapi.yml
+  - openapi/evedex-paysystem-api-openapi.yml
+  - openapi/evedex-podium-api-openapi.yml
+  - openapi/evedex-points-api-openapi.yml
+  - openapi/evedex-position-api-openapi.yml
+  - openapi/evedex-product-api-openapi.yml
+  - openapi/evedex-promo-codes-api-openapi.yml
+  - openapi/evedex-public-profile-api-openapi.yml
+  - openapi/evedex-push-api-openapi.yml
+  - openapi/evedex-quest-api-openapi.yml
+  - openapi/evedex-question-api-openapi.yml
+  - openapi/evedex-redirect-api-openapi.yml
+  - openapi/evedex-referral-api-openapi.yml
+  - openapi/evedex-referralcompetition-api-openapi.yml
+  - openapi/evedex-refund-api-openapi.yml
+  - openapi/evedex-registration-request-api-openapi.yml
+  - openapi/evedex-reward-api-openapi.yml
+  - openapi/evedex-rhino-api-openapi.yml
+  - openapi/evedex-service-api-openapi.yml
+  - openapi/evedex-session-api-openapi.yml
+  - openapi/evedex-sharecontent-api-openapi.yml
+  - openapi/evedex-short-link-api-openapi.yml
+  - openapi/evedex-simulator-api-openapi.yml
+  - openapi/evedex-skill-api-openapi.yml
+  - openapi/evedex-smartaccount-api-openapi.yml
+  - openapi/evedex-statistics-api-openapi.yml
+  - openapi/evedex-statistics-details-api-openapi.yml
+  - openapi/evedex-statistics-list-api-openapi.yml
+  - openapi/evedex-strategy-api-openapi.yml
+  - openapi/evedex-sub-account-api-openapi.yml
+  - openapi/evedex-subscription-api-openapi.yml
+  - openapi/evedex-subtitle-api-openapi.yml
+  - openapi/evedex-system-api-openapi.yml
+  - openapi/evedex-tag-api-openapi.yml
+  - openapi/evedex-tariff-api-openapi.yml
+  - openapi/evedex-telegram-api-openapi.yml
+  - openapi/evedex-template-api-openapi.yml
+  - openapi/evedex-tpsl-api-openapi.yml
+  - openapi/evedex-trade-signal-api-openapi.yml
+  - openapi/evedex-trading-platform-api-openapi.yml
+  - openapi/evedex-tradingcompetition-api-openapi.yml
+  - openapi/evedex-tradingvolume-api-openapi.yml
+  - openapi/evedex-transfer-api-openapi.yml
+  - openapi/evedex-user-api-openapi.yml
+  - openapi/evedex-userimage-api-openapi.yml
+  - openapi/evedex-wallet-api-openapi.yml
+  - openapi/evedex-webhook-api-openapi.yml
+  - openapi/evedex-winner-api-openapi.yml
+  - openapi/evedex-withdraw-api-openapi.yml
+  - openapi/evedex-yield-api-openapi.yml
 - name: ApiKey
   type: apiKey
   in: header
   parameter: X-API-Key
   sources:
-  - openapi/evedex-exchange-openapi.json
-  - openapi/evedex-referral-openapi.json
+  - openapi/evedex-ai-strategy-api-openapi.yml
+  - openapi/evedex-article-api-openapi.yml
+  - openapi/evedex-badge-api-openapi.yml
+  - openapi/evedex-bot-api-openapi.yml
+  - openapi/evedex-cashback-api-openapi.yml
+  - openapi/evedex-coin-api-openapi.yml
+  - openapi/evedex-deposit-api-openapi.yml
+  - openapi/evedex-deposit-bonus-api-openapi.yml
+  - openapi/evedex-dev-api-openapi.yml
+  - openapi/evedex-event-api-openapi.yml
+  - openapi/evedex-external-api-openapi.yml
+  - openapi/evedex-file-api-openapi.yml
+  - openapi/evedex-funded-account-api-openapi.yml
+  - openapi/evedex-invitation-api-openapi.yml
+  - openapi/evedex-link-api-openapi.yml
+  - openapi/evedex-market-api-openapi.yml
+  - openapi/evedex-mobile-app-api-openapi.yml
+  - openapi/evedex-oauth-api-openapi.yml
+  - openapi/evedex-order-api-openapi.yml
+  - openapi/evedex-position-api-openapi.yml
+  - openapi/evedex-public-profile-api-openapi.yml
+  - openapi/evedex-redirect-api-openapi.yml
+  - openapi/evedex-referral-api-openapi.yml
+  - openapi/evedex-registration-request-api-openapi.yml
+  - openapi/evedex-rhino-api-openapi.yml
+  - openapi/evedex-sharecontent-api-openapi.yml
+  - openapi/evedex-short-link-api-openapi.yml
+  - openapi/evedex-smartaccount-api-openapi.yml
+  - openapi/evedex-statistics-api-openapi.yml
+  - openapi/evedex-statistics-details-api-openapi.yml
+  - openapi/evedex-statistics-list-api-openapi.yml
+  - openapi/evedex-system-api-openapi.yml
+  - openapi/evedex-tag-api-openapi.yml
+  - openapi/evedex-tpsl-api-openapi.yml
+  - openapi/evedex-trade-signal-api-openapi.yml
+  - openapi/evedex-tradingvolume-api-openapi.yml
+  - openapi/evedex-transfer-api-openapi.yml
+  - openapi/evedex-user-api-openapi.yml
+  - openapi/evedex-userimage-api-openapi.yml
+  - openapi/evedex-yield-api-openapi.yml
+
+documented:
+  method: searched
+  source: https://docs.evedex.com/developers/developers/authorization.md
+  checked: '2026-09-17'
+  note: >-
+    The scheme list above is derived from the 100+ refined specs; this block is what EVEDEX's own
+    authorization page documents, which is narrower and clearer than the spec inventory. Only two of
+    the schemes are consumer-facing: X-API-Key and the SIWE-minted JWT. InternalToken / InternalKey
+    appear in the contract but are service-to-service and are not documented for third parties.
+  mechanisms:
+  - name: API key
+    type: apiKey
+    location: header
+    header: x-api-key
+    issuance: 'EVEDEX Exchange UI -> avatar -> Settings -> API -> Create API Key'
+    rotation: 'POST /auth/api-key, DELETE + POST /auth/api-key/{apiKeyId}/restore in the Auth spec'
+    scopes: none documented
+  - name: JWT bearer (EIP-4361 Sign-In with Ethereum)
+    type: http
+    scheme: bearer
+    header: 'Authorization: Bearer {accessToken}'
+    flow:
+    - 'GET /auth/nonce  (200, returns {"nonce": "..."} — verified unauthenticated 2026-09-17)'
+    - build a SIWE message over address / uri / version / chainId / nonce / issuedAt
+    - sign with the user's wallet (ethers Signer)
+    - 'POST /auth/user/sign-up with {wallet, message, nonce, signature} -> {token}'
+    access_token_lifetime: a few minutes (stated, not numerically specified)
+    refresh: 'on 401, POST /auth/refresh with Authorization: Bearer {refreshToken}; a 401 from refresh means re-run the whole SIWE flow'
+    spec_reference: https://eips.ethereum.org/EIPS/eip-4361
+  host_discrepancy:
+    finding: >-
+      The authorization page's code sample calls https://auth.evedex.com/auth/nonce and
+      https://auth.evedex.com/auth/user/sign-up, but the Auth OpenAPI declares
+      servers[0] = https://auth-api.evedex.com and that is the host that answers.
+    probes:
+    - {url: 'https://auth-api.evedex.com/auth/nonce', status: 200, body: '{"nonce":"…"}'}
+    - {url: 'https://auth.evedex.com/auth/nonce', status: 200, body: HTML single-page-app shell, not JSON}
+    consequence: >-
+      A developer who copies the documented sample verbatim gets an HTML body where a nonce should be
+      and no error explaining why. Recorded as a provider-side documentation defect, not corrected in
+      apis.yml — the contract's own servers[] is authoritative and already names the working host.
+    checked: '2026-09-17'
+  health_endpoint:
+    url: https://exchange-api.evedex.com/api/ping
+    status: 200
+    body: '{"time":1789674957088}'
+    auth_required: false
+    note: Unauthenticated liveness probe; it is also the target EVEDEX's own uptime monitor checks every minute.

@@ -29,6 +29,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VerifyMessageResponse'
+      summary: Create auth verify message
+      x-summary-source: derived
+      operationId: postAuthVerifyMessage
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/sign-in/by:
@@ -50,6 +54,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Auth'
+      summary: Create auth sign in by
+      x-summary-source: derived
+      operationId: postAuthSignInBy
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/revoke:
@@ -65,6 +73,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create auth revoke
+      x-summary-source: derived
+      operationId: postAuthRevoke
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/refresh:
@@ -124,6 +136,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Auth'
+      summary: Create auth refresh
+      x-summary-source: derived
+      operationId: postAuthRefresh
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/nonce:
@@ -138,6 +154,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NonceResponse'
+      summary: Get auth nonce
+      x-summary-source: derived
+      operationId: getAuthNonce
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/refresh/{id}/disable:
@@ -166,6 +186,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace auth refresh by id disable
+      x-summary-source: derived
+      operationId: putAuthRefreshByIdDisable
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/refresh/{id}/disable-all:
@@ -194,6 +218,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace auth refresh by id disable all
+      x-summary-source: derived
+      operationId: putAuthRefreshByIdDisableAll
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/auth/user/list:
@@ -282,6 +310,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api auth user list
+      x-summary-source: derived
+      operationId: getApiAuthUserList
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/auth/user/{id}:
@@ -308,6 +340,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserDetailsResponse'
+      summary: Get api auth user by id
+      x-summary-source: derived
+      operationId: getApiAuthUserById
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/auth/user/{id}/role:
@@ -336,6 +372,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace api auth user by id role
+      x-summary-source: derived
+      operationId: putApiAuthUserByIdRole
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/auth:
@@ -356,37 +396,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JWT_2'
+      summary: Get api auth
+      x-summary-source: derived
+      operationId: getApiAuth
+      x-operation-id-source: derived
     servers:
     - url: https://market-data-api.evedex.com
 components:
   schemas:
-    NonceResponse:
-      type: object
-      properties:
-        nonce:
-          type: string
-      required:
-      - nonce
-    VerifyMessageBody:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Signed message
-        signature:
-          type: string
-          minLength: 1
-          description: Signature
-        wallet:
-          type: string
-          description: Wallet address
-        nonce:
-          type: string
-          description: Nonce
-      required:
-      - message
-      - signature
-      - wallet
     JWT:
       type: object
       properties:
@@ -399,29 +416,8 @@ components:
       required:
       - accessToken
       description: JWT tokens
-    SignInByBody:
+    EmptyResponse:
       type: object
-      properties:
-        userId:
-          type: string
-          format: uuid
-          description: Target account ID
-      required:
-      - userId
-    DisableAllRefreshTokensBody:
-      type: object
-      properties:
-        signature:
-          type: string
-          minLength: 1
-          description: Signature
-        chainId:
-          type: string
-          description: Chain id
-      required:
-      - signature
-      - chainId
-      additionalProperties: false
     User:
       type: object
       properties:
@@ -654,17 +650,61 @@ components:
       - isArchived
       - twofa
       - permissions
-    Auth:
+    VerifyMessageBody:
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/User'
-        token:
-          $ref: '#/components/schemas/JWT'
+        message:
+          type: string
+          description: Signed message
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        wallet:
+          type: string
+          description: Wallet address
+        nonce:
+          type: string
+          description: Nonce
       required:
-      - user
-      - token
-      description: Authorization payload
+      - message
+      - signature
+      - wallet
+    DisableAllRefreshTokensBody:
+      type: object
+      properties:
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        chainId:
+          type: string
+          description: Chain id
+      required:
+      - signature
+      - chainId
+      additionalProperties: false
+    DisableRefreshTokenBody:
+      type: object
+      properties:
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        chainId:
+          type: string
+          description: Chain id
+      required:
+      - signature
+      - chainId
+      additionalProperties: false
+    NonceResponse:
+      type: object
+      properties:
+        nonce:
+          type: string
+      required:
+      - nonce
     VerifyMessageResponse:
       type: object
       properties:
@@ -687,57 +727,83 @@ components:
       - success
       - address
       - error
-    DisableRefreshTokenBody:
+    SignInByBody:
       type: object
       properties:
-        signature:
+        userId:
           type: string
-          minLength: 1
-          description: Signature
-        chainId:
-          type: string
-          description: Chain id
+          format: uuid
+          description: Target account ID
       required:
-      - signature
-      - chainId
-      additionalProperties: false
-    EmptyResponse:
-      type: object
-    UserDetailsResponse:
-      allOf:
-      - $ref: '#/components/schemas/User_2'
+      - userId
+    Auth:
       type: object
       properties:
-        withdrawDisabled:
-          type: boolean
-        smartAccountAddress:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
+    TariffObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        paymentDate:
           type:
           - string
           - 'null'
-          default: null
-        arbitrumDepositAddress:
+          format: date-time
+        privilegies:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - premium
+              - academyCourse
+            courses:
+              type: array
+              items:
+                type: string
+          required:
+          - type
+        issuedBy:
           type:
           - string
           - 'null'
-          default: null
-      required:
-      - withdrawDisabled
-      - smartAccountAddress
-      - arbitrumDepositAddress
-    UpdateUserRoleBody:
-      type: object
-      properties:
-        role:
+        createdAt:
           type: string
-          enum:
-          - admin
-          - manager
-          - user
-          - academy-curator
-          - academy-moderator
-          - partner
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
       required:
-      - role
+      - id
+      - user
+      - startedAt
+      - endedAt
+      - paymentDate
+      - privilegies
+      - issuedBy
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
     User_2:
       type: object
       properties:
@@ -851,66 +917,44 @@ components:
       - lastSignInAt
       - permissions
       - locale
+    UpdateUserRoleBody:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+          - partner
+      required:
+      - role
+    UserDetailsResponse:
+      allOf:
+      - $ref: '#/components/schemas/User_2'
+      type: object
+      properties:
+        withdrawDisabled:
+          type: boolean
+        smartAccountAddress:
+          type:
+          - string
+          - 'null'
+          default: null
+        arbitrumDepositAddress:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - withdrawDisabled
+      - smartAccountAddress
+      - arbitrumDepositAddress
     PageOffsetParam:
       type: string
       default: '0'
-    TariffObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
-        paymentDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        privilegies:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - premium
-              - academyCourse
-            courses:
-              type: array
-              items:
-                type: string
-          required:
-          - type
-        issuedBy:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - user
-      - startedAt
-      - endedAt
-      - paymentDate
-      - privilegies
-      - issuedBy
-      - createdAt
-      - updatedAt
-    PageLimitParam:
-      type: string
-      default: '50'
     JWT_2:
       type: object
       properties:

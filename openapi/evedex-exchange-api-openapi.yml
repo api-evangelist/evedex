@@ -31,6 +31,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api withdraw unblock
+      x-summary-source: derived
+      operationId: postApiWithdrawUnblock
+      x-operation-id-source: derived
   /api/withdraw/reject:
     post:
       tags:
@@ -55,6 +59,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api withdraw reject
+      x-summary-source: derived
+      operationId: postApiWithdrawReject
+      x-operation-id-source: derived
   /api/withdraw/blocked-list:
     get:
       tags:
@@ -162,6 +170,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BlockedPfWithdrawListObject'
+      summary: Get api withdraw blocked list
+      x-summary-source: derived
+      operationId: getApiWithdrawBlockedList
+      x-operation-id-source: derived
   /api/tariff/user/{authId}:
     put:
       tags:
@@ -189,6 +201,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffObject'
+      summary: Replace api tariff user by auth id
+      x-summary-source: derived
+      operationId: putApiTariffUserByAuthId
+      x-operation-id-source: derived
     post:
       tags:
       - Exchange
@@ -215,6 +231,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffObject'
+      summary: Create api tariff user by auth id
+      x-summary-source: derived
+      operationId: postApiTariffUserByAuthId
+      x-operation-id-source: derived
   /api/exchange/liquidation/levels/{pair}:
     get:
       tags:
@@ -246,54 +266,80 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LiquidationLevelStatisticsResponse'
+      summary: Get api exchange liquidation levels by pair
+      x-summary-source: derived
+      operationId: getApiExchangeLiquidationLevelsByPair
+      x-operation-id-source: derived
 components:
   schemas:
-    BlockedPfWithdrawListObject:
+    TariffObject:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockedPfWithdraw'
-        count:
-          type: number
-        next:
+        id:
           type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        paymentDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        privilegies:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - premium
+              - academyCourse
+            courses:
+              type: array
+              items:
+                type: string
+          required:
+          - type
+        issuedBy:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
       required:
-      - list
-      - count
-    LiquidationLevelStatisticsResponse:
+      - id
+      - user
+      - startedAt
+      - endedAt
+      - paymentDate
+      - privilegies
+      - issuedBy
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
+    TariffUpdateBody:
       type: object
       properties:
-        markPrice:
-          type: number
-        timecode:
+        startedAt:
           type: string
-        pair:
+          format: date-time
+        endedAt:
           type: string
-        levels:
-          type: array
-          items:
-            type: object
-            properties:
-              from:
-                type: number
-              to:
-                type: number
-              users:
-                type: number
-              volume:
-                type: number
-            required:
-            - from
-            - to
-            - users
-            - volume
-      required:
-      - markPrice
-      - timecode
-      - pair
-      - levels
+          format: date-time
+    EmptyResponse:
+      type: object
     TariffCreateBody:
       type: object
       properties:
@@ -314,15 +360,20 @@ components:
       required:
       - product
       - issuedBy
-    TariffUpdateBody:
+    BlockedPfWithdrawListObject:
       type: object
       properties:
-        startedAt:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockedPfWithdraw'
+        count:
+          type: number
+        next:
           type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
+      required:
+      - list
+      - count
     BlockedPfWithdraw:
       type: object
       properties:
@@ -412,68 +463,41 @@ components:
       - isManual
       - riskScore
       - riskTypes
+    LiquidationLevelStatisticsResponse:
+      type: object
+      properties:
+        markPrice:
+          type: number
+        timecode:
+          type: string
+        pair:
+          type: string
+        levels:
+          type: array
+          items:
+            type: object
+            properties:
+              from:
+                type: number
+              to:
+                type: number
+              users:
+                type: number
+              volume:
+                type: number
+            required:
+            - from
+            - to
+            - users
+            - volume
+      required:
+      - markPrice
+      - timecode
+      - pair
+      - levels
     PageOffsetParam:
       type: string
       default: '0'
-    TariffObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
-        paymentDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        privilegies:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - premium
-              - academyCourse
-            courses:
-              type: array
-              items:
-                type: string
-          required:
-          - type
-        issuedBy:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - user
-      - startedAt
-      - endedAt
-      - paymentDate
-      - privilegies
-      - issuedBy
-      - createdAt
-      - updatedAt
-    PageLimitParam:
-      type: string
-      default: '50'
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

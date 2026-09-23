@@ -29,6 +29,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Get api mail unsubscribe
+      x-summary-source: derived
+      operationId: getApiMailUnsubscribe
+      x-operation-id-source: derived
 components:
   schemas:
     EmptyResponse:

@@ -33,6 +33,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RemoveHistoryTaskListResponse'
+      summary: Get api remove task list
+      x-summary-source: derived
+      operationId: getApiRemoveTaskList
+      x-operation-id-source: derived
   /api/history/{instrument}/remove:
     post:
       tags:
@@ -58,6 +62,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api history by instrument remove
+      x-summary-source: derived
+      operationId: postApiHistoryByInstrumentRemove
+      x-operation-id-source: derived
   /api/history/{instrument}/list:
     get:
       tags:
@@ -130,6 +138,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api history by instrument list
+      x-summary-source: derived
+      operationId: getApiHistoryByInstrumentList
+      x-operation-id-source: derived
   /api/import-task/list:
     get:
       tags:
@@ -156,6 +168,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImportHistoryTaskListResponse'
+      summary: Get api import task list
+      x-summary-source: derived
+      operationId: getApiImportTaskList
+      x-operation-id-source: derived
   /api/history/{instrument}/import:
     post:
       tags:
@@ -181,8 +197,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api history by instrument import
+      x-summary-source: derived
+      operationId: postApiHistoryByInstrumentImport
+      x-operation-id-source: derived
 components:
   schemas:
+    RemoveHistoryBody:
+      type: object
+      properties:
+        after:
+          type: string
+        before:
+          type: string
+        max:
+          type:
+          - number
+          - 'null'
+          default: null
+        min:
+          type:
+          - number
+          - 'null'
+          default: null
+        instrument:
+          type: string
+      required:
+      - after
+      - before
+      - instrument
     ImportHistoryBody:
       type: object
       properties:
@@ -231,6 +274,22 @@ components:
       required:
       - after
       - source
+    PageLimitParam:
+      anyOf:
+      - type: number
+      - type: string
+      default: 20
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    EmptyResponse:
+      type: object
     ImportHistoryTaskListResponse:
       type: object
       properties:
@@ -382,45 +441,6 @@ components:
       - type: number
       - type: string
       default: 0
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    PageLimitParam:
-      anyOf:
-      - type: number
-      - type: string
-      default: 20
-    RemoveHistoryBody:
-      type: object
-      properties:
-        after:
-          type: string
-        before:
-          type: string
-        max:
-          type:
-          - number
-          - 'null'
-          default: null
-        min:
-          type:
-          - number
-          - 'null'
-          default: null
-        instrument:
-          type: string
-      required:
-      - after
-      - before
-      - instrument
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalToken:
       type: http

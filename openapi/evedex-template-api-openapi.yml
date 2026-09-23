@@ -57,6 +57,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Replace api templates by id
+      x-summary-source: derived
+      operationId: putApiTemplatesById
+      x-operation-id-source: derived
     get:
       tags:
       - Template
@@ -100,6 +104,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api templates by id
+      x-summary-source: derived
+      operationId: getApiTemplatesById
+      x-operation-id-source: derived
     delete:
       tags:
       - Template
@@ -119,6 +127,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api templates by id
+      x-summary-source: derived
+      operationId: deleteApiTemplatesById
+      x-operation-id-source: derived
   /api/templates:
     get:
       tags:
@@ -205,6 +217,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api templates
+      x-summary-source: derived
+      operationId: getApiTemplates
+      x-operation-id-source: derived
     post:
       tags:
       - Template
@@ -253,8 +269,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api templates
+      x-summary-source: derived
+      operationId: postApiTemplates
+      x-operation-id-source: derived
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    EmptyResponse:
+      type: object
+    TemplateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
+      required:
+      - list
     TemplateListItem:
       type: object
       properties:
@@ -403,6 +443,41 @@ components:
       - channelExtra
       - createdAt
       - updatedAt
+    TemplateUpdatePayload:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
     TemplatePayload:
       type: object
       properties:
@@ -481,61 +556,6 @@ components:
       - title
       - body
       - group
-    TemplateUpdatePayload:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        link:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        dataSchema:
-          type: object
-          additionalProperties: {}
-        channelExtra:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-    TemplateList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateListItem'
-      required:
-      - list
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalKey:
       type: http

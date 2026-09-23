@@ -30,6 +30,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaysystemListResponse'
+      summary: Get api paysystem list by bill id
+      x-summary-source: derived
+      operationId: getApiPaysystemListByBillId
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
 components:

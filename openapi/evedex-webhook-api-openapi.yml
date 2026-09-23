@@ -39,6 +39,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api webhook by payment service
+      x-summary-source: derived
+      operationId: postApiWebhookByPaymentService
+      x-operation-id-source: derived
     servers:
     - url: https://billing-api.evedex.com
   /api/webhook/quick-node/transfer/{network}:
@@ -66,6 +70,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api webhook quick node transfer by network
+      x-summary-source: derived
+      operationId: postApiWebhookQuickNodeTransferByNetwork
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
   /api/webhook/elliptic/alert:
@@ -86,6 +94,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api webhook elliptic alert
+      x-summary-source: derived
+      operationId: postApiWebhookEllipticAlert
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
 components:
@@ -169,6 +181,17 @@ components:
               type: string
             type:
               type: string
+    QuickNodeStreamEventListBody:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuickNodeStreamEvent'
+      required:
+      - events
+    EmptyResponse:
+      type: object
     QuickNodeStreamEvent:
       type: object
       properties:
@@ -199,17 +222,6 @@ components:
       - value
       - txHash
       - blockNumber
-    QuickNodeStreamEventListBody:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/QuickNodeStreamEvent'
-      required:
-      - events
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalKey:
       type: http

@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://game-api.evedex.com
 tags:
-- name: Promocodes
+- name: Promo Codes
 paths:
   /api/promocodes/{id}:
     put:
       tags:
-      - Promocodes
+      - Promo Codes
       security:
       - AccessToken: []
       parameters:
@@ -33,10 +33,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PromocodeUpdateResponse'
+      summary: Replace api promocodes by id
+      x-summary-source: derived
+      operationId: putApiPromocodesById
+      x-operation-id-source: derived
   /api/promocodes/redeem:
     post:
       tags:
-      - Promocodes
+      - Promo Codes
       security:
       - AccessToken: []
       requestBody:
@@ -52,10 +56,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PromocodeRedeemResponse'
+      summary: Create api promocodes redeem
+      x-summary-source: derived
+      operationId: postApiPromocodesRedeem
+      x-operation-id-source: derived
   /api/promocodes/list:
     get:
       tags:
-      - Promocodes
+      - Promo Codes
       security:
       - AccessToken: []
       responses:
@@ -65,10 +73,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PromocodeListResponse'
+      summary: Get api promocodes list
+      x-summary-source: derived
+      operationId: getApiPromocodesList
+      x-operation-id-source: derived
   /api/promocodes:
     post:
       tags:
-      - Promocodes
+      - Promo Codes
       security:
       - AccessToken: []
       requestBody:
@@ -84,9 +96,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PromocodeCreateResponse'
+      summary: Create api promocodes
+      x-summary-source: derived
+      operationId: postApiPromocodes
+      x-operation-id-source: derived
 components:
   schemas:
-    PromocodeUpdateResponse:
+    PromocodeRedeemBody:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
+    PromocodeCreateResponse:
       type: object
       properties:
         id:
@@ -141,16 +164,29 @@ components:
       - createdAt
       - updatedAt
       - reward
-    PromocodeCreateBody:
+    PromocodeUpdateResponse:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         code:
           type: string
+        user:
+          type: string
+          format: uuid
         expiresAt:
           type: string
+        availableUses:
+          type: integer
+          minimum: 0
         totalUses:
           type: integer
           minimum: 0
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
         reward:
           type: object
           properties:
@@ -174,9 +210,14 @@ components:
           required:
           - list
       required:
+      - id
       - code
+      - user
       - expiresAt
+      - availableUses
       - totalUses
+      - createdAt
+      - updatedAt
       - reward
     PromocodeListResponse:
       type: object
@@ -303,36 +344,16 @@ components:
           - list
       required:
       - success
-    PromocodeRedeemBody:
+    PromocodeCreateBody:
       type: object
       properties:
         code:
           type: string
-      required:
-      - code
-    PromocodeCreateResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        code:
-          type: string
-        user:
-          type: string
-          format: uuid
         expiresAt:
           type: string
-        availableUses:
-          type: integer
-          minimum: 0
         totalUses:
           type: integer
           minimum: 0
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
         reward:
           type: object
           properties:
@@ -356,14 +377,9 @@ components:
           required:
           - list
       required:
-      - id
       - code
-      - user
       - expiresAt
-      - availableUses
       - totalUses
-      - createdAt
-      - updatedAt
       - reward
   securitySchemes:
     AccessToken:

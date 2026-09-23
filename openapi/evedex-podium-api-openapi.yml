@@ -176,6 +176,8 @@ paths:
                 - leaderboard
                 - podium
                 - competition
+      operationId: getApiLeaderboardPodiumNewcomer
+      x-operation-id-source: derived
   /api/leaderboard-podium/trading:
     get:
       tags:
@@ -423,6 +425,8 @@ paths:
                 - activePrizePool
                 - user
                 - multiplierScale
+      operationId: getApiLeaderboardPodiumTrading
+      x-operation-id-source: derived
   /api/leaderboard-podium/referral:
     get:
       tags:
@@ -565,6 +569,8 @@ paths:
                 - competition
                 - podiumPrizes
                 - minReferralVolume
+      operationId: getApiLeaderboardPodiumReferral
+      x-operation-id-source: derived
   /api/leaderboard-podium:
     get:
       tags:
@@ -738,6 +744,8 @@ paths:
                 - leaderboard
                 - podium
                 - competition
+      operationId: getApiLeaderboardPodium
+      x-operation-id-source: derived
 components:
   securitySchemes:
     AccessToken:

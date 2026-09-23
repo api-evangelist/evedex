@@ -37,6 +37,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LessonObject'
+      summary: Replace api course by course id lesson by lesson id
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdLessonByLessonId
+      x-operation-id-source: derived
     get:
       tags:
       - Lesson
@@ -59,6 +63,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LessonObject'
+      summary: Get api course by course id lesson by lesson id
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdLessonByLessonId
+      x-operation-id-source: derived
     delete:
       tags:
       - Lesson
@@ -82,6 +90,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id lesson by lesson id
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseIdLessonByLessonId
+      x-operation-id-source: derived
   /api/course/{courseId}/lesson:
     get:
       tags:
@@ -100,6 +112,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LessonObjectExtendedList'
+      summary: Get api course by course id lesson
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdLesson
+      x-operation-id-source: derived
     post:
       tags:
       - Lesson
@@ -124,15 +140,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LessonObject'
+      summary: Create api course by course id lesson
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdLesson
+      x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
+    LessonProgressObject:
       type: object
-    LessonProgressCoreType:
+      properties:
+        status:
+          $ref: '#/components/schemas/LessonProgressType'
+      required:
+      - status
+    LessonProgressType:
       type: string
       enum:
-      - notStarted
+      - waitingForHomework
+      - waitingForHomeworkCheck
       - lessonCompleted
+      - notStarted
     LessonUpdateBody:
       type: object
       properties:
@@ -151,6 +178,31 @@ components:
           type: string
         progressStatus:
           $ref: '#/components/schemas/LessonProgressCoreType'
+    LessonProgressCoreType:
+      type: string
+      enum:
+      - notStarted
+      - lessonCompleted
+    EmptyResponse:
+      type: object
+    LessonCreateBody:
+      type: object
+      properties:
+        module:
+          type: string
+          format: uuid
+        name:
+          type: string
+        promo:
+          type: boolean
+          default: false
+        duration:
+          type: number
+        slug:
+          type: string
+      required:
+      - module
+      - name
     LessonObjectExtendedList:
       type: array
       items:
@@ -242,38 +294,6 @@ components:
       - progress
       - createdAt
       - updatedAt
-    LessonCreateBody:
-      type: object
-      properties:
-        module:
-          type: string
-          format: uuid
-        name:
-          type: string
-        promo:
-          type: boolean
-          default: false
-        duration:
-          type: number
-        slug:
-          type: string
-      required:
-      - module
-      - name
-    LessonProgressType:
-      type: string
-      enum:
-      - waitingForHomework
-      - waitingForHomeworkCheck
-      - lessonCompleted
-      - notStarted
-    LessonProgressObject:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/LessonProgressType'
-      required:
-      - status
   securitySchemes:
     AccessToken:
       type: http

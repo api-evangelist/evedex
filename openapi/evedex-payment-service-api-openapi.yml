@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://billing-api.evedex.com
 tags:
-- name: PaymentService
+- name: Payment Service
 paths:
   /api/payment-service:
     get:
       tags:
-      - PaymentService
+      - Payment Service
       security: []
       responses:
         '200':
@@ -19,6 +19,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api payment service
+      x-summary-source: derived
+      operationId: getApiPaymentService
+      x-operation-id-source: derived
 components:
   schemas:
     ErrorResponse:

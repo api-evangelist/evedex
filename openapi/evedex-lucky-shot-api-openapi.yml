@@ -51,6 +51,10 @@ paths:
                   - amount
                   - transactionHash
                   - createdAt
+      summary: Get api lucky shot winners
+      x-summary-source: derived
+      operationId: getApiLuckyShotWinners
+      x-operation-id-source: derived
   /api/lucky-shot:
     post:
       tags:
@@ -86,6 +90,10 @@ paths:
                 - status
                 - createdAt
                 - updatedAt
+      summary: Create api lucky shot
+      x-summary-source: derived
+      operationId: postApiLuckyShot
+      x-operation-id-source: derived
     get:
       tags:
       - Lucky Shot
@@ -138,6 +146,10 @@ paths:
                 - createdAt
                 - updatedAt
                 - history
+      summary: Get api lucky shot
+      x-summary-source: derived
+      operationId: getApiLuckyShot
+      x-operation-id-source: derived
   /api/lucky-shot/share/{code}:
     get:
       tags:
@@ -165,6 +177,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LuckyShotImageGetResponse'
+      operationId: getApiLuckyShotShareByCode
+      x-operation-id-source: derived
   /api/lucky-shot/share:
     post:
       tags:
@@ -185,6 +199,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LuckyShotImageShareResponse'
+      operationId: postApiLuckyShotShare
+      x-operation-id-source: derived
   /api/lucky-shot/select:
     post:
       tags:
@@ -238,6 +254,10 @@ paths:
                 - createdAt
                 - updatedAt
                 - awardedPoints
+      summary: Create api lucky shot select
+      x-summary-source: derived
+      operationId: postApiLuckyShotSelect
+      x-operation-id-source: derived
   /api/lucky-shot/levels:
     get:
       tags:
@@ -263,6 +283,10 @@ paths:
                   - id
                   - winningAmount
                   - points
+      summary: Get api lucky shot levels
+      x-summary-source: derived
+      operationId: getApiLuckyShotLevels
+      x-operation-id-source: derived
   /api/lucky-shot/claim:
     post:
       tags:
@@ -323,6 +347,10 @@ paths:
                 required:
                 - lottery
                 - payload
+      summary: Create api lucky shot claim
+      x-summary-source: derived
+      operationId: postApiLuckyShotClaim
+      x-operation-id-source: derived
   /api/lucky-shot/award:
     post:
       tags:
@@ -342,44 +370,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AwardLuckyShotTicketsResponse'
+      summary: Create api lucky shot award
+      x-summary-source: derived
+      operationId: postApiLuckyShotAward
+      x-operation-id-source: derived
 components:
   schemas:
-    AwardLuckyShotTicketsResponse:
-      type: object
-      properties:
-        authId:
-          type: string
-        amount:
-          type: number
-        tickets:
-          $ref: '#/components/schemas/LuckyShotTickets'
-      required:
-      - authId
-      - amount
-      - tickets
-    LuckyShotImageShareBody:
-      type: object
-      properties:
-        renderingMode:
-          type: string
-          enum:
-          - narrow
-          - wide
-      required:
-      - renderingMode
-    AwardLuckyShotTicketsBody:
-      type: object
-      properties:
-        authId:
-          type: string
-          description: User Auth Id
-        amount:
-          type: integer
-          exclusiveMinimum: 0
-          description: Number of tickets to award
-      required:
-      - authId
-      - amount
     LuckyShotTickets:
       type: object
       properties:
@@ -396,6 +392,19 @@ components:
       - received
       - used
       - available
+    LuckyShotImageShareBody:
+      type: object
+      properties:
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+      required:
+      - renderingMode
+    PageLimitParam:
+      type: string
+      default: '50'
     LuckyShotImageShareResponse:
       type: object
       properties:
@@ -404,6 +413,19 @@ components:
           format: uri
       required:
       - badgeUrl
+    AwardLuckyShotTicketsResponse:
+      type: object
+      properties:
+        authId:
+          type: string
+        amount:
+          type: number
+        tickets:
+          $ref: '#/components/schemas/LuckyShotTickets'
+      required:
+      - authId
+      - amount
+      - tickets
     LuckyShotImageGetResponse:
       type: object
       properties:
@@ -412,9 +434,19 @@ components:
           format: uri
       required:
       - badgeUrl
-    PageLimitParam:
-      type: string
-      default: '50'
+    AwardLuckyShotTicketsBody:
+      type: object
+      properties:
+        authId:
+          type: string
+          description: User Auth Id
+        amount:
+          type: integer
+          exclusiveMinimum: 0
+          description: Number of tickets to award
+      required:
+      - authId
+      - amount
   securitySchemes:
     AccessToken:
       type: http

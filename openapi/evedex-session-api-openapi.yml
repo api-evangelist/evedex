@@ -33,6 +33,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserSessionsActivityListResponse'
+      summary: Get auth user sessions
+      x-summary-source: derived
+      operationId: getAuthUserSessions
+      x-operation-id-source: derived
   /auth/session:
     put:
       tags:
@@ -79,6 +83,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace auth session
+      x-summary-source: derived
+      operationId: putAuthSession
+      x-operation-id-source: derived
   /auth/session/metadata:
     post:
       tags:
@@ -122,6 +130,10 @@ paths:
                   - currentSession
                   - firstSession
                   - totalSessions
+      summary: Create auth session metadata
+      x-summary-source: derived
+      operationId: postAuthSessionMetadata
+      x-operation-id-source: derived
   /auth/session/history:
     get:
       tags:
@@ -161,6 +173,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserSessionHistoryListResponse'
+      summary: Get auth session history
+      x-summary-source: derived
+      operationId: getAuthSessionHistory
+      x-operation-id-source: derived
   /auth/session/first:
     post:
       tags:
@@ -192,53 +208,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserSessionHistoryFullObject'
+      summary: Create auth session first
+      x-summary-source: derived
+      operationId: postAuthSessionFirst
+      x-operation-id-source: derived
 components:
   schemas:
-    UserSessionActivity:
+    PageLimitParam:
+      type: string
+      default: '50'
+    EmptyResponse:
       type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        createdAt:
-          type: string
-        country:
-          type: string
-        city:
-          type: string
-        ipAddress:
-          type: string
-        userAgentInfo:
-          type: string
-        refreshTokenId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        language:
-          type:
-          - string
-          - 'null'
-          default: null
-        referrer:
-          type:
-          - string
-          - 'null'
-          default: null
-      required:
-      - id
-      - user
-      - createdAt
-      - country
-      - city
-      - ipAddress
-      - userAgentInfo
-      - refreshTokenId
-      - language
-      - referrer
     UserSessionHistoryListResponse:
       type: object
       properties:
@@ -253,66 +233,23 @@ components:
       required:
       - list
       - count
-    UserSessionHistory:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        signInById:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        createdAt:
-          type: string
-        countryCode:
-          type: string
-        ipAddress:
-          type: string
-        userAgentInfo:
-          type: string
-        wallet:
-          type: string
-        role:
-          type: string
-          enum:
-          - admin
-          - manager
-          - user
-          - academy-curator
-          - academy-moderator
-        language:
-          type:
-          - string
-          - 'null'
-          default: null
-        referrer:
-          type:
-          - string
-          - 'null'
-          default: null
-      required:
-      - id
-      - user
-      - signInById
-      - createdAt
-      - countryCode
-      - ipAddress
-      - userAgentInfo
-      - wallet
-      - role
-      - language
-      - referrer
-    PageLimitParam:
-      type: string
-      default: '50'
     PageOffsetParam:
       type: string
       default: '0'
+    UserSessionsActivityListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSessionActivity'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     UserSessionHistoryFullObject:
       type: object
       properties:
@@ -456,22 +393,105 @@ components:
       - offerId
       - affiliateId
       - trackingParams
-    UserSessionsActivityListResponse:
+    UserSessionHistory:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSessionActivity'
-        count:
-          type: number
-        next:
+        id:
           type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        signInById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdAt:
+          type: string
+        countryCode:
+          type: string
+        ipAddress:
+          type: string
+        userAgentInfo:
+          type: string
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        language:
+          type:
+          - string
+          - 'null'
+          default: null
+        referrer:
+          type:
+          - string
+          - 'null'
+          default: null
       required:
-      - list
-      - count
-    EmptyResponse:
+      - id
+      - user
+      - signInById
+      - createdAt
+      - countryCode
+      - ipAddress
+      - userAgentInfo
+      - wallet
+      - role
+      - language
+      - referrer
+    UserSessionActivity:
       type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        ipAddress:
+          type: string
+        userAgentInfo:
+          type: string
+        refreshTokenId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        language:
+          type:
+          - string
+          - 'null'
+          default: null
+        referrer:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - id
+      - user
+      - createdAt
+      - country
+      - city
+      - ipAddress
+      - userAgentInfo
+      - refreshTokenId
+      - language
+      - referrer
   securitySchemes:
     InternalToken:
       type: http

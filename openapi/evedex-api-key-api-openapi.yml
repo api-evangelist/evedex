@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://auth-api.evedex.com
 tags:
-- name: ApiKey
+- name: API Key
 paths:
   /auth/api-key/verify:
     post:
       tags:
-      - ApiKey
+      - API Key
       security:
       - InternalToken: []
       requestBody:
@@ -26,10 +26,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiKeyVerifyResponse'
+      summary: Create auth api key verify
+      x-summary-source: derived
+      operationId: postAuthApiKeyVerify
+      x-operation-id-source: derived
   /auth/api-key/sync:
     post:
       tags:
-      - ApiKey
+      - API Key
       security:
       - InternalToken: []
       requestBody:
@@ -45,10 +49,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create auth api key sync
+      x-summary-source: derived
+      operationId: postAuthApiKeySync
+      x-operation-id-source: derived
   /auth/api-key/disable:
     post:
       tags:
-      - ApiKey
+      - API Key
       security:
       - InternalToken: []
       requestBody:
@@ -64,8 +72,76 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create auth api key disable
+      x-summary-source: derived
+      operationId: postAuthApiKeyDisable
+      x-operation-id-source: derived
 components:
   schemas:
+    EmptyResponse:
+      type: object
+    ApiKeyDisableBody:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum:
+          - partner
+          - exchange
+        apiKey:
+          type: string
+      required:
+      - scope
+      - apiKey
+    ApiKeyVerifyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+        parent:
+          type:
+          - string
+          - 'null'
+          default: null
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - id
+      - role
+      - accountType
+      - parent
+      - expireAt
+    ApiKeyVerifyBody:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum:
+          - partner
+          - exchange
+        apiKey:
+          type: string
+      required:
+      - scope
+      - apiKey
     ApiKeySyncBody:
       type: object
       properties:
@@ -119,70 +195,6 @@ components:
       - settings
       - user
       - hash
-    ApiKeyVerifyBody:
-      type: object
-      properties:
-        scope:
-          type: string
-          enum:
-          - partner
-          - exchange
-        apiKey:
-          type: string
-      required:
-      - scope
-      - apiKey
-    ApiKeyDisableBody:
-      type: object
-      properties:
-        scope:
-          type: string
-          enum:
-          - partner
-          - exchange
-        apiKey:
-          type: string
-      required:
-      - scope
-      - apiKey
-    ApiKeyVerifyResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        role:
-          type: string
-          enum:
-          - admin
-          - manager
-          - user
-          - academy-curator
-          - academy-moderator
-        accountType:
-          type: string
-          enum:
-          - main
-          - sub
-          - funded
-        parent:
-          type:
-          - string
-          - 'null'
-          default: null
-        expireAt:
-          type:
-          - string
-          - 'null'
-          default: null
-      required:
-      - id
-      - role
-      - accountType
-      - parent
-      - expireAt
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalToken:
       type: http

@@ -43,6 +43,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QuestionObject'
+      summary: Replace api course by course id lesson by lesson id question by question id
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdLessonByLessonIdQuestionByQuestionId
+      x-operation-id-source: derived
     delete:
       tags:
       - Question
@@ -72,6 +76,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id lesson by lesson id question by question id
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseIdLessonByLessonIdQuestionByQuestionId
+      x-operation-id-source: derived
   /api/course/{courseId}/lesson/{lessonId}/question:
     get:
       tags:
@@ -98,6 +106,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/QuestionObject'
+      summary: Get api course by course id lesson by lesson id question
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdLessonByLessonIdQuestion
+      x-operation-id-source: derived
     post:
       tags:
       - Question
@@ -127,6 +139,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QuestionObject'
+      summary: Create api course by course id lesson by lesson id question
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdLessonByLessonIdQuestion
+      x-operation-id-source: derived
 components:
   schemas:
     QuestionObject:

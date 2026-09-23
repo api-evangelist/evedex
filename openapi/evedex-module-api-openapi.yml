@@ -39,6 +39,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModuleObject'
+      summary: Replace api course by course id module by module id
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdModuleByModuleId
+      x-operation-id-source: derived
     delete:
       tags:
       - Module
@@ -64,6 +68,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id module by module id
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseIdModuleByModuleId
+      x-operation-id-source: derived
   /api/course/{courseId}/module:
     post:
       tags:
@@ -89,6 +97,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModuleObject'
+      summary: Create api course by course id module
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdModule
+      x-operation-id-source: derived
 components:
   schemas:
     ModuleObject:
@@ -133,6 +145,8 @@ components:
         releaseDate:
           type: string
           format: date-time
+    EmptyResponse:
+      type: object
     ModuleCreateBody:
       type: object
       properties:
@@ -140,8 +154,6 @@ components:
           type: string
       required:
       - name
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

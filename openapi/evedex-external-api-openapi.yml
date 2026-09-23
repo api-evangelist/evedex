@@ -60,6 +60,10 @@ paths:
                 - bids
                 - asks
                 description: Order book response for coinmarketcap
+      summary: Get api external by system orderbook
+      x-summary-source: derived
+      operationId: getApiExternalBySystemV1Orderbook
+      x-operation-id-source: derived
   /api/external/{system}/v1/contract_specs:
     get:
       tags:
@@ -102,6 +106,10 @@ paths:
                 - contract_price
                 - contract_price_currency
                 description: Instruments stats response
+      summary: Get api external by system contract specs
+      x-summary-source: derived
+      operationId: getApiExternalBySystemV1ContractSpecs
+      x-operation-id-source: derived
   /api/external/{system}/v1/contracts:
     get:
       tags:
@@ -234,6 +242,10 @@ paths:
                     - funding_rate
                     - next_funding_rate_timestamp
                   description: Instruments coinmarketcap response
+      summary: Get api external by system contracts
+      x-summary-source: derived
+      operationId: getApiExternalBySystemV1Contracts
+      x-operation-id-source: derived
 components:
   securitySchemes:
     InternalToken:

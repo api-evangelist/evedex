@@ -1,19 +1,51 @@
-generated: '2026-08-26'
+generated: '2026-09-17'
 method: probed
-source: live GET of /.well-known/* on every EVEDEX website, docs and API host
+source: live GET of eight /.well-known/ paths on nineteen EVEDEX hosts (website, docs, app, help, status, uptime, swagger and every OpenAPI servers[] host)
 note: >-
-  Every /.well-known/ path probed returned 404 on every EVEDEX host. No document was served and
-  nothing was saved, so this file records a verified ABSENCE and NO WellKnown or SecurityTxt
-  pointer is emitted in apis.yml. The two web hosts return an HTML 404 body (evedex.com an SPA
-  shell, docs.evedex.com the GitBook 404 page) with a real 404 status code, so this is not a
-  soft-200 catch-all; the API hosts return a bare text/plain 404 with a zero-byte body.
+  EVEDEX serves NO /.well-known/ document of its own. Nineteen hosts x eight paths were probed on
+  2026-09-17 — a re-probe and expansion of the 2026-08-26 round, which covered eight hosts. Every
+  API host, plus evedex.com, www.evedex.com, docs.evedex.com, uptime. and swagger., answers a hard
+  404 on every path. No WellKnown and no SecurityTxt pointer is emitted in apis.yml, because a
+  pointer asserts the provider serves the surface and EVEDEX does not.
+  TWO KINDS OF 200 ARE NOT DOCUMENTS, recorded here so a later round does not re-credit them.
+  (1) SOFT-200 SPA CATCH-ALL on the four React app hosts — exchange., auth., status. and
+  academy.evedex.com return HTTP 200 with content-type text/html and an SPA shell body for
+  security.txt, openid-configuration, oauth-authorization-server, oauth-protected-resource and
+  api-catalog alike. Their router does not catch the two .json agent-card paths, which 404
+  honestly; the extensionless and .txt paths are swallowed. Nothing is served.
+  (2) A VENDOR DOCUMENT on help.evedex.com — a real RFC 9116 security.txt served as text/plain, but
+  it is INTERCOM's, not EVEDEX's: the help center is hosted Intercom and the file says so itself
+  (Contact https://bugcrowd.com/intercom, mailto:security@intercom.com, Canonical
+  https://app.intercom.com/.well-known/security.txt). Crediting EVEDEX with it would credit them
+  with Intercom's bug bounty.
 hit_count: 0
+provider_authored_documents: 0
+soft_200_spa_hosts: [exchange.evedex.com, auth.evedex.com, status.evedex.com, academy.evedex.com]
+vendor_served_documents:
+- host: help.evedex.com
+  path: /.well-known/security.txt
+  status: 200
+  content_type: text/plain
+  owner: Intercom
+  canonical: https://app.intercom.com/.well-known/security.txt
+  credited_to_provider: false
 hosts:
 - host: https://evedex.com
   documents:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://www.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
@@ -23,6 +55,67 @@ hosts:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://exchange.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/openid-configuration, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-authorization-server, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-protected-resource, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/api-catalog, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://auth.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/openid-configuration, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-authorization-server, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-protected-resource, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/api-catalog, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://help.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, verdict: vendor-document-not-provider-authored, document: false}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://status.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/openid-configuration, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-authorization-server, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-protected-resource, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/api-catalog, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://uptime.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://swagger.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
@@ -32,6 +125,7 @@ hosts:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
@@ -41,6 +135,7 @@ hosts:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
@@ -50,6 +145,7 @@ hosts:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
@@ -59,6 +155,7 @@ hosts:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
@@ -68,12 +165,58 @@ hosts:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
   - {path: /.well-known/agent.json, status: 404}
-- host: https://backoffice-api.evedex.com
+- host: https://game-api.evedex.com
   documents:
   - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://billing-api.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://academy.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/openid-configuration, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-authorization-server, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/oauth-protected-resource, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/api-catalog, status: 200, verdict: soft-200-spa-shell, document: false}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://ai-strategies-api.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://bridge-middleware-api.evedex.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
   - {path: /.well-known/agent-card.json, status: 404}
   - {path: /.well-known/agent.json, status: 404}

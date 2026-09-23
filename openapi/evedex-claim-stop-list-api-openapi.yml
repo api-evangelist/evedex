@@ -34,6 +34,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api claim stop list
+      x-summary-source: derived
+      operationId: deleteApiClaimStopList
+      x-operation-id-source: derived
     post:
       tags:
       - Claim stop list
@@ -60,6 +64,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api claim stop list
+      x-summary-source: derived
+      operationId: postApiClaimStopList
+      x-operation-id-source: derived
 components:
   schemas:
     EmptyResponse:

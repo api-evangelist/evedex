@@ -45,6 +45,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommentObject'
+      summary: Replace api course by course id lesson by lesson id comment by comment id
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdLessonByLessonIdCommentByCommentId
+      x-operation-id-source: derived
     delete:
       tags:
       - Comment
@@ -76,6 +80,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id lesson by lesson id comment by comment id
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseIdLessonByLessonIdCommentByCommentId
+      x-operation-id-source: derived
   /api/course/{courseId}/lesson/{lessonId}/comment:
     get:
       tags:
@@ -116,6 +124,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommentListResponse'
+      summary: Get api course by course id lesson by lesson id comment
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdLessonByLessonIdComment
+      x-operation-id-source: derived
     post:
       tags:
       - Comment
@@ -149,8 +161,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommentObject'
+      summary: Create api course by course id lesson by lesson id comment
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdLessonByLessonIdComment
+      x-operation-id-source: derived
 components:
   schemas:
+    CommentCreateBody:
+      type: object
+      properties:
+        homework:
+          type: string
+        parentComment:
+          type: string
+        text:
+          type: string
+      required:
+      - text
     CommentObject:
       type: object
       properties:
@@ -183,32 +210,6 @@ components:
       - text
       - createdAt
       - updatedAt
-    CommentCreateBody:
-      type: object
-      properties:
-        homework:
-          type: string
-        parentComment:
-          type: string
-        text:
-          type: string
-      required:
-      - text
-    PageOffsetParam:
-      type: string
-      default: '0'
-    CommentListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommentObject'
-        count:
-          type: number
-      required:
-      - list
-      - count
     PageLimitParam:
       type: string
       default: '50'
@@ -221,6 +222,21 @@ components:
       - text
     EmptyResponse:
       type: object
+    CommentListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

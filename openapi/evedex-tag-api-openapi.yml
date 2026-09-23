@@ -36,6 +36,10 @@ paths:
                   - id
                   - name
                   - courseCount
+      summary: Get api tag
+      x-summary-source: derived
+      operationId: getApiTag
+      x-operation-id-source: derived
     post:
       tags:
       - Tag
@@ -54,6 +58,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TagResponse'
+      summary: Create api tag
+      x-summary-source: derived
+      operationId: postApiTag
+      x-operation-id-source: derived
     servers:
     - url: https://academy.evedex.com
   /api/tag/users:
@@ -83,6 +91,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserWithTagsList'
+      summary: Get api tag users
+      x-summary-source: derived
+      operationId: getApiTagUsers
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
   /api/tag/{tagId}:
@@ -111,6 +123,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TagResponse'
+      summary: Replace api tag by tag id
+      x-summary-source: derived
+      operationId: putApiTagByTagId
+      x-operation-id-source: derived
     delete:
       tags:
       - Tag
@@ -130,6 +146,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api tag by tag id
+      x-summary-source: derived
+      operationId: deleteApiTagByTagId
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
   /api/tag/user/{userId}/unassign:
@@ -158,6 +178,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api tag user by user id unassign
+      x-summary-source: derived
+      operationId: postApiTagUserByUserIdUnassign
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
   /api/tag/user/{userId}:
@@ -186,21 +210,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AssignTagsResponse'
+      summary: Create api tag user by user id
+      x-summary-source: derived
+      operationId: postApiTagUserByUserId
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
 components:
   schemas:
-    AssignTagsBody:
-      type: object
-      properties:
-        tagIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          minItems: 1
-      required:
-      - tagIds
     TagList:
       type: object
       properties:
@@ -215,6 +232,20 @@ components:
       required:
       - list
       - count
+    AssignTagsBody:
+      type: object
+      properties:
+        tagIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+      required:
+      - tagIds
+    PageLimitParam:
+      type: string
+      default: '50'
     Tag:
       type: object
       properties:
@@ -232,6 +263,8 @@ components:
       - name
       - createdAt
       - updatedAt
+    EmptyResponse:
+      type: object
     CreateTagBody:
       type: object
       properties:
@@ -241,35 +274,6 @@ components:
           maxLength: 128
       required:
       - name
-    PageOffsetParam:
-      type: string
-      default: '0'
-    AssignTagsResponse:
-      type: object
-      properties:
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-      required:
-      - tags
-    UserWithTagsList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserWithTags'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    PageLimitParam:
-      type: string
-      default: '50'
     UserWithTags:
       type: object
       properties:
@@ -300,6 +304,41 @@ components:
       - totalReferralDepositsVolume
       - totalReferralTradingVolume
       - tags
+    PageOffsetParam:
+      type: string
+      default: '0'
+    AssignTagsResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+      required:
+      - tags
+    UserWithTagsList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserWithTags'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    UpdateTagBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+      required:
+      - name
     TagResponse:
       type: object
       properties:
@@ -317,17 +356,6 @@ components:
       - name
       - createdAt
       - updatedAt
-    UpdateTagBody:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 128
-      required:
-      - name
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

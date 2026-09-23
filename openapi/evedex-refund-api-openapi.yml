@@ -40,6 +40,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api refund by bill id
+      x-summary-source: derived
+      operationId: postApiRefundByBillId
+      x-operation-id-source: derived
 components:
   schemas:
     CreateRefundBody:
@@ -61,6 +65,15 @@ components:
       - amount
       - currency
       - rollbackType
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     RefundObject:
       type: object
       properties:
@@ -101,15 +114,6 @@ components:
       - rollbackType
       - createdAt
       - updatedAt
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
   securitySchemes:
     InternalKey:
       type: http

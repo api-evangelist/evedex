@@ -47,6 +47,10 @@ paths:
                 - recipient
                 - quantity
                 - signature
+      summary: Create api cashback withdraw
+      x-summary-source: derived
+      operationId: postApiCashbackWithdraw
+      x-operation-id-source: derived
   /api/cashback:
     get:
       tags:
@@ -77,6 +81,10 @@ paths:
                 - missed
                 - totalClaimed
                 - totalMissed
+      summary: Get api cashback
+      x-summary-source: derived
+      operationId: getApiCashback
+      x-operation-id-source: derived
 components:
   securitySchemes:
     InternalToken:

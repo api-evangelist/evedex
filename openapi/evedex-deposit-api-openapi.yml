@@ -34,6 +34,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReferralInfoResponse'
+      summary: Get api deposit referral info
+      x-summary-source: derived
+      operationId: getApiDepositReferralInfo
+      x-operation-id-source: derived
 components:
   schemas:
     ReferralInfoResponse:

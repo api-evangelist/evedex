@@ -38,6 +38,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create auth dev promo user
+      x-summary-source: derived
+      operationId: postAuthDevPromoUser
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/dev/trading-volume:
@@ -59,6 +63,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api dev trading volume
+      x-summary-source: derived
+      operationId: postApiDevTradingVolume
+      x-operation-id-source: derived
     servers:
     - url: https://game-api.evedex.com
   /api/dev/exp:
@@ -88,6 +96,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api dev exp
+      x-summary-source: derived
+      operationId: postApiDevExp
+      x-operation-id-source: derived
     servers:
     - url: https://game-api.evedex.com
   /api/dev/competition:
@@ -109,6 +121,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CompetitionCreateResponse'
+      summary: Create api dev competition
+      x-summary-source: derived
+      operationId: postApiDevCompetition
+      x-operation-id-source: derived
     servers:
     - url: https://game-api.evedex.com
   /api/dev/telegram/{botId}/send:
@@ -136,6 +152,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api dev telegram by bot id send
+      x-summary-source: derived
+      operationId: postApiDevTelegramByBotIdSend
+      x-operation-id-source: derived
     servers:
     - url: https://notifications-api.evedex.com
   /api/dev/centrifugo:
@@ -157,6 +177,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api dev centrifugo
+      x-summary-source: derived
+      operationId: postApiDevCentrifugo
+      x-operation-id-source: derived
     servers:
     - url: https://notifications-api.evedex.com
   /api/dev/reward:
@@ -187,6 +211,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api dev reward
+      x-summary-source: derived
+      operationId: postApiDevReward
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
   /api/dev/user:
@@ -208,6 +236,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+      summary: Get api dev user
+      x-summary-source: derived
+      operationId: getApiDevUser
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
   /api/dev/clear-redis:
@@ -223,6 +255,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api dev clear redis
+      x-summary-source: derived
+      operationId: postApiDevClearRedis
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
   /api/dev/clear-clickhouse:
@@ -238,6 +274,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api dev clear clickhouse
+      x-summary-source: derived
+      operationId: postApiDevClearClickhouse
+      x-operation-id-source: derived
     servers:
     - url: https://partner-api.evedex.com
 components:
@@ -444,6 +484,14 @@ components:
         - realizedPnL
         - tradingVolume
         - createdAt
+    CreateCentrifugoMessageBody:
+      type: object
+      properties:
+        channel:
+          type: string
+        data: {}
+      required:
+      - channel
     CreateTelegramMessageBody:
       type: object
       properties:
@@ -459,14 +507,6 @@ components:
           default: []
       required:
       - message
-    CreateCentrifugoMessageBody:
-      type: object
-      properties:
-        channel:
-          type: string
-        data: {}
-      required:
-      - channel
     UserSocial:
       type: object
       properties:

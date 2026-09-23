@@ -56,6 +56,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api notification send email list
+      x-summary-source: derived
+      operationId: postApiNotificationSendEmailList
+      x-operation-id-source: derived
   /api/notification/send:
     post:
       tags:
@@ -137,6 +141,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api notification send
+      x-summary-source: derived
+      operationId: postApiNotificationSend
+      x-operation-id-source: derived
   /api/notification:
     get:
       tags:
@@ -199,6 +207,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api notification
+      x-summary-source: derived
+      operationId: getApiNotification
+      x-operation-id-source: derived
   /api/message/distribution:
     post:
       deprecated: true
@@ -219,6 +231,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api message distribution
+      x-summary-source: derived
+      operationId: postApiMessageDistribution
+      x-operation-id-source: derived
   /api/message/persistent/{id}:
     put:
       tags:
@@ -275,10 +291,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Replace api message persistent by id
+      x-summary-source: derived
+      operationId: putApiMessagePersistentById
+      x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
+    ListNotificationsResponse:
       type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    SendEmailListResponse:
+      type: object
+      properties:
+        sent:
+          type: boolean
+        recipients:
+          type: number
+      required:
+      - sent
+      - recipients
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     Notification:
       type: object
       properties:
@@ -324,36 +376,21 @@ components:
       - endTime
       - createdAt
       - updatedAt
-    UpdatePersistentNotificationResponse:
+    EmptyResponse:
+      type: object
+    WebContentBody:
       type: object
       properties:
-        id:
+        title:
           type: string
-        endTime:
-          type:
-          - string
-          - 'null'
-        updatedAt:
+        content:
+          type: string
+        link:
+          type: string
+        imageUrl:
           type: string
       required:
-      - id
-      - endTime
-      - updatedAt
-    MessageContentBody:
-      anyOf:
-      - $ref: '#/components/schemas/EmailContent'
-      - $ref: '#/components/schemas/TelegramContentBody'
-      - $ref: '#/components/schemas/WebContentBody'
-      - $ref: '#/components/schemas/SlackContentBody'
-    UpdatePersistentNotificationBody:
-      type: object
-      properties:
-        endTime:
-          type:
-          - string
-          - 'null'
-      required:
-      - endTime
+      - title
     SendEmailListBody:
       type: object
       properties:
@@ -388,18 +425,6 @@ components:
       - event
       - locale
       - recipients
-    ListNotificationsResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Notification'
-        count:
-          type: number
-      required:
-      - list
-      - count
     SlackContentBody:
       type: object
       properties:
@@ -412,43 +437,12 @@ components:
       required:
       - webhookName
       - content
-    PageOffsetParam:
-      type: string
-      default: '0'
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    SendEmailListResponse:
-      type: object
-      properties:
-        sent:
-          type: boolean
-        recipients:
-          type: number
-      required:
-      - sent
-      - recipients
-    PageLimitParam:
-      type: string
-      default: '50'
-    EmailContent:
-      type: object
-      properties:
-        to:
-          type: string
-        templateId:
-          type: string
-        payload:
-          type: object
-      required:
-      - templateId
-      - payload
+    MessageContentBody:
+      anyOf:
+      - $ref: '#/components/schemas/EmailContent'
+      - $ref: '#/components/schemas/TelegramContentBody'
+      - $ref: '#/components/schemas/WebContentBody'
+      - $ref: '#/components/schemas/SlackContentBody'
     CreateMessageBody:
       type: object
       properties:
@@ -509,6 +503,42 @@ components:
       - group
       - targetDeviceType
       - locale
+    UpdatePersistentNotificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        endTime:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          type: string
+      required:
+      - id
+      - endTime
+      - updatedAt
+    UpdatePersistentNotificationBody:
+      type: object
+      properties:
+        endTime:
+          type:
+          - string
+          - 'null'
+      required:
+      - endTime
+    EmailContent:
+      type: object
+      properties:
+        to:
+          type: string
+        templateId:
+          type: string
+        payload:
+          type: object
+      required:
+      - templateId
+      - payload
     TelegramContentBody:
       type: object
       properties:
@@ -518,19 +548,9 @@ components:
           type: string
       required:
       - message
-    WebContentBody:
-      type: object
-      properties:
-        title:
-          type: string
-        content:
-          type: string
-        link:
-          type: string
-        imageUrl:
-          type: string
-      required:
-      - title
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     InternalKey:
       type: http

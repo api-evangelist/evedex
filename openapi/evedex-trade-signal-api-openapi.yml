@@ -20,6 +20,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradeSignalListResponse'
+      summary: Get api trade signal
+      x-summary-source: derived
+      operationId: getApiTradeSignal
+      x-operation-id-source: derived
     post:
       tags:
       - Trade signal
@@ -38,6 +42,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradeSignalItem'
+      summary: Create api trade signal
+      x-summary-source: derived
+      operationId: postApiTradeSignal
+      x-operation-id-source: derived
   /api/trade/signal/{id}:
     get:
       tags:
@@ -56,72 +64,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradeSignalItemWithUser'
+      summary: Get api trade signal by id
+      x-summary-source: derived
+      operationId: getApiTradeSignalById
+      x-operation-id-source: derived
 components:
   schemas:
-    TradeSignalCreateBody:
-      type: object
-      properties:
-        instrument:
-          type: string
-        priceMin:
-          type: string
-        priceMax:
-          type: string
-        refcode:
-          type: string
-        side:
-          type: string
-          enum:
-          - BUY
-          - SELL
-        tpsl:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                - take-profit
-                - stop-loss
-              quantityPercent:
-                type: string
-              price:
-                type: string
-            required:
-            - type
-        expireAt:
-          type: string
-      required:
-      - instrument
-      - refcode
-      - side
-      - tpsl
-      - expireAt
-    TradeSignalItemWithUser:
-      allOf:
-      - $ref: '#/components/schemas/TradeSignalItem'
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        avatar:
-          type: string
-        wallet:
-          type: string
-        smartAccountAddress:
-          type: string
-      required:
-      - name
-      - avatar
-      - wallet
-      - smartAccountAddress
-    TradeSignalListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/TradeSignalItem'
     TradeSignalItem:
       type: object
       properties:
@@ -170,6 +118,70 @@ components:
       - tpsl
       - expireAt
       - createdAt
+    TradeSignalItemWithUser:
+      allOf:
+      - $ref: '#/components/schemas/TradeSignalItem'
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        avatar:
+          type: string
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+      required:
+      - name
+      - avatar
+      - wallet
+      - smartAccountAddress
+    TradeSignalListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/TradeSignalItem'
+    TradeSignalCreateBody:
+      type: object
+      properties:
+        instrument:
+          type: string
+        priceMin:
+          type: string
+        priceMax:
+          type: string
+        refcode:
+          type: string
+        side:
+          type: string
+          enum:
+          - BUY
+          - SELL
+        tpsl:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - take-profit
+                - stop-loss
+              quantityPercent:
+                type: string
+              price:
+                type: string
+            required:
+            - type
+        expireAt:
+          type: string
+      required:
+      - instrument
+      - refcode
+      - side
+      - tpsl
+      - expireAt
   securitySchemes:
     InternalToken:
       type: http

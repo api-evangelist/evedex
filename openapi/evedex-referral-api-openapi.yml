@@ -42,8 +42,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReferrallList'
+      summary: Get api referral list
+      x-summary-source: derived
+      operationId: getApiReferralList
+      x-operation-id-source: derived
 components:
   schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    ReferralResponseObject:
+      type: object
+      properties:
+        smartAccountAddress:
+          type: string
+        code:
+          type: string
+        firstDeposit:
+          oneOf:
+          - $ref: '#/components/schemas/FirstDepositObject'
+          - type: 'null'
+          default: null
+        createdAt:
+          type: string
+      required:
+      - smartAccountAddress
+      - code
+      - firstDeposit
+      - createdAt
     ReferrallList:
       type: object
       properties:
@@ -73,31 +99,9 @@ components:
       - currency
       - createdAt
       - amount
-    ReferralResponseObject:
-      type: object
-      properties:
-        smartAccountAddress:
-          type: string
-        code:
-          type: string
-        firstDeposit:
-          oneOf:
-          - $ref: '#/components/schemas/FirstDepositObject'
-          - type: 'null'
-          default: null
-        createdAt:
-          type: string
-      required:
-      - smartAccountAddress
-      - code
-      - firstDeposit
-      - createdAt
     PageOffsetParam:
       type: string
       default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
   securitySchemes:
     AccessToken:
       type: http

@@ -72,6 +72,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api deposit bonus transfer
+      x-summary-source: derived
+      operationId: getApiDepositBonusTransfer
+      x-operation-id-source: derived
   /api/deposit-bonus/state:
     get:
       tags:
@@ -140,6 +144,10 @@ paths:
                 - status
                 - createdAt
                 - updatedAt
+      summary: Get api deposit bonus state
+      x-summary-source: derived
+      operationId: getApiDepositBonusState
+      x-operation-id-source: derived
   /api/deposit-bonus/rules:
     get:
       tags:
@@ -204,6 +212,10 @@ paths:
                 required:
                 - newUser
                 - oldUser
+      summary: Get api deposit bonus rules
+      x-summary-source: derived
+      operationId: getApiDepositBonusRules
+      x-operation-id-source: derived
   /api/deposit-bonus/balance:
     get:
       tags:
@@ -235,6 +247,10 @@ paths:
                 - balance
                 - createdAt
                 - updatedAt
+      summary: Get api deposit bonus balance
+      x-summary-source: derived
+      operationId: getApiDepositBonusBalance
+      x-operation-id-source: derived
 components:
   schemas:
     PageLimitParam:

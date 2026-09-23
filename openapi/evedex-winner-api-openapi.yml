@@ -134,6 +134,8 @@ paths:
                 required:
                 - list
                 - count
+      operationId: getApiLeaderboardWinner
+      x-operation-id-source: derived
 components:
   schemas:
     PageLimitParam:

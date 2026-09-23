@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://exchange-api.evedex.com
 tags:
-- name: MobileApp
+- name: Mobile App
 paths:
   /api/mobile-app/blocked-version/{id}:
     put:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       parameters:
@@ -101,9 +101,13 @@ paths:
                 - versionMax
                 - blockType
                 - blockMessage
+      summary: Replace api mobile app blocked version by id
+      x-summary-source: derived
+      operationId: putApiMobileAppBlockedVersionById
+      x-operation-id-source: derived
     get:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       parameters:
@@ -159,10 +163,14 @@ paths:
                 - versionMax
                 - blockType
                 - blockMessage
+      summary: Get api mobile app blocked version by id
+      x-summary-source: derived
+      operationId: getApiMobileAppBlockedVersionById
+      x-operation-id-source: derived
   /api/mobile-app/blocked-version/list:
     get:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       responses:
@@ -213,10 +221,14 @@ paths:
                   - versionMax
                   - blockType
                   - blockMessage
+      summary: Get api mobile app blocked version list
+      x-summary-source: derived
+      operationId: getApiMobileAppBlockedVersionList
+      x-operation-id-source: derived
   /api/mobile-app/blocked-version:
     post:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       requestBody:
@@ -306,10 +318,14 @@ paths:
                 - versionMax
                 - blockType
                 - blockMessage
+      summary: Create api mobile app blocked version
+      x-summary-source: derived
+      operationId: postApiMobileAppBlockedVersion
+      x-operation-id-source: derived
   /api/mobile-app/blocked-sdk-version/{id}:
     put:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       parameters:
@@ -400,9 +416,13 @@ paths:
                 - versionMax
                 - blockType
                 - blockMessage
+      summary: Replace api mobile app blocked sdk version by id
+      x-summary-source: derived
+      operationId: putApiMobileAppBlockedSdkVersionById
+      x-operation-id-source: derived
     get:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       parameters:
@@ -458,10 +478,14 @@ paths:
                 - versionMax
                 - blockType
                 - blockMessage
+      summary: Get api mobile app blocked sdk version by id
+      x-summary-source: derived
+      operationId: getApiMobileAppBlockedSdkVersionById
+      x-operation-id-source: derived
   /api/mobile-app/blocked-sdk-version/list:
     get:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       responses:
@@ -512,10 +536,14 @@ paths:
                   - versionMax
                   - blockType
                   - blockMessage
+      summary: Get api mobile app blocked sdk version list
+      x-summary-source: derived
+      operationId: getApiMobileAppBlockedSdkVersionList
+      x-operation-id-source: derived
   /api/mobile-app/blocked-sdk-version:
     post:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       requestBody:
@@ -605,10 +633,14 @@ paths:
                 - versionMax
                 - blockType
                 - blockMessage
+      summary: Create api mobile app blocked sdk version
+      x-summary-source: derived
+      operationId: postApiMobileAppBlockedSdkVersion
+      x-operation-id-source: derived
   /api/mobile-app/version-info/{id}:
     put:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       parameters:
@@ -631,9 +663,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MobileAppVersionInfoResponse'
+      summary: Replace api mobile app version info by id
+      x-summary-source: derived
+      operationId: putApiMobileAppVersionInfoById
+      x-operation-id-source: derived
     get:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       parameters:
@@ -650,10 +686,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MobileAppVersionInfoResponse'
+      summary: Get api mobile app version info by id
+      x-summary-source: derived
+      operationId: getApiMobileAppVersionInfoById
+      x-operation-id-source: derived
   /api/mobile-app/version-info/list:
     get:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       responses:
@@ -663,10 +703,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MobileAppVersionInfoListResponse'
+      summary: Get api mobile app version info list
+      x-summary-source: derived
+      operationId: getApiMobileAppVersionInfoList
+      x-operation-id-source: derived
   /api/mobile-app/version-info:
     post:
       tags:
-      - MobileApp
+      - Mobile App
       security:
       - AccessToken: []
       requestBody:
@@ -682,9 +726,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MobileAppVersionInfoResponse'
+      summary: Create api mobile app version info
+      x-summary-source: derived
+      operationId: postApiMobileAppVersionInfo
+      x-operation-id-source: derived
     get:
       tags:
-      - MobileApp
+      - Mobile App
       security: []
       parameters:
       - in: query
@@ -733,12 +781,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MobileAppVersionInfo'
+      summary: Get api mobile app version info
+      x-summary-source: derived
+      operationId: getApiMobileAppVersionInfo
+      x-operation-id-source: derived
 components:
   schemas:
-    MobileAppVersionInfoListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/MobileAppVersionInfoResponse'
     MobileAppVersionInfoResponse:
       type: object
       properties:
@@ -780,6 +828,10 @@ components:
       - blockMessage
       - blockButton
       - referralNeeded
+    MobileAppVersionInfoListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/MobileAppVersionInfoResponse'
     MobileAppVersionInfoUpdateBody:
       type: object
       properties:

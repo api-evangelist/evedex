@@ -29,6 +29,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserRewardListObject'
+      summary: Get api reward
+      x-summary-source: derived
+      operationId: getApiReward
+      x-operation-id-source: derived
   /api/reward/history:
     get:
       tags:
@@ -66,6 +70,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RewardHistoryResponse'
+      summary: Get api reward history
+      x-summary-source: derived
+      operationId: getApiRewardHistory
+      x-operation-id-source: derived
   /api/reward/claim:
     post:
       tags:
@@ -85,6 +93,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClaimResponse'
+      summary: Create api reward claim
+      x-summary-source: derived
+      operationId: postApiRewardClaim
+      x-operation-id-source: derived
   /api/reward/points:
     post:
       tags:
@@ -105,6 +117,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AwardPointsResponse'
+      summary: Create api reward points
+      x-summary-source: derived
+      operationId: postApiRewardPoints
+      x-operation-id-source: derived
   /api/reward/luckyshot-ticket:
     post:
       tags:
@@ -125,6 +141,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AwardTicketResponse'
+      summary: Create api reward luckyshot ticket
+      x-summary-source: derived
+      operationId: postApiRewardLuckyshotTicket
+      x-operation-id-source: derived
   /api/reward/collectable-ticket:
     post:
       tags:
@@ -145,6 +165,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AwardTicketResponse'
+      summary: Create api reward collectable ticket
+      x-summary-source: derived
+      operationId: postApiRewardCollectableTicket
+      x-operation-id-source: derived
   /api/reward/bundle:
     post:
       tags:
@@ -164,6 +188,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AwardBundleResponse'
+      summary: Create api reward bundle
+      x-summary-source: derived
+      operationId: postApiRewardBundle
+      x-operation-id-source: derived
   /api/reward/adjust-xp:
     post:
       tags:
@@ -184,71 +212,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdjustXpResponse'
+      summary: Create api reward adjust xp
+      x-summary-source: derived
+      operationId: postApiRewardAdjustXp
+      x-operation-id-source: derived
 components:
   schemas:
-    ClaimBody:
+    UserRewardListObject:
       type: object
       properties:
-        quest:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRewardItem'
+        count:
+          type: number
+        next:
           type: string
       required:
-      - quest
-    AwardPointsResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        recipientAuthId:
-          type: string
-        recipientWallet:
-          type:
-          - string
-          - 'null'
-        amount:
-          type: string
-        comment:
-          type:
-          - string
-          - 'null'
-        grantedBy:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        points:
-          type: object
-          properties:
-            totalPoints:
-              type: string
-            unclaimedPoints:
-              type: string
-          required:
-          - totalPoints
-          - unclaimedPoints
-      required:
-      - id
-      - recipientAuthId
-      - recipientWallet
-      - amount
-      - comment
-      - grantedBy
-      - createdAt
-      - points
-    AwardPointsBody:
+      - list
+      - count
+    AwardBundleBody:
       type: object
       properties:
         userIdentifier:
           type: string
-        amount:
+        points:
           type: number
+          exclusiveMinimum: 0
+        luckyShotTickets:
+          type: integer
+          exclusiveMinimum: 0
+        collectableTickets:
+          type: integer
           exclusiveMinimum: 0
         comment:
           type: string
           maxLength: 1000
       required:
       - userIdentifier
-      - amount
+    RewardHistoryItem:
+      type: object
+      properties:
+        id:
+          type: string
+        actorId:
+          type: string
+        action:
+          type: string
+        targetUser:
+          type:
+          - string
+          - 'null'
+        targetAuthId:
+          type:
+          - string
+          - 'null'
+        targetWallet:
+          type:
+          - string
+          - 'null'
+        payload:
+          type: object
+          additionalProperties: {}
+        comment:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - actorId
+      - action
+      - targetUser
+      - targetAuthId
+      - targetWallet
+      - payload
+      - comment
+      - createdAt
+    PageLimitParam:
+      type: string
+      default: '50'
     AwardTicketResponse:
       type: object
       properties:
@@ -294,6 +340,66 @@ components:
       - grantedBy
       - createdAt
       - tickets
+    AwardTicketBody:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+        amount:
+          type: integer
+          exclusiveMinimum: 0
+        comment:
+          type: string
+          maxLength: 1000
+      required:
+      - userIdentifier
+      - amount
+    RewardHistoryResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/RewardHistoryItem'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    AwardPointsBody:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+        amount:
+          type: number
+          exclusiveMinimum: 0
+        comment:
+          type: string
+          maxLength: 1000
+      required:
+      - userIdentifier
+      - amount
+    ClaimBody:
+      type: object
+      properties:
+        quest:
+          type: string
+      required:
+      - quest
+    UserRewardItem:
+      type: object
+      properties:
+        quest:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - quest
+      - createdAt
     AdjustXpResponse:
       type: object
       properties:
@@ -331,90 +437,48 @@ components:
       - comment
       - adjustedBy
       - createdAt
-    RewardHistoryResponse:
+    AwardPointsResponse:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/RewardHistoryItem'
-        count:
-          type: number
-        next:
+        id:
           type: string
-      required:
-      - list
-      - count
-    AwardBundleBody:
-      type: object
-      properties:
-        userIdentifier:
+          format: uuid
+        recipientAuthId:
           type: string
-        points:
-          type: number
-          exclusiveMinimum: 0
-        luckyShotTickets:
-          type: integer
-          exclusiveMinimum: 0
-        collectableTickets:
-          type: integer
-          exclusiveMinimum: 0
-        comment:
-          type: string
-          maxLength: 1000
-      required:
-      - userIdentifier
-    PageOffsetParam:
-      type: string
-      default: '0'
-    UserRewardListObject:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserRewardItem'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    PageLimitParam:
-      type: string
-      default: '50'
-    AdjustXpBody:
-      type: object
-      properties:
-        userIdentifier:
-          type: string
+        recipientWallet:
+          type:
+          - string
+          - 'null'
         amount:
-          type: number
-        comment:
           type: string
-          maxLength: 1000
-      required:
-      - userIdentifier
-      - amount
-    ClaimResponse:
-      type: object
-      properties:
-        experience:
-          type: number
-      required:
-      - experience
-    UserRewardItem:
-      type: object
-      properties:
-        quest:
+        comment:
+          type:
+          - string
+          - 'null'
+        grantedBy:
           type: string
         createdAt:
           type: string
           format: date-time
+        points:
+          type: object
+          properties:
+            totalPoints:
+              type: string
+            unclaimedPoints:
+              type: string
+          required:
+          - totalPoints
+          - unclaimedPoints
       required:
-      - quest
+      - id
+      - recipientAuthId
+      - recipientWallet
+      - amount
+      - comment
+      - grantedBy
       - createdAt
+      - points
     AwardBundleResponse:
       type: object
       properties:
@@ -526,61 +590,29 @@ components:
       - createdAt
       - balances
       - notificationError
-    AwardTicketBody:
+    AdjustXpBody:
       type: object
       properties:
         userIdentifier:
           type: string
         amount:
-          type: integer
-          exclusiveMinimum: 0
+          type: number
         comment:
           type: string
           maxLength: 1000
       required:
       - userIdentifier
       - amount
-    RewardHistoryItem:
+    ClaimResponse:
       type: object
       properties:
-        id:
-          type: string
-        actorId:
-          type: string
-        action:
-          type: string
-        targetUser:
-          type:
-          - string
-          - 'null'
-        targetAuthId:
-          type:
-          - string
-          - 'null'
-        targetWallet:
-          type:
-          - string
-          - 'null'
-        payload:
-          type: object
-          additionalProperties: {}
-        comment:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
+        experience:
+          type: number
       required:
-      - id
-      - actorId
-      - action
-      - targetUser
-      - targetAuthId
-      - targetWallet
-      - payload
-      - comment
-      - createdAt
+      - experience
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

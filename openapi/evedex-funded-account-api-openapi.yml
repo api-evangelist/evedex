@@ -20,6 +20,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FundedAccountListResponse'
+      summary: Get api funded account user list
+      x-summary-source: derived
+      operationId: getApiFundedAccountUserList
+      x-operation-id-source: derived
   /api/funded-account/list:
     get:
       tags:
@@ -32,6 +36,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FundedAccountOptionsListResponse'
+      summary: Get api funded account list
+      x-summary-source: derived
+      operationId: getApiFundedAccountList
+      x-operation-id-source: derived
   /api/funded-account/create:
     post:
       tags:
@@ -61,32 +69,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api funded account create
+      x-summary-source: derived
+      operationId: postApiFundedAccountCreate
+      x-operation-id-source: derived
 components:
   schemas:
-    FundedAccountListResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-          user:
-            type: string
-          option:
-            type: string
-          parent:
-            type: string
-          smartAccountAddress:
-            type: string
-          createdAt:
-            type: string
-        required:
-        - id
-        - user
-        - option
-        - parent
-        - smartAccountAddress
-        - createdAt
     FundedAccountOptionsListResponse:
       type: array
       items:
@@ -152,6 +140,30 @@ components:
         - createdAt
     EmptyResponse:
       type: object
+    FundedAccountListResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          user:
+            type: string
+          option:
+            type: string
+          parent:
+            type: string
+          smartAccountAddress:
+            type: string
+          createdAt:
+            type: string
+        required:
+        - id
+        - user
+        - option
+        - parent
+        - smartAccountAddress
+        - createdAt
   securitySchemes:
     InternalToken:
       type: http

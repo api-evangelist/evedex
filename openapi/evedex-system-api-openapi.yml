@@ -30,6 +30,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PingResponse'
+      summary: Get api ping
+      x-summary-source: derived
+      operationId: getApiPing
+      x-operation-id-source: derived
     servers:
     - url: https://academy.evedex.com
   /auth/ping:
@@ -44,6 +48,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PingResponse'
+      summary: Get auth ping
+      x-summary-source: derived
+      operationId: getAuthPing
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
 components:

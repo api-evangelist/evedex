@@ -34,6 +34,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadArrayResponse'
+      summary: Create api file
+      x-summary-source: derived
+      operationId: postApiFile
+      x-operation-id-source: derived
     servers:
     - url: https://academy.evedex.com
   /api/file/generate-upload-link:
@@ -55,6 +59,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadUrlGeneratorResponse'
+      summary: Create api file generate upload link
+      x-summary-source: derived
+      operationId: postApiFileGenerateUploadLink
+      x-operation-id-source: derived
     servers:
     - url: https://academy.evedex.com
   /api/file/{fileId}:
@@ -77,6 +85,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api file by file id
+      x-summary-source: derived
+      operationId: deleteApiFileByFileId
+      x-operation-id-source: derived
     servers:
     - url: https://academy.evedex.com
   /api/file/approve:
@@ -110,6 +122,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadResponse'
+      summary: Create api file approve
+      x-summary-source: derived
+      operationId: postApiFileApprove
+      x-operation-id-source: derived
     servers:
     - url: https://academy.evedex.com
   /auth/file/generate-upload-link:
@@ -131,6 +147,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadUrlGeneratorResponse'
+      summary: Create auth file generate upload link
+      x-summary-source: derived
+      operationId: postAuthFileGenerateUploadLink
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/file/approve:
@@ -152,6 +172,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApproveFileResponse'
+      summary: Create auth file approve
+      x-summary-source: derived
+      operationId: postAuthFileApprove
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/files:
@@ -173,6 +197,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadedFileResponse'
+      summary: Create api files
+      x-summary-source: derived
+      operationId: postApiFiles
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/files/list:
@@ -231,6 +259,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api files list
+      x-summary-source: derived
+      operationId: getApiFilesList
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/files/generate-upload-link:
@@ -252,6 +284,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenerateFileUploadLinkResponse'
+      summary: Create api files generate upload link
+      x-summary-source: derived
+      operationId: postApiFilesGenerateUploadLink
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/files/approve:
@@ -273,10 +309,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApproveUploadedFileResponse'
+      summary: Create api files approve
+      x-summary-source: derived
+      operationId: postApiFilesApprove
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
 components:
   schemas:
+    UploadArrayResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UploadResponse'
+    EmptyResponse:
+      type: object
     UploadUrlGeneratorResponse:
       type: object
       properties:
@@ -314,10 +360,6 @@ components:
       required:
       - name
       - mime
-    UploadArrayResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/UploadResponse'
     UploadResponse:
       type: object
       properties:
@@ -351,8 +393,14 @@ components:
       - url
       - error
       - createdAt
-    EmptyResponse:
+    ApproveFileResponse:
       type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
     ApproveFileBody:
       type: object
       properties:
@@ -367,14 +415,6 @@ components:
       - id
       - ext
       - name
-    ApproveFileResponse:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-      required:
-      - url
     UploadUrlGeneratorRequest_2:
       type: object
       properties:
@@ -405,6 +445,23 @@ components:
       - id
       - ext
       - name
+    PageLimitParam:
+      type: string
+      default: '50'
+    GenerateFileUploadLinkBody:
+      type: object
+      properties:
+        name:
+          type: string
+        mime:
+          type: string
+      required:
+      - name
+      - mime
+    UploadedFileResponse:
+      type: array
+      items:
+        type: string
     GenerateFileUploadLinkResponse:
       type: object
       properties:
@@ -447,23 +504,6 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
-    GenerateFileUploadLinkBody:
-      type: object
-      properties:
-        name:
-          type: string
-        mime:
-          type: string
-      required:
-      - name
-      - mime
-    UploadedFileResponse:
-      type: array
-      items:
-        type: string
     UploadUrlGeneratorRequest_3:
       type: object
       properties:

@@ -45,6 +45,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserStatisticsListResponse'
+      summary: Get api affiliate statistics events
+      x-summary-source: derived
+      operationId: getApiAffiliateStatisticsEvents
+      x-operation-id-source: derived
   /api/affiliate-statistics/singup:
     get:
       tags:
@@ -143,6 +147,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatisticsListResponse'
+      summary: Get api affiliate statistics singup
+      x-summary-source: derived
+      operationId: getApiAffiliateStatisticsSingup
+      x-operation-id-source: derived
   /api/affiliate-statistics:
     get:
       tags:
@@ -241,6 +249,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatisticsListResponse'
+      summary: Get api affiliate statistics
+      x-summary-source: derived
+      operationId: getApiAffiliateStatistics
+      x-operation-id-source: derived
 components:
   schemas:
     UserStatisticsListResponse:
@@ -312,9 +324,13 @@ components:
       - depositVolume
       - createdAt
       - updatedAt
-    PageOffsetParam:
-      type: string
-      default: '0'
+    UserStatisticsResponse:
+      type: object
+      properties:
+        signupCount:
+          type: number
+      required:
+      - signupCount
     StatisticsListResponse:
       type: object
       properties:
@@ -329,13 +345,9 @@ components:
       required:
       - list
       - count
-    UserStatisticsResponse:
-      type: object
-      properties:
-        signupCount:
-          type: number
-      required:
-      - signupCount
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

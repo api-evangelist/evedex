@@ -20,6 +20,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserServiceListResponse'
+      summary: Get auth user me service
+      x-summary-source: derived
+      operationId: getAuthUserMeService
+      x-operation-id-source: derived
   /auth/user/{id}/service:
     post:
       tags:
@@ -46,12 +50,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserServiceListResponse'
+      summary: Create auth user by id service
+      x-summary-source: derived
+      operationId: postAuthUserByIdService
+      x-operation-id-source: derived
 components:
   schemas:
     UserServiceListResponse:
       type: array
       items:
         $ref: '#/components/schemas/UserService'
+    CreateUserServiceBody:
+      type: object
+      properties:
+        service:
+          type: string
+          enum:
+          - affiliate
+          - exchange
+          - academy
+      required:
+      - service
     UserService:
       type: object
       properties:
@@ -70,17 +89,6 @@ components:
       - user
       - service
       - createdAt
-    CreateUserServiceBody:
-      type: object
-      properties:
-        service:
-          type: string
-          enum:
-          - affiliate
-          - exchange
-          - academy
-      required:
-      - service
   securitySchemes:
     InternalToken:
       type: http

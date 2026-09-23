@@ -76,6 +76,10 @@ paths:
                 - avatar
                 - cover
                 - subscriptionStatus
+      summary: Get auth public by id profile
+      x-summary-source: derived
+      operationId: getAuthPublicByIdProfile
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/public/{authId}/profile:
@@ -118,14 +122,14 @@ paths:
                     type: string
                 required:
                 - updatedAt
+      summary: Get api public by auth id profile
+      x-summary-source: derived
+      operationId: getApiPublicByAuthIdProfile
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
-    BalanceChart:
-      type: array
-      items:
-        $ref: '#/components/schemas/BalanceChartPoint'
     PositionHistoryObject:
       type: object
       properties:
@@ -157,53 +161,6 @@ components:
       - leverage
       - version
       - closeType
-    Side:
-      type: string
-      enum:
-      - BUY
-      - SELL
-    PositionHistoryFillObject:
-      allOf:
-      - $ref: '#/components/schemas/PositionHistoryObject'
-      - type: object
-        properties:
-          buyQuantity:
-            type: number
-          sellQuantity:
-            type: number
-          buyVolume:
-            type: number
-          sellVolume:
-            type: number
-          buyAvgPrice:
-            type: number
-          sellAvgPrice:
-            type: number
-          realizedPnL:
-            type: number
-          realizedPnLPercent:
-            type: number
-          fee:
-            type: number
-          fundingRate:
-            type: number
-          openAt:
-            type: string
-          closeAt:
-            type: string
-        required:
-        - buyQuantity
-        - sellQuantity
-        - buyVolume
-        - sellVolume
-        - buyAvgPrice
-        - sellAvgPrice
-        - realizedPnL
-        - realizedPnLPercent
-        - fee
-        - fundingRate
-        - openAt
-        - closeAt
     UserStatisticsResponse:
       type: object
       properties:
@@ -256,6 +213,10 @@ components:
       - buyVolume
       - sellVolume
       - tradingVolume
+    BalanceChart:
+      type: array
+      items:
+        $ref: '#/components/schemas/BalanceChartPoint'
     BalanceChartPoint:
       type: object
       properties:
@@ -281,6 +242,53 @@ components:
       - unrealizedPnl
       - currentPnl
       - availableBalance
+    PositionHistoryFillObject:
+      allOf:
+      - $ref: '#/components/schemas/PositionHistoryObject'
+      - type: object
+        properties:
+          buyQuantity:
+            type: number
+          sellQuantity:
+            type: number
+          buyVolume:
+            type: number
+          sellVolume:
+            type: number
+          buyAvgPrice:
+            type: number
+          sellAvgPrice:
+            type: number
+          realizedPnL:
+            type: number
+          realizedPnLPercent:
+            type: number
+          fee:
+            type: number
+          fundingRate:
+            type: number
+          openAt:
+            type: string
+          closeAt:
+            type: string
+        required:
+        - buyQuantity
+        - sellQuantity
+        - buyVolume
+        - sellVolume
+        - buyAvgPrice
+        - sellAvgPrice
+        - realizedPnL
+        - realizedPnLPercent
+        - fee
+        - fundingRate
+        - openAt
+        - closeAt
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
   securitySchemes:
     InternalToken:
       type: http

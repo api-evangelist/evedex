@@ -90,6 +90,10 @@ paths:
                       - code
                       - message
                 - type: object
+      summary: Create auth centrifugo subscribe
+      x-summary-source: derived
+      operationId: postAuthCentrifugoSubscribe
+      x-operation-id-source: derived
 components:
   securitySchemes:
     InternalToken:

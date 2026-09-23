@@ -113,6 +113,10 @@ paths:
                 - cancelledReason
                 - createdAt
                 - updatedAt
+      summary: Replace api tpsl by instrument by id
+      x-summary-source: derived
+      operationId: putApiTpslByInstrumentById
+      x-operation-id-source: derived
     delete:
       tags:
       - TpSl
@@ -187,6 +191,10 @@ paths:
                 - cancelledReason
                 - createdAt
                 - updatedAt
+      summary: Delete api tpsl by instrument by id
+      x-summary-source: derived
+      operationId: deleteApiTpslByInstrumentById
+      x-operation-id-source: derived
   /api/tpsl:
     get:
       tags:
@@ -317,6 +325,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api tpsl
+      x-summary-source: derived
+      operationId: getApiTpsl
+      x-operation-id-source: derived
   /api/tpsl/{instrument}:
     post:
       tags:
@@ -424,8 +436,17 @@ paths:
                 - cancelledReason
                 - createdAt
                 - updatedAt
+      summary: Create api tpsl by instrument
+      x-summary-source: derived
+      operationId: postApiTpslByInstrument
+      x-operation-id-source: derived
 components:
   schemas:
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
+    TpSlListPageLimitParam:
+      type: string
     OrderIdV2Input:
       type: string
       pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
@@ -439,11 +460,6 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
-    TpSlListPageLimitParam:
-      type: string
-    OrderIdInput:
-      type: string
-      pattern: '[0-9A-Fa-f]{32}'
   securitySchemes:
     InternalToken:
       type: http

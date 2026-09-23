@@ -49,6 +49,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api wallet
+      x-summary-source: derived
+      operationId: getApiWallet
+      x-operation-id-source: derived
     post:
       tags:
       - Wallet
@@ -67,6 +71,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WalletCreateResponse'
+      summary: Create api wallet
+      x-summary-source: derived
+      operationId: postApiWallet
+      x-operation-id-source: derived
 components:
   schemas:
     WalletCreateBody:

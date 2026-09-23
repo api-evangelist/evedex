@@ -525,6 +525,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api bridge transfer
+      x-summary-source: derived
+      operationId: getApiBridgeTransfer
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/transfer/settings:
@@ -566,6 +570,10 @@ paths:
                 required:
                 - isEnabled
                 - comment
+      summary: Replace api transfer settings
+      x-summary-source: derived
+      operationId: putApiTransferSettings
+      x-operation-id-source: derived
     get:
       tags:
       - Transfer
@@ -588,6 +596,10 @@ paths:
                 required:
                 - isEnabled
                 - comment
+      summary: Get api transfer settings
+      x-summary-source: derived
+      operationId: getApiTransferSettings
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
   /api/transfer/refund:
@@ -619,6 +631,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api transfer refund
+      x-summary-source: derived
+      operationId: postApiTransferRefund
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
   /api/transfer:
@@ -834,6 +850,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api transfer
+      x-summary-source: derived
+      operationId: getApiTransfer
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
   /api/transfer/aml/unlock:
@@ -865,6 +885,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api transfer aml unlock
+      x-summary-source: derived
+      operationId: postApiTransferAmlUnlock
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
   /api/transfer/aml/allow-future-deposits:
@@ -896,6 +920,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api transfer aml allow future deposits
+      x-summary-source: derived
+      operationId: postApiTransferAmlAllowFutureDeposits
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
   /api/transfer/detail:
@@ -929,6 +957,10 @@ paths:
                 required:
                 - smartAccountAddress
                 - email
+      summary: Get api transfer detail
+      x-summary-source: derived
+      operationId: getApiTransferDetail
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/transfer/pf/withdraw:
@@ -975,6 +1007,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransferObject'
+      summary: Create api transfer pf withdraw
+      x-summary-source: derived
+      operationId: postApiTransferPfWithdraw
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
@@ -987,6 +1023,20 @@ components:
       default: '0'
     EmptyResponse:
       type: object
+    TransferListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferWitHFeeObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     TransferWitHFeeObject:
       allOf:
       - $ref: '#/components/schemas/TransferObject'
@@ -1046,20 +1096,6 @@ components:
       - status
       - createdAt
       - updatedAt
-    TransferListObject:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransferWitHFeeObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
   securitySchemes:
     AccessToken:
       type: http

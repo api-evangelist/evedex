@@ -38,6 +38,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LiquidationLevelStatisticsResponse'
+      summary: Get api exchange liquidation levels by pair
+      x-summary-source: derived
+      operationId: getApiExchangeLiquidationLevelsByPair
+      x-operation-id-source: derived
 components:
   schemas:
     LiquidationLevelStatisticsResponse:

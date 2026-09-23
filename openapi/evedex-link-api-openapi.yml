@@ -39,6 +39,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Link'
+      summary: Replace api user by user id link by link id
+      x-summary-source: derived
+      operationId: putApiUserByUserIdLinkByLinkId
+      x-operation-id-source: derived
     delete:
       tags:
       - Link
@@ -64,6 +68,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api user by user id link by link id
+      x-summary-source: derived
+      operationId: deleteApiUserByUserIdLinkByLinkId
+      x-operation-id-source: derived
   /api/user/{userId}/link:
     get:
       tags:
@@ -97,6 +105,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Link'
+      summary: Get api user by user id link
+      x-summary-source: derived
+      operationId: getApiUserByUserIdLink
+      x-operation-id-source: derived
     post:
       tags:
       - Link
@@ -122,6 +134,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Link'
+      summary: Create api user by user id link
+      x-summary-source: derived
+      operationId: postApiUserByUserIdLink
+      x-operation-id-source: derived
   /api/user/{userId}/link/{code}:
     get:
       tags:
@@ -148,6 +164,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserInvitationPublicResponse'
+      summary: Get api user by user id link by code
+      x-summary-source: derived
+      operationId: getApiUserByUserIdLinkByCode
+      x-operation-id-source: derived
   /api/user/check-invites:
     get:
       tags:
@@ -174,6 +194,10 @@ paths:
                     type: boolean
                 required:
                 - isAccessible
+      summary: Get api user check invites
+      x-summary-source: derived
+      operationId: getApiUserCheckInvites
+      x-operation-id-source: derived
   /api/user/{userId}/link/reward/balance:
     get:
       tags:
@@ -222,6 +246,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkRewardBalanceList'
+      summary: Get api user by user id link reward balance
+      x-summary-source: derived
+      operationId: getApiUserByUserIdLinkRewardBalance
+      x-operation-id-source: derived
   /api/links/by-codes:
     post:
       tags:
@@ -241,6 +269,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkOwnerInfoList'
+      summary: Create api links by codes
+      x-summary-source: derived
+      operationId: postApiLinksByCodes
+      x-operation-id-source: derived
   /api/invitation/{code}:
     get:
       tags:
@@ -261,20 +293,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkInvitationPublicResponse'
+      summary: Get api invitation by code
+      x-summary-source: derived
+      operationId: getApiInvitationByCode
+      x-operation-id-source: derived
 components:
   schemas:
-    UpdateLink:
+    LinkRewardBalance:
       type: object
       properties:
-        name:
+        code:
           type: string
-          description: Link name
         type:
           type: string
-          description: Link type
-        isDefault:
-          type: boolean
-          description: Is link default?
+        currency:
+          type: string
+        count:
+          type: number
+        balance:
+          type: number
+      required:
+      - code
+      - type
+      - currency
+      - count
+      - balance
     LinkInvitationPublicResponse:
       type: object
       properties:
@@ -301,10 +344,123 @@ components:
       - welcomeMessage
       - benefitsDescription
       - image
+    UserInvitationPublicResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+        referralMessage:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+      required:
+      - code
+      - name
+      - welcomeMessage
+      - benefitsDescription
+      - leaderboardName
+      - competitionDescription
+      - referralMessage
+      - image
+    Link:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        type:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        isDefault:
+          type: boolean
+          default: false
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+        createdAt:
+          type: string
+      required:
+      - id
+      - user
+      - type
+      - code
+      - name
+      - isDefault
+      - welcomeMessage
+      - benefitsDescription
+      - image
+      - createdAt
+    EmptyResponse:
+      type: object
+    LinksByCodesBody:
+      type: object
+      properties:
+        codes:
+          type: array
+          items:
+            type: string
+          description: Array of link codes
+      required:
+      - codes
     LinkRewardBalanceList:
       type: array
       items:
         $ref: '#/components/schemas/LinkRewardBalance'
+    LinkOwnerInfoList:
+      type: array
+      items:
+        $ref: '#/components/schemas/LinkOwnerInfo'
+    UpdateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        isDefault:
+          type: boolean
+          description: Is link default?
     CreateLink:
       type: object
       properties:
@@ -360,126 +516,6 @@ components:
       - authId
       - wallet
       - smartAccountAddress
-    Link:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        type:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        isDefault:
-          type: boolean
-          default: false
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-        image:
-          type:
-          - string
-          - 'null'
-          format: uri
-        createdAt:
-          type: string
-      required:
-      - id
-      - user
-      - type
-      - code
-      - name
-      - isDefault
-      - welcomeMessage
-      - benefitsDescription
-      - image
-      - createdAt
-    UserInvitationPublicResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        name:
-          type: string
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-        leaderboardName:
-          type:
-          - string
-          - 'null'
-        competitionDescription:
-          type:
-          - string
-          - 'null'
-        referralMessage:
-          type:
-          - string
-          - 'null'
-        image:
-          type:
-          - string
-          - 'null'
-          format: uri
-      required:
-      - code
-      - name
-      - welcomeMessage
-      - benefitsDescription
-      - leaderboardName
-      - competitionDescription
-      - referralMessage
-      - image
-    LinkOwnerInfoList:
-      type: array
-      items:
-        $ref: '#/components/schemas/LinkOwnerInfo'
-    LinksByCodesBody:
-      type: object
-      properties:
-        codes:
-          type: array
-          items:
-            type: string
-          description: Array of link codes
-      required:
-      - codes
-    LinkRewardBalance:
-      type: object
-      properties:
-        code:
-          type: string
-        type:
-          type: string
-        currency:
-          type: string
-        count:
-          type: number
-        balance:
-          type: number
-      required:
-      - code
-      - type
-      - currency
-      - count
-      - balance
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

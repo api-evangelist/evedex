@@ -20,6 +20,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserImageStateResponse'
+      summary: Get api user image check
+      x-summary-source: derived
+      operationId: getApiUserImageCheck
+      x-operation-id-source: derived
 components:
   schemas:
     UserImageStateResponse:

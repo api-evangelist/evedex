@@ -22,6 +22,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete auth telegram profile
+      x-summary-source: derived
+      operationId: deleteAuthTelegramProfile
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/telegram-bot/deep-link-for-start/internal:
@@ -48,6 +52,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TelegramBot'
+      summary: Create auth telegram bot deep link for start internal
+      x-summary-source: derived
+      operationId: postAuthTelegramBotDeepLinkForStartInternal
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/telegram-bot/deep-link-for-start:
@@ -63,6 +71,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TelegramBot'
+      summary: Get auth telegram bot deep link for start
+      x-summary-source: derived
+      operationId: getAuthTelegramBotDeepLinkForStart
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/telegram/webhook:
@@ -77,6 +89,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api telegram webhook
+      x-summary-source: derived
+      operationId: postApiTelegramWebhook
+      x-operation-id-source: derived
     servers:
     - url: https://notifications-api.evedex.com
   /api/telegram/link:
@@ -115,10 +131,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api telegram link
+      x-summary-source: derived
+      operationId: getApiTelegramLink
+      x-operation-id-source: derived
     servers:
     - url: https://notifications-api.evedex.com
 components:
   schemas:
+    EmptyResponse:
+      type: object
     TelegramBot:
       type: object
       properties:
@@ -126,15 +148,6 @@ components:
           type: string
       required:
       - uri
-    EmptyResponse:
-      type: object
-    TelegramLink:
-      type: object
-      properties:
-        link:
-          type: string
-      required:
-      - link
     ErrorResponse:
       type: object
       properties:
@@ -144,6 +157,13 @@ components:
       required:
       - message
       description: Error response
+    TelegramLink:
+      type: object
+      properties:
+        link:
+          type: string
+      required:
+      - link
   securitySchemes:
     InternalToken:
       type: http

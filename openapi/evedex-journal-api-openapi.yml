@@ -35,28 +35,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JournalList'
+      summary: Get api journal list
+      x-summary-source: derived
+      operationId: getApiJournalList
+      x-operation-id-source: derived
 components:
   schemas:
-    PageLimitParam:
-      type: string
-      default: '50'
-    PageOffsetParam:
-      type: string
-      default: '0'
-    JournalList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/JournalObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     JournalObject:
       type: object
       properties:
@@ -95,6 +79,26 @@ components:
       - fromDate
       - toDate
       - createdAt
+    JournalList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

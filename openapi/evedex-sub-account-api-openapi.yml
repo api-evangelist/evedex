@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://auth-api.evedex.com
 tags:
-- name: SubAccount
+- name: Sub Account
 paths:
   /auth/sub-account/{id}:
     put:
       tags:
-      - SubAccount
+      - Sub Account
       security:
       - InternalToken: []
       parameters:
@@ -33,10 +33,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace auth sub account by id
+      x-summary-source: derived
+      operationId: putAuthSubAccountById
+      x-operation-id-source: derived
   /auth/sub-account/{id}/unarchive:
     put:
       tags:
-      - SubAccount
+      - Sub Account
       security:
       - AccessToken: []
       parameters:
@@ -53,10 +57,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace auth sub account by id unarchive
+      x-summary-source: derived
+      operationId: putAuthSubAccountByIdUnarchive
+      x-operation-id-source: derived
   /auth/sub-account/switch:
     post:
       tags:
-      - SubAccount
+      - Sub Account
       security:
       - AccessToken: []
       parameters:
@@ -81,10 +89,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Auth'
+      summary: Create auth sub account switch
+      x-summary-source: derived
+      operationId: postAuthSubAccountSwitch
+      x-operation-id-source: derived
   /auth/sub-account/list:
     get:
       tags:
-      - SubAccount
+      - Sub Account
       security:
       - AccessToken: []
       parameters:
@@ -110,10 +122,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubAccountListResponse'
+      summary: Get auth sub account list
+      x-summary-source: derived
+      operationId: getAuthSubAccountList
+      x-operation-id-source: derived
   /auth/sub-account/create:
     post:
       tags:
-      - SubAccount
+      - Sub Account
       security:
       - AccessToken: []
       parameters:
@@ -138,10 +154,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Auth'
+      summary: Create auth sub account create
+      x-summary-source: derived
+      operationId: postAuthSubAccountCreate
+      x-operation-id-source: derived
   /auth/sub-account/{parentId}/{id}/check:
     get:
       tags:
-      - SubAccount
+      - Sub Account
       security:
       - InternalToken: []
       parameters:
@@ -176,10 +196,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Get auth sub account by parent id by id check
+      x-summary-source: derived
+      operationId: getAuthSubAccountByParentIdByIdCheck
+      x-operation-id-source: derived
   /auth/sub-account/{id}/archive:
     put:
       tags:
-      - SubAccount
+      - Sub Account
       security:
       - AccessToken: []
       parameters:
@@ -196,6 +220,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace auth sub account by id archive
+      x-summary-source: derived
+      operationId: putAuthSubAccountByIdArchive
+      x-operation-id-source: derived
 components:
   schemas:
     JWT:
@@ -210,60 +238,21 @@ components:
       required:
       - accessToken
       description: JWT tokens
-    SubAccountListResponse:
+    SubAccountUpdateBody:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubAccount'
-        count:
-          type: number
-        next:
-          type: string
-        limit:
-          type: number
-        total:
-          type: number
-      required:
-      - list
-      - count
-      - limit
-      - total
-    CreateSubAccountBody:
-      type: object
-      properties:
-        name:
-          type: string
-          default: ''
-          description: Sub account name
-        network:
-          type: string
-          minLength: 1
-          description: Network name
-        accountType:
+        accountStatus:
           type: string
           enum:
-          - main
-          - sub
-          - funded
-          default: sub
-          description: Sub account type
-        fundedAccountOptionId:
-          type: string
-          format: uuid
-          description: Funded account option ID (required if accountType is Funded)
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+          description: New account status
       required:
-      - network
-    SwitchAccountBody:
+      - accountStatus
+    EmptyResponse:
       type: object
-      properties:
-        accountId:
-          type: string
-          format: uuid
-          description: Target account ID to switch to
-      required:
-      - accountId
     User:
       type: object
       properties:
@@ -496,30 +485,26 @@ components:
       - isArchived
       - twofa
       - permissions
-    Auth:
+    SubAccountListResponse:
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/User'
-        token:
-          $ref: '#/components/schemas/JWT'
-      required:
-      - user
-      - token
-      description: Authorization payload
-    SubAccountUpdateBody:
-      type: object
-      properties:
-        accountStatus:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubAccount'
+        count:
+          type: number
+        next:
           type: string
-          enum:
-          - active
-          - inactive
-          - initial
-          - smartAccountReady
-          description: New account status
+        limit:
+          type: number
+        total:
+          type: number
       required:
-      - accountStatus
+      - list
+      - count
+      - limit
+      - total
     SmartAccountEntry:
       type: object
       properties:
@@ -540,6 +525,40 @@ components:
       - address
       - version
       - isDeployed
+    CreateSubAccountBody:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ''
+          description: Sub account name
+        network:
+          type: string
+          minLength: 1
+          description: Network name
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          default: sub
+          description: Sub account type
+        fundedAccountOptionId:
+          type: string
+          format: uuid
+          description: Funded account option ID (required if accountType is Funded)
+      required:
+      - network
+    SwitchAccountBody:
+      type: object
+      properties:
+        accountId:
+          type: string
+          format: uuid
+          description: Target account ID to switch to
+      required:
+      - accountId
     SubAccount:
       type: object
       properties:
@@ -601,8 +620,17 @@ components:
       - smartAccount
       - subAccountIndex
       - fundedAccountOptionId
-    EmptyResponse:
+    Auth:
       type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
   securitySchemes:
     InternalToken:
       type: http

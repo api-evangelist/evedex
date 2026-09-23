@@ -42,6 +42,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatisticsVolumesResponse'
+      summary: Get api affiliate statistics volumes
+      x-summary-source: derived
+      operationId: getApiAffiliateStatisticsVolumes
+      x-operation-id-source: derived
   /api/affiliate-statistics/{userId}:
     get:
       tags:
@@ -61,6 +65,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatisticsDetailsResponse'
+      summary: Get api affiliate statistics by user id
+      x-summary-source: derived
+      operationId: getApiAffiliateStatisticsByUserId
+      x-operation-id-source: derived
 components:
   schemas:
     StatisticsVolumesResponse:

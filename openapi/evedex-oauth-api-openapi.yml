@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://exchange-api.evedex.com
 tags:
-- name: Oauth
+- name: OAuth
 paths:
   /api/oauth/request/{id}:
     delete:
       tags:
-      - Oauth
+      - OAuth
       security:
       - AccessToken: []
       parameters:
@@ -27,10 +27,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api oauth request by id
+      x-summary-source: derived
+      operationId: deleteApiOauthRequestById
+      x-operation-id-source: derived
   /api/oauth/request/list:
     get:
       tags:
-      - Oauth
+      - OAuth
       security:
       - AccessToken: []
       parameters:
@@ -53,10 +57,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OauthRequestListResponse'
+      summary: Get api oauth request list
+      x-summary-source: derived
+      operationId: getApiOauthRequestList
+      x-operation-id-source: derived
   /api/oauth:
     get:
       tags:
-      - Oauth
+      - OAuth
       security: []
       parameters:
       - in: query
@@ -86,10 +94,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OauthGetClientResponse'
+      summary: Get api oauth
+      x-summary-source: derived
+      operationId: getApiOauth
+      x-operation-id-source: derived
   /api/oauth/deny:
     post:
       tags:
-      - Oauth
+      - OAuth
       security: []
       requestBody:
         required: true
@@ -104,10 +116,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OauthDenyResponse'
+      summary: Create api oauth deny
+      x-summary-source: derived
+      operationId: postApiOauthDeny
+      x-operation-id-source: derived
   /api/oauth/approve:
     post:
       tags:
-      - Oauth
+      - OAuth
       security:
       - AccessToken: []
       requestBody:
@@ -123,50 +139,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OauthResponse'
+      summary: Create api oauth approve
+      x-summary-source: derived
+      operationId: postApiOauthApprove
+      x-operation-id-source: derived
 components:
   schemas:
-    OauthResponse:
-      type: object
-      properties:
-        redirectURI:
-          type: string
-      required:
-      - redirectURI
-    OauthApproveBody:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        state:
-          type: string
-          default: ''
-        apiKey:
-          type:
-          - object
-          - 'null'
-          properties:
-            id:
-              type: string
-              format: uuid
-            key:
-              type: string
-          required:
-          - id
-          - key
-          default: null
-        octWallet:
-          type:
-          - object
-          - 'null'
-          properties:
-            key:
-              type: string
-          required:
-          - key
-          default: null
-      required:
-      - integrationId
     OauthDenyResponse:
       type: object
       properties:
@@ -174,42 +152,11 @@ components:
           type: string
       required:
       - redirectURI
-    OauthDenyBody:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        state:
-          type: string
-          default: ''
-      required:
-      - integrationId
-    OauthGetClientResponse:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scopes:
-          type: array
-          items:
-            type: string
-        state:
-          type: string
-      required:
-      - integrationId
-      - name
-      - scopes
-      - state
-    PageOffsetParam:
-      type: string
-      default: '0'
     PageLimitParam:
       type: string
       default: '50'
+    EmptyResponse:
+      type: object
     OauthRequestListResponse:
       type: object
       properties:
@@ -255,8 +202,81 @@ components:
       required:
       - list
       - count
-    EmptyResponse:
+    OauthGetClientResponse:
       type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        state:
+          type: string
+      required:
+      - integrationId
+      - name
+      - scopes
+      - state
+    OauthDenyBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+      required:
+      - integrationId
+    OauthResponse:
+      type: object
+      properties:
+        redirectURI:
+          type: string
+      required:
+      - redirectURI
+    OauthApproveBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+        apiKey:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+            key:
+              type: string
+          required:
+          - id
+          - key
+          default: null
+        octWallet:
+          type:
+          - object
+          - 'null'
+          properties:
+            key:
+              type: string
+          required:
+          - key
+          default: null
+      required:
+      - integrationId
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     InternalToken:
       type: http

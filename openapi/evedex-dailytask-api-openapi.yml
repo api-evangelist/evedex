@@ -182,6 +182,10 @@ paths:
                 - tasks
                 - chests
                 additionalProperties: false
+      summary: Get api daily task summary
+      x-summary-source: derived
+      operationId: getApiDailyTaskSummary
+      x-operation-id-source: derived
   /api/daily-task/chest/{chestId}/claim:
     post:
       tags:
@@ -364,6 +368,10 @@ paths:
                 - tasks
                 - chests
                 additionalProperties: false
+      summary: Create api daily task chest by chest id claim
+      x-summary-source: derived
+      operationId: postApiDailyTaskChestByChestIdClaim
+      x-operation-id-source: derived
   /api/daily-task/{taskId}/claim:
     post:
       tags:
@@ -546,6 +554,10 @@ paths:
                 - tasks
                 - chests
                 additionalProperties: false
+      summary: Create api daily task by task id claim
+      x-summary-source: derived
+      operationId: postApiDailyTaskByTaskIdClaim
+      x-operation-id-source: derived
 components:
   securitySchemes:
     AccessToken:

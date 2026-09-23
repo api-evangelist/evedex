@@ -37,6 +37,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete auth role by user id
+      x-summary-source: derived
+      operationId: deleteAuthRoleByUserId
+      x-operation-id-source: derived
     get:
       tags:
       - ACL
@@ -57,6 +61,10 @@ paths:
                 type: array
                 items:
                   type: string
+      summary: Get auth role by user id
+      x-summary-source: derived
+      operationId: getAuthRoleByUserId
+      x-operation-id-source: derived
     post:
       tags:
       - ACL
@@ -86,6 +94,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create auth role by user id
+      x-summary-source: derived
+      operationId: postAuthRoleByUserId
+      x-operation-id-source: derived
   /auth/role:
     get:
       tags:
@@ -109,6 +121,10 @@ paths:
                   required:
                   - id
                   - createdAt
+      summary: Get auth role
+      x-summary-source: derived
+      operationId: getAuthRole
+      x-operation-id-source: derived
   /auth/role/me/elevate:
     post:
       tags:
@@ -140,8 +156,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/JWT'
+      summary: Create auth role me elevate
+      x-summary-source: derived
+      operationId: postAuthRoleMeElevate
+      x-operation-id-source: derived
 components:
   schemas:
+    EmptyResponse:
+      type: object
     JWT:
       type: object
       properties:
@@ -154,8 +176,6 @@ components:
       required:
       - accessToken
       description: JWT tokens
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalToken:
       type: http

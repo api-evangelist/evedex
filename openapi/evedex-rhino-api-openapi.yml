@@ -95,6 +95,10 @@ paths:
                 - destinationChainId
                 - destinationAddress
                 - supportedTokens
+      summary: Get api rhino deposit address
+      x-summary-source: derived
+      operationId: getApiRhinoDepositAddress
+      x-operation-id-source: derived
     servers:
     - url: https://bridge-middleware-api.evedex.com
   /api/deposit/rhino-deposit-address:
@@ -169,6 +173,10 @@ paths:
                 - destinationChainId
                 - destinationAddress
                 - supportedTokens
+      summary: Get api deposit rhino deposit address
+      x-summary-source: derived
+      operationId: getApiDepositRhinoDepositAddress
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:

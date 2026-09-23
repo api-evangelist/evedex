@@ -171,6 +171,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api position open
+      x-summary-source: derived
+      operationId: postApiPositionOpen
+      x-operation-id-source: derived
     servers:
     - url: https://ai-strategies-api.evedex.com
   /api/order:
@@ -307,6 +311,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api order
+      x-summary-source: derived
+      operationId: getApiOrder
+      x-operation-id-source: derived
     servers:
     - url: https://ai-strategies-api.evedex.com
   /api/v2/order/stop-limit:
@@ -502,6 +510,10 @@ paths:
                 - triggeredAt
                 - createdAt
                 - updatedAt
+      summary: Create api order stop limit
+      x-summary-source: derived
+      operationId: postApiV2OrderStopLimit
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/v2/order/market:
@@ -693,6 +705,10 @@ paths:
                 - triggeredAt
                 - createdAt
                 - updatedAt
+      summary: Create api order market
+      x-summary-source: derived
+      operationId: postApiV2OrderMarket
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/v2/order/limit:
@@ -893,6 +909,10 @@ paths:
                 - triggeredAt
                 - createdAt
                 - updatedAt
+      summary: Create api order limit
+      x-summary-source: derived
+      operationId: postApiV2OrderLimit
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/v2/order/mass-limit/{instrument}:
@@ -1001,6 +1021,10 @@ paths:
                       required:
                       - success
                       - failReason
+      summary: Create api order mass limit by instrument
+      x-summary-source: derived
+      operationId: postApiV2OrderMassLimitByInstrument
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/{orderId}/stop-limit:
@@ -1060,6 +1084,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace api order by order id stop limit
+      x-summary-source: derived
+      operationId: putApiOrderByOrderIdStopLimit
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/{orderId}/limit:
@@ -1116,6 +1144,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace api order by order id limit
+      x-summary-source: derived
+      operationId: putApiOrderByOrderIdLimit
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/{orderId}/fill:
@@ -1145,6 +1177,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderFillListResponse'
+      summary: Get api order by order id fill
+      x-summary-source: derived
+      operationId: getApiOrderByOrderIdFill
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/opened:
@@ -1238,6 +1274,10 @@ paths:
                   - triggeredAt
                   - updatedAt
                   - createdAt
+      summary: Get api order opened
+      x-summary-source: derived
+      operationId: getApiOrderOpened
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/mass-cancel-by-id:
@@ -1271,6 +1311,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/LimitOrderCancelObject'
+      summary: Create api order mass cancel by id
+      x-summary-source: derived
+      operationId: postApiOrderMassCancelById
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/mass-cancel:
@@ -1300,6 +1344,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api order mass cancel
+      x-summary-source: derived
+      operationId: postApiOrderMassCancel
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/limit/{instrument}:
@@ -1389,6 +1437,10 @@ paths:
                       required:
                       - success
                       - failReason
+      summary: Replace api order limit by instrument
+      x-summary-source: derived
+      operationId: putApiOrderLimitByInstrument
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/{orderId}:
@@ -1511,6 +1563,10 @@ paths:
                 - triggeredAt
                 - createdAt
                 - updatedAt
+      summary: Get api order by order id
+      x-summary-source: derived
+      operationId: getApiOrderByOrderId
+      x-operation-id-source: derived
     delete:
       tags:
       - Order
@@ -1531,6 +1587,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api order by order id
+      x-summary-source: derived
+      operationId: deleteApiOrderByOrderId
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/fill:
@@ -1612,16 +1672,20 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api fill
+      x-summary-source: derived
+      operationId: getApiFill
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
-    PageLimitParam:
-      type: string
-      default: '50'
     PageOffsetParam:
       type: string
       default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
     ErrorResponse:
       type: object
       properties:
@@ -1631,8 +1695,13 @@ components:
       required:
       - message
       description: Error response
-    OrderIdOutput:
+    PageNextParam:
       type: string
+    EmptyResponse:
+      type: object
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
     OrderFillListResponse:
       type: array
       items:
@@ -1664,14 +1733,6 @@ components:
         - fillPrice
         - fee
         - createdAt
-    Side:
-      type: string
-      enum:
-      - BUY
-      - SELL
-    OrderIdV2Input:
-      type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
     LimitOrderCancelObject:
       allOf:
       - type: object
@@ -1698,13 +1759,16 @@ components:
           required:
           - success
           - failReason
-    PageNextParam:
+    OrderIdOutput:
       type: string
-    OrderIdInput:
+    Side:
       type: string
-      pattern: '[0-9A-Fa-f]{32}'
-    EmptyResponse:
-      type: object
+      enum:
+      - BUY
+      - SELL
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
   securitySchemes:
     InternalToken:
       type: http

@@ -28,6 +28,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArticleList'
+      summary: Get api article
+      x-summary-source: derived
+      operationId: getApiArticle
+      x-operation-id-source: derived
   /api/article/{articleId}:
     get:
       tags:
@@ -47,22 +51,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Article'
+      summary: Get api article by article id
+      x-summary-source: derived
+      operationId: getApiArticleByArticleId
+      x-operation-id-source: derived
 components:
   schemas:
-    ArticleList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArticleShort'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
+    PageLimitParam:
+      type: string
+      default: '50'
     ArticleShort:
       type: object
       properties:
@@ -104,12 +101,6 @@ components:
       - main
       - createdAt
       - updatedAt
-    PageOffsetParam:
-      type: string
-      default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
     Article:
       type: object
       properties:
@@ -154,6 +145,23 @@ components:
       - createdAt
       - updatedAt
       - description
+    ArticleList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleShort'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     InternalToken:
       type: http

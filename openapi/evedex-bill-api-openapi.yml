@@ -40,6 +40,10 @@ paths:
                     format: uri
                 required:
                 - url
+      summary: Create auth user bill by id payment
+      x-summary-source: derived
+      operationId: postAuthUserBillByIdPayment
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/user/bill/list:
@@ -64,6 +68,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BillListResponse'
+      summary: Get auth user bill list
+      x-summary-source: derived
+      operationId: getAuthUserBillList
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/user/bill:
@@ -112,6 +120,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateBillResponse'
+      summary: Get auth user bill
+      x-summary-source: derived
+      operationId: getAuthUserBill
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/bill/{billId}:
@@ -141,6 +153,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api bill by bill id
+      x-summary-source: derived
+      operationId: getApiBillByBillId
+      x-operation-id-source: derived
     servers:
     - url: https://billing-api.evedex.com
   /api/bill:
@@ -175,10 +191,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api bill
+      x-summary-source: derived
+      operationId: postApiBill
+      x-operation-id-source: derived
     servers:
     - url: https://billing-api.evedex.com
 components:
   schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
     BillListResponse:
       type: object
       properties:
@@ -193,12 +216,6 @@ components:
       required:
       - list
       - count
-    PageLimitParam:
-      type: string
-      default: '50'
-    PageOffsetParam:
-      type: string
-      default: '0'
     BillObject:
       type: object
       properties:
@@ -365,6 +382,9 @@ components:
           format: uri
       required:
       - returnUrl
+    PageOffsetParam:
+      type: string
+      default: '0'
     BillResponse:
       type: object
       properties:
@@ -386,43 +406,6 @@ components:
       - id
       - url
       - paymentService
-    CreateBillBody:
-      type: object
-      properties:
-        user:
-          type: string
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        phone:
-          type: string
-        product:
-          type: array
-          items:
-            type: string
-        trialPeriodDays:
-          type: number
-          default: 0
-        paymentService:
-          type: string
-          enum:
-          - stripe
-          - crypto
-          - evedex
-          - applePay
-          - googlePay
-          default: stripe
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
     BillObject_2:
       type: object
       properties:
@@ -519,6 +502,43 @@ components:
       - paidAt
       - createdAt
       - updatedAt
+    CreateBillBody:
+      type: object
+      properties:
+        user:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        product:
+          type: array
+          items:
+            type: string
+        trialPeriodDays:
+          type: number
+          default: 0
+        paymentService:
+          type: string
+          enum:
+          - stripe
+          - crypto
+          - evedex
+          - applePay
+          - googlePay
+          default: stripe
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
   securitySchemes:
     InternalToken:
       type: http

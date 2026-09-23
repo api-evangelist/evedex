@@ -51,6 +51,10 @@ paths:
                     type: string
                 required:
                 - status
+      summary: Replace api bot result
+      x-summary-source: derived
+      operationId: putApiBotResult
+      x-operation-id-source: derived
   /api/bot/order:
     put:
       tags:
@@ -114,6 +118,10 @@ paths:
                     type: string
                 required:
                 - status
+      summary: Replace api bot order
+      x-summary-source: derived
+      operationId: putApiBotOrder
+      x-operation-id-source: derived
   /api/bot:
     put:
       tags:
@@ -180,6 +188,10 @@ paths:
                     type: string
                 required:
                 - status
+      summary: Replace api bot
+      x-summary-source: derived
+      operationId: putApiBot
+      x-operation-id-source: derived
   /api/bot/list:
     get:
       tags:
@@ -286,6 +298,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api bot list
+      x-summary-source: derived
+      operationId: getApiBotList
+      x-operation-id-source: derived
   /api/bot/marketplace/bitsgap:
     put:
       tags:
@@ -338,6 +354,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace api bot marketplace bitsgap
+      x-summary-source: derived
+      operationId: putApiBotMarketplaceBitsgap
+      x-operation-id-source: derived
   /api/bot/marketplace:
     get:
       tags:
@@ -439,16 +459,20 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api bot marketplace
+      x-summary-source: derived
+      operationId: getApiBotMarketplace
+      x-operation-id-source: derived
 components:
   schemas:
+    EmptyResponse:
+      type: object
     PageLimitParam:
       type: string
       default: '50'
     PageOffsetParam:
       type: string
       default: '0'
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalToken:
       type: http

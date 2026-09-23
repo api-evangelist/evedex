@@ -20,6 +20,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/YieldStatusObject'
+      summary: Get api user yield status
+      x-summary-source: derived
+      operationId: getApiUserYieldStatus
+      x-operation-id-source: derived
   /api/public/yield/apr:
     get:
       tags:
@@ -40,6 +44,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/YieldAprObject'
+      summary: Get api public yield apr
+      x-summary-source: derived
+      operationId: getApiPublicYieldApr
+      x-operation-id-source: derived
 components:
   schemas:
     YieldStatusObject:

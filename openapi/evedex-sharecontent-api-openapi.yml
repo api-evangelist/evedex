@@ -33,6 +33,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShareContentResponse'
+      summary: Replace api share content by share content id
+      x-summary-source: derived
+      operationId: putApiShareContentByShareContentId
+      x-operation-id-source: derived
     delete:
       tags:
       - ShareContent
@@ -52,6 +56,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api share content by share content id
+      x-summary-source: derived
+      operationId: deleteApiShareContentByShareContentId
+      x-operation-id-source: derived
   /api/share-content:
     get:
       tags:
@@ -93,6 +101,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShareContentList'
+      summary: Get api share content
+      x-summary-source: derived
+      operationId: getApiShareContent
+      x-operation-id-source: derived
     post:
       tags:
       - ShareContent
@@ -111,42 +123,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShareContentResponse'
+      summary: Create api share content
+      x-summary-source: derived
+      operationId: postApiShareContent
+      x-operation-id-source: derived
 components:
   schemas:
-    ShareContentTexts:
+    ShareContentList:
       type: object
       properties:
-        en-US:
-          $ref: '#/components/schemas/ShareContentText'
-        ru-RU:
-          $ref: '#/components/schemas/ShareContentText'
-        es-ES:
-          $ref: '#/components/schemas/ShareContentText'
-        fr-FR:
-          $ref: '#/components/schemas/ShareContentText'
-        de-DE:
-          $ref: '#/components/schemas/ShareContentText'
-        it-IT:
-          $ref: '#/components/schemas/ShareContentText'
-        pt-BR:
-          $ref: '#/components/schemas/ShareContentText'
-        ja-JP:
-          $ref: '#/components/schemas/ShareContentText'
-        ko-KR:
-          $ref: '#/components/schemas/ShareContentText'
-        zh-CN:
-          $ref: '#/components/schemas/ShareContentText'
-        zh-TW:
-          $ref: '#/components/schemas/ShareContentText'
-        ar-SA:
-          $ref: '#/components/schemas/ShareContentText'
-        pt-PT:
-          $ref: '#/components/schemas/ShareContentText'
-        tr-TR:
-          $ref: '#/components/schemas/ShareContentText'
-        uk-UA:
-          $ref: '#/components/schemas/ShareContentText'
-      additionalProperties: false
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShareContent'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     CreateShareContentBody:
       type: object
       properties:
@@ -176,20 +172,48 @@ components:
       required:
       - name
       - socialType
-    ShareContentList:
+    PageLimitParam:
+      type: string
+      default: '50'
+    EmptyResponse:
+      type: object
+    PageOffsetParam:
+      type: string
+      default: '0'
+    ShareContentImages:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShareContent'
-        count:
-          type: number
-        next:
+        vertical:
           type: string
-      required:
-      - list
-      - count
+          format: uri
+        horizontal:
+          type: string
+          format: uri
+        square:
+          type: string
+          format: uri
+    UpdateShareContentBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        socialType:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        content:
+          $ref: '#/components/schemas/ShareContentTexts'
+        images:
+          $ref: '#/components/schemas/ShareContentImages'
     ShareContent:
       type: object
       properties:
@@ -225,46 +249,6 @@ components:
       - images
       - createdAt
       - updatedAt
-    UpdateShareContentBody:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 128
-        socialType:
-          type: string
-          enum:
-          - telegramCommunity
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        content:
-          $ref: '#/components/schemas/ShareContentTexts'
-        images:
-          $ref: '#/components/schemas/ShareContentImages'
-    PageOffsetParam:
-      type: string
-      default: '0'
-    ShareContentImages:
-      type: object
-      properties:
-        vertical:
-          type: string
-          format: uri
-        horizontal:
-          type: string
-          format: uri
-        square:
-          type: string
-          format: uri
-    PageLimitParam:
-      type: string
-      default: '50'
     ShareContentText:
       type: object
       properties:
@@ -275,6 +259,40 @@ components:
       required:
       - title
       - body
+    ShareContentTexts:
+      type: object
+      properties:
+        en-US:
+          $ref: '#/components/schemas/ShareContentText'
+        ru-RU:
+          $ref: '#/components/schemas/ShareContentText'
+        es-ES:
+          $ref: '#/components/schemas/ShareContentText'
+        fr-FR:
+          $ref: '#/components/schemas/ShareContentText'
+        de-DE:
+          $ref: '#/components/schemas/ShareContentText'
+        it-IT:
+          $ref: '#/components/schemas/ShareContentText'
+        pt-BR:
+          $ref: '#/components/schemas/ShareContentText'
+        ja-JP:
+          $ref: '#/components/schemas/ShareContentText'
+        ko-KR:
+          $ref: '#/components/schemas/ShareContentText'
+        zh-CN:
+          $ref: '#/components/schemas/ShareContentText'
+        zh-TW:
+          $ref: '#/components/schemas/ShareContentText'
+        ar-SA:
+          $ref: '#/components/schemas/ShareContentText'
+        pt-PT:
+          $ref: '#/components/schemas/ShareContentText'
+        tr-TR:
+          $ref: '#/components/schemas/ShareContentText'
+        uk-UA:
+          $ref: '#/components/schemas/ShareContentText'
+      additionalProperties: false
     ShareContentResponse:
       type: object
       properties:
@@ -310,8 +328,6 @@ components:
       - images
       - createdAt
       - updatedAt
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

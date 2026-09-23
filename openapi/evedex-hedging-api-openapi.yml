@@ -26,6 +26,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api hedging finery account
+      x-summary-source: derived
+      operationId: postApiHedgingFineryAccount
+      x-operation-id-source: derived
   /api/hedging/bybit/account:
     post:
       tags:
@@ -45,8 +49,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api hedging bybit account
+      x-summary-source: derived
+      operationId: postApiHedgingBybitAccount
+      x-operation-id-source: derived
 components:
   schemas:
+    FineryAccountObject:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        name:
+          type: string
+        apiKey:
+          type: string
+        apiSecret:
+          type: string
+      required:
+      - user
+      - name
+      - apiKey
+      - apiSecret
+    EmptyResponse:
+      type: object
     BybitAccountObject:
       type: object
       properties:
@@ -70,25 +97,6 @@ components:
       - accountType
       - apiKey
       - apiSecret
-    FineryAccountObject:
-      type: object
-      properties:
-        user:
-          type: string
-          format: uuid
-        name:
-          type: string
-        apiKey:
-          type: string
-        apiSecret:
-          type: string
-      required:
-      - user
-      - name
-      - apiKey
-      - apiSecret
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

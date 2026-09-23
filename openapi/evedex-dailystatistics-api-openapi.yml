@@ -25,6 +25,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DailyStatisticsResponse'
+      summary: Get api daily statistics
+      x-summary-source: derived
+      operationId: getApiDailyStatistics
+      x-operation-id-source: derived
 components:
   schemas:
     DailyStatisticsResponse:

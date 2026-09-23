@@ -113,6 +113,10 @@ paths:
                 - orderBookInterval
                 - createdAt
                 - updatedAt
+      summary: Replace api trading platform pair by pair id
+      x-summary-source: derived
+      operationId: putApiTradingPlatformPairByPairId
+      x-operation-id-source: derived
   /api/trading-platform/pair/{pairId}/order-book:
     get:
       tags:
@@ -207,6 +211,10 @@ paths:
                 - askDepthPrice
                 - bidLevels
                 - askLevels
+      summary: Get api trading platform pair by pair id order book
+      x-summary-source: derived
+      operationId: getApiTradingPlatformPairByPairIdOrderBook
+      x-operation-id-source: derived
   /api/trading-platform/pair:
     get:
       tags:
@@ -299,6 +307,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api trading platform pair
+      x-summary-source: derived
+      operationId: getApiTradingPlatformPair
+      x-operation-id-source: derived
     post:
       tags:
       - Trading Platform
@@ -427,6 +439,10 @@ paths:
                 - orderBookInterval
                 - createdAt
                 - updatedAt
+      summary: Create api trading platform pair
+      x-summary-source: derived
+      operationId: postApiTradingPlatformPair
+      x-operation-id-source: derived
   /api/trading-platform/account/{accountId}:
     put:
       tags:
@@ -609,6 +625,10 @@ paths:
                 - liquidityUpdateInterval
                 - createdAt
                 - updatedAt
+      summary: Replace api trading platform account by account id
+      x-summary-source: derived
+      operationId: putApiTradingPlatformAccountByAccountId
+      x-operation-id-source: derived
   /api/trading-platform/account:
     get:
       tags:
@@ -746,6 +766,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api trading platform account
+      x-summary-source: derived
+      operationId: getApiTradingPlatformAccount
+      x-operation-id-source: derived
     post:
       tags:
       - Trading Platform
@@ -939,6 +963,10 @@ paths:
                 - liquidityUpdateInterval
                 - createdAt
                 - updatedAt
+      summary: Create api trading platform account
+      x-summary-source: derived
+      operationId: postApiTradingPlatformAccount
+      x-operation-id-source: derived
 components:
   schemas:
     PageLimitParam:

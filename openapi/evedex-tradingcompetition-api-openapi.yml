@@ -254,6 +254,8 @@ paths:
                 - activePrizePool
                 - user
                 - multiplierScale
+      operationId: getApiLeaderboardPodiumTrading
+      x-operation-id-source: derived
 components:
   securitySchemes:
     AccessToken:

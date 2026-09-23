@@ -69,6 +69,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api price by inst
+      x-summary-source: derived
+      operationId: getApiPriceByInst
+      x-operation-id-source: derived
     servers:
     - url: https://ai-strategies-api.evedex.com
   /api/instrument:
@@ -278,6 +282,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api instrument
+      x-summary-source: derived
+      operationId: getApiInstrument
+      x-operation-id-source: derived
     servers:
     - url: https://ai-strategies-api.evedex.com
   /api/market/{instrument}/trades:
@@ -302,6 +310,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/TradeObject'
                 deprecated: true
+      summary: Get api market by instrument trades
+      x-summary-source: derived
+      operationId: getApiMarketByInstrumentTrades
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/market/{instrument}/recent-trades:
@@ -324,6 +336,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RecentTradeObject'
+      summary: Get api market by instrument recent trades
+      x-summary-source: derived
+      operationId: getApiMarketByInstrumentRecentTrades
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/market/power:
@@ -393,6 +409,10 @@ paths:
                 - anotherPositionVolume
                 - buy
                 - sell
+      summary: Get api market power
+      x-summary-source: derived
+      operationId: getApiMarketPower
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/market:
@@ -407,6 +427,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MarketInfo'
+      summary: Get api market
+      x-summary-source: derived
+      operationId: getApiMarket
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/market/{instrument}/deep:
@@ -474,6 +498,10 @@ paths:
                 - t
                 - asks
                 - bids
+      summary: Get api market by instrument deep
+      x-summary-source: derived
+      operationId: getApiMarketByInstrumentDeep
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/market/available-balance:
@@ -548,6 +576,10 @@ paths:
                 - openOrders
                 - availableBalance
                 - updatedAt
+      summary: Get api market available balance
+      x-summary-source: derived
+      operationId: getApiMarketAvailableBalance
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/market/instrument:
@@ -586,6 +618,10 @@ paths:
                 - type: array
                   items:
                     $ref: '#/components/schemas/InstrumentMetricsObject'
+      summary: Get api market instrument
+      x-summary-source: derived
+      operationId: getApiMarketInstrument
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
@@ -599,79 +635,6 @@ components:
       required:
       - message
       description: Error response
-    AvailableBalanceOpenOrder:
-      type: object
-      properties:
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        unFilledVolume:
-          $ref: '#/components/schemas/BigNumber'
-        unFilledInitialMargin:
-          $ref: '#/components/schemas/BigNumber'
-      required:
-      - instrument
-      - side
-      - unFilledVolume
-      - unFilledInitialMargin
-    MarketInfo:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - active
-          - request-status-fail
-          - me-dead
-          - db-admin-dead
-          - manually-off
-          - market-makers-only
-        states:
-          type: object
-          properties:
-            devex:
-              type: string
-              enum:
-              - active
-              - request-status-fail
-              - me-dead
-              - db-admin-dead
-              - manually-off
-              - market-makers-only
-            evex:
-              type: string
-              enum:
-              - active
-              - request-status-fail
-              - me-dead
-              - db-admin-dead
-              - manually-off
-              - market-makers-only
-          additionalProperties: false
-        fees:
-          type: object
-          properties:
-            taker:
-              type: number
-            maker:
-              type: number
-            liquidation:
-              type: number
-          required:
-          - taker
-          - maker
-          - liquidation
-        orderDay:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - state
-      - states
-      - fees
-      - orderDay
-      - updatedAt
     TradeObject:
       type: object
       properties:
@@ -711,28 +674,6 @@ components:
       - status
       - createdAt
       deprecated: true
-    RecentTradeObject:
-      type: object
-      properties:
-        executionId:
-          type: string
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        fillQuantity:
-          type: number
-        fillPrice:
-          type: number
-        createdAt:
-          type: string
-      required:
-      - executionId
-      - instrument
-      - side
-      - fillQuantity
-      - fillPrice
-      - createdAt
     InstrumentMetricsObject:
       type: object
       properties:
@@ -1047,6 +988,120 @@ components:
       - fundingRateImpactMarginNotional
       - valueAtRisk
       - updatedAt
+    RecentTradeObject:
+      type: object
+      properties:
+        executionId:
+          type: string
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        fillQuantity:
+          type: number
+        fillPrice:
+          type: number
+        createdAt:
+          type: string
+      required:
+      - executionId
+      - instrument
+      - side
+      - fillQuantity
+      - fillPrice
+      - createdAt
+    AvailableBalanceOpenOrder:
+      type: object
+      properties:
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        unFilledVolume:
+          $ref: '#/components/schemas/BigNumber'
+        unFilledInitialMargin:
+          $ref: '#/components/schemas/BigNumber'
+      required:
+      - instrument
+      - side
+      - unFilledVolume
+      - unFilledInitialMargin
+    BigNumber:
+      type: string
+      description: Big number value
+    AvailableBalancePosition:
+      type: object
+      properties:
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        volume:
+          $ref: '#/components/schemas/BigNumber'
+        initialMargin:
+          $ref: '#/components/schemas/BigNumber'
+      required:
+      - instrument
+      - side
+      - volume
+      - initialMargin
+    MarketInfo:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - active
+          - request-status-fail
+          - me-dead
+          - db-admin-dead
+          - manually-off
+          - market-makers-only
+        states:
+          type: object
+          properties:
+            devex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+            evex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+          additionalProperties: false
+        fees:
+          type: object
+          properties:
+            taker:
+              type: number
+            maker:
+              type: number
+            liquidation:
+              type: number
+          required:
+          - taker
+          - maker
+          - liquidation
+        orderDay:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - state
+      - states
+      - fees
+      - orderDay
+      - updatedAt
     OrderIdOutput:
       type: string
     Side:
@@ -1340,25 +1395,6 @@ components:
       - isPopular
       - newLabel
       - fundingRateImpactMarginNotional
-    AvailableBalancePosition:
-      type: object
-      properties:
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        volume:
-          $ref: '#/components/schemas/BigNumber'
-        initialMargin:
-          $ref: '#/components/schemas/BigNumber'
-      required:
-      - instrument
-      - side
-      - volume
-      - initialMargin
-    BigNumber:
-      type: string
-      description: Big number value
   securitySchemes:
     InternalToken:
       type: http

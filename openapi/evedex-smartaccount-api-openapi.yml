@@ -28,6 +28,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidateSmartAccountsResponse'
+      summary: Create auth smart account validate
+      x-summary-source: derived
+      operationId: postAuthSmartAccountValidate
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/smart-account/validate:
@@ -49,10 +53,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidateSmartAccountsResponse_2'
+      summary: Create api smart account validate
+      x-summary-source: derived
+      operationId: postApiSmartAccountValidate
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
+    ValidateSmartAccountsBody:
+      type: object
+      properties:
+        networkName:
+          type: string
+        addresses:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          minItems: 1
+          maxItems: 100
+      required:
+      - addresses
     ValidateSmartAccountsResponse:
       type: object
       properties:
@@ -69,42 +91,6 @@ components:
             - address
             - exists
       required:
-      - results
-    ValidateSmartAccountsBody:
-      type: object
-      properties:
-        networkName:
-          type: string
-        addresses:
-          type: array
-          items:
-            type: string
-            minLength: 1
-          minItems: 1
-          maxItems: 100
-      required:
-      - addresses
-    ValidateSmartAccountsResponse_2:
-      type: object
-      properties:
-        allValid:
-          type: boolean
-        results:
-          type: array
-          items:
-            type: object
-            properties:
-              address:
-                type: string
-              exists:
-                type: boolean
-              amount:
-                type: string
-            required:
-            - address
-            - exists
-      required:
-      - allValid
       - results
     ValidateSmartAccountsBody_2:
       anyOf:
@@ -137,6 +123,28 @@ components:
             maxItems: 100
         required:
         - entries
+    ValidateSmartAccountsResponse_2:
+      type: object
+      properties:
+        allValid:
+          type: boolean
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              exists:
+                type: boolean
+              amount:
+                type: string
+            required:
+            - address
+            - exists
+      required:
+      - allValid
+      - results
   securitySchemes:
     InternalToken:
       type: http

@@ -26,6 +26,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api event bulk
+      x-summary-source: derived
+      operationId: postApiEventBulk
+      x-operation-id-source: derived
   /api/event:
     post:
       tags:
@@ -45,6 +49,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api event
+      x-summary-source: derived
+      operationId: postApiEvent
+      x-operation-id-source: derived
   /api/event/{eventId}/calc:
     post:
       tags:
@@ -65,8 +73,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api event by event id calc
+      x-summary-source: derived
+      operationId: postApiEventByEventIdCalc
+      x-operation-id-source: derived
 components:
   schemas:
+    EmptyResponse:
+      type: object
     CreateEvent:
       type: object
       properties:
@@ -110,8 +124,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/CreateEvent'
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

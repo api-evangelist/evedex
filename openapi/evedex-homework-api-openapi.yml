@@ -51,6 +51,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HomeworkListResponse'
+      summary: Get api course by course id lesson by lesson id homework
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdLessonByLessonIdHomework
+      x-operation-id-source: derived
     post:
       tags:
       - Homework
@@ -80,6 +84,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HomeworkObject'
+      summary: Create api course by course id lesson by lesson id homework
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdLessonByLessonIdHomework
+      x-operation-id-source: derived
   /api/course/{courseId}/lesson/{lessonId}/homework/{homeworkId}:
     put:
       tags:
@@ -116,6 +124,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HomeworkObject'
+      summary: Replace api course by course id lesson by lesson id homework by homework id
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdLessonByLessonIdHomeworkByHomeworkId
+      x-operation-id-source: derived
     get:
       tags:
       - Homework
@@ -145,40 +157,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HomeworkObject'
+      summary: Get api course by course id lesson by lesson id homework by homework id
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdLessonByLessonIdHomeworkByHomeworkId
+      x-operation-id-source: derived
 components:
   schemas:
-    HomeworkCreateBody:
-      type: object
-      properties:
-        answers:
-          type: array
-          items:
-            $ref: '#/components/schemas/HomeworkAnswerBody'
-      required:
-      - answers
-    HomeworkListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/HomeworkObject'
-        count:
-          type: number
-      required:
-      - list
-      - count
-    HomeworkAnswerBody:
-      type: object
-      properties:
-        question:
-          type: string
-          format: uuid
-        text:
-          type: string
-      required:
-      - question
-      - text
+    PageLimitParam:
+      type: string
+      default: '50'
     HomeworkObject:
       type: object
       properties:
@@ -204,12 +191,29 @@ components:
       - curatorComment
       - createdAt
       - updatedAt
-    PageOffsetParam:
-      type: string
-      default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
+    HomeworkListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeworkObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    HomeworkAnswerBody:
+      type: object
+      properties:
+        question:
+          type: string
+          format: uuid
+        text:
+          type: string
+      required:
+      - question
+      - text
     HomeworkCheckBody:
       type: object
       properties:
@@ -222,6 +226,18 @@ components:
           type: string
       required:
       - status
+    HomeworkCreateBody:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeworkAnswerBody'
+      required:
+      - answers
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

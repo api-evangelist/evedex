@@ -20,6 +20,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api challenges sync tickets
+      x-summary-source: derived
+      operationId: postApiChallengesSyncTickets
+      x-operation-id-source: derived
   /api/challenges/summary:
     get:
       tags:
@@ -41,6 +45,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChallengesSummaryResponse'
+      summary: Get api challenges summary
+      x-summary-source: derived
+      operationId: getApiChallengesSummary
+      x-operation-id-source: derived
   /api/challenges/streak/summary:
     get:
       tags:
@@ -54,6 +62,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestoreStreakBalanceResponse'
+      summary: Get api challenges streak summary
+      x-summary-source: derived
+      operationId: getApiChallengesStreakSummary
+      x-operation-id-source: derived
   /api/challenges/streak/restore:
     post:
       tags:
@@ -67,6 +79,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api challenges streak restore
+      x-summary-source: derived
+      operationId: postApiChallengesStreakRestore
+      x-operation-id-source: derived
   /api/challenges/restart:
     post:
       tags:
@@ -80,6 +96,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api challenges restart
+      x-summary-source: derived
+      operationId: postApiChallengesRestart
+      x-operation-id-source: derived
   /api/challenges/manual-claim:
     post:
       tags:
@@ -99,6 +119,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualChallengeClaimResponse'
+      summary: Create api challenges manual claim
+      x-summary-source: derived
+      operationId: postApiChallengesManualClaim
+      x-operation-id-source: derived
   /api/challenges/{userId}/increase:
     post:
       tags:
@@ -119,6 +143,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api challenges by user id increase
+      x-summary-source: derived
+      operationId: postApiChallengesByUserIdIncrease
+      x-operation-id-source: derived
   /api/challenges/{challengeId}/claim:
     post:
       tags:
@@ -139,6 +167,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api challenges by challenge id claim
+      x-summary-source: derived
+      operationId: postApiChallengesByChallengeIdClaim
+      x-operation-id-source: derived
   /api/challenges/leaderboard/me:
     get:
       tags:
@@ -153,6 +185,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChallengeCompetitionLeaderboardMeResponse'
+      operationId: getApiChallengesLeaderboardMe
+      x-operation-id-source: derived
   /api/challenges/{challengeTitle}/leaderboard:
     get:
       tags:
@@ -184,8 +218,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChallengeCompetitionLeaderboardResponse'
+      operationId: getApiChallengesByChallengeTitleLeaderboard
+      x-operation-id-source: derived
 components:
   schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    ChallengeCompetitionLeaderboardMeResponse:
+      type: object
+      properties:
+        tradingVolume:
+          type: number
+        targetVolume:
+          type: number
+        tickets:
+          type: number
+        total:
+          type: number
+      required:
+      - tradingVolume
+      - targetVolume
+      - tickets
+      - total
+    RestoreStreakBalanceResponse:
+      type: object
+      properties:
+        used:
+          type: integer
+        total:
+          type: integer
+        isAvailable:
+          type: boolean
+      required:
+      - used
+      - total
+      - isAvailable
+    ChallengesSummaryResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          date:
+            type: string
+          progress:
+            type: integer
+          goal:
+            type: integer
+          userChallengeId:
+            type:
+            - string
+            - 'null'
+            format: uuid
+            default: null
+          isClaimed:
+            type: boolean
+          isAvailable:
+            type: boolean
+        required:
+        - id
+        - title
+        - date
+        - progress
+        - goal
+        - userChallengeId
+        - isClaimed
+        - isAvailable
     EmptyResponse:
       type: object
     ManualChallengeClaimBody:
@@ -212,6 +315,30 @@ components:
         month:
           type: string
           description: Month in format YYYY-MM (e.g. 2025-01)
+    ManualChallengeClaimResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        userId:
+          type: string
+          format: uuid
+        userChallengeId:
+          type: string
+          format: uuid
+        challengeTitle:
+          type: string
+        xpAwarded:
+          type: number
+        newExperience:
+          type: string
+      required:
+      - success
+      - userId
+      - userChallengeId
+      - challengeTitle
+      - xpAwarded
+      - newExperience
     ChallengeCompetitionLeaderboardResponse:
       type: object
       properties:
@@ -257,100 +384,9 @@ components:
       - count
       - startAt
       - finishAt
-    ChallengesSummaryResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          title:
-            type: string
-          date:
-            type: string
-          progress:
-            type: integer
-          goal:
-            type: integer
-          userChallengeId:
-            type:
-            - string
-            - 'null'
-            format: uuid
-            default: null
-          isClaimed:
-            type: boolean
-          isAvailable:
-            type: boolean
-        required:
-        - id
-        - title
-        - date
-        - progress
-        - goal
-        - userChallengeId
-        - isClaimed
-        - isAvailable
-    RestoreStreakBalanceResponse:
-      type: object
-      properties:
-        used:
-          type: integer
-        total:
-          type: integer
-        isAvailable:
-          type: boolean
-      required:
-      - used
-      - total
-      - isAvailable
-    ChallengeCompetitionLeaderboardMeResponse:
-      type: object
-      properties:
-        tradingVolume:
-          type: number
-        targetVolume:
-          type: number
-        tickets:
-          type: number
-        total:
-          type: number
-      required:
-      - tradingVolume
-      - targetVolume
-      - tickets
-      - total
     PageOffsetParam:
       type: string
       default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
-    ManualChallengeClaimResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        userId:
-          type: string
-          format: uuid
-        userChallengeId:
-          type: string
-          format: uuid
-        challengeTitle:
-          type: string
-        xpAwarded:
-          type: number
-        newExperience:
-          type: string
-      required:
-      - success
-      - userId
-      - userChallengeId
-      - challengeTitle
-      - xpAwarded
-      - newExperience
   securitySchemes:
     AccessToken:
       type: http

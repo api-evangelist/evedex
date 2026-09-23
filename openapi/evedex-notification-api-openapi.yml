@@ -43,6 +43,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api notifications web activity
+      x-summary-source: derived
+      operationId: getApiNotificationsWebActivity
+      x-operation-id-source: derived
 components:
   schemas:
     WebActivityNotificationResponse:

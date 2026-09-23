@@ -40,6 +40,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api billing subscription by subscription id payment
+      x-summary-source: derived
+      operationId: postApiBillingSubscriptionBySubscriptionIdPayment
+      x-operation-id-source: derived
   /api/subscription/list:
     get:
       tags:
@@ -90,6 +94,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api subscription list
+      x-summary-source: derived
+      operationId: getApiSubscriptionList
+      x-operation-id-source: derived
   /api/subscription/{subscriptionId}:
     get:
       tags:
@@ -116,6 +124,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api subscription by subscription id
+      x-summary-source: derived
+      operationId: getApiSubscriptionBySubscriptionId
+      x-operation-id-source: derived
   /api/billing/subscriptions/{subscriptionId}/cancel:
     post:
       tags:
@@ -152,8 +164,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api billing subscriptions by subscription id cancel
+      x-summary-source: derived
+      operationId: postApiBillingSubscriptionsBySubscriptionIdCancel
+      x-operation-id-source: derived
 components:
   schemas:
+    SubscriptionListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     SubscriptionObject:
       type: object
       properties:
@@ -198,6 +235,14 @@ components:
       - cancelAtPeriodEnd
       - createdAt
       - updatedAt
+    SubscriptionUpdatePaymentMethodBody:
+      type: object
+      properties:
+        returnUrl:
+          type: string
+          format: uri
+      required:
+      - returnUrl
     SubscriptionUpdatePaymentMethodResponse:
       type: object
       properties:
@@ -297,35 +342,6 @@ components:
       - lastSaleDate
       - createdAt
       - updatedAt
-    SubscriptionUpdatePaymentMethodBody:
-      type: object
-      properties:
-        returnUrl:
-          type: string
-          format: uri
-      required:
-      - returnUrl
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    SubscriptionListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubscriptionObject'
-        count:
-          type: number
-      required:
-      - list
-      - count
   securitySchemes:
     InternalKey:
       type: http

@@ -96,6 +96,8 @@ paths:
                   - achievements
                   - wallet
                   - smartAccountAddress
+      operationId: getApiLeaderboardNewcomer
+      x-operation-id-source: derived
   /api/leaderboard-podium/newcomer:
     get:
       tags:
@@ -265,6 +267,8 @@ paths:
                 - leaderboard
                 - podium
                 - competition
+      operationId: getApiLeaderboardPodiumNewcomer
+      x-operation-id-source: derived
 components:
   securitySchemes:
     AccessToken:

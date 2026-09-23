@@ -33,6 +33,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserInvitationResponse'
+      summary: Replace api user by user id invitation
+      x-summary-source: derived
+      operationId: putApiUserByUserIdInvitation
+      x-operation-id-source: derived
     get:
       tags:
       - Invitation
@@ -52,6 +56,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserInvitationResponse'
+      summary: Get api user by user id invitation
+      x-summary-source: derived
+      operationId: getApiUserByUserIdInvitation
+      x-operation-id-source: derived
     delete:
       tags:
       - Invitation
@@ -71,6 +79,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api user by user id invitation
+      x-summary-source: derived
+      operationId: deleteApiUserByUserIdInvitation
+      x-operation-id-source: derived
     post:
       tags:
       - Invitation
@@ -96,50 +108,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserInvitationResponse'
+      summary: Create api user by user id invitation
+      x-summary-source: derived
+      operationId: postApiUserByUserIdInvitation
+      x-operation-id-source: derived
 components:
   schemas:
-    UserInvitationUpdateBody:
+    EmptyResponse:
       type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 128
-          description: Invitation title displayed on landing
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Short welcome message for invitees
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Detailed description of benefits for invitees
-        leaderboardName:
-          type:
-          - string
-          - 'null'
-          maxLength: 128
-          description: Personal leaderboard title
-        competitionDescription:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Description of the personal competition
-        referralMessage:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Personal message shown to referrals under the avatar
-        image:
-          type: string
-          format: uri
-          description: Image url
     UserInvitationCreateBody:
       type: object
       properties:
@@ -236,8 +212,48 @@ components:
       - image
       - createdAt
       - updatedAt
-    EmptyResponse:
+    UserInvitationUpdateBody:
       type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Invitation title displayed on landing
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Short welcome message for invitees
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Detailed description of benefits for invitees
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          description: Personal leaderboard title
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Description of the personal competition
+        referralMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Personal message shown to referrals under the avatar
+        image:
+          type: string
+          format: uri
+          description: Image url
   securitySchemes:
     AccessToken:
       type: http

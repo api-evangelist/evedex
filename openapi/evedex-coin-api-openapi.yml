@@ -37,6 +37,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Replace api pair by pair id favorite
+      x-summary-source: derived
+      operationId: putApiPairByPairIdFavorite
+      x-operation-id-source: derived
   /api/coin:
     get:
       tags:
@@ -49,8 +53,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CoinList'
+      summary: Get api coin
+      x-summary-source: derived
+      operationId: getApiCoin
+      x-operation-id-source: derived
 components:
   schemas:
+    EmptyResponse:
+      type: object
     CoinList:
       type: object
       properties:
@@ -90,8 +100,6 @@ components:
             - createdAt
       required:
       - list
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalToken:
       type: http

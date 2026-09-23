@@ -229,6 +229,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api collectable
+      x-summary-source: derived
+      operationId: getApiCollectable
+      x-operation-id-source: derived
   /api/collectable/limit:
     get:
       tags:
@@ -253,6 +257,10 @@ paths:
                 - limit
                 - flipped
                 - left
+      summary: Get api collectable limit
+      x-summary-source: derived
+      operationId: getApiCollectableLimit
+      x-operation-id-source: derived
   /api/collectable/flip:
     post:
       tags:
@@ -429,6 +437,10 @@ paths:
                     - createdAt
                 required:
                 - card
+      summary: Create api collectable flip
+      x-summary-source: derived
+      operationId: postApiCollectableFlip
+      x-operation-id-source: derived
   /api/collectable/{cardId}/claim:
     post:
       tags:
@@ -449,6 +461,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api collectable by card id claim
+      x-summary-source: derived
+      operationId: postApiCollectableByCardIdClaim
+      x-operation-id-source: derived
   /api/collectable/{cardId}/activate:
     post:
       tags:
@@ -469,6 +485,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api collectable by card id activate
+      x-summary-source: derived
+      operationId: postApiCollectableByCardIdActivate
+      x-operation-id-source: derived
 components:
   schemas:
     EmptyResponse:

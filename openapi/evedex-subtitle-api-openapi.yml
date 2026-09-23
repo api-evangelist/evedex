@@ -83,6 +83,10 @@ paths:
                 - url
                 - createdAt
                 - updatedAt
+      summary: Replace api course by course id lesson by lesson id material by material id…
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdLessonByLessonIdMaterialByMaterialIdSubtitleBySubtitleId
+      x-operation-id-source: derived
     delete:
       tags:
       - Subtitle
@@ -120,6 +124,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id lesson by lesson id material by material id…
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseIdLessonByLessonIdMaterialByMaterialIdSubtitleBySubtitleId
+      x-operation-id-source: derived
   /api/course/{courseId}/lesson/{lessonId}/material/{materialId}/subtitle:
     post:
       tags:
@@ -190,6 +198,10 @@ paths:
                 - url
                 - createdAt
                 - updatedAt
+      summary: Create api course by course id lesson by lesson id material by material id…
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdLessonByLessonIdMaterialByMaterialIdSubtitle
+      x-operation-id-source: derived
 components:
   schemas:
     EmptyResponse:

@@ -121,6 +121,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api position
+      x-summary-source: derived
+      operationId: getApiPosition
+      x-operation-id-source: derived
     servers:
     - url: https://ai-strategies-api.evedex.com
   /api/v2/position/{instrument}/close:
@@ -276,6 +280,10 @@ paths:
                 - triggeredAt
                 - createdAt
                 - updatedAt
+      summary: Create api position by instrument close
+      x-summary-source: derived
+      operationId: postApiV2PositionByInstrumentClose
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/position/{instrument}:
@@ -330,6 +338,10 @@ paths:
                 - avgPrice
                 - leverage
                 - maintenanceMargin
+      summary: Replace api position by instrument
+      x-summary-source: derived
+      operationId: putApiPositionByInstrument
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/position/history:
@@ -415,6 +427,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PositionHistoryFillList'
+      summary: Get api position history
+      x-summary-source: derived
+      operationId: getApiPositionHistory
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
@@ -428,14 +444,9 @@ components:
       required:
       - message
       description: Error response
-    CloseType:
+    PageLimitParam:
       type: string
-      enum:
-      - manually
-      - take-profit
-      - stop-loss
-      - liquidated
-      - adl
+      default: '50'
     PositionHistoryObject:
       type: object
       properties:
@@ -467,19 +478,33 @@ components:
       - leverage
       - version
       - closeType
+    CloseType:
+      type: string
+      enum:
+      - manually
+      - take-profit
+      - stop-loss
+      - liquidated
+      - adl
+    PositionHistoryFillList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionHistoryFillObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     OrderIdV2Input:
       type: string
       pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
     OrderIdOutput:
       type: string
-    Side:
-      type: string
-      enum:
-      - BUY
-      - SELL
-    PageOffsetParam:
-      type: string
-      default: '0'
     PositionHistoryFillObject:
       allOf:
       - $ref: '#/components/schemas/PositionHistoryObject'
@@ -522,23 +547,14 @@ components:
         - fundingRate
         - openAt
         - closeAt
-    PositionHistoryFillList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/PositionHistoryFillObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    PageLimitParam:
+    Side:
       type: string
-      default: '50'
+      enum:
+      - BUY
+      - SELL
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     InternalToken:
       type: http

@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://partner-api.evedex.com
 tags:
-- name: ShortLink
+- name: Short Link
 paths:
   /api/user/{userId}/short-link/{shortLinkId}:
     put:
       tags:
-      - ShortLink
+      - Short Link
       security:
       - AccessToken: []
       parameters:
@@ -39,9 +39,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShortLink'
+      summary: Replace api user by user id short link by short link id
+      x-summary-source: derived
+      operationId: putApiUserByUserIdShortLinkByShortLinkId
+      x-operation-id-source: derived
     delete:
       tags:
-      - ShortLink
+      - Short Link
       security:
       - AccessToken: []
       parameters:
@@ -64,10 +68,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api user by user id short link by short link id
+      x-summary-source: derived
+      operationId: deleteApiUserByUserIdShortLinkByShortLinkId
+      x-operation-id-source: derived
   /api/user/{userId}/short-link:
     get:
       tags:
-      - ShortLink
+      - Short Link
       security:
       - AccessToken: []
       parameters:
@@ -86,9 +94,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ShortLink'
+      summary: Get api user by user id short link
+      x-summary-source: derived
+      operationId: getApiUserByUserIdShortLink
+      x-operation-id-source: derived
     post:
       tags:
-      - ShortLink
+      - Short Link
       security:
       - AccessToken: []
       parameters:
@@ -111,10 +123,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShortLink'
+      summary: Create api user by user id short link
+      x-summary-source: derived
+      operationId: postApiUserByUserIdShortLink
+      x-operation-id-source: derived
   /api/user/short-link/check:
     get:
       tags:
-      - ShortLink
+      - Short Link
       security:
       - AccessToken: []
       parameters:
@@ -135,8 +151,35 @@ paths:
                     type: boolean
                 required:
                 - isAccessible
+      summary: Get api user short link check
+      x-summary-source: derived
+      operationId: getApiUserShortLinkCheck
+      x-operation-id-source: derived
 components:
   schemas:
+    CreateShortLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Short link name
+        shortLinkCode:
+          type: string
+          description: Unique code
+        destinationLink:
+          type: string
+          format: uri
+          description: Destination link
+        referralCode:
+          type: string
+          description: Referral link code
+      required:
+      - name
+      - shortLinkCode
+      - destinationLink
+      - referralCode
+    EmptyResponse:
+      type: object
     ShortLink:
       type: object
       properties:
@@ -167,29 +210,6 @@ components:
       - shortLinkCode
       - createdAt
       - shortLinkPath
-    CreateShortLink:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Short link name
-        shortLinkCode:
-          type: string
-          description: Unique code
-        destinationLink:
-          type: string
-          format: uri
-          description: Destination link
-        referralCode:
-          type: string
-          description: Referral link code
-      required:
-      - name
-      - shortLinkCode
-      - destinationLink
-      - referralCode
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

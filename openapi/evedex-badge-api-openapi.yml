@@ -43,6 +43,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api badge list
+      x-summary-source: derived
+      operationId: getApiBadgeList
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
   /api/position/history/{positionId}/share:
@@ -71,6 +75,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PositionHistoryShareResponse'
+      summary: Create api position history by position id share
+      x-summary-source: derived
+      operationId: postApiPositionHistoryByPositionIdShare
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/position/history/{positionHistoryId}/share/{code}:
@@ -96,6 +104,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadgePositionGetResponse'
+      summary: Get api position history by position history id share by code
+      x-summary-source: derived
+      operationId: getApiPositionHistoryByPositionHistoryIdShareByCode
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/position/{positionId}/share/{code}:
@@ -121,6 +133,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadgePositionGetResponse'
+      summary: Get api position by position id share by code
+      x-summary-source: derived
+      operationId: getApiPositionByPositionIdShareByCode
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/points/share:
@@ -147,6 +163,10 @@ paths:
                     type: string
                 required:
                 - badgeUrl
+      summary: Create api points share
+      x-summary-source: derived
+      operationId: postApiPointsShare
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/points/share/{code}:
@@ -180,6 +200,10 @@ paths:
                     type: string
                 required:
                 - badgeUrl
+      summary: Get api points share by code
+      x-summary-source: derived
+      operationId: getApiPointsShareByCode
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/shared/{pageId}:
@@ -212,6 +236,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api order shared by page id
+      x-summary-source: derived
+      operationId: getApiOrderSharedByPageId
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/{orderId}/share:
@@ -241,6 +269,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderShareResponse'
+      summary: Create api order by order id share
+      x-summary-source: derived
+      operationId: postApiOrderByOrderIdShare
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/order/history/{orderHistoryId}/share/{code}:
@@ -266,6 +298,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadgeOrderGetResponse'
+      summary: Get api order history by order history id share by code
+      x-summary-source: derived
+      operationId: getApiOrderHistoryByOrderHistoryIdShareByCode
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/position/{instrument}/share:
@@ -293,13 +329,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PositionShareResponse'
+      summary: Create api position by instrument share
+      x-summary-source: derived
+      operationId: postApiPositionByInstrumentShare
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
-    PageLimitParam:
-      type: string
-      default: '50'
     BadgeObject:
       type: object
       properties:
@@ -324,9 +361,46 @@ components:
       - title
       - content
       - createdAt
+    PageLimitParam:
+      type: string
+      default: '50'
     PageOffsetParam:
       type: string
       default: '0'
+    BadgePositionGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
+    BadgeShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+      required:
+      - badgeUrl
+      - pageUrl
+      - referralCode
+      - createdAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     BadgeShareBodyParams:
       type: object
       properties:
@@ -356,62 +430,9 @@ components:
       - badgeType
       - localeCode
       - renderingMode
-    OrderShareResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-        pageUrl:
-          type: string
-        referralCode:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-      required:
-      - badgeUrl
-      - pageUrl
-      - referralCode
-      - createdAt
-    PointsBadgeShareBody:
-      type: object
-      properties:
-        renderingMode:
-          type: string
-          enum:
-          - narrow
-          - wide
-      required:
-      - renderingMode
-    BadgeShareResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-        pageUrl:
-          type: string
-        referralCode:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-      required:
-      - badgeUrl
-      - pageUrl
-      - referralCode
-      - createdAt
-    OrderIdV2Input:
+    OrderIdInput:
       type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
-    BadgePositionGetResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-      required:
-      - badgeUrl
+      pattern: '[0-9A-Fa-f]{32}'
     BadgeObject_2:
       type: object
       properties:
@@ -441,6 +462,13 @@ components:
       - content
       - createdAt
       - updatedAt
+    BadgeOrderGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
     PositionShareResponse:
       allOf:
       - $ref: '#/components/schemas/BadgeShareResponse'
@@ -459,25 +487,37 @@ components:
           type: string
       required:
       - positionId
-    ErrorResponse:
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    PointsBadgeShareBody:
       type: object
       properties:
-        message:
+        renderingMode:
           type: string
-          description: Error message
+          enum:
+          - narrow
+          - wide
       required:
-      - message
-      description: Error response
-    BadgeOrderGetResponse:
+      - renderingMode
+    OrderShareResponse:
       type: object
       properties:
         badgeUrl:
           type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
       required:
       - badgeUrl
-    OrderIdInput:
-      type: string
-      pattern: '[0-9A-Fa-f]{32}'
+      - pageUrl
+      - referralCode
+      - createdAt
   securitySchemes:
     AccessToken:
       type: http

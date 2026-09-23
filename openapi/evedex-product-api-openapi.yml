@@ -23,6 +23,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductObject'
+      summary: Get auth user product list
+      x-summary-source: derived
+      operationId: getAuthUserProductList
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/product/list:
@@ -45,6 +49,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api product list
+      x-summary-source: derived
+      operationId: getApiProductList
+      x-operation-id-source: derived
     servers:
     - url: https://billing-api.evedex.com
   /api/product/{productId}:
@@ -72,6 +80,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api product by product id
+      x-summary-source: derived
+      operationId: getApiProductByProductId
+      x-operation-id-source: derived
     servers:
     - url: https://billing-api.evedex.com
 components:

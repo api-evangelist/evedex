@@ -5,12 +5,12 @@ info:
 servers:
 - url: https://backoffice-api.private.evedex.com
 tags:
-- name: Aml
+- name: AML
 paths:
   /api/withdraw/unblock:
     post:
       tags:
-      - Aml
+      - AML
       security:
       - AccessToken: []
       requestBody:
@@ -31,10 +31,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api withdraw unblock
+      x-summary-source: derived
+      operationId: postApiWithdrawUnblock
+      x-operation-id-source: derived
   /api/withdraw/reject:
     post:
       tags:
-      - Aml
+      - AML
       security:
       - AccessToken: []
       requestBody:
@@ -55,10 +59,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api withdraw reject
+      x-summary-source: derived
+      operationId: postApiWithdrawReject
+      x-operation-id-source: derived
   /api/withdraw/blocked-list:
     get:
       tags:
-      - Aml
+      - AML
       security:
       - AccessToken: []
       parameters:
@@ -162,8 +170,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BlockedPfWithdrawListObject'
+      summary: Get api withdraw blocked list
+      x-summary-source: derived
+      operationId: getApiWithdrawBlockedList
+      x-operation-id-source: derived
 components:
   schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    EmptyResponse:
+      type: object
     BlockedPfWithdrawListObject:
       type: object
       properties:
@@ -270,11 +287,6 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

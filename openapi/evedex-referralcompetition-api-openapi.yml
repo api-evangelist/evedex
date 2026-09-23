@@ -149,6 +149,8 @@ paths:
                 - competition
                 - podiumPrizes
                 - minReferralVolume
+      operationId: getApiLeaderboardPodiumReferral
+      x-operation-id-source: derived
 components:
   securitySchemes:
     AccessToken:

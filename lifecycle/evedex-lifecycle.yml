@@ -7,7 +7,7 @@ note: >-
   describe the v2 orderId format as a deliberate replacement. What is missing is every piece of
   lifecycle governance around that migration — there is no deprecation policy, no sunset date for
   the v1 order endpoints, no Deprecation or Sunset header (RFC 8594) declared on any of the 557
-  operations, no `deprecated: true` marker in any spec, no SLA, and no status page.
+  operations, no `deprecated: true` marker in any spec, no SLA. A status page DOES exist and was missed in round 1 — see status_page below.
 versioning:
   scheme: uri-path
   current: v2
@@ -34,17 +34,37 @@ sla:
   uptime_target: null
   published: false
 status_page:
-  url: null
-  published: false
+  url: https://status.evedex.com/
+  published: true
+  uptime_page: https://uptime.evedex.com/
+  machine_readable_endpoint: 'https://uptime.evedex.com/api/getMonitor/Q7T0eX6fHp?m={monitorId}'
+  monitored_services:
+  - {service: exchange, monitor_id: 800859446, page: https://status.evedex.com/exchange}
+  - {service: landing, monitor_id: 800859541}
+  - {service: academy, monitor_id: 800859550}
+  - {service: affiliate, monitor_id: 800859544}
   probe:
-    url: https://status.evedex.com/
-    status: 200
-    verdict: not-a-status-page
+  - {url: 'https://status.evedex.com/', status: 200, note: React SPA shell; the status data is fetched client-side}
+  - {url: 'https://uptime.evedex.com/', status: 200, note: 'server-rendered, <title>EVEDEX EXCHANGE UPTIME</title>'}
+  - {url: 'https://uptime.evedex.com/api/getMonitor/Q7T0eX6fHp?m=800859446', status: 200, note: 'JSON monitor record: name "02. Exchange backend API", checked target https://exchange-api.evedex.com/api/ping, "Checked every minute", dated up/down log entries with HTTP reason codes'}
+  - {url: 'https://uptime.evedex.com/api/getMonitor/Q7T0eX6fHp', status: 422, note: '{"error":"Not Authorized"} without the ?m= monitor id — the 422 is a missing-parameter response, not a gate'}
+  correction:
+    round: 1 (2026-08-26)
+    prior_verdict: not-a-status-page
     detail: >-
-      https://status.evedex.com/ resolves and returns 200, but the body is the EVEDEX exchange
-      single-page-app shell — og:title "EVEDEX - New Cryptocurrency Exchange with Perpetual Futures
-      Trading and more", og:image the exchange OpenGraph card. There is no component list, no
-      incident history and no uptime data. Recorded as absent, and NO StatusPage pointer is emitted.
+      The 2026-08-26 pass fetched https://status.evedex.com/, saw an HTML shell with no component
+      list and recorded the status page as ABSENT, emitting no StatusPage pointer. That verdict was
+      wrong, and it was wrong in the exact way the pipeline warns about: the page is a
+      client-rendered React app, so reading the served HTML says nothing about what it shows. Its
+      JS bundle (/assets/index-nHC2ncTV.js) names the backing service outright — it calls
+      https://uptime.evedex.com/api/getMonitor/Q7T0eX6fHp?m=<id> against four UptimeRobot monitors
+      (landing, exchange, academy, affiliate). uptime.evedex.com is itself server-rendered and
+      titled "EVEDEX EXCHANGE UPTIME". EVEDEX does publish a status page, with per-service monitors,
+      minute-interval checks, a dated incident log and a JSON endpoint an agent can poll — a
+      stronger availability surface than a static status page. Corrected 2026-09-17 and a
+      StatusPage pointer is now emitted.
+  method: probed
+  checked: '2026-09-17'
 availability_signals:
   - name: Matcher state
     mechanism: 'GET /api/market returns a `state` field; the {env}:info Centrifugo channel pushes snapshots'

@@ -26,6 +26,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseCuratorObjectList'
+      summary: Get api course by course id curator
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdCurator
+      x-operation-id-source: derived
     post:
       tags:
       - CuratorCourse
@@ -50,6 +54,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseCuratorObject'
+      summary: Create api course by course id curator
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdCurator
+      x-operation-id-source: derived
   /api/course/{courseId}/curator/{curatorId}:
     delete:
       tags:
@@ -76,21 +84,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id curator by curator id
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseIdCuratorByCuratorId
+      x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
-      type: object
-    CreateCourseCurator:
-      type: object
-      properties:
-        curator:
-          type: string
-      required:
-      - curator
-    CourseCuratorObjectList:
-      type: array
-      items:
-        $ref: '#/components/schemas/CourseCuratorObject'
     CourseCuratorObject:
       type: object
       properties:
@@ -110,6 +109,19 @@ components:
       - course
       - curator
       - createdAt
+    CourseCuratorObjectList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CourseCuratorObject'
+    EmptyResponse:
+      type: object
+    CreateCourseCurator:
+      type: object
+      properties:
+        curator:
+          type: string
+      required:
+      - curator
   securitySchemes:
     AccessToken:
       type: http

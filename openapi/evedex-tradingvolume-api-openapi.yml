@@ -34,6 +34,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradingVolumeReferralInfoResponse'
+      summary: Get api trading volume referral info
+      x-summary-source: derived
+      operationId: getApiTradingVolumeReferralInfo
+      x-operation-id-source: derived
 components:
   schemas:
     TradingVolumeReferralInfoResponse:

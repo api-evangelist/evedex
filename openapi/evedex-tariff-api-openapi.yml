@@ -36,6 +36,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffObject'
+      summary: Replace auth user by id tariff
+      x-summary-source: derived
+      operationId: putAuthUserByIdTariff
+      x-operation-id-source: derived
     get:
       tags:
       - Tariff
@@ -64,6 +68,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffList'
+      summary: Get auth user by id tariff
+      x-summary-source: derived
+      operationId: getAuthUserByIdTariff
+      x-operation-id-source: derived
     post:
       tags:
       - Tariff
@@ -90,6 +98,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffObject'
+      summary: Create auth user by id tariff
+      x-summary-source: derived
+      operationId: postAuthUserByIdTariff
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/user/{id}/tariff/active:
@@ -115,6 +127,10 @@ paths:
                 oneOf:
                 - $ref: '#/components/schemas/TariffObject'
                 - type: 'null'
+      summary: Get auth user by id tariff active
+      x-summary-source: derived
+      operationId: getAuthUserByIdTariffActive
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/user/{id}/tariff/cancel:
@@ -138,6 +154,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffObject'
+      summary: Create auth user by id tariff cancel
+      x-summary-source: derived
+      operationId: postAuthUserByIdTariffCancel
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/tariff/user/{authId}:
@@ -167,6 +187,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffObject_2'
+      summary: Replace api tariff user by auth id
+      x-summary-source: derived
+      operationId: putApiTariffUserByAuthId
+      x-operation-id-source: derived
     post:
       tags:
       - Tariff
@@ -193,51 +217,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TariffObject_2'
+      summary: Create api tariff user by auth id
+      x-summary-source: derived
+      operationId: postApiTariffUserByAuthId
+      x-operation-id-source: derived
     servers:
     - url: https://backoffice-api.private.evedex.com
 components:
   schemas:
-    TariffList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TariffObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    TariffCreateBody:
-      type: object
-      properties:
-        product:
-          type: string
-          format: uuid
-        paymentDate:
-          type: string
-        startedAt:
-          type: string
-        endedAt:
-          type: string
-        issuedBy:
-          type: string
-      required:
-      - product
-      - issuedBy
-    TariffUpdateBody:
-      type: object
-      properties:
-        startedAt:
-          type: string
-        endedAt:
-          type: string
-    PageOffsetParam:
-      type: string
-      default: '0'
     TariffObject:
       type: object
       properties:
@@ -290,7 +277,28 @@ components:
     PageLimitParam:
       type: string
       default: '50'
-    TariffCreateBody_2:
+    TariffUpdateBody:
+      type: object
+      properties:
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+    TariffList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TariffObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    TariffCreateBody:
       type: object
       properties:
         product:
@@ -298,18 +306,18 @@ components:
           format: uuid
         paymentDate:
           type: string
-          format: date-time
         startedAt:
           type: string
-          format: date-time
         endedAt:
           type: string
-          format: date-time
         issuedBy:
           type: string
       required:
       - product
       - issuedBy
+    PageOffsetParam:
+      type: string
+      default: '0'
     TariffObject_2:
       type: object
       properties:
@@ -364,6 +372,26 @@ components:
       - issuedBy
       - createdAt
       - updatedAt
+    TariffCreateBody_2:
+      type: object
+      properties:
+        product:
+          type: string
+          format: uuid
+        paymentDate:
+          type: string
+          format: date-time
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        issuedBy:
+          type: string
+      required:
+      - product
+      - issuedBy
     TariffUpdateBody_2:
       type: object
       properties:

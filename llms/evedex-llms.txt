@@ -79,6 +79,7 @@
 - [General Terms of Use](https://docs.evedex.com/legal/global/terms-of-use-global.md)
 - [Risk Disclosure Statement](https://docs.evedex.com/legal/global/risk-disclosure-statement.md)
 - [Terms of Use: Interface](https://docs.evedex.com/legal/global/terms-of-use-interface.md)
+- [Terms of use: Auto-Invest](https://docs.evedex.com/legal/global/terms-of-use-auto-invest.md)
 - [Terms of Use: Funded Subaccounts](https://docs.evedex.com/legal/global/terms-of-use-funded-subaccounts.md)
 - [Privacy Policy](https://docs.evedex.com/legal/global/privacy-policy-global.md)
 - [Cookie Policy - Global](https://docs.evedex.com/legal/global/cookie-policy-global.md)

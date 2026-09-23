@@ -64,6 +64,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api quest
+      x-summary-source: derived
+      operationId: getApiQuest
+      x-operation-id-source: derived
   /api/quest-partner:
     get:
       tags:
@@ -77,6 +81,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserQuest'
+      summary: Get api quest partner
+      x-summary-source: derived
+      operationId: getApiQuestPartner
+      x-operation-id-source: derived
   /api/quest/public:
     get:
       deprecated: true
@@ -134,6 +142,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api quest public
+      x-summary-source: derived
+      operationId: getApiQuestPublic
+      x-operation-id-source: derived
   /api/quest/{questId}:
     get:
       tags:
@@ -153,8 +165,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserQuest'
+      summary: Get api quest by quest id
+      x-summary-source: derived
+      operationId: getApiQuestByQuestId
+      x-operation-id-source: derived
 components:
   schemas:
+    PublicQuest:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum:
+          - basic
+          - trading
+          - education
+          - social
+        type:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+        viewType:
+          type: string
+          enum:
+          - card
+          - progressBarCard
+        buttonText:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - category
+      - type
+      - url
+      - viewType
+      - buttonText
     UserQuest:
       type: object
       properties:
@@ -999,46 +1055,6 @@ components:
     PageLimitParam:
       type: string
       default: '50'
-    PublicQuest:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        category:
-          type: string
-          enum:
-          - basic
-          - trading
-          - education
-          - social
-        type:
-          type: string
-        url:
-          type:
-          - string
-          - 'null'
-        viewType:
-          type: string
-          enum:
-          - card
-          - progressBarCard
-        buttonText:
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - name
-      - description
-      - category
-      - type
-      - url
-      - viewType
-      - buttonText
     PageOffsetParam:
       type: string
       default: '0'

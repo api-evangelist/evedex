@@ -132,6 +132,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Replace api user strategy
+      x-summary-source: derived
+      operationId: putApiUserStrategy
+      x-operation-id-source: derived
     delete:
       tags:
       - Strategy
@@ -196,6 +200,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Delete api user strategy
+      x-summary-source: derived
+      operationId: deleteApiUserStrategy
+      x-operation-id-source: derived
     get:
       tags:
       - Strategy
@@ -310,6 +318,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api user strategy
+      x-summary-source: derived
+      operationId: getApiUserStrategy
+      x-operation-id-source: derived
     post:
       tags:
       - Strategy
@@ -442,6 +454,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api user strategy
+      x-summary-source: derived
+      operationId: postApiUserStrategy
+      x-operation-id-source: derived
   /api/strategy/pairs:
     get:
       tags:
@@ -621,6 +637,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api strategy pairs
+      x-summary-source: derived
+      operationId: getApiStrategyPairs
+      x-operation-id-source: derived
   /api/strategy/best:
     get:
       tags:
@@ -767,6 +787,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api strategy best
+      x-summary-source: derived
+      operationId: getApiStrategyBest
+      x-operation-id-source: derived
   /api/strategy:
     get:
       tags:
@@ -959,6 +983,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Get api strategy
+      x-summary-source: derived
+      operationId: getApiStrategy
+      x-operation-id-source: derived
 components:
   schemas:
     ErrorResponse:

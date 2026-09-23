@@ -26,6 +26,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TradingBadgeShareResponse'
+      summary: Create api simulator results share
+      x-summary-source: derived
+      operationId: postApiSimulatorResultsShare
+      x-operation-id-source: derived
   /api/simulator/{pageId}/share/{code}:
     get:
       tags:
@@ -49,15 +53,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BadgeByIdResponse'
+      summary: Get api simulator by page id share by code
+      x-summary-source: derived
+      operationId: getApiSimulatorByPageIdShareByCode
+      x-operation-id-source: derived
 components:
   schemas:
-    BadgeByIdResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-      required:
-      - badgeUrl
     TradingBadgeShareResponse:
       type: object
       properties:
@@ -102,6 +103,13 @@ components:
       - pair
       - title
       - value
+    BadgeByIdResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
   securitySchemes:
     AccessToken:
       type: http

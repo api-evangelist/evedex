@@ -1,10 +1,10 @@
-generated: '2026-08-26'
+generated: '2026-09-17'
 method: searched
 source: https://docs.evedex.com/llms.txt
 file: evedex-llms.txt
 http_status: 200
 content_type: text/markdown; charset=utf-8
-bytes: 12293
+bytes: 12389
 note: >-
   EVEDEX serves a real llms.txt from its docs host, saved verbatim alongside this index. It is
   GitBook-generated: an H1 taken from the first page title ("Whitepaper | EVEDEX Docs"), then a
@@ -39,3 +39,13 @@ llms_full:
   note: >-
     EVEDEX also advertises an llms-full.txt corpus dump. Per pipeline policy these are never committed
     (*-llms-full.txt is gitignored) and no apis.yml pointer is wired to it.
+
+refresh:
+  checked: '2026-09-17'
+  http_status: 200
+  bytes: 12389
+  change_since_2026_08_26: >-
+    One line added — "Terms of use: Auto-Invest"
+    (https://docs.evedex.com/legal/global/terms-of-use-auto-invest.md), a new legal page for an
+    Auto-Invest product. No developer-section page was added or removed, and the Agent Instructions
+    block (the ?ask= query interface) is unchanged. The saved copy is the live file verbatim.

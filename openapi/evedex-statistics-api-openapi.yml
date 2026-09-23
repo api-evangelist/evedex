@@ -21,6 +21,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TotalStatisticResponse'
+      summary: Get auth statistics total
+      x-summary-source: derived
+      operationId: getAuthStatisticsTotal
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/statistics/online-users:
@@ -35,6 +39,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OnlineUsersCountResponse'
+      summary: Get auth statistics online users
+      x-summary-source: derived
+      operationId: getAuthStatisticsOnlineUsers
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /auth/statistics/charts:
@@ -70,6 +78,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatisticChartResponse'
+      summary: Get auth statistics charts
+      x-summary-source: derived
+      operationId: getAuthStatisticsCharts
+      x-operation-id-source: derived
     servers:
     - url: https://auth-api.evedex.com
   /api/public/statistics/total:
@@ -84,6 +96,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TotalStatisticResponse_2'
+      summary: Get api public statistics total
+      x-summary-source: derived
+      operationId: getApiPublicStatisticsTotal
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/public/statistics/online-users:
@@ -98,6 +114,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OnlineUsersCountResponse'
+      summary: Get api public statistics online users
+      x-summary-source: derived
+      operationId: getApiPublicStatisticsOnlineUsers
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
   /api/public/statistics/charts:
@@ -137,6 +157,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatisticChartResponse'
+      summary: Get api public statistics charts
+      x-summary-source: derived
+      operationId: getApiPublicStatisticsCharts
+      x-operation-id-source: derived
     servers:
     - url: https://exchange-api.evedex.com
 components:
@@ -149,6 +173,14 @@ components:
           default: 0
       required:
       - onlineUsersCount
+    TotalStatisticResponse:
+      type: object
+      properties:
+        weeklyActiveUsers:
+          type: integer
+          default: 0
+      required:
+      - weeklyActiveUsers
     StatisticChartResponse:
       type: object
       additionalProperties:
@@ -171,14 +203,6 @@ components:
           - value
           - name
           - cumulative
-    TotalStatisticResponse:
-      type: object
-      properties:
-        weeklyActiveUsers:
-          type: integer
-          default: 0
-      required:
-      - weeklyActiveUsers
     TotalStatisticResponse_2:
       type: object
       properties:

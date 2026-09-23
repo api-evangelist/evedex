@@ -40,6 +40,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api course by course id tag detach
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdTagDetach
+      x-operation-id-source: derived
   /api/course/{courseId}/tag:
     post:
       tags:
@@ -73,6 +77,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api course by course id tag
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdTag
+      x-operation-id-source: derived
   /api/course/{courseId}/opengraph/{opengraphId}:
     put:
       tags:
@@ -151,6 +159,10 @@ paths:
                 - locale
                 - tag
                 - value
+      summary: Replace api course by course id opengraph by opengraph id
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdOpengraphByOpengraphId
+      x-operation-id-source: derived
     delete:
       tags:
       - Course
@@ -175,6 +187,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id opengraph by opengraph id
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseIdOpengraphByOpengraphId
+      x-operation-id-source: derived
   /api/course/{courseId}/opengraph:
     post:
       tags:
@@ -248,6 +264,10 @@ paths:
                 - locale
                 - tag
                 - value
+      summary: Create api course by course id opengraph
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdOpengraph
+      x-operation-id-source: derived
   /api/course/{courseId}/translation-group:
     put:
       tags:
@@ -273,6 +293,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseTranslationLinkResponse'
+      summary: Replace api course by course id translation group
+      x-summary-source: derived
+      operationId: putApiCourseByCourseIdTranslationGroup
+      x-operation-id-source: derived
   /api/course/{courseId}:
     put:
       tags:
@@ -298,6 +322,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseObject'
+      summary: Replace api course by course id
+      x-summary-source: derived
+      operationId: putApiCourseByCourseId
+      x-operation-id-source: derived
     get:
       tags:
       - Course
@@ -329,6 +357,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseObject'
+      summary: Get api course by course id
+      x-summary-source: derived
+      operationId: getApiCourseByCourseId
+      x-operation-id-source: derived
     delete:
       tags:
       - Course
@@ -347,6 +379,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api course by course id
+      x-summary-source: derived
+      operationId: deleteApiCourseByCourseId
+      x-operation-id-source: derived
   /api/course/{courseId}/progress-reset:
     post:
       tags:
@@ -367,6 +403,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create api course by course id progress reset
+      x-summary-source: derived
+      operationId: postApiCourseByCourseIdProgressReset
+      x-operation-id-source: derived
   /api/course/{courseId}/participants:
     get:
       tags:
@@ -418,6 +458,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api course by course id participants
+      x-summary-source: derived
+      operationId: getApiCourseByCourseIdParticipants
+      x-operation-id-source: derived
   /api/course:
     get:
       tags:
@@ -474,6 +518,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseList'
+      summary: Get api course
+      x-summary-source: derived
+      operationId: getApiCourse
+      x-operation-id-source: derived
     post:
       tags:
       - Course
@@ -492,6 +540,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseObject'
+      summary: Create api course
+      x-summary-source: derived
+      operationId: postApiCourse
+      x-operation-id-source: derived
   /api/course/blocks:
     get:
       tags:
@@ -504,8 +556,80 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/courseBlocksResponse'
+      summary: Get api course blocks
+      x-summary-source: derived
+      operationId: getApiCourseBlocks
+      x-operation-id-source: derived
 components:
   schemas:
+    PageLimitParam:
+      type: string
+      default: '50'
+    CourseTranslationLinkResponse:
+      type: object
+      properties:
+        translationGroupId:
+          type: string
+          format: uuid
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              locale:
+                type: string
+                enum:
+                - en-US
+                - ru-RU
+                - ar-AE
+                - zh-HK
+                - de-DE
+                - es-ES
+                - pt-PT
+                - tr-TR
+              translationGroupId:
+                type: string
+                format: uuid
+            required:
+            - id
+            - locale
+            - translationGroupId
+      required:
+      - translationGroupId
+      - courses
+    courseBlocksResponse:
+      type: object
+      properties:
+        courseBlocks:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              filter:
+                type: object
+                properties:
+                  my:
+                    type: boolean
+                  withTags:
+                    type: array
+                    items:
+                      type: string
+                  withoutTags:
+                    type: array
+                    items:
+                      type: string
+              limit:
+                type: number
+            required:
+            - filter
+            - limit
+      required:
+      - courseBlocks
     EmptyResponse:
       type: object
     CourseCreateBody:
@@ -569,38 +693,6 @@ components:
       - visibility
       - learn
       - releaseDate
-    List_of_learnings_as_markdown:
-      type: string
-    courseBlocksResponse:
-      type: object
-      properties:
-        courseBlocks:
-          type: array
-          items:
-            type: object
-            properties:
-              title:
-                type: string
-              filter:
-                type: object
-                properties:
-                  my:
-                    type: boolean
-                  withTags:
-                    type: array
-                    items:
-                      type: string
-                  withoutTags:
-                    type: array
-                    items:
-                      type: string
-              limit:
-                type: number
-            required:
-            - filter
-            - limit
-      required:
-      - courseBlocks
     CourseTranslationLinkBody:
       type: object
       properties:
@@ -611,6 +703,75 @@ components:
             format: uuid
       required:
       - courseIds
+    CourseUpdateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        accessType:
+          type: string
+          enum:
+          - free
+          - public
+          - paid
+          - subscription
+        visibility:
+          type: string
+          enum:
+          - none
+          - all
+          - restricted
+        learn:
+          type: string
+          description: List of learnings as markdown
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-AE
+          - zh-HK
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          default: en-US
+        translationGroupId:
+          type: string
+          format: uuid
+        order:
+          type: number
+        popular:
+          type: boolean
+        published:
+          type: boolean
+          default: false
+        releaseDate:
+          type: string
+    CourseList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     CourseObject:
       type: object
       properties:
@@ -794,116 +955,11 @@ components:
       - locale
       - published
       - releaseDate
+    List_of_learnings_as_markdown:
+      type: string
     PageOffsetParam:
       type: string
       default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
-    CourseTranslationLinkResponse:
-      type: object
-      properties:
-        translationGroupId:
-          type: string
-          format: uuid
-        courses:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              locale:
-                type: string
-                enum:
-                - en-US
-                - ru-RU
-                - ar-AE
-                - zh-HK
-                - de-DE
-                - es-ES
-                - pt-PT
-                - tr-TR
-              translationGroupId:
-                type: string
-                format: uuid
-            required:
-            - id
-            - locale
-            - translationGroupId
-      required:
-      - translationGroupId
-      - courses
-    CourseList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    CourseUpdateBody:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        accessType:
-          type: string
-          enum:
-          - free
-          - public
-          - paid
-          - subscription
-        visibility:
-          type: string
-          enum:
-          - none
-          - all
-          - restricted
-        learn:
-          type: string
-          description: List of learnings as markdown
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        slug:
-          type:
-          - string
-          - 'null'
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - ar-AE
-          - zh-HK
-          - de-DE
-          - es-ES
-          - pt-PT
-          - tr-TR
-          default: en-US
-        translationGroupId:
-          type: string
-          format: uuid
-        order:
-          type: number
-        popular:
-          type: boolean
-        published:
-          type: boolean
-          default: false
-        releaseDate:
-          type: string
   securitySchemes:
     AccessToken:
       type: http

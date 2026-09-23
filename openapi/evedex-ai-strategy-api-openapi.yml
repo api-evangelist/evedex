@@ -95,6 +95,10 @@ paths:
                 - createdAt
                 - updatedAt
                 - activatedAt
+      summary: Replace api ai strategy
+      x-summary-source: derived
+      operationId: putApiAiStrategy
+      x-operation-id-source: derived
     delete:
       tags:
       - AI Strategy
@@ -113,6 +117,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Delete api ai strategy
+      x-summary-source: derived
+      operationId: deleteApiAiStrategy
+      x-operation-id-source: derived
     get:
       tags:
       - AI Strategy
@@ -188,6 +196,10 @@ paths:
                   - createdAt
                   - updatedAt
                   - activatedAt
+      summary: Get api ai strategy
+      x-summary-source: derived
+      operationId: getApiAiStrategy
+      x-operation-id-source: derived
     post:
       tags:
       - AI Strategy
@@ -281,6 +293,10 @@ paths:
                 - createdAt
                 - updatedAt
                 - activatedAt
+      summary: Create api ai strategy
+      x-summary-source: derived
+      operationId: postApiAiStrategy
+      x-operation-id-source: derived
   /api/ai-strategy/pairs:
     get:
       tags:
@@ -425,6 +441,10 @@ paths:
                   - strategy
                   - totalSum
                   - totalLimit
+      summary: Get api ai strategy pairs
+      x-summary-source: derived
+      operationId: getApiAiStrategyPairs
+      x-operation-id-source: derived
   /api/ai-strategy/best:
     get:
       tags:
@@ -536,6 +556,10 @@ paths:
                   - updatedAt
                   - baseCoin
                   - quoteCoin
+      summary: Get api ai strategy best
+      x-summary-source: derived
+      operationId: getApiAiStrategyBest
+      x-operation-id-source: derived
   /api/ai-strategy/all:
     get:
       tags:
@@ -687,6 +711,10 @@ paths:
                   - updatedAt
                   - baseCoin
                   - quoteCoin
+      summary: Get api ai strategy all
+      x-summary-source: derived
+      operationId: getApiAiStrategyAll
+      x-operation-id-source: derived
   /api/ai-strategy/order:
     get:
       tags:
@@ -792,16 +820,20 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api ai strategy order
+      x-summary-source: derived
+      operationId: getApiAiStrategyOrder
+      x-operation-id-source: derived
 components:
   schemas:
+    EmptyResponse:
+      type: object
     PageLimitParam:
       type: string
       default: '50'
     PageOffsetParam:
       type: string
       default: '0'
-    EmptyResponse:
-      type: object
   securitySchemes:
     InternalToken:
       type: http

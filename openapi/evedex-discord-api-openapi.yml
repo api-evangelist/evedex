@@ -20,6 +20,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmptyResponse'
+      summary: Create auth discord revoke
+      x-summary-source: derived
+      operationId: postAuthDiscordRevoke
+      x-operation-id-source: derived
   /auth/discord/link:
     get:
       tags:
@@ -38,6 +42,10 @@ paths:
                     type: string
                 required:
                 - uri
+      summary: Get auth discord link
+      x-summary-source: derived
+      operationId: getAuthDiscordLink
+      x-operation-id-source: derived
   /auth/discord/callback:
     get:
       tags:
@@ -57,6 +65,10 @@ paths:
       responses:
         '302':
           description: 302 OK
+      summary: Get auth discord callback
+      x-summary-source: derived
+      operationId: getAuthDiscordCallback
+      x-operation-id-source: derived
 components:
   schemas:
     EmptyResponse:

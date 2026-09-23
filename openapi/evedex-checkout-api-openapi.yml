@@ -41,8 +41,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      summary: Create api checkout by bill id
+      x-summary-source: derived
+      operationId: postApiCheckoutByBillId
+      x-operation-id-source: derived
 components:
   schemas:
+    CheckoutResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
     CreateCheckoutBody:
       type: object
       properties:
@@ -69,14 +81,6 @@ components:
       required:
       - message
       description: Error response
-    CheckoutResponse:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-      required:
-      - url
   securitySchemes:
     InternalKey:
       type: http

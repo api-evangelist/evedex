@@ -31,6 +31,10 @@ paths:
                 required:
                 - list
                 - count
+      summary: Get api league list
+      x-summary-source: derived
+      operationId: getApiLeagueList
+      x-operation-id-source: derived
 components:
   schemas:
     PublicLeague:
