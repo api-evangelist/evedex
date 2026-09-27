@@ -49,13 +49,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    WebActivityNotificationResponse:
-      type: object
-      properties:
-        content:
-          type: string
-      required:
-      - content
     ErrorResponse:
       type: object
       properties:
@@ -65,6 +58,13 @@ components:
       required:
       - message
       description: Error response
+    WebActivityNotificationResponse:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+      - content
   securitySchemes:
     InternalKey:
       type: http

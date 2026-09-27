@@ -226,21 +226,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    JWT:
+    SubAccount:
       type: object
       properties:
-        accessToken:
+        id:
           type: string
-          description: JWT access token
-        refreshToken:
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        wallet:
           type: string
-          description: JWT refresh token
-      required:
-      - accessToken
-      description: JWT tokens
-    SubAccountUpdateBody:
-      type: object
-      properties:
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
         accountStatus:
           type: string
           enum:
@@ -248,11 +251,87 @@ components:
           - inactive
           - initial
           - smartAccountReady
-          description: New account status
+        parent:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isArchived:
+          type: boolean
+        createdAt:
+          type: string
+        smartAccount:
+          oneOf:
+          - $ref: '#/components/schemas/SmartAccountEntry'
+          - type: 'null'
+        subAccountIndex:
+          type:
+          - string
+          - 'null'
+          description: On-chain smart account index (null for main account)
+        fundedAccountOptionId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          default: null
       required:
+      - id
+      - name
+      - wallet
+      - accountType
       - accountStatus
-    EmptyResponse:
+      - parent
+      - isArchived
+      - createdAt
+      - smartAccount
+      - subAccountIndex
+      - fundedAccountOptionId
+    SubAccountListResponse:
       type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubAccount'
+        count:
+          type: number
+        next:
+          type: string
+        limit:
+          type: number
+        total:
+          type: number
+      required:
+      - list
+      - count
+      - limit
+      - total
+    CreateSubAccountBody:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ''
+          description: Sub account name
+        network:
+          type: string
+          minLength: 1
+          description: Network name
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          default: sub
+          description: Sub account type
+        fundedAccountOptionId:
+          type: string
+          format: uuid
+          description: Funded account option ID (required if accountType is Funded)
+      required:
+      - network
     User:
       type: object
       properties:
@@ -485,26 +564,44 @@ components:
       - isArchived
       - twofa
       - permissions
-    SubAccountListResponse:
+    SubAccountUpdateBody:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubAccount'
-        count:
-          type: number
-        next:
+        accountStatus:
           type: string
-        limit:
-          type: number
-        total:
-          type: number
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+          description: New account status
       required:
-      - list
-      - count
-      - limit
-      - total
+      - accountStatus
+    EmptyResponse:
+      type: object
+    JWT:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
+      required:
+      - accessToken
+      description: JWT tokens
+    Auth:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
     SmartAccountEntry:
       type: object
       properties:
@@ -525,31 +622,6 @@ components:
       - address
       - version
       - isDeployed
-    CreateSubAccountBody:
-      type: object
-      properties:
-        name:
-          type: string
-          default: ''
-          description: Sub account name
-        network:
-          type: string
-          minLength: 1
-          description: Network name
-        accountType:
-          type: string
-          enum:
-          - main
-          - sub
-          - funded
-          default: sub
-          description: Sub account type
-        fundedAccountOptionId:
-          type: string
-          format: uuid
-          description: Funded account option ID (required if accountType is Funded)
-      required:
-      - network
     SwitchAccountBody:
       type: object
       properties:
@@ -559,78 +631,6 @@ components:
           description: Target account ID to switch to
       required:
       - accountId
-    SubAccount:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        wallet:
-          type: string
-        accountType:
-          type: string
-          enum:
-          - main
-          - sub
-          - funded
-        accountStatus:
-          type: string
-          enum:
-          - active
-          - inactive
-          - initial
-          - smartAccountReady
-        parent:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        isArchived:
-          type: boolean
-        createdAt:
-          type: string
-        smartAccount:
-          oneOf:
-          - $ref: '#/components/schemas/SmartAccountEntry'
-          - type: 'null'
-        subAccountIndex:
-          type:
-          - string
-          - 'null'
-          description: On-chain smart account index (null for main account)
-        fundedAccountOptionId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          default: null
-      required:
-      - id
-      - name
-      - wallet
-      - accountType
-      - accountStatus
-      - parent
-      - isArchived
-      - createdAt
-      - smartAccount
-      - subAccountIndex
-      - fundedAccountOptionId
-    Auth:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        token:
-          $ref: '#/components/schemas/JWT'
-      required:
-      - user
-      - token
-      description: Authorization payload
   securitySchemes:
     InternalToken:
       type: http

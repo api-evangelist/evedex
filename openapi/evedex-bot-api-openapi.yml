@@ -465,14 +465,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PageOffsetParam:
+      type: string
+      default: '0'
     EmptyResponse:
       type: object
     PageLimitParam:
       type: string
       default: '50'
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     InternalToken:
       type: http

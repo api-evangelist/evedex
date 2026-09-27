@@ -284,37 +284,34 @@ components:
   schemas:
     EmptyResponse:
       type: object
-    CompetitionCreateResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        startAt:
-          type: string
-        finishAt:
-          type: string
-        status:
-          type: string
-          enum:
-          - active
-          - finished
-          - pending
-        type:
-          type: string
-          enum:
-          - weekly
-          - trading
-          - points
-          - referral
-          - grand-contest
-          - challenges
-          - templateBased
-      required:
-      - id
-      - startAt
-      - finishAt
-      - status
-      - type
+    TradingVolumeCreateBody:
+      type: array
+      items:
+        type: object
+        properties:
+          user:
+            type: string
+            format: uuid
+          referralCode:
+            type: string
+            default: ''
+          competition:
+            type: string
+            default: ''
+          experience:
+            type: number
+          realizedPnL:
+            type: number
+          tradingVolume:
+            type: number
+          createdAt:
+            type: string
+        required:
+        - user
+        - experience
+        - realizedPnL
+        - tradingVolume
+        - createdAt
     CompetitionCreateBody:
       type: object
       properties:
@@ -456,42 +453,37 @@ components:
       - type
       - status
       - settings
-    TradingVolumeCreateBody:
-      type: array
-      items:
-        type: object
-        properties:
-          user:
-            type: string
-            format: uuid
-          referralCode:
-            type: string
-            default: ''
-          competition:
-            type: string
-            default: ''
-          experience:
-            type: number
-          realizedPnL:
-            type: number
-          tradingVolume:
-            type: number
-          createdAt:
-            type: string
-        required:
-        - user
-        - experience
-        - realizedPnL
-        - tradingVolume
-        - createdAt
-    CreateCentrifugoMessageBody:
+    CompetitionCreateResponse:
       type: object
       properties:
-        channel:
+        id:
           type: string
-        data: {}
+        startAt:
+          type: string
+        finishAt:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - finished
+          - pending
+        type:
+          type: string
+          enum:
+          - weekly
+          - trading
+          - points
+          - referral
+          - grand-contest
+          - challenges
+          - templateBased
       required:
-      - channel
+      - id
+      - startAt
+      - finishAt
+      - status
+      - type
     CreateTelegramMessageBody:
       type: object
       properties:
@@ -507,25 +499,14 @@ components:
           default: []
       required:
       - message
-    UserSocial:
+    CreateCentrifugoMessageBody:
       type: object
       properties:
-        type:
+        channel:
           type: string
-          enum:
-          - telegramCommunity
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        value:
-          type: string
+        data: {}
       required:
-      - type
-      - value
+      - channel
     User:
       type: object
       properties:
@@ -612,6 +593,25 @@ components:
       - maxInvites
       - createdAt
       - updatedAt
+    UserSocial:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
   securitySchemes:
     InternalToken:
       type: http

@@ -56,21 +56,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UserServiceListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserService'
-    CreateUserServiceBody:
-      type: object
-      properties:
-        service:
-          type: string
-          enum:
-          - affiliate
-          - exchange
-          - academy
-      required:
-      - service
     UserService:
       type: object
       properties:
@@ -89,6 +74,21 @@ components:
       - user
       - service
       - createdAt
+    CreateUserServiceBody:
+      type: object
+      properties:
+        service:
+          type: string
+          enum:
+          - affiliate
+          - exchange
+          - academy
+      required:
+      - service
+    UserServiceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserService'
   securitySchemes:
     InternalToken:
       type: http

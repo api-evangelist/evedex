@@ -146,63 +146,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    LessonProgressObject:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/LessonProgressType'
-      required:
-      - status
-    LessonProgressType:
-      type: string
-      enum:
-      - waitingForHomework
-      - waitingForHomeworkCheck
-      - lessonCompleted
-      - notStarted
-    LessonUpdateBody:
-      type: object
-      properties:
-        module:
-          type: string
-          format: uuid
-        name:
-          type: string
-        promo:
-          type: boolean
-        duration:
-          type: number
-        order:
-          type: number
-        slug:
-          type: string
-        progressStatus:
-          $ref: '#/components/schemas/LessonProgressCoreType'
-    LessonProgressCoreType:
-      type: string
-      enum:
-      - notStarted
-      - lessonCompleted
-    EmptyResponse:
-      type: object
-    LessonCreateBody:
-      type: object
-      properties:
-        module:
-          type: string
-          format: uuid
-        name:
-          type: string
-        promo:
-          type: boolean
-          default: false
-        duration:
-          type: number
-        slug:
-          type: string
-      required:
-      - module
-      - name
     LessonObjectExtendedList:
       type: array
       items:
@@ -256,6 +199,31 @@ components:
         - published
         - releaseDate
         - lessons
+    LessonCreateBody:
+      type: object
+      properties:
+        module:
+          type: string
+          format: uuid
+        name:
+          type: string
+        promo:
+          type: boolean
+          default: false
+        duration:
+          type: number
+        slug:
+          type: string
+      required:
+      - module
+      - name
+    LessonProgressCoreType:
+      type: string
+      enum:
+      - notStarted
+      - lessonCompleted
+    EmptyResponse:
+      type: object
     LessonObject:
       type: object
       properties:
@@ -294,6 +262,38 @@ components:
       - progress
       - createdAt
       - updatedAt
+    LessonUpdateBody:
+      type: object
+      properties:
+        module:
+          type: string
+          format: uuid
+        name:
+          type: string
+        promo:
+          type: boolean
+        duration:
+          type: number
+        order:
+          type: number
+        slug:
+          type: string
+        progressStatus:
+          $ref: '#/components/schemas/LessonProgressCoreType'
+    LessonProgressType:
+      type: string
+      enum:
+      - waitingForHomework
+      - waitingForHomeworkCheck
+      - lessonCompleted
+      - notStarted
+    LessonProgressObject:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/LessonProgressType'
+      required:
+      - status
   securitySchemes:
     AccessToken:
       type: http

@@ -218,62 +218,9 @@ paths:
     - url: https://partner-api.evedex.com
 components:
   schemas:
-    TagList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    AssignTagsBody:
-      type: object
-      properties:
-        tagIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          minItems: 1
-      required:
-      - tagIds
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    Tag:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - name
-      - createdAt
-      - updatedAt
-    EmptyResponse:
-      type: object
-    CreateTagBody:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 128
-      required:
-      - name
+      default: '0'
     UserWithTags:
       type: object
       properties:
@@ -304,18 +251,6 @@ components:
       - totalReferralDepositsVolume
       - totalReferralTradingVolume
       - tags
-    PageOffsetParam:
-      type: string
-      default: '0'
-    AssignTagsResponse:
-      type: object
-      properties:
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-      required:
-      - tags
     UserWithTagsList:
       type: object
       properties:
@@ -330,6 +265,22 @@ components:
       required:
       - list
       - count
+    TagList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    EmptyResponse:
+      type: object
     UpdateTagBody:
       type: object
       properties:
@@ -339,7 +290,56 @@ components:
           maxLength: 128
       required:
       - name
+    PageLimitParam:
+      type: string
+      default: '50'
+    CreateTagBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+      required:
+      - name
+    AssignTagsBody:
+      type: object
+      properties:
+        tagIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+      required:
+      - tagIds
     TagResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - createdAt
+      - updatedAt
+    AssignTagsResponse:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+      required:
+      - tags
+    Tag:
       type: object
       properties:
         id:

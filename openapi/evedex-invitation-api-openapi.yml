@@ -114,52 +114,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
-      type: object
-    UserInvitationCreateBody:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 128
-          description: Invitation title displayed on landing
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Short welcome message for invitees
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Detailed description of benefits for invitees
-        leaderboardName:
-          type:
-          - string
-          - 'null'
-          maxLength: 128
-          description: Personal leaderboard title
-        competitionDescription:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Description of the personal competition
-        referralMessage:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-          description: Personal message shown to referrals under the avatar
-        image:
-          type: string
-          format: uri
-          description: Image url
-      required:
-      - name
     UserInvitationResponse:
       type: object
       properties:
@@ -254,6 +208,52 @@ components:
           type: string
           format: uri
           description: Image url
+    UserInvitationCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          description: Invitation title displayed on landing
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Short welcome message for invitees
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Detailed description of benefits for invitees
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          description: Personal leaderboard title
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Description of the personal competition
+        referralMessage:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          description: Personal message shown to referrals under the avatar
+        image:
+          type: string
+          format: uri
+          description: Image url
+      required:
+      - name
+    EmptyResponse:
+      type: object
   securitySchemes:
     AccessToken:
       type: http

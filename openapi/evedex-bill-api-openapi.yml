@@ -199,9 +199,9 @@ paths:
     - url: https://billing-api.evedex.com
 components:
   schemas:
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
+      default: '0'
     BillListResponse:
       type: object
       properties:
@@ -216,6 +216,14 @@ components:
       required:
       - list
       - count
+    BillUpdatePaymentMethodBody:
+      type: object
+      properties:
+        returnUrl:
+          type: string
+          format: uri
+      required:
+      - returnUrl
     BillObject:
       type: object
       properties:
@@ -358,6 +366,9 @@ components:
       - paymentDetails
       - createdAt
       - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
     CreateBillResponse:
       type: object
       properties:
@@ -374,17 +385,6 @@ components:
       - id
       - url
       - billingId
-    BillUpdatePaymentMethodBody:
-      type: object
-      properties:
-        returnUrl:
-          type: string
-          format: uri
-      required:
-      - returnUrl
-    PageOffsetParam:
-      type: string
-      default: '0'
     BillResponse:
       type: object
       properties:
@@ -502,6 +502,15 @@ components:
       - paidAt
       - createdAt
       - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     CreateBillBody:
       type: object
       properties:
@@ -530,15 +539,6 @@ components:
           - applePay
           - googlePay
           default: stripe
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
   securitySchemes:
     InternalToken:
       type: http

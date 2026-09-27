@@ -70,6 +70,10 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TradeSignalListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/TradeSignalItem'
     TradeSignalItem:
       type: object
       properties:
@@ -118,30 +122,6 @@ components:
       - tpsl
       - expireAt
       - createdAt
-    TradeSignalItemWithUser:
-      allOf:
-      - $ref: '#/components/schemas/TradeSignalItem'
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        avatar:
-          type: string
-        wallet:
-          type: string
-        smartAccountAddress:
-          type: string
-      required:
-      - name
-      - avatar
-      - wallet
-      - smartAccountAddress
-    TradeSignalListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/TradeSignalItem'
     TradeSignalCreateBody:
       type: object
       properties:
@@ -182,6 +162,26 @@ components:
       - side
       - tpsl
       - expireAt
+    TradeSignalItemWithUser:
+      allOf:
+      - $ref: '#/components/schemas/TradeSignalItem'
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        avatar:
+          type: string
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+      required:
+      - name
+      - avatar
+      - wallet
+      - smartAccountAddress
   securitySchemes:
     InternalToken:
       type: http

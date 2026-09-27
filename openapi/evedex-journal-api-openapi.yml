@@ -41,6 +41,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PageOffsetParam:
+      type: string
+      default: '0'
     JournalObject:
       type: object
       properties:
@@ -96,9 +99,6 @@ components:
     PageLimitParam:
       type: string
       default: '50'
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

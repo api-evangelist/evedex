@@ -57,50 +57,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    ArticleShort:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-        image:
-          type: string
-          format: uri
-        link:
-          type: object
-          properties:
-            url:
-              type: string
-            label:
-              type: string
-          required:
-          - url
-        main:
-          type: boolean
-        createdAt:
-          type: string
-        updatedAt:
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - title
-      - tags
-      - image
-      - link
-      - main
-      - createdAt
-      - updatedAt
+      default: '0'
     Article:
       type: object
       properties:
@@ -145,6 +104,50 @@ components:
       - createdAt
       - updatedAt
       - description
+    ArticleShort:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        image:
+          type: string
+          format: uri
+        link:
+          type: object
+          properties:
+            url:
+              type: string
+            label:
+              type: string
+          required:
+          - url
+        main:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - title
+      - tags
+      - image
+      - link
+      - main
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
     ArticleList:
       type: object
       properties:
@@ -159,9 +162,6 @@ components:
       required:
       - list
       - count
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     InternalToken:
       type: http

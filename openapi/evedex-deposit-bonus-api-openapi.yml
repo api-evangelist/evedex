@@ -253,12 +253,12 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageLimitParam:
-      type: string
-      default: '50'
     PageOffsetParam:
       type: string
       default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
   securitySchemes:
     InternalToken:
       type: http

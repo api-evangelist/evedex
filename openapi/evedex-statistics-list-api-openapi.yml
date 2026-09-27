@@ -255,23 +255,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UserStatisticsListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserStatisticsResponse'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
+      default: '0'
     StatisticsResponse:
       type: object
       properties:
@@ -324,6 +310,23 @@ components:
       - depositVolume
       - createdAt
       - updatedAt
+    UserStatisticsListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserStatisticsResponse'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
     UserStatisticsResponse:
       type: object
       properties:
@@ -345,9 +348,6 @@ components:
       required:
       - list
       - count
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

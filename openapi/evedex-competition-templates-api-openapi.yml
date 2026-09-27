@@ -119,6 +119,69 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    CompetitionTemplateUpdateBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 512
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: array
+          items:
+            type: object
+            properties:
+              place:
+                type: integer
+                minimum: 1
+              reward:
+                type: number
+                minimum: 0
+                default: 0
+              prize:
+                type: string
+            required:
+            - place
+        eligiblePartnerCodes:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        blacklistAuthIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        visible:
+          type: boolean
+        archived:
+          type: boolean
     CompetitionTemplateCreateResponse:
       type: object
       properties:
@@ -215,105 +278,6 @@ components:
       - archived
       - createdAt
       - updatedAt
-    CompetitionTemplateGetResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scoringStrategyType:
-          type: string
-          enum:
-          - experience
-          - tradingVolume
-          - realizedPnL
-          - referrals
-          - points
-        eligibilityType:
-          type: string
-          enum:
-          - open
-          - closed
-        enrollmentType:
-          type: string
-          enum:
-          - manual
-          - automatic
-        rewardType:
-          type: string
-          enum:
-          - points
-          - gift
-          - usdt
-          - none
-        rewards:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  place:
-                    type: integer
-                    minimum: 1
-                  reward:
-                    type: number
-                    minimum: 0
-                    default: 0
-                  prize:
-                    type: string
-                required:
-                - place
-                - reward
-          required:
-          - list
-        eligiblePartnerCodes:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-          required:
-          - list
-        blacklistAuthIds:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-                format: uuid
-          required:
-          - list
-        visible:
-          type: boolean
-        archived:
-          type: boolean
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - name
-      - scoringStrategyType
-      - eligibilityType
-      - enrollmentType
-      - rewardType
-      - rewards
-      - eligiblePartnerCodes
-      - blacklistAuthIds
-      - visible
-      - archived
-      - createdAt
-      - updatedAt
-    PageLimitParam:
-      type: string
-      default: '50'
     CompetitionTemplateListResponse:
       type: object
       properties:
@@ -422,19 +386,22 @@ components:
       required:
       - list
       - count
-    CompetitionTemplateUpdateBody:
+    CompetitionTemplateGetResponse:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         name:
           type: string
-          minLength: 1
-          maxLength: 512
         scoringStrategyType:
           type: string
           enum:
           - experience
           - tradingVolume
           - realizedPnL
+          - referrals
+          - points
         eligibilityType:
           type: string
           enum:
@@ -453,35 +420,71 @@ components:
           - usdt
           - none
         rewards:
-          type: array
-          items:
-            type: object
-            properties:
-              place:
-                type: integer
-                minimum: 1
-              reward:
-                type: number
-                minimum: 0
-                default: 0
-              prize:
-                type: string
-            required:
-            - place
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: integer
+                    minimum: 1
+                  reward:
+                    type: number
+                    minimum: 0
+                    default: 0
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+          required:
+          - list
         eligiblePartnerCodes:
-          type: array
-          items:
-            type: string
-            minLength: 1
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+          required:
+          - list
         blacklistAuthIds:
-          type: array
-          items:
-            type: string
-            format: uuid
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+                format: uuid
+          required:
+          - list
         visible:
           type: boolean
         archived:
           type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - eligiblePartnerCodes
+      - blacklistAuthIds
+      - visible
+      - archived
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
     CompetitionTemplateCreateBody:
       type: object
       properties:
@@ -646,9 +649,6 @@ components:
       - archived
       - createdAt
       - updatedAt
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

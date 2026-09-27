@@ -299,6 +299,28 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    LinkRewardBalanceList:
+      type: array
+      items:
+        $ref: '#/components/schemas/LinkRewardBalance'
+    LinkOwnerInfo:
+      type: object
+      properties:
+        code:
+          type: string
+        authId:
+          type: string
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+      required:
+      - code
+      - authId
+      - wallet
+      - smartAccountAddress
+    EmptyResponse:
+      type: object
     LinkRewardBalance:
       type: object
       properties:
@@ -318,6 +340,57 @@ components:
       - currency
       - count
       - balance
+    CreateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        code:
+          type: string
+          description: Unique code
+        calculator:
+          type: string
+          enum:
+          - greedy
+          - full
+          - bd
+          description: Reward calculation type
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          description: Invitation welcome message
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          description: Invitation benefits description
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Invitation image URL
+      required:
+      - name
+      - type
+      - calculator
+    UpdateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        isDefault:
+          type: boolean
+          description: Is link default?
     LinkInvitationPublicResponse:
       type: object
       properties:
@@ -344,47 +417,16 @@ components:
       - welcomeMessage
       - benefitsDescription
       - image
-    UserInvitationPublicResponse:
+    LinksByCodesBody:
       type: object
       properties:
-        code:
-          type: string
-        name:
-          type: string
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-        leaderboardName:
-          type:
-          - string
-          - 'null'
-        competitionDescription:
-          type:
-          - string
-          - 'null'
-        referralMessage:
-          type:
-          - string
-          - 'null'
-        image:
-          type:
-          - string
-          - 'null'
-          format: uri
+        codes:
+          type: array
+          items:
+            type: string
+          description: Array of link codes
       required:
-      - code
-      - name
-      - welcomeMessage
-      - benefitsDescription
-      - leaderboardName
-      - competitionDescription
-      - referralMessage
-      - image
+      - codes
     Link:
       type: object
       properties:
@@ -429,93 +471,51 @@ components:
       - benefitsDescription
       - image
       - createdAt
-    EmptyResponse:
-      type: object
-    LinksByCodesBody:
+    UserInvitationPublicResponse:
       type: object
       properties:
-        codes:
-          type: array
-          items:
-            type: string
-          description: Array of link codes
-      required:
-      - codes
-    LinkRewardBalanceList:
-      type: array
-      items:
-        $ref: '#/components/schemas/LinkRewardBalance'
-    LinkOwnerInfoList:
-      type: array
-      items:
-        $ref: '#/components/schemas/LinkOwnerInfo'
-    UpdateLink:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Link name
-        type:
-          type: string
-          description: Link type
-        isDefault:
-          type: boolean
-          description: Is link default?
-    CreateLink:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Link name
-        type:
-          type: string
-          description: Link type
         code:
           type: string
-          description: Unique code
-        calculator:
+        name:
           type: string
-          enum:
-          - greedy
-          - full
-          - bd
-          description: Reward calculation type
         welcomeMessage:
           type:
           - string
           - 'null'
-          description: Invitation welcome message
         benefitsDescription:
           type:
           - string
           - 'null'
-          description: Invitation benefits description
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+        referralMessage:
+          type:
+          - string
+          - 'null'
         image:
           type:
           - string
           - 'null'
           format: uri
-          description: Invitation image URL
-      required:
-      - name
-      - type
-      - calculator
-    LinkOwnerInfo:
-      type: object
-      properties:
-        code:
-          type: string
-        authId:
-          type: string
-        wallet:
-          type: string
-        smartAccountAddress:
-          type: string
       required:
       - code
-      - authId
-      - wallet
-      - smartAccountAddress
+      - name
+      - welcomeMessage
+      - benefitsDescription
+      - leaderboardName
+      - competitionDescription
+      - referralMessage
+      - image
+    LinkOwnerInfoList:
+      type: array
+      items:
+        $ref: '#/components/schemas/LinkOwnerInfo'
   securitySchemes:
     AccessToken:
       type: http

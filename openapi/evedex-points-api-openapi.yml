@@ -128,19 +128,10 @@ components:
       - points
       - pendingPoints
       - status
-    PointsClaimResponse:
-      type: object
-      properties:
-        claimed:
-          type: string
-        totalPoints:
-          type: string
-        unclaimedPoints:
-          type: string
-      required:
-      - claimed
-      - totalPoints
-      - unclaimedPoints
+    PointsHistoryList:
+      type: array
+      items:
+        $ref: '#/components/schemas/PointsHistoryItem'
     PointsSummary:
       type: object
       properties:
@@ -160,10 +151,19 @@ components:
       - rankId
       - leagueId
       - updatedAt
-    PointsHistoryList:
-      type: array
-      items:
-        $ref: '#/components/schemas/PointsHistoryItem'
+    PointsClaimResponse:
+      type: object
+      properties:
+        claimed:
+          type: string
+        totalPoints:
+          type: string
+        unclaimedPoints:
+          type: string
+      required:
+      - claimed
+      - totalPoints
+      - unclaimedPoints
     PointsImageShareParams:
       type: object
       properties:

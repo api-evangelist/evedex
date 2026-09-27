@@ -340,83 +340,12 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ListNotificationsResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Notification'
-        count:
-          type: number
-      required:
-      - list
-      - count
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    Notification:
+      default: '0'
+    TemplatePayload:
       type: object
       properties:
-        id:
-          type: string
-        authId:
-          anyOf:
-          - type: string
-          - type: string
-            enum:
-            - all
-            - registred
-            - unregistred
-          - type: 'null'
-        source:
-          type: string
-        event:
-          type: string
-        data:
-          type: object
-          additionalProperties: {}
-        appearance:
-          type: string
-          enum:
-          - constantly
-          - once
-          - persistent
-        endTime:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - authId
-      - source
-      - event
-      - data
-      - appearance
-      - endTime
-      - createdAt
-      - updatedAt
-    EmptyResponse:
-      type: object
-    TemplateList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateListItem'
-      required:
-      - list
-    TemplateListItem:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
         templateId:
           type: string
         channel:
@@ -431,82 +360,6 @@ components:
           - telegramChannel
           - slack
           - discord
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-        dataSchema:
-          type: object
-          additionalProperties: {}
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - templateId
-      - channel
-      - group
-      - locale
-      - dataSchema
-      - createdAt
-      - updatedAt
-    TemplateCreateResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        templateId:
-          type: string
-        channel:
-          type: string
-          enum:
-          - web
-          - webActivity
-          - mobilePush
-          - browserPush
-          - email
-          - telegram
-          - telegramChannel
-          - slack
-          - discord
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
         title:
           type: string
         body:
@@ -533,33 +386,34 @@ components:
           - string
           - 'null'
           default: null
-        dataSchema:
-          type: object
-          additionalProperties: {}
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          default: en-US
         channelExtra:
           type:
           - object
           - 'null'
           additionalProperties: {}
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
+          default: null
       required:
-      - id
       - templateId
       - channel
-      - locale
       - title
       - body
       - group
-      - link
-      - imageUrl
-      - dataSchema
-      - channelExtra
-      - createdAt
-      - updatedAt
-    TemplateGetDetailsResponse:
+    TemplateCreateResponse:
       type: object
       properties:
         id:
@@ -680,9 +534,12 @@ components:
           - object
           - 'null'
           additionalProperties: {}
-    TemplatePayload:
+    TemplateGetDetailsResponse:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         templateId:
           type: string
         channel:
@@ -697,6 +554,20 @@ components:
           - telegramChannel
           - slack
           - discord
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
         title:
           type: string
         body:
@@ -723,6 +594,64 @@ components:
           - string
           - 'null'
           default: null
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - locale
+      - title
+      - body
+      - group
+      - link
+      - imageUrl
+      - dataSchema
+      - channelExtra
+      - createdAt
+      - updatedAt
+    TemplateListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
         locale:
           type: string
           enum:
@@ -737,22 +666,93 @@ components:
           - ko-KR
           - zh-CN
           - zh-TW
-          default: en-US
-        channelExtra:
-          type:
-          - object
-          - 'null'
+        dataSchema:
+          type: object
           additionalProperties: {}
-          default: null
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
       required:
+      - id
       - templateId
       - channel
-      - title
-      - body
       - group
-    PageOffsetParam:
+      - locale
+      - dataSchema
+      - createdAt
+      - updatedAt
+    EmptyResponse:
+      type: object
+    PageLimitParam:
       type: string
-      default: '0'
+      default: '50'
+    TemplateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
+      required:
+      - list
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        source:
+          type: string
+        event:
+          type: string
+        data:
+          type: object
+          additionalProperties: {}
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+        endTime:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - source
+      - event
+      - data
+      - appearance
+      - endTime
+      - createdAt
+      - updatedAt
+    ListNotificationsResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        count:
+          type: number
+      required:
+      - list
+      - count
   securitySchemes:
     AccessToken:
       type: http

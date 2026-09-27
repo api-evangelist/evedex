@@ -123,7 +123,7 @@
     "evedex-tradingvolume-api-openapi.yml"
   ],
   "archived": [
-    "deleted 7 superseded output(s) from the previous generation"
+    "deleted 6 superseded output(s) from the previous generation"
   ],
   "errors": [],
   "warnings": [],
@@ -312,8 +312,8 @@
     "tag 'Webhook' spans 2 source specs (evedex-billing-openapi.json, evedex-bridge-middleware-openapi.json): per-path servers applied",
     "tag 'Rhino' spans 2 source specs (evedex-bridge-middleware-openapi.json, evedex-exchange-openapi.json): per-path servers applied",
     "tag 'Redirect' spans 2 source specs (evedex-game-openapi.json, evedex-referral-openapi.json): per-path servers applied",
-    "superseded outputs removed: evedex-api-key-api-openapi.yml, evedex-mobile-app-api-openapi.yml, evedex-o-auth-api-openapi.yml, evedex-payment-service-api-openapi.yml, evedex-promo-codes-api-openapi.yml \u2026",
-    "apis.yml register: written (+7 apis, 109 total)"
+    "superseded outputs removed: evedex-api-key-api-openapi.yml, evedex-mobile-app-api-openapi.yml, evedex-payment-service-api-openapi.yml, evedex-promo-codes-api-openapi.yml, evedex-short-link-api-openapi.yml \u2026",
+    "apis.yml register: written (+6 apis, 109 total)"
   ],
   "skipped": [
     "evedex-acl-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -371,7 +371,7 @@
     "evedex-newcomer-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "evedex-notification-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "evedex-notifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "evedex-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "evedex-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "evedex-order-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "evedex-payment-service-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "evedex-paysystem-api-openapi.yml: previously refined output, superseded by openapi/_original/",

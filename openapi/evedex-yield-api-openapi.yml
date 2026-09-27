@@ -50,13 +50,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    YieldStatusObject:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-      required:
-      - enabled
     YieldAprObject:
       type: object
       properties:
@@ -64,6 +57,13 @@ components:
           type: number
       required:
       - apr
+    YieldStatusObject:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+      - enabled
   securitySchemes:
     InternalToken:
       type: http

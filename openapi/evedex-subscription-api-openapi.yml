@@ -170,18 +170,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SubscriptionListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubscriptionObject'
-        count:
-          type: number
-      required:
-      - list
-      - count
     ErrorResponse:
       type: object
       properties:
@@ -191,6 +179,14 @@ components:
       required:
       - message
       description: Error response
+    SubscriptionUpdatePaymentMethodResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
     SubscriptionObject:
       type: object
       properties:
@@ -235,22 +231,6 @@ components:
       - cancelAtPeriodEnd
       - createdAt
       - updatedAt
-    SubscriptionUpdatePaymentMethodBody:
-      type: object
-      properties:
-        returnUrl:
-          type: string
-          format: uri
-      required:
-      - returnUrl
-    SubscriptionUpdatePaymentMethodResponse:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-      required:
-      - url
     ProductObject:
       type: object
       properties:
@@ -342,6 +322,26 @@ components:
       - lastSaleDate
       - createdAt
       - updatedAt
+    SubscriptionListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    SubscriptionUpdatePaymentMethodBody:
+      type: object
+      properties:
+        returnUrl:
+          type: string
+          format: uri
+      required:
+      - returnUrl
   securitySchemes:
     InternalKey:
       type: http

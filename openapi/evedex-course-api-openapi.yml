@@ -562,9 +562,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
+      default: '0'
+    CourseTranslationLinkBody:
+      type: object
+      properties:
+        courseIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - courseIds
     CourseTranslationLinkResponse:
       type: object
       properties:
@@ -600,6 +610,61 @@ components:
       required:
       - translationGroupId
       - courses
+    CourseUpdateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        accessType:
+          type: string
+          enum:
+          - free
+          - public
+          - paid
+          - subscription
+        visibility:
+          type: string
+          enum:
+          - none
+          - all
+          - restricted
+        learn:
+          type: string
+          description: List of learnings as markdown
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-AE
+          - zh-HK
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          default: en-US
+        translationGroupId:
+          type: string
+          format: uuid
+        order:
+          type: number
+        popular:
+          type: boolean
+        published:
+          type: boolean
+          default: false
+        releaseDate:
+          type: string
     courseBlocksResponse:
       type: object
       properties:
@@ -632,6 +697,25 @@ components:
       - courseBlocks
     EmptyResponse:
       type: object
+    List_of_learnings_as_markdown:
+      type: string
+    CourseList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
     CourseCreateBody:
       type: object
       properties:
@@ -693,85 +777,6 @@ components:
       - visibility
       - learn
       - releaseDate
-    CourseTranslationLinkBody:
-      type: object
-      properties:
-        courseIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-      required:
-      - courseIds
-    CourseUpdateBody:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        accessType:
-          type: string
-          enum:
-          - free
-          - public
-          - paid
-          - subscription
-        visibility:
-          type: string
-          enum:
-          - none
-          - all
-          - restricted
-        learn:
-          type: string
-          description: List of learnings as markdown
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        slug:
-          type:
-          - string
-          - 'null'
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - ar-AE
-          - zh-HK
-          - de-DE
-          - es-ES
-          - pt-PT
-          - tr-TR
-          default: en-US
-        translationGroupId:
-          type: string
-          format: uuid
-        order:
-          type: number
-        popular:
-          type: boolean
-        published:
-          type: boolean
-          default: false
-        releaseDate:
-          type: string
-    CourseList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     CourseObject:
       type: object
       properties:
@@ -955,11 +960,6 @@ components:
       - locale
       - published
       - releaseDate
-    List_of_learnings_as_markdown:
-      type: string
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

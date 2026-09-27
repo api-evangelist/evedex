@@ -376,36 +376,7 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    LuckyShotTickets:
-      type: object
-      properties:
-        received:
-          type: number
-          description: Total Lucky Shot tickets received
-        used:
-          type: number
-          description: Total Lucky Shot tickets used
-        available:
-          type: number
-          description: Available Lucky Shot tickets (received - used)
-      required:
-      - received
-      - used
-      - available
-    LuckyShotImageShareBody:
-      type: object
-      properties:
-        renderingMode:
-          type: string
-          enum:
-          - narrow
-          - wide
-      required:
-      - renderingMode
-    PageLimitParam:
-      type: string
-      default: '50'
-    LuckyShotImageShareResponse:
+    LuckyShotImageGetResponse:
       type: object
       properties:
         badgeUrl:
@@ -426,7 +397,23 @@ components:
       - authId
       - amount
       - tickets
-    LuckyShotImageGetResponse:
+    LuckyShotTickets:
+      type: object
+      properties:
+        received:
+          type: number
+          description: Total Lucky Shot tickets received
+        used:
+          type: number
+          description: Total Lucky Shot tickets used
+        available:
+          type: number
+          description: Available Lucky Shot tickets (received - used)
+      required:
+      - received
+      - used
+      - available
+    LuckyShotImageShareResponse:
       type: object
       properties:
         badgeUrl:
@@ -434,6 +421,19 @@ components:
           format: uri
       required:
       - badgeUrl
+    LuckyShotImageShareBody:
+      type: object
+      properties:
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+      required:
+      - renderingMode
+    PageLimitParam:
+      type: string
+      default: '50'
     AwardLuckyShotTicketsBody:
       type: object
       properties:

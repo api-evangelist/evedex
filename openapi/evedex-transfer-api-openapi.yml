@@ -1015,39 +1015,14 @@ paths:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
-    PageLimitParam:
-      type: string
-      default: '50'
     PageOffsetParam:
       type: string
       default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
     EmptyResponse:
       type: object
-    TransferListObject:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransferWitHFeeObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    TransferWitHFeeObject:
-      allOf:
-      - $ref: '#/components/schemas/TransferObject'
-      type: object
-      properties:
-        fees:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransferObject'
-      required:
-      - fees
     TransferObject:
       type: object
       properties:
@@ -1096,6 +1071,31 @@ components:
       - status
       - createdAt
       - updatedAt
+    TransferWitHFeeObject:
+      allOf:
+      - $ref: '#/components/schemas/TransferObject'
+      type: object
+      properties:
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferObject'
+      required:
+      - fees
+    TransferListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferWitHFeeObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
   securitySchemes:
     AccessToken:
       type: http

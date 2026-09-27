@@ -80,19 +80,6 @@ components:
   schemas:
     EmptyResponse:
       type: object
-    ApiKeyDisableBody:
-      type: object
-      properties:
-        scope:
-          type: string
-          enum:
-          - partner
-          - exchange
-        apiKey:
-          type: string
-      required:
-      - scope
-      - apiKey
     ApiKeyVerifyResponse:
       type: object
       properties:
@@ -195,6 +182,19 @@ components:
       - settings
       - user
       - hash
+    ApiKeyDisableBody:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum:
+          - partner
+          - exchange
+        apiKey:
+          type: string
+      required:
+      - scope
+      - apiKey
   securitySchemes:
     InternalToken:
       type: http

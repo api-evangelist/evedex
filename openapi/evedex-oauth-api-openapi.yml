@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: EVEDEX - Exchange OAUTH API
+  title: EVEDEX - Exchange OAuth API
   version: 1.0.0
 servers:
 - url: https://exchange-api.evedex.com
@@ -145,7 +145,58 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    OauthDenyResponse:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    OauthApproveBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+        apiKey:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+            key:
+              type: string
+          required:
+          - id
+          - key
+          default: null
+        octWallet:
+          type:
+          - object
+          - 'null'
+          properties:
+            key:
+              type: string
+          required:
+          - key
+          default: null
+      required:
+      - integrationId
+    OauthDenyBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+      required:
+      - integrationId
+    EmptyResponse:
+      type: object
+    OauthResponse:
       type: object
       properties:
         redirectURI:
@@ -155,8 +206,32 @@ components:
     PageLimitParam:
       type: string
       default: '50'
-    EmptyResponse:
+    OauthGetClientResponse:
       type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        state:
+          type: string
+      required:
+      - integrationId
+      - name
+      - scopes
+      - state
+    OauthDenyResponse:
+      type: object
+      properties:
+        redirectURI:
+          type: string
+      required:
+      - redirectURI
     OauthRequestListResponse:
       type: object
       properties:
@@ -202,81 +277,6 @@ components:
       required:
       - list
       - count
-    OauthGetClientResponse:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scopes:
-          type: array
-          items:
-            type: string
-        state:
-          type: string
-      required:
-      - integrationId
-      - name
-      - scopes
-      - state
-    OauthDenyBody:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        state:
-          type: string
-          default: ''
-      required:
-      - integrationId
-    OauthResponse:
-      type: object
-      properties:
-        redirectURI:
-          type: string
-      required:
-      - redirectURI
-    OauthApproveBody:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        state:
-          type: string
-          default: ''
-        apiKey:
-          type:
-          - object
-          - 'null'
-          properties:
-            id:
-              type: string
-              format: uuid
-            key:
-              type: string
-          required:
-          - id
-          - key
-          default: null
-        octWallet:
-          type:
-          - object
-          - 'null'
-          properties:
-            key:
-              type: string
-          required:
-          - key
-          default: null
-      required:
-      - integrationId
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     InternalToken:
       type: http

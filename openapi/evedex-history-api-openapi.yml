@@ -203,82 +203,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    RemoveHistoryBody:
-      type: object
-      properties:
-        after:
-          type: string
-        before:
-          type: string
-        max:
-          type:
-          - number
-          - 'null'
-          default: null
-        min:
-          type:
-          - number
-          - 'null'
-          default: null
-        instrument:
-          type: string
-      required:
-      - after
-      - before
-      - instrument
-    ImportHistoryBody:
-      type: object
-      properties:
-        after:
-          type: string
-        before:
-          type: string
-        group:
-          type: string
-          enum:
-          - 1s
-          - 1m
-          - 3m
-          - 5m
-          - 15m
-          - 30m
-          - 1h
-          - 4h
-          - 6h
-          - 12h
-          - 1d
-          - 1w
-          - 1mo
-          default: 1m
-        source:
-          type: string
-          enum:
-          - binance
-          - bitget
-          - bybit
-        sourceInstrument:
-          type:
-          - string
-          - 'null'
-          default: null
-        coefficient:
-          type:
-          - number
-          - 'null'
-          default: 1
-        contractType:
-          type:
-          - string
-          - 'null'
-          default: null
-      required:
-      - after
-      - source
-    PageLimitParam:
+    PageOffsetParam:
       anyOf:
       - type: number
       - type: string
-      default: 20
+      default: 0
     ErrorResponse:
       type: object
       properties:
@@ -288,8 +217,58 @@ components:
       required:
       - message
       description: Error response
-    EmptyResponse:
+    RemoveHistoryTaskListResponse:
       type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              payload:
+                type: object
+                properties:
+                  after:
+                    type: number
+                  before:
+                    type: number
+                  instrument:
+                    type: string
+                  max:
+                    type: number
+                  min:
+                    type: number
+                required:
+                - after
+                - before
+                - instrument
+              status:
+                type: string
+                enum:
+                - pending
+                - process
+                - done
+                - error
+              error:
+                type:
+                - string
+                - 'null'
+                default: null
+              startAt:
+                type: string
+            required:
+            - id
+            - payload
+            - status
+            - error
+            - startAt
+        count:
+          type: number
+      required:
+      - list
+      - count
     ImportHistoryTaskListResponse:
       type: object
       properties:
@@ -363,58 +342,8 @@ components:
       required:
       - list
       - count
-    RemoveHistoryTaskListResponse:
+    EmptyResponse:
       type: object
-      properties:
-        list:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              payload:
-                type: object
-                properties:
-                  after:
-                    type: number
-                  before:
-                    type: number
-                  instrument:
-                    type: string
-                  max:
-                    type: number
-                  min:
-                    type: number
-                required:
-                - after
-                - before
-                - instrument
-              status:
-                type: string
-                enum:
-                - pending
-                - process
-                - done
-                - error
-              error:
-                type:
-                - string
-                - 'null'
-                default: null
-              startAt:
-                type: string
-            required:
-            - id
-            - payload
-            - status
-            - error
-            - startAt
-        count:
-          type: number
-      required:
-      - list
-      - count
     TradeHistoryResponse:
       type: array
       items:
@@ -436,11 +365,82 @@ components:
           description: Volume in quote currency
         - type: number
           description: Volume in base currency
-    PageOffsetParam:
+    RemoveHistoryBody:
+      type: object
+      properties:
+        after:
+          type: string
+        before:
+          type: string
+        max:
+          type:
+          - number
+          - 'null'
+          default: null
+        min:
+          type:
+          - number
+          - 'null'
+          default: null
+        instrument:
+          type: string
+      required:
+      - after
+      - before
+      - instrument
+    PageLimitParam:
       anyOf:
       - type: number
       - type: string
-      default: 0
+      default: 20
+    ImportHistoryBody:
+      type: object
+      properties:
+        after:
+          type: string
+        before:
+          type: string
+        group:
+          type: string
+          enum:
+          - 1s
+          - 1m
+          - 3m
+          - 5m
+          - 15m
+          - 30m
+          - 1h
+          - 4h
+          - 6h
+          - 12h
+          - 1d
+          - 1w
+          - 1mo
+          default: 1m
+        source:
+          type: string
+          enum:
+          - binance
+          - bitget
+          - bybit
+        sourceInstrument:
+          type:
+          - string
+          - 'null'
+          default: null
+        coefficient:
+          type:
+          - number
+          - 'null'
+          default: 1
+        contractType:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - after
+      - source
   securitySchemes:
     InternalToken:
       type: http

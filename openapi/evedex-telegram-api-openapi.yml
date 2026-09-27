@@ -139,8 +139,6 @@ paths:
     - url: https://notifications-api.evedex.com
 components:
   schemas:
-    EmptyResponse:
-      type: object
     TelegramBot:
       type: object
       properties:
@@ -148,6 +146,15 @@ components:
           type: string
       required:
       - uri
+    EmptyResponse:
+      type: object
+    TelegramLink:
+      type: object
+      properties:
+        link:
+          type: string
+      required:
+      - link
     ErrorResponse:
       type: object
       properties:
@@ -157,13 +164,6 @@ components:
       required:
       - message
       description: Error response
-    TelegramLink:
-      type: object
-      properties:
-        link:
-          type: string
-      required:
-      - link
   securitySchemes:
     InternalToken:
       type: http

@@ -828,10 +828,6 @@ components:
       - blockMessage
       - blockButton
       - referralNeeded
-    MobileAppVersionInfoListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/MobileAppVersionInfoResponse'
     MobileAppVersionInfoUpdateBody:
       type: object
       properties:
@@ -865,6 +861,31 @@ components:
         referralNeeded:
           type: boolean
           default: false
+    MobileAppVersionInfo:
+      type: object
+      properties:
+        blockTypeId:
+          type: string
+        blockHead:
+          type: string
+        blockMessage:
+          type: string
+        blockButton:
+          type: string
+        blockButtonLink:
+          type: string
+        referralNeeded:
+          type: boolean
+      required:
+      - blockTypeId
+      - blockHead
+      - blockMessage
+      - blockButton
+      - referralNeeded
+    MobileAppVersionInfoListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/MobileAppVersionInfoResponse'
     MobileAppVersionInfoCreateBody:
       type: object
       properties:
@@ -902,27 +923,6 @@ components:
       - blockHead
       - blockMessage
       - blockButton
-    MobileAppVersionInfo:
-      type: object
-      properties:
-        blockTypeId:
-          type: string
-        blockHead:
-          type: string
-        blockMessage:
-          type: string
-        blockButton:
-          type: string
-        blockButtonLink:
-          type: string
-        referralNeeded:
-          type: boolean
-      required:
-      - blockTypeId
-      - blockHead
-      - blockMessage
-      - blockButton
-      - referralNeeded
   securitySchemes:
     InternalToken:
       type: http

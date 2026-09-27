@@ -317,27 +317,6 @@ paths:
     - url: https://backoffice-api.private.evedex.com
 components:
   schemas:
-    UploadArrayResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/UploadResponse'
-    EmptyResponse:
-      type: object
-    UploadUrlGeneratorResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        url:
-          type: string
-          format: uri
-      required:
-      - id
-      - name
-      - url
     UploadUrlGeneratorRequest:
       type: object
       properties:
@@ -360,6 +339,27 @@ components:
       required:
       - name
       - mime
+    EmptyResponse:
+      type: object
+    UploadUrlGeneratorResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - url
+    UploadArrayResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UploadResponse'
     UploadResponse:
       type: object
       properties:
@@ -401,20 +401,6 @@ components:
           format: uri
       required:
       - url
-    ApproveFileBody:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        ext:
-          type: string
-        name:
-          type: string
-      required:
-      - id
-      - ext
-      - name
     UploadUrlGeneratorRequest_2:
       type: object
       properties:
@@ -431,7 +417,7 @@ components:
       required:
       - name
       - mime
-    ApproveUploadedFileBody:
+    ApproveFileBody:
       type: object
       properties:
         id:
@@ -445,38 +431,9 @@ components:
       - id
       - ext
       - name
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    GenerateFileUploadLinkBody:
-      type: object
-      properties:
-        name:
-          type: string
-        mime:
-          type: string
-      required:
-      - name
-      - mime
-    UploadedFileResponse:
-      type: array
-      items:
-        type: string
-    GenerateFileUploadLinkResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        url:
-          type: string
-          format: uri
-      required:
-      - id
-      - name
-      - url
+      default: '0'
     ApproveUploadedFileResponse:
       type: object
       properties:
@@ -501,9 +458,52 @@ components:
       - url
       - size
       - createdAt
-    PageOffsetParam:
+    GenerateFileUploadLinkBody:
+      type: object
+      properties:
+        name:
+          type: string
+        mime:
+          type: string
+      required:
+      - name
+      - mime
+    GenerateFileUploadLinkResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - url
+    UploadedFileResponse:
+      type: array
+      items:
+        type: string
+    PageLimitParam:
       type: string
-      default: '0'
+      default: '50'
+    ApproveUploadedFileBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ext:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - ext
+      - name
     UploadUrlGeneratorRequest_3:
       type: object
       properties:

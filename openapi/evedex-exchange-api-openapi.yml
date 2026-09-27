@@ -272,6 +272,43 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    TariffCreateBody:
+      type: object
+      properties:
+        product:
+          type: string
+          format: uuid
+        paymentDate:
+          type: string
+          format: date-time
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        issuedBy:
+          type: string
+      required:
+      - product
+      - issuedBy
+    BlockedPfWithdrawListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockedPfWithdraw'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     TariffObject:
       type: object
       properties:
@@ -326,6 +363,8 @@ components:
       - issuedBy
       - createdAt
       - updatedAt
+    EmptyResponse:
+      type: object
     PageLimitParam:
       type: string
       default: '50'
@@ -338,42 +377,6 @@ components:
         endedAt:
           type: string
           format: date-time
-    EmptyResponse:
-      type: object
-    TariffCreateBody:
-      type: object
-      properties:
-        product:
-          type: string
-          format: uuid
-        paymentDate:
-          type: string
-          format: date-time
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
-        issuedBy:
-          type: string
-      required:
-      - product
-      - issuedBy
-    BlockedPfWithdrawListObject:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockedPfWithdraw'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     BlockedPfWithdraw:
       type: object
       properties:
@@ -495,9 +498,6 @@ components:
       - timecode
       - pair
       - levels
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

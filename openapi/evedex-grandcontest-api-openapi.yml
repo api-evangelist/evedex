@@ -171,6 +171,137 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    GrandContestClaimResponse:
+      type: object
+      properties:
+        claimed:
+          type: string
+        totalEarned:
+          type: string
+        availableToClaim:
+          type: string
+        payload:
+          type:
+          - object
+          - 'null'
+          properties:
+            nonce:
+              type: string
+            chainId:
+              type: number
+            recipient:
+              type: string
+            token:
+              type: string
+            amount:
+              type: string
+            contractAddress:
+              type: string
+            signature:
+              type: string
+          required:
+          - nonce
+          - chainId
+          - recipient
+          - token
+          - amount
+          - contractAddress
+          - signature
+      required:
+      - claimed
+      - totalEarned
+      - availableToClaim
+      - payload
+    GrandContestMeResponse:
+      type: object
+      properties:
+        totalVolume:
+          type: string
+        dailyVolume:
+          type: string
+        currentPlace:
+          type:
+          - number
+          - 'null'
+        yesterdayPlace:
+          type:
+          - number
+          - 'null'
+        totalClaimed:
+          type: string
+        rewards:
+          type: object
+          properties:
+            totalEarned:
+              type: string
+            claimed:
+              type: string
+            availableToClaim:
+              type: string
+            pendingClaim:
+              type: string
+          required:
+          - totalEarned
+          - claimed
+          - availableToClaim
+          - pendingClaim
+        milestone:
+          type: object
+          properties:
+            threshold:
+              type: string
+            currentVolume:
+              type: string
+            reward:
+              type: number
+            isClaimed:
+              type: boolean
+            isAvailable:
+              type: boolean
+          required:
+          - threshold
+          - currentVolume
+          - reward
+          - isClaimed
+          - isAvailable
+      required:
+      - totalVolume
+      - dailyVolume
+      - currentPlace
+      - yesterdayPlace
+      - totalClaimed
+      - rewards
+      - milestone
+    GrandContestTopEarnersResponse:
+      type: object
+      properties:
+        topEarners:
+          type: array
+          items:
+            type: object
+            properties:
+              rank:
+                type: number
+              avatar:
+                type:
+                - string
+                - 'null'
+              smartAccountAddress:
+                type:
+                - string
+                - 'null'
+              totalUsdtEarned:
+                type: string
+              totalVolume:
+                type: string
+            required:
+            - rank
+            - avatar
+            - smartAccountAddress
+            - totalUsdtEarned
+            - totalVolume
+      required:
+      - topEarners
     GrandContestVolumeScaleResponse:
       type: object
       properties:
@@ -280,137 +411,6 @@ components:
       required:
       - claimed
       - amount
-      - payload
-    GrandContestTopEarnersResponse:
-      type: object
-      properties:
-        topEarners:
-          type: array
-          items:
-            type: object
-            properties:
-              rank:
-                type: number
-              avatar:
-                type:
-                - string
-                - 'null'
-              smartAccountAddress:
-                type:
-                - string
-                - 'null'
-              totalUsdtEarned:
-                type: string
-              totalVolume:
-                type: string
-            required:
-            - rank
-            - avatar
-            - smartAccountAddress
-            - totalUsdtEarned
-            - totalVolume
-      required:
-      - topEarners
-    GrandContestMeResponse:
-      type: object
-      properties:
-        totalVolume:
-          type: string
-        dailyVolume:
-          type: string
-        currentPlace:
-          type:
-          - number
-          - 'null'
-        yesterdayPlace:
-          type:
-          - number
-          - 'null'
-        totalClaimed:
-          type: string
-        rewards:
-          type: object
-          properties:
-            totalEarned:
-              type: string
-            claimed:
-              type: string
-            availableToClaim:
-              type: string
-            pendingClaim:
-              type: string
-          required:
-          - totalEarned
-          - claimed
-          - availableToClaim
-          - pendingClaim
-        milestone:
-          type: object
-          properties:
-            threshold:
-              type: string
-            currentVolume:
-              type: string
-            reward:
-              type: number
-            isClaimed:
-              type: boolean
-            isAvailable:
-              type: boolean
-          required:
-          - threshold
-          - currentVolume
-          - reward
-          - isClaimed
-          - isAvailable
-      required:
-      - totalVolume
-      - dailyVolume
-      - currentPlace
-      - yesterdayPlace
-      - totalClaimed
-      - rewards
-      - milestone
-    GrandContestClaimResponse:
-      type: object
-      properties:
-        claimed:
-          type: string
-        totalEarned:
-          type: string
-        availableToClaim:
-          type: string
-        payload:
-          type:
-          - object
-          - 'null'
-          properties:
-            nonce:
-              type: string
-            chainId:
-              type: number
-            recipient:
-              type: string
-            token:
-              type: string
-            amount:
-              type: string
-            contractAddress:
-              type: string
-            signature:
-              type: string
-          required:
-          - nonce
-          - chainId
-          - recipient
-          - token
-          - amount
-          - contractAddress
-          - signature
-      required:
-      - claimed
-      - totalEarned
-      - availableToClaim
       - payload
     GrandContestLeaderboardResponse:
       type: object

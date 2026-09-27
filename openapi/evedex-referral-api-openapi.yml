@@ -48,28 +48,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    ReferralResponseObject:
-      type: object
-      properties:
-        smartAccountAddress:
-          type: string
-        code:
-          type: string
-        firstDeposit:
-          oneOf:
-          - $ref: '#/components/schemas/FirstDepositObject'
-          - type: 'null'
-          default: null
-        createdAt:
-          type: string
-      required:
-      - smartAccountAddress
-      - code
-      - firstDeposit
-      - createdAt
+      default: '0'
     ReferrallList:
       type: object
       properties:
@@ -99,9 +80,28 @@ components:
       - currency
       - createdAt
       - amount
-    PageOffsetParam:
+    PageLimitParam:
       type: string
-      default: '0'
+      default: '50'
+    ReferralResponseObject:
+      type: object
+      properties:
+        smartAccountAddress:
+          type: string
+        code:
+          type: string
+        firstDeposit:
+          oneOf:
+          - $ref: '#/components/schemas/FirstDepositObject'
+          - type: 'null'
+          default: null
+        createdAt:
+          type: string
+      required:
+      - smartAccountAddress
+      - code
+      - firstDeposit
+      - createdAt
   securitySchemes:
     AccessToken:
       type: http

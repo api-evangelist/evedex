@@ -128,84 +128,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    RegRequestList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/RegRequest'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    UserSocial:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - telegramCommunity
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        value:
-          type: string
-      required:
-      - type
-      - value
-    RegRequest:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        wallet:
-          type: string
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        social:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSocial'
-        status:
-          type: string
-          enum:
-          - pending
-          - approved
-          - rejected
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - user
-      - wallet
-      - name
-      - email
-      - social
-      - status
-      - createdAt
-      - updatedAt
+      default: '0'
     UpdateUserWeightBody:
       type: object
       properties:
@@ -305,6 +230,40 @@ components:
       - maxInvites
       - createdAt
       - updatedAt
+    UserSocial:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
+    RegRequestApproveBody:
+      type: object
+      properties:
+        weight:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UpdateUserWeightBody'
+        link:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CreateLink'
     CreateLink:
       type: object
       properties:
@@ -344,21 +303,65 @@ components:
       - name
       - type
       - calculator
-    RegRequestApproveBody:
+    RegRequestList:
       type: object
       properties:
-        weight:
-          type:
-          - array
-          - 'null'
+        list:
+          type: array
           items:
-            $ref: '#/components/schemas/UpdateUserWeightBody'
-        link:
+            $ref: '#/components/schemas/RegRequest'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    RegRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
           type:
-          - array
+          - string
           - 'null'
+          format: uuid
+        wallet:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        social:
+          type: array
           items:
-            $ref: '#/components/schemas/CreateLink'
+            $ref: '#/components/schemas/UserSocial'
+        status:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - user
+      - wallet
+      - name
+      - email
+      - social
+      - status
+      - createdAt
+      - updatedAt
     CreateRegRequestBody:
       type: object
       properties:
@@ -387,9 +390,6 @@ components:
       - name
       - email
       - social
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

@@ -46,34 +46,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CreateRefundBody:
-      type: object
-      properties:
-        amount:
-          type: number
-        currency:
-          type: string
-        failReason:
-          type: string
-        rollbackType:
-          type: string
-          enum:
-          - notNeeded
-          - full
-          - manual
-      required:
-      - amount
-      - currency
-      - rollbackType
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
     RefundObject:
       type: object
       properties:
@@ -114,6 +86,34 @@ components:
       - rollbackType
       - createdAt
       - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    CreateRefundBody:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+        failReason:
+          type: string
+        rollbackType:
+          type: string
+          enum:
+          - notNeeded
+          - full
+          - manual
+      required:
+      - amount
+      - currency
+      - rollbackType
   securitySchemes:
     InternalKey:
       type: http

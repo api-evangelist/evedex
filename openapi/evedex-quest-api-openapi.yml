@@ -171,46 +171,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PublicQuest:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        category:
-          type: string
-          enum:
-          - basic
-          - trading
-          - education
-          - social
-        type:
-          type: string
-        url:
-          type:
-          - string
-          - 'null'
-        viewType:
-          type: string
-          enum:
-          - card
-          - progressBarCard
-        buttonText:
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - name
-      - description
-      - category
-      - type
-      - url
-      - viewType
-      - buttonText
+    PageOffsetParam:
+      type: string
+      default: '0'
     UserQuest:
       type: object
       properties:
@@ -1052,12 +1015,49 @@ components:
       - viewType
       - progressBar
       - buttonText
+    PublicQuest:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum:
+          - basic
+          - trading
+          - education
+          - social
+        type:
+          type: string
+        url:
+          type:
+          - string
+          - 'null'
+        viewType:
+          type: string
+          enum:
+          - card
+          - progressBarCard
+        buttonText:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - category
+      - type
+      - url
+      - viewType
+      - buttonText
     PageLimitParam:
       type: string
       default: '50'
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

@@ -79,8 +79,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
-      type: object
     CreateEvent:
       type: object
       properties:
@@ -124,6 +122,8 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/CreateEvent'
+    EmptyResponse:
+      type: object
   securitySchemes:
     AccessToken:
       type: http

@@ -167,17 +167,21 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CommentCreateBody:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    CommentListResponse:
       type: object
       properties:
-        homework:
-          type: string
-        parentComment:
-          type: string
-        text:
-          type: string
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentObject'
+        count:
+          type: number
       required:
-      - text
+      - list
+      - count
     CommentObject:
       type: object
       properties:
@@ -210,6 +214,19 @@ components:
       - text
       - createdAt
       - updatedAt
+    CommentCreateBody:
+      type: object
+      properties:
+        homework:
+          type: string
+        parentComment:
+          type: string
+        text:
+          type: string
+      required:
+      - text
+    EmptyResponse:
+      type: object
     PageLimitParam:
       type: string
       default: '50'
@@ -220,23 +237,6 @@ components:
           type: string
       required:
       - text
-    EmptyResponse:
-      type: object
-    CommentListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/CommentObject'
-        count:
-          type: number
-      required:
-      - list
-      - count
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

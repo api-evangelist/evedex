@@ -77,28 +77,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    WalletCreateBody:
-      type: object
-      properties:
-        network:
-          anyOf:
-          - type: string
-          - type: integer
-          description: Parent network ID
-        authId:
-          type: string
-          description: User auth ID
-        owner:
-          type: string
-          description: Bridge middleware owner wallet address
-        wallet:
-          type: string
-          description: Recipient smart account address
-      required:
-      - network
-      - authId
-      - owner
-      - wallet
     WalletObject:
       type: object
       properties:
@@ -144,6 +122,28 @@ components:
       - deployStatus
       - createdAt
       - updatedAt
+    WalletCreateBody:
+      type: object
+      properties:
+        network:
+          anyOf:
+          - type: string
+          - type: integer
+          description: Parent network ID
+        authId:
+          type: string
+          description: User auth ID
+        owner:
+          type: string
+          description: Bridge middleware owner wallet address
+        wallet:
+          type: string
+          description: Recipient smart account address
+      required:
+      - network
+      - authId
+      - owner
+      - wallet
     WalletCreateResponse:
       type: object
       properties:

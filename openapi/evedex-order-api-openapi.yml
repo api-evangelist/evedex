@@ -1683,9 +1683,6 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
     ErrorResponse:
       type: object
       properties:
@@ -1695,13 +1692,39 @@ components:
       required:
       - message
       description: Error response
+    PageLimitParam:
+      type: string
+      default: '50'
+    LimitOrderCancelObject:
+      allOf:
+      - type: object
+        properties:
+          orderId:
+            $ref: '#/components/schemas/OrderIdOutput'
+        required:
+        - orderId
+      - anyOf:
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: true
+          required:
+          - success
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: false
+            failReason:
+              type: string
+          required:
+          - success
+          - failReason
     PageNextParam:
       type: string
     EmptyResponse:
       type: object
-    OrderIdInput:
-      type: string
-      pattern: '[0-9A-Fa-f]{32}'
     OrderFillListResponse:
       type: array
       items:
@@ -1733,32 +1756,9 @@ components:
         - fillPrice
         - fee
         - createdAt
-    LimitOrderCancelObject:
-      allOf:
-      - type: object
-        properties:
-          orderId:
-            $ref: '#/components/schemas/OrderIdOutput'
-        required:
-        - orderId
-      - anyOf:
-        - type: object
-          properties:
-            success:
-              type: boolean
-              const: true
-          required:
-          - success
-        - type: object
-          properties:
-            success:
-              type: boolean
-              const: false
-            failReason:
-              type: string
-          required:
-          - success
-          - failReason
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
     OrderIdOutput:
       type: string
     Side:

@@ -59,19 +59,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TradingBadgeShareResponse:
+    BadgeByIdResponse:
       type: object
       properties:
         badgeUrl:
           type: string
-        code:
-          type: string
-        pageId:
-          type: string
       required:
       - badgeUrl
-      - code
-      - pageId
     TradingBadgeShareBodyParams:
       type: object
       properties:
@@ -103,13 +97,19 @@ components:
       - pair
       - title
       - value
-    BadgeByIdResponse:
+    TradingBadgeShareResponse:
       type: object
       properties:
         badgeUrl:
           type: string
+        code:
+          type: string
+        pageId:
+          type: string
       required:
       - badgeUrl
+      - code
+      - pageId
   securitySchemes:
     AccessToken:
       type: http

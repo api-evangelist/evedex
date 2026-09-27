@@ -148,19 +148,30 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
+    MaterialObject:
       type: object
-    MaterialCreateBody:
-      oneOf:
-      - type: object
-        properties:
-          title:
-            type: string
-          type:
-            type: string
-            const: text
-          content:
-            type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lesson:
+          type: string
+          format: uuid
+        title:
+          type: string
+        type:
+          type: string
+          enum:
+          - text
+          - links
+          - banner
+          - embedded-video
+          - video
+          - file
+          - image
+        content:
+          anyOf:
+          - type: object
             properties:
               type:
                 type: string
@@ -170,18 +181,7 @@ components:
             required:
             - type
             - markdown
-        required:
-        - type
-        - content
-      - type: object
-        properties:
-          title:
-            type: string
-          type:
-            type: string
-            const: embedded-video
-          content:
-            type: object
+          - type: object
             properties:
               type:
                 type: string
@@ -216,18 +216,7 @@ components:
             - type
             - source
             - url
-        required:
-        - type
-        - content
-      - type: object
-        properties:
-          title:
-            type: string
-          type:
-            type: string
-            const: video
-          content:
-            type: object
+          - type: object
             properties:
               type:
                 type: string
@@ -262,18 +251,7 @@ components:
             - type
             - mime
             - url
-        required:
-        - type
-        - content
-      - type: object
-        properties:
-          title:
-            type: string
-          type:
-            type: string
-            const: file
-          content:
-            type: object
+          - type: object
             properties:
               type:
                 type: string
@@ -298,18 +276,7 @@ components:
             required:
             - type
             - files
-        required:
-        - type
-        - content
-      - type: object
-        properties:
-          title:
-            type: string
-          type:
-            type: string
-            const: image
-          content:
-            type: object
+          - type: object
             properties:
               type:
                 type: string
@@ -322,18 +289,7 @@ components:
             required:
             - type
             - url
-        required:
-        - type
-        - content
-      - type: object
-        properties:
-          title:
-            type: string
-          type:
-            type: string
-            const: links
-          content:
-            type: object
+          - type: object
             properties:
               type:
                 type: string
@@ -352,18 +308,7 @@ components:
             required:
             - type
             - links
-        required:
-        - type
-        - content
-      - type: object
-        properties:
-          title:
-            type: string
-          type:
-            type: string
-            const: banner
-          content:
-            type: object
+          - type: object
             properties:
               type:
                 type: string
@@ -385,9 +330,46 @@ components:
             - title
             - buttonText
             - backgroundImage
-        required:
-        - type
-        - content
+        order:
+          type: number
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        subtitles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              languageCode:
+                type: string
+              label:
+                type: string
+              url:
+                type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+            required:
+            - id
+            - languageCode
+            - label
+            - url
+            - createdAt
+            - updatedAt
+      required:
+      - id
+      - lesson
+      - title
+      - type
+      - content
+      - order
+      - createdAt
+      - updatedAt
     MaterialUpdateBody:
       oneOf:
       - type: object
@@ -640,30 +622,19 @@ components:
         required:
         - type
         - content
-    MaterialObject:
+    EmptyResponse:
       type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        lesson:
-          type: string
-          format: uuid
-        title:
-          type: string
-        type:
-          type: string
-          enum:
-          - text
-          - links
-          - banner
-          - embedded-video
-          - video
-          - file
-          - image
-        content:
-          anyOf:
-          - type: object
+    MaterialCreateBody:
+      oneOf:
+      - type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+            const: text
+          content:
+            type: object
             properties:
               type:
                 type: string
@@ -673,7 +644,18 @@ components:
             required:
             - type
             - markdown
-          - type: object
+        required:
+        - type
+        - content
+      - type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+            const: embedded-video
+          content:
+            type: object
             properties:
               type:
                 type: string
@@ -708,7 +690,18 @@ components:
             - type
             - source
             - url
-          - type: object
+        required:
+        - type
+        - content
+      - type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+            const: video
+          content:
+            type: object
             properties:
               type:
                 type: string
@@ -743,7 +736,18 @@ components:
             - type
             - mime
             - url
-          - type: object
+        required:
+        - type
+        - content
+      - type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+            const: file
+          content:
+            type: object
             properties:
               type:
                 type: string
@@ -768,7 +772,18 @@ components:
             required:
             - type
             - files
-          - type: object
+        required:
+        - type
+        - content
+      - type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+            const: image
+          content:
+            type: object
             properties:
               type:
                 type: string
@@ -781,7 +796,18 @@ components:
             required:
             - type
             - url
-          - type: object
+        required:
+        - type
+        - content
+      - type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+            const: links
+          content:
+            type: object
             properties:
               type:
                 type: string
@@ -800,7 +826,18 @@ components:
             required:
             - type
             - links
-          - type: object
+        required:
+        - type
+        - content
+      - type: object
+        properties:
+          title:
+            type: string
+          type:
+            type: string
+            const: banner
+          content:
+            type: object
             properties:
               type:
                 type: string
@@ -822,46 +859,9 @@ components:
             - title
             - buttonText
             - backgroundImage
-        order:
-          type: number
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-        subtitles:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              languageCode:
-                type: string
-              label:
-                type: string
-              url:
-                type: string
-              createdAt:
-                type: string
-              updatedAt:
-                type: string
-            required:
-            - id
-            - languageCode
-            - label
-            - url
-            - createdAt
-            - updatedAt
-      required:
-      - id
-      - lesson
-      - title
-      - type
-      - content
-      - order
-      - createdAt
-      - updatedAt
+        required:
+        - type
+        - content
   securitySchemes:
     AccessToken:
       type: http

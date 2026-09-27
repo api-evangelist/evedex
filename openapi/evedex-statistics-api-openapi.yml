@@ -165,22 +165,6 @@ paths:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
-    OnlineUsersCountResponse:
-      type: object
-      properties:
-        onlineUsersCount:
-          type: integer
-          default: 0
-      required:
-      - onlineUsersCount
-    TotalStatisticResponse:
-      type: object
-      properties:
-        weeklyActiveUsers:
-          type: integer
-          default: 0
-      required:
-      - weeklyActiveUsers
     StatisticChartResponse:
       type: object
       additionalProperties:
@@ -203,6 +187,22 @@ components:
           - value
           - name
           - cumulative
+    TotalStatisticResponse:
+      type: object
+      properties:
+        weeklyActiveUsers:
+          type: integer
+          default: 0
+      required:
+      - weeklyActiveUsers
+    OnlineUsersCountResponse:
+      type: object
+      properties:
+        onlineUsersCount:
+          type: integer
+          default: 0
+      required:
+      - onlineUsersCount
     TotalStatisticResponse_2:
       type: object
       properties:

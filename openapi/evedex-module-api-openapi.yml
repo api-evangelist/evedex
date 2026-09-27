@@ -133,6 +133,15 @@ components:
       - releaseDate
       - createdAt
       - updatedAt
+    ModuleCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    EmptyResponse:
+      type: object
     ModuleUpdateBody:
       type: object
       properties:
@@ -145,15 +154,6 @@ components:
         releaseDate:
           type: string
           format: date-time
-    EmptyResponse:
-      type: object
-    ModuleCreateBody:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-      - name
   securitySchemes:
     AccessToken:
       type: http

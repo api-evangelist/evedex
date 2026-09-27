@@ -178,8 +178,6 @@ components:
       - shortLinkCode
       - destinationLink
       - referralCode
-    EmptyResponse:
-      type: object
     ShortLink:
       type: object
       properties:
@@ -210,6 +208,8 @@ components:
       - shortLinkCode
       - createdAt
       - shortLinkPath
+    EmptyResponse:
+      type: object
   securitySchemes:
     AccessToken:
       type: http

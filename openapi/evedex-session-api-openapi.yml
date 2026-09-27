@@ -214,11 +214,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    EmptyResponse:
-      type: object
+      default: '0'
     UserSessionHistoryListResponse:
       type: object
       properties:
@@ -233,23 +231,8 @@ components:
       required:
       - list
       - count
-    PageOffsetParam:
-      type: string
-      default: '0'
-    UserSessionsActivityListResponse:
+    EmptyResponse:
       type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSessionActivity'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     UserSessionHistoryFullObject:
       type: object
       properties:
@@ -393,6 +376,9 @@ components:
       - offerId
       - affiliateId
       - trackingParams
+    PageLimitParam:
+      type: string
+      default: '50'
     UserSessionHistory:
       type: object
       properties:
@@ -447,6 +433,20 @@ components:
       - role
       - language
       - referrer
+    UserSessionsActivityListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSessionActivity'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     UserSessionActivity:
       type: object
       properties:

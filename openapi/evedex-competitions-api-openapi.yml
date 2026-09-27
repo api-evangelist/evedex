@@ -244,140 +244,63 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageLimitParam:
+    CompetitionLeaderboardResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              rank:
+                type: integer
+              user:
+                type: string
+                format: uuid
+              walletAddress:
+                type: string
+              smartAccountAddress:
+                type: string
+              score:
+                type: string
+              avatar:
+                type:
+                - string
+                - 'null'
+              name:
+                type:
+                - string
+                - 'null'
+              level:
+                type: number
+              skill:
+                type: object
+                properties:
+                  name:
+                    type: string
+            required:
+            - rank
+            - user
+            - walletAddress
+            - smartAccountAddress
+            - score
+            - avatar
+            - name
+            - level
+            - skill
+        count:
+          type: number
+        next:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - list
+      - count
+      - updatedAt
+    PageOffsetParam:
       type: string
-      default: '50'
-    CompetitionParticipateResponse:
-      type: object
-      properties:
-        competition:
-          type: string
-          format: uuid
-        joinedAt:
-          type: string
-      required:
-      - competition
-      - joinedAt
-    PublicTemplateBasedCompetitionGetResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        status:
-          type: string
-          enum:
-          - active
-          - finished
-          - pending
-        startAt:
-          type: string
-        finishAt:
-          type: string
-        scoringStrategyType:
-          type: string
-          enum:
-          - experience
-          - tradingVolume
-          - realizedPnL
-          - referrals
-          - points
-        eligibilityType:
-          type: string
-          enum:
-          - open
-          - closed
-        enrollmentType:
-          type: string
-          enum:
-          - manual
-          - automatic
-        rewardType:
-          type: string
-          enum:
-          - points
-          - gift
-          - usdt
-          - none
-        rewards:
-          type: array
-          items:
-            type: object
-            properties:
-              place:
-                type: integer
-                minimum: 1
-              reward:
-                type: number
-                minimum: 0
-                default: 0
-              prize:
-                type: string
-            required:
-            - place
-            - reward
-        participantCount:
-          type: integer
-      required:
-      - id
-      - title
-      - status
-      - startAt
-      - finishAt
-      - scoringStrategyType
-      - eligibilityType
-      - enrollmentType
-      - rewardType
-      - rewards
-      - participantCount
-    TemplateBasedCompetitionLaunchBody:
-      type: object
-      properties:
-        templateId:
-          type: string
-          format: uuid
-        startAt:
-          type: string
-        finishAt:
-          type: string
-        title:
-          type: string
-          minLength: 1
-          maxLength: 512
-        visible:
-          type: boolean
-        eligiblePartnerCodesOverride:
-          type: array
-          items:
-            type: string
-            minLength: 1
-        blacklistAuthIdsOverride:
-          type: array
-          items:
-            type: string
-            format: uuid
-        rewardsOverride:
-          type: array
-          items:
-            type: object
-            properties:
-              place:
-                type: integer
-                minimum: 1
-              reward:
-                type: number
-                minimum: 0
-                default: 0
-              prize:
-                type: string
-            required:
-            - place
-      required:
-      - templateId
-      - startAt
-      - finishAt
+      default: '0'
     TemplateBasedCompetitionListResponse:
       type: object
       properties:
@@ -485,6 +408,149 @@ components:
       required:
       - list
       - count
+    TemplateBasedCompetitionLaunchBody:
+      type: object
+      properties:
+        templateId:
+          type: string
+          format: uuid
+        startAt:
+          type: string
+        finishAt:
+          type: string
+        title:
+          type: string
+          minLength: 1
+          maxLength: 512
+        visible:
+          type: boolean
+        eligiblePartnerCodesOverride:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        blacklistAuthIdsOverride:
+          type: array
+          items:
+            type: string
+            format: uuid
+        rewardsOverride:
+          type: array
+          items:
+            type: object
+            properties:
+              place:
+                type: integer
+                minimum: 1
+              reward:
+                type: number
+                minimum: 0
+                default: 0
+              prize:
+                type: string
+            required:
+            - place
+      required:
+      - templateId
+      - startAt
+      - finishAt
+    CompetitionParticipateResponse:
+      type: object
+      properties:
+        competition:
+          type: string
+          format: uuid
+        joinedAt:
+          type: string
+      required:
+      - competition
+      - joinedAt
+    CompetitionParticipationListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              competition:
+                type: string
+                format: uuid
+              joinedAt:
+                type: string
+            required:
+            - competition
+            - joinedAt
+      required:
+      - list
+    CompetitionLeaderboardMeResponse:
+      type: object
+      properties:
+        rank:
+          type:
+          - integer
+          - 'null'
+        score:
+          type:
+          - string
+          - 'null'
+        participantCount:
+          type: integer
+        walletAddress:
+          type: string
+        smartAccountAddress:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - rank
+      - score
+      - participantCount
+      - walletAddress
+      - smartAccountAddress
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
+    TemplateBasedCompetitionUpdateBody:
+      type: object
+      properties:
+        startAt:
+          type: string
+        finishAt:
+          type: string
+        title:
+          type: string
+          minLength: 1
+          maxLength: 512
+        visible:
+          type: boolean
+        eligiblePartnerCodes:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        blacklistAuthIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        rewards:
+          type: array
+          items:
+            type: object
+            properties:
+              place:
+                type: integer
+                minimum: 1
+              reward:
+                type: number
+                minimum: 0
+                default: 0
+              prize:
+                type: string
+            required:
+            - place
     TemplateBasedCompetitionLaunchResponse:
       type: object
       properties:
@@ -579,115 +645,6 @@ components:
       - rewardType
       - rewards
       - createdAt
-      - updatedAt
-    PublicTemplateBasedCompetitionListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              title:
-                type: string
-              status:
-                type: string
-                enum:
-                - active
-                - finished
-                - pending
-              startAt:
-                type: string
-              finishAt:
-                type: string
-              scoringStrategyType:
-                type: string
-                enum:
-                - experience
-                - tradingVolume
-                - realizedPnL
-                - referrals
-                - points
-              eligibilityType:
-                type: string
-                enum:
-                - open
-                - closed
-              enrollmentType:
-                type: string
-                enum:
-                - manual
-                - automatic
-              rewardType:
-                type: string
-                enum:
-                - points
-                - gift
-                - usdt
-                - none
-              rewards:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    place:
-                      type: integer
-                      minimum: 1
-                    reward:
-                      type: number
-                      minimum: 0
-                      default: 0
-                    prize:
-                      type: string
-                  required:
-                  - place
-                  - reward
-            required:
-            - id
-            - title
-            - status
-            - startAt
-            - finishAt
-            - scoringStrategyType
-            - eligibilityType
-            - enrollmentType
-            - rewardType
-            - rewards
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    CompetitionLeaderboardMeResponse:
-      type: object
-      properties:
-        rank:
-          type:
-          - integer
-          - 'null'
-        score:
-          type:
-          - string
-          - 'null'
-        participantCount:
-          type: integer
-        walletAddress:
-          type: string
-        smartAccountAddress:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - rank
-      - score
-      - participantCount
-      - walletAddress
-      - smartAccountAddress
       - updatedAt
     TemplateBasedCompetitionUpdateResponse:
       type: object
@@ -784,29 +741,49 @@ components:
       - rewards
       - createdAt
       - updatedAt
-    TemplateBasedCompetitionUpdateBody:
+    PublicTemplateBasedCompetitionGetResponse:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - finished
+          - pending
         startAt:
           type: string
         finishAt:
           type: string
-        title:
+        scoringStrategyType:
           type: string
-          minLength: 1
-          maxLength: 512
-        visible:
-          type: boolean
-        eligiblePartnerCodes:
-          type: array
-          items:
-            type: string
-            minLength: 1
-        blacklistAuthIds:
-          type: array
-          items:
-            type: string
-            format: uuid
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+          - referrals
+          - points
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
         rewards:
           type: array
           items:
@@ -823,7 +800,22 @@ components:
                 type: string
             required:
             - place
-    CompetitionLeaderboardResponse:
+            - reward
+        participantCount:
+          type: integer
+      required:
+      - id
+      - title
+      - status
+      - startAt
+      - finishAt
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - participantCount
+    PublicTemplateBasedCompetitionListResponse:
       type: object
       properties:
         list:
@@ -831,73 +823,81 @@ components:
           items:
             type: object
             properties:
-              rank:
-                type: integer
-              user:
+              id:
                 type: string
                 format: uuid
-              walletAddress:
+              title:
                 type: string
-              smartAccountAddress:
+              status:
                 type: string
-              score:
+                enum:
+                - active
+                - finished
+                - pending
+              startAt:
                 type: string
-              avatar:
-                type:
-                - string
-                - 'null'
-              name:
-                type:
-                - string
-                - 'null'
-              level:
-                type: number
-              skill:
-                type: object
-                properties:
-                  name:
-                    type: string
+              finishAt:
+                type: string
+              scoringStrategyType:
+                type: string
+                enum:
+                - experience
+                - tradingVolume
+                - realizedPnL
+                - referrals
+                - points
+              eligibilityType:
+                type: string
+                enum:
+                - open
+                - closed
+              enrollmentType:
+                type: string
+                enum:
+                - manual
+                - automatic
+              rewardType:
+                type: string
+                enum:
+                - points
+                - gift
+                - usdt
+                - none
+              rewards:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    place:
+                      type: integer
+                      minimum: 1
+                    reward:
+                      type: number
+                      minimum: 0
+                      default: 0
+                    prize:
+                      type: string
+                  required:
+                  - place
+                  - reward
             required:
-            - rank
-            - user
-            - walletAddress
-            - smartAccountAddress
-            - score
-            - avatar
-            - name
-            - level
-            - skill
+            - id
+            - title
+            - status
+            - startAt
+            - finishAt
+            - scoringStrategyType
+            - eligibilityType
+            - enrollmentType
+            - rewardType
+            - rewards
         count:
           type: number
         next:
           type: string
-        updatedAt:
-          type: string
       required:
       - list
       - count
-      - updatedAt
-    CompetitionParticipationListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            type: object
-            properties:
-              competition:
-                type: string
-                format: uuid
-              joinedAt:
-                type: string
-            required:
-            - competition
-            - joinedAt
-      required:
-      - list
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     AccessToken:
       type: http

@@ -444,9 +444,23 @@ components:
       required:
       - message
       description: Error response
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
+      default: '0'
+    PositionHistoryFillList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/PositionHistoryFillObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     PositionHistoryObject:
       type: object
       properties:
@@ -478,33 +492,6 @@ components:
       - leverage
       - version
       - closeType
-    CloseType:
-      type: string
-      enum:
-      - manually
-      - take-profit
-      - stop-loss
-      - liquidated
-      - adl
-    PositionHistoryFillList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/PositionHistoryFillObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    OrderIdV2Input:
-      type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
-    OrderIdOutput:
-      type: string
     PositionHistoryFillObject:
       allOf:
       - $ref: '#/components/schemas/PositionHistoryObject'
@@ -547,14 +534,27 @@ components:
         - fundingRate
         - openAt
         - closeAt
+    PageLimitParam:
+      type: string
+      default: '50'
+    OrderIdOutput:
+      type: string
     Side:
       type: string
       enum:
       - BUY
       - SELL
-    PageOffsetParam:
+    CloseType:
       type: string
-      default: '0'
+      enum:
+      - manually
+      - take-profit
+      - stop-loss
+      - liquidated
+      - adl
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
   securitySchemes:
     InternalToken:
       type: http

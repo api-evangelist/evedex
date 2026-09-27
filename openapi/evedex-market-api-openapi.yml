@@ -635,45 +635,25 @@ components:
       required:
       - message
       description: Error response
-    TradeObject:
+    AvailableBalancePosition:
       type: object
       properties:
-        user:
-          type: string
-        orderId:
-          $ref: '#/components/schemas/OrderIdOutput'
         instrument:
           type: string
         side:
           $ref: '#/components/schemas/Side'
-        fillQuantity:
-          type: number
-        fillPrice:
-          type: number
-        status:
-          type: string
-          enum:
-          - INTENTION
-          - NEW
-          - PARTIALLY_FILLED
-          - FILLED
-          - CANCELLED
-          - REJECTED
-          - EXPIRED
-          - REPLACED
-          - ERROR
-        createdAt:
-          type: string
+        volume:
+          $ref: '#/components/schemas/BigNumber'
+        initialMargin:
+          $ref: '#/components/schemas/BigNumber'
       required:
-      - user
-      - orderId
       - instrument
       - side
-      - fillQuantity
-      - fillPrice
-      - status
-      - createdAt
-      deprecated: true
+      - volume
+      - initialMargin
+    BigNumber:
+      type: string
+      description: Big number value
     InstrumentMetricsObject:
       type: object
       properties:
@@ -988,127 +968,6 @@ components:
       - fundingRateImpactMarginNotional
       - valueAtRisk
       - updatedAt
-    RecentTradeObject:
-      type: object
-      properties:
-        executionId:
-          type: string
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        fillQuantity:
-          type: number
-        fillPrice:
-          type: number
-        createdAt:
-          type: string
-      required:
-      - executionId
-      - instrument
-      - side
-      - fillQuantity
-      - fillPrice
-      - createdAt
-    AvailableBalanceOpenOrder:
-      type: object
-      properties:
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        unFilledVolume:
-          $ref: '#/components/schemas/BigNumber'
-        unFilledInitialMargin:
-          $ref: '#/components/schemas/BigNumber'
-      required:
-      - instrument
-      - side
-      - unFilledVolume
-      - unFilledInitialMargin
-    BigNumber:
-      type: string
-      description: Big number value
-    AvailableBalancePosition:
-      type: object
-      properties:
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        volume:
-          $ref: '#/components/schemas/BigNumber'
-        initialMargin:
-          $ref: '#/components/schemas/BigNumber'
-      required:
-      - instrument
-      - side
-      - volume
-      - initialMargin
-    MarketInfo:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - active
-          - request-status-fail
-          - me-dead
-          - db-admin-dead
-          - manually-off
-          - market-makers-only
-        states:
-          type: object
-          properties:
-            devex:
-              type: string
-              enum:
-              - active
-              - request-status-fail
-              - me-dead
-              - db-admin-dead
-              - manually-off
-              - market-makers-only
-            evex:
-              type: string
-              enum:
-              - active
-              - request-status-fail
-              - me-dead
-              - db-admin-dead
-              - manually-off
-              - market-makers-only
-          additionalProperties: false
-        fees:
-          type: object
-          properties:
-            taker:
-              type: number
-            maker:
-              type: number
-            liquidation:
-              type: number
-          required:
-          - taker
-          - maker
-          - liquidation
-        orderDay:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - state
-      - states
-      - fees
-      - orderDay
-      - updatedAt
-    OrderIdOutput:
-      type: string
-    Side:
-      type: string
-      enum:
-      - BUY
-      - SELL
     InstrumentObject:
       type: object
       properties:
@@ -1395,6 +1254,147 @@ components:
       - isPopular
       - newLabel
       - fundingRateImpactMarginNotional
+    AvailableBalanceOpenOrder:
+      type: object
+      properties:
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        unFilledVolume:
+          $ref: '#/components/schemas/BigNumber'
+        unFilledInitialMargin:
+          $ref: '#/components/schemas/BigNumber'
+      required:
+      - instrument
+      - side
+      - unFilledVolume
+      - unFilledInitialMargin
+    RecentTradeObject:
+      type: object
+      properties:
+        executionId:
+          type: string
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        fillQuantity:
+          type: number
+        fillPrice:
+          type: number
+        createdAt:
+          type: string
+      required:
+      - executionId
+      - instrument
+      - side
+      - fillQuantity
+      - fillPrice
+      - createdAt
+    OrderIdOutput:
+      type: string
+    TradeObject:
+      type: object
+      properties:
+        user:
+          type: string
+        orderId:
+          $ref: '#/components/schemas/OrderIdOutput'
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        fillQuantity:
+          type: number
+        fillPrice:
+          type: number
+        status:
+          type: string
+          enum:
+          - INTENTION
+          - NEW
+          - PARTIALLY_FILLED
+          - FILLED
+          - CANCELLED
+          - REJECTED
+          - EXPIRED
+          - REPLACED
+          - ERROR
+        createdAt:
+          type: string
+      required:
+      - user
+      - orderId
+      - instrument
+      - side
+      - fillQuantity
+      - fillPrice
+      - status
+      - createdAt
+      deprecated: true
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
+    MarketInfo:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - active
+          - request-status-fail
+          - me-dead
+          - db-admin-dead
+          - manually-off
+          - market-makers-only
+        states:
+          type: object
+          properties:
+            devex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+            evex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+          additionalProperties: false
+        fees:
+          type: object
+          properties:
+            taker:
+              type: number
+            maker:
+              type: number
+            liquidation:
+              type: number
+          required:
+          - taker
+          - maker
+          - liquidation
+        orderDay:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - state
+      - states
+      - fees
+      - orderDay
+      - updatedAt
   securitySchemes:
     InternalToken:
       type: http

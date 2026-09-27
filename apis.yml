@@ -3005,10 +3005,8 @@ apis:
   name: EVEDEX API Key API
   description: The API Key API from EVEDEX — 3 operation(s) for api key.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://docs.evedex.com
   tags:
-  - APIKeys
-  tags_raw:
   - API Key
   properties:
   - type: OpenAPI
@@ -3035,7 +3033,7 @@ apis:
   name: EVEDEX Mobile App API
   description: The Mobile App API from EVEDEX — 9 operation(s) for mobile app.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://exchange-api.evedex.com
+  baseURL: https://docs.evedex.com
   tags:
   - Mobile App
   properties:
@@ -3063,7 +3061,7 @@ apis:
   name: EVEDEX Payment Service API
   description: The Payment Service API from EVEDEX — 1 operation(s) for payment service.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://billing-api.evedex.com
+  baseURL: https://docs.evedex.com
   tags:
   - Payment Service
   properties:
@@ -3091,7 +3089,7 @@ apis:
   name: EVEDEX Promo Codes API
   description: The Promo Codes API from EVEDEX — 4 operation(s) for promo codes.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://game-api.evedex.com
+  baseURL: https://docs.evedex.com
   tags:
   - Promo Codes
   properties:
@@ -3119,7 +3117,7 @@ apis:
   name: EVEDEX Short Link API
   description: The Short Link API from EVEDEX — 3 operation(s) for short link.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://partner-api.evedex.com
+  baseURL: https://docs.evedex.com
   tags:
   - Short Link
   properties:
@@ -3147,7 +3145,7 @@ apis:
   name: EVEDEX Sub Account API
   description: The Sub Account API from EVEDEX — 7 operation(s) for sub account.
   humanURL: https://docs.evedex.com/developers/developers
-  baseURL: https://auth-api.evedex.com
+  baseURL: https://docs.evedex.com
   tags:
   - Sub Account
   properties:

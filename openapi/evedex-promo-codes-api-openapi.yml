@@ -102,6 +102,68 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PromocodeListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              code:
+                type: string
+              user:
+                type: string
+                format: uuid
+              expiresAt:
+                type: string
+              availableUses:
+                type: integer
+                minimum: 0
+              totalUses:
+                type: integer
+                minimum: 0
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+              reward:
+                type: object
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          enum:
+                          - points
+                          - luckyShotTickets
+                          - streakFreeze
+                        amount:
+                          type: number
+                          minimum: 0
+                      required:
+                      - type
+                      - amount
+                required:
+                - list
+            required:
+            - id
+            - code
+            - user
+            - expiresAt
+            - availableUses
+            - totalUses
+            - createdAt
+            - updatedAt
+            - reward
+      required:
+      - list
     PromocodeRedeemBody:
       type: object
       properties:
@@ -109,6 +171,37 @@ components:
           type: string
       required:
       - code
+    PromocodeRedeemResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        reward:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - points
+                    - luckyShotTickets
+                    - streakFreeze
+                  amount:
+                    type: number
+                    minimum: 0
+                required:
+                - type
+                - amount
+          required:
+          - list
+      required:
+      - success
     PromocodeCreateResponse:
       type: object
       properties:
@@ -219,68 +312,6 @@ components:
       - createdAt
       - updatedAt
       - reward
-    PromocodeListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              code:
-                type: string
-              user:
-                type: string
-                format: uuid
-              expiresAt:
-                type: string
-              availableUses:
-                type: integer
-                minimum: 0
-              totalUses:
-                type: integer
-                minimum: 0
-              createdAt:
-                type: string
-              updatedAt:
-                type: string
-              reward:
-                type: object
-                properties:
-                  list:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          enum:
-                          - points
-                          - luckyShotTickets
-                          - streakFreeze
-                        amount:
-                          type: number
-                          minimum: 0
-                      required:
-                      - type
-                      - amount
-                required:
-                - list
-            required:
-            - id
-            - code
-            - user
-            - expiresAt
-            - availableUses
-            - totalUses
-            - createdAt
-            - updatedAt
-            - reward
-      required:
-      - list
     PromocodeUpdateBody:
       type: object
       properties:
@@ -313,37 +344,6 @@ components:
                 - amount
           required:
           - list
-    PromocodeRedeemResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type: string
-        reward:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                    - points
-                    - luckyShotTickets
-                    - streakFreeze
-                  amount:
-                    type: number
-                    minimum: 0
-                required:
-                - type
-                - amount
-          required:
-          - list
-      required:
-      - success
     PromocodeCreateBody:
       type: object
       properties:

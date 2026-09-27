@@ -297,21 +297,21 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ListNotificationsResponse:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    SlackContentBody:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Notification'
-        count:
-          type: number
+        webhookName:
+          type: string
+          enum:
+          - amlAlerts
+        content:
+          type: string
       required:
-      - list
-      - count
-    PageLimitParam:
-      type: string
-      default: '50'
+      - webhookName
+      - content
     SendEmailListResponse:
       type: object
       properties:
@@ -331,53 +331,18 @@ components:
       required:
       - message
       description: Error response
-    Notification:
+    ListNotificationsResponse:
       type: object
       properties:
-        id:
-          type: string
-        authId:
-          anyOf:
-          - type: string
-          - type: string
-            enum:
-            - all
-            - registred
-            - unregistred
-          - type: 'null'
-        source:
-          type: string
-        event:
-          type: string
-        data:
-          type: object
-          additionalProperties: {}
-        appearance:
-          type: string
-          enum:
-          - constantly
-          - once
-          - persistent
-        endTime:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        count:
+          type: number
       required:
-      - id
-      - authId
-      - source
-      - event
-      - data
-      - appearance
-      - endTime
-      - createdAt
-      - updatedAt
-    EmptyResponse:
-      type: object
+      - list
+      - count
     WebContentBody:
       type: object
       properties:
@@ -391,58 +356,26 @@ components:
           type: string
       required:
       - title
-    SendEmailListBody:
-      type: object
-      properties:
-        event:
-          type: string
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-        data:
-          type: object
-          additionalProperties: {}
-          default: {}
-        recipients:
-          type: array
-          items:
-            type: string
-            format: email
-          minItems: 1
-          maxItems: 1000
-      required:
-      - event
-      - locale
-      - recipients
-    SlackContentBody:
-      type: object
-      properties:
-        webhookName:
-          type: string
-          enum:
-          - amlAlerts
-        content:
-          type: string
-      required:
-      - webhookName
-      - content
     MessageContentBody:
       anyOf:
       - $ref: '#/components/schemas/EmailContent'
       - $ref: '#/components/schemas/TelegramContentBody'
       - $ref: '#/components/schemas/WebContentBody'
       - $ref: '#/components/schemas/SlackContentBody'
+    EmptyResponse:
+      type: object
+    EmailContent:
+      type: object
+      properties:
+        to:
+          type: string
+        templateId:
+          type: string
+        payload:
+          type: object
+      required:
+      - templateId
+      - payload
     CreateMessageBody:
       type: object
       properties:
@@ -503,6 +436,18 @@ components:
       - group
       - targetDeviceType
       - locale
+    PageLimitParam:
+      type: string
+      default: '50'
+    TelegramContentBody:
+      type: object
+      properties:
+        chatId:
+          type: number
+        message:
+          type: string
+      required:
+      - message
     UpdatePersistentNotificationResponse:
       type: object
       properties:
@@ -518,6 +463,85 @@ components:
       - id
       - endTime
       - updatedAt
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        source:
+          type: string
+        event:
+          type: string
+        data:
+          type: object
+          additionalProperties: {}
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+        endTime:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - source
+      - event
+      - data
+      - appearance
+      - endTime
+      - createdAt
+      - updatedAt
+    SendEmailListBody:
+      type: object
+      properties:
+        event:
+          type: string
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        data:
+          type: object
+          additionalProperties: {}
+          default: {}
+        recipients:
+          type: array
+          items:
+            type: string
+            format: email
+          minItems: 1
+          maxItems: 1000
+      required:
+      - event
+      - locale
+      - recipients
     UpdatePersistentNotificationBody:
       type: object
       properties:
@@ -527,30 +551,6 @@ components:
           - 'null'
       required:
       - endTime
-    EmailContent:
-      type: object
-      properties:
-        to:
-          type: string
-        templateId:
-          type: string
-        payload:
-          type: object
-      required:
-      - templateId
-      - payload
-    TelegramContentBody:
-      type: object
-      properties:
-        chatId:
-          type: number
-        message:
-          type: string
-      required:
-      - message
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     InternalKey:
       type: http

@@ -337,6 +337,9 @@ paths:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
+    PageOffsetParam:
+      type: string
+      default: '0'
     BadgeObject:
       type: object
       properties:
@@ -364,75 +367,15 @@ components:
     PageLimitParam:
       type: string
       default: '50'
-    PageOffsetParam:
-      type: string
-      default: '0'
-    BadgePositionGetResponse:
+    PositionHistoryShareResponse:
+      allOf:
+      - $ref: '#/components/schemas/BadgeShareResponse'
       type: object
       properties:
-        badgeUrl:
+        positionId:
           type: string
       required:
-      - badgeUrl
-    BadgeShareResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-        pageUrl:
-          type: string
-        referralCode:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-      required:
-      - badgeUrl
-      - pageUrl
-      - referralCode
-      - createdAt
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    BadgeShareBodyParams:
-      type: object
-      properties:
-        badgeType:
-          type: string
-          enum:
-          - pnl
-          - roi
-        localeCode:
-          type: string
-          enum:
-          - en-US
-        renderingMode:
-          type: string
-          enum:
-          - narrow
-          - wide
-        date:
-          type: string
-          default: 25.08.2026 13:42
-        prompt:
-          type:
-          - string
-          - 'null'
-          default: null
-      required:
-      - badgeType
-      - localeCode
-      - renderingMode
-    OrderIdInput:
-      type: string
-      pattern: '[0-9A-Fa-f]{32}'
+      - positionId
     BadgeObject_2:
       type: object
       properties:
@@ -462,6 +405,54 @@ components:
       - content
       - createdAt
       - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    PointsBadgeShareBody:
+      type: object
+      properties:
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+      required:
+      - renderingMode
+    BadgeShareBodyParams:
+      type: object
+      properties:
+        badgeType:
+          type: string
+          enum:
+          - pnl
+          - roi
+        localeCode:
+          type: string
+          enum:
+          - en-US
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+        date:
+          type: string
+          default: 25.08.2026 13:42
+        prompt:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - badgeType
+      - localeCode
+      - renderingMode
     BadgeOrderGetResponse:
       type: object
       properties:
@@ -478,28 +469,24 @@ components:
           type: string
       required:
       - positionId
-    PositionHistoryShareResponse:
-      allOf:
-      - $ref: '#/components/schemas/BadgeShareResponse'
+    BadgeShareResponse:
       type: object
       properties:
-        positionId:
+        badgeUrl:
+          type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
           type: string
       required:
-      - positionId
-    OrderIdV2Input:
-      type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
-    PointsBadgeShareBody:
-      type: object
-      properties:
-        renderingMode:
-          type: string
-          enum:
-          - narrow
-          - wide
-      required:
-      - renderingMode
+      - badgeUrl
+      - pageUrl
+      - referralCode
+      - createdAt
     OrderShareResponse:
       type: object
       properties:
@@ -518,6 +505,19 @@ components:
       - pageUrl
       - referralCode
       - createdAt
+    BadgePositionGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
   securitySchemes:
     AccessToken:
       type: http

@@ -229,117 +229,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CreateSytemTelegramMessage:
-      type: object
-      properties:
-        content:
-          type: string
-        image:
-          type: string
-          format: uri
-        chatId:
-          type: string
-      required:
-      - content
-      - chatId
-    PageLimitParam:
-      type: string
-      default: '50'
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    MessageObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        status:
-          type: string
-          enum:
-          - pending
-          - sent
-          - error
-          - blocked
-        group:
-          type: string
-        source:
-          type: string
-          enum:
-          - exchange
-          - exchange-demo
-          - partner
-          - academy
-          - game
-          - group-manager
-          - unknown
-          - bridge
-          - bridge-demo
-          - backoffice
-          - auth
-          - trading-platform
-          - watcher
-        authId:
-          anyOf:
-          - type: string
-          - type: string
-            enum:
-            - all
-            - registred
-            - unregistred
-          - type: 'null'
-        content: {}
-        appearance:
-          type: string
-          enum:
-          - constantly
-          - once
-          - persistent
-        locale:
-          type: string
-        targetDeviceType:
-          type: string
-          enum:
-          - web
-          - webActivity
-          - mobilePush
-          - browserPush
-          - email
-          - telegram
-          - telegramChannel
-          - slack
-          - discord
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-        isViewed:
-          type: boolean
-        endTime:
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - status
-      - group
-      - source
-      - authId
-      - appearance
-      - locale
-      - targetDeviceType
-      - createdAt
-      - updatedAt
-      - isViewed
-      - endTime
-    EmptyResponse:
-      type: object
     MessageObjectWeb:
       type: object
       properties:
@@ -426,6 +315,189 @@ components:
       - updatedAt
       - isViewed
       - endTime
+    SlackContentBody:
+      type: object
+      properties:
+        webhookName:
+          type: string
+          enum:
+          - amlAlerts
+        content:
+          type: string
+      required:
+      - webhookName
+      - content
+    PageOffsetParam:
+      type: string
+      default: '0'
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    CreateSytemTelegramMessage:
+      type: object
+      properties:
+        content:
+          type: string
+        image:
+          type: string
+          format: uri
+        chatId:
+          type: string
+      required:
+      - content
+      - chatId
+    WebContentBody:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        link:
+          type: string
+        imageUrl:
+          type: string
+      required:
+      - title
+    MessageContentBody:
+      anyOf:
+      - $ref: '#/components/schemas/EmailContent'
+      - $ref: '#/components/schemas/TelegramContentBody'
+      - $ref: '#/components/schemas/WebContentBody'
+      - $ref: '#/components/schemas/SlackContentBody'
+    WebContentObject:
+      allOf:
+      - $ref: '#/components/schemas/WebDefaultContentObject'
+      type: object
+      properties:
+        locales:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/WebDefaultContentObject'
+    WebDefaultContentObject:
+      type: object
+      properties:
+        title:
+          type: string
+        level:
+          type: string
+        content:
+          type: string
+        link:
+          type: string
+        imageUrl:
+          type: string
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+      required:
+      - title
+    EmptyResponse:
+      type: object
+    EmailContent:
+      type: object
+      properties:
+        to:
+          type: string
+        templateId:
+          type: string
+        payload:
+          type: object
+      required:
+      - templateId
+      - payload
+    MessageObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - pending
+          - sent
+          - error
+          - blocked
+        group:
+          type: string
+        source:
+          type: string
+          enum:
+          - exchange
+          - exchange-demo
+          - partner
+          - academy
+          - game
+          - group-manager
+          - unknown
+          - bridge
+          - bridge-demo
+          - backoffice
+          - auth
+          - trading-platform
+          - watcher
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        content: {}
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+        locale:
+          type: string
+        targetDeviceType:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        isViewed:
+          type: boolean
+        endTime:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - status
+      - group
+      - source
+      - authId
+      - appearance
+      - locale
+      - targetDeviceType
+      - createdAt
+      - updatedAt
+      - isViewed
+      - endTime
     CreateMessageBody:
       type: object
       properties:
@@ -486,78 +558,18 @@ components:
       - group
       - targetDeviceType
       - locale
-    WebContentBody:
+    PageLimitParam:
+      type: string
+      default: '50'
+    TelegramContentBody:
       type: object
       properties:
-        title:
-          type: string
-        content:
-          type: string
-        link:
-          type: string
-        imageUrl:
+        chatId:
+          type: number
+        message:
           type: string
       required:
-      - title
-    EmailContent:
-      type: object
-      properties:
-        to:
-          type: string
-        templateId:
-          type: string
-        payload:
-          type: object
-      required:
-      - templateId
-      - payload
-    SlackContentBody:
-      type: object
-      properties:
-        webhookName:
-          type: string
-          enum:
-          - amlAlerts
-        content:
-          type: string
-      required:
-      - webhookName
-      - content
-    WebContentObject:
-      allOf:
-      - $ref: '#/components/schemas/WebDefaultContentObject'
-      type: object
-      properties:
-        locales:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/WebDefaultContentObject'
-    MessageContentBody:
-      anyOf:
-      - $ref: '#/components/schemas/EmailContent'
-      - $ref: '#/components/schemas/TelegramContentBody'
-      - $ref: '#/components/schemas/WebContentBody'
-      - $ref: '#/components/schemas/SlackContentBody'
-    WebDefaultContentObject:
-      type: object
-      properties:
-        title:
-          type: string
-        level:
-          type: string
-        content:
-          type: string
-        link:
-          type: string
-        imageUrl:
-          type: string
-        channelExtra:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-      required:
-      - title
+      - message
     MessageListWeb:
       type: object
       properties:
@@ -583,18 +595,6 @@ components:
             const: '*'
       required:
       - pattern
-    TelegramContentBody:
-      type: object
-      properties:
-        chatId:
-          type: number
-        message:
-          type: string
-      required:
-      - message
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     InternalKey:
       type: http

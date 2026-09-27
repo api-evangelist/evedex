@@ -90,6 +90,12 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CourseCuratorObjectList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CourseCuratorObject'
+    EmptyResponse:
+      type: object
     CourseCuratorObject:
       type: object
       properties:
@@ -109,12 +115,6 @@ components:
       - course
       - curator
       - createdAt
-    CourseCuratorObjectList:
-      type: array
-      items:
-        $ref: '#/components/schemas/CourseCuratorObject'
-    EmptyResponse:
-      type: object
     CreateCourseCurator:
       type: object
       properties:
