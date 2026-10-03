@@ -145,67 +145,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    OauthApproveBody:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        state:
-          type: string
-          default: ''
-        apiKey:
-          type:
-          - object
-          - 'null'
-          properties:
-            id:
-              type: string
-              format: uuid
-            key:
-              type: string
-          required:
-          - id
-          - key
-          default: null
-        octWallet:
-          type:
-          - object
-          - 'null'
-          properties:
-            key:
-              type: string
-          required:
-          - key
-          default: null
-      required:
-      - integrationId
-    OauthDenyBody:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        state:
-          type: string
-          default: ''
-      required:
-      - integrationId
-    EmptyResponse:
-      type: object
-    OauthResponse:
-      type: object
-      properties:
-        redirectURI:
-          type: string
-      required:
-      - redirectURI
-    PageLimitParam:
-      type: string
-      default: '50'
     OauthGetClientResponse:
       type: object
       properties:
@@ -225,13 +164,6 @@ components:
       - name
       - scopes
       - state
-    OauthDenyResponse:
-      type: object
-      properties:
-        redirectURI:
-          type: string
-      required:
-      - redirectURI
     OauthRequestListResponse:
       type: object
       properties:
@@ -277,6 +209,74 @@ components:
       required:
       - list
       - count
+    EmptyResponse:
+      type: object
+    OauthDenyResponse:
+      type: object
+      properties:
+        redirectURI:
+          type: string
+      required:
+      - redirectURI
+    OauthApproveBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+        apiKey:
+          type:
+          - object
+          - 'null'
+          properties:
+            id:
+              type: string
+              format: uuid
+            key:
+              type: string
+          required:
+          - id
+          - key
+          default: null
+        octWallet:
+          type:
+          - object
+          - 'null'
+          properties:
+            key:
+              type: string
+          required:
+          - key
+          default: null
+      required:
+      - integrationId
+    OauthResponse:
+      type: object
+      properties:
+        redirectURI:
+          type: string
+      required:
+      - redirectURI
+    PageLimitParam:
+      type: string
+      default: '50'
+    OauthDenyBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+      required:
+      - integrationId
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     InternalToken:
       type: http

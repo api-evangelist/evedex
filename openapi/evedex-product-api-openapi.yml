@@ -178,6 +178,15 @@ components:
       - lastSaleDate
       - createdAt
       - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     ProductObject_2:
       type: object
       properties:
@@ -269,15 +278,6 @@ components:
       - lastSaleDate
       - createdAt
       - updatedAt
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
   securitySchemes:
     InternalToken:
       type: http

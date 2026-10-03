@@ -129,21 +129,47 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    ShareContentImages:
+    CreateShareContentBody:
       type: object
       properties:
-        vertical:
+        name:
           type: string
-          format: uri
-        horizontal:
+          minLength: 1
+          maxLength: 128
+        socialType:
           type: string
-          format: uri
-        square:
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        content:
+          allOf:
+          - $ref: '#/components/schemas/ShareContentTexts'
+          - default: {}
+        images:
+          allOf:
+          - $ref: '#/components/schemas/ShareContentImages'
+          - default: {}
+      required:
+      - name
+      - socialType
+    ShareContentText:
+      type: object
+      properties:
+        title:
           type: string
-          format: uri
+        body:
+          type: string
+      required:
+      - title
+      - body
+    EmptyResponse:
+      type: object
     ShareContent:
       type: object
       properties:
@@ -179,6 +205,60 @@ components:
       - images
       - createdAt
       - updatedAt
+    UpdateShareContentBody:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+        socialType:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        content:
+          $ref: '#/components/schemas/ShareContentTexts'
+        images:
+          $ref: '#/components/schemas/ShareContentImages'
+    ShareContentList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShareContent'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageLimitParam:
+      type: string
+      default: '50'
+    ShareContentImages:
+      type: object
+      properties:
+        vertical:
+          type: string
+          format: uri
+        horizontal:
+          type: string
+          format: uri
+        square:
+          type: string
+          format: uri
+    PageOffsetParam:
+      type: string
+      default: '0'
     ShareContentTexts:
       type: object
       properties:
@@ -213,43 +293,6 @@ components:
         uk-UA:
           $ref: '#/components/schemas/ShareContentText'
       additionalProperties: false
-    EmptyResponse:
-      type: object
-    UpdateShareContentBody:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 128
-        socialType:
-          type: string
-          enum:
-          - telegramCommunity
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        content:
-          $ref: '#/components/schemas/ShareContentTexts'
-        images:
-          $ref: '#/components/schemas/ShareContentImages'
-    ShareContentText:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-      required:
-      - title
-      - body
-    PageLimitParam:
-      type: string
-      default: '50'
     ShareContentResponse:
       type: object
       properties:
@@ -285,49 +328,6 @@ components:
       - images
       - createdAt
       - updatedAt
-    ShareContentList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShareContent'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    CreateShareContentBody:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 128
-        socialType:
-          type: string
-          enum:
-          - telegramCommunity
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        content:
-          allOf:
-          - $ref: '#/components/schemas/ShareContentTexts'
-          - default: {}
-        images:
-          allOf:
-          - $ref: '#/components/schemas/ShareContentImages'
-          - default: {}
-      required:
-      - name
-      - socialType
   securitySchemes:
     AccessToken:
       type: http

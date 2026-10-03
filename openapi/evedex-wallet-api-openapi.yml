@@ -77,6 +77,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    WalletCreateResponse:
+      type: object
+      properties:
+        depositor:
+          type: string
+        version:
+          type: number
+      required:
+      - depositor
+      - version
     WalletObject:
       type: object
       properties:
@@ -144,16 +154,6 @@ components:
       - authId
       - owner
       - wallet
-    WalletCreateResponse:
-      type: object
-      properties:
-        depositor:
-          type: string
-        version:
-          type: number
-      required:
-      - depositor
-      - version
   securitySchemes:
     AccessToken:
       type: http

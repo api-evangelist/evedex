@@ -157,27 +157,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CreateShortLink:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Short link name
-        shortLinkCode:
-          type: string
-          description: Unique code
-        destinationLink:
-          type: string
-          format: uri
-          description: Destination link
-        referralCode:
-          type: string
-          description: Referral link code
-      required:
-      - name
-      - shortLinkCode
-      - destinationLink
-      - referralCode
     ShortLink:
       type: object
       properties:
@@ -210,6 +189,27 @@ components:
       - shortLinkPath
     EmptyResponse:
       type: object
+    CreateShortLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Short link name
+        shortLinkCode:
+          type: string
+          description: Unique code
+        destinationLink:
+          type: string
+          format: uri
+          description: Destination link
+        referralCode:
+          type: string
+          description: Referral link code
+      required:
+      - name
+      - shortLinkCode
+      - destinationLink
+      - referralCode
   securitySchemes:
     AccessToken:
       type: http

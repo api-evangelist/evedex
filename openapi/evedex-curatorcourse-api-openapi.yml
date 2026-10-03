@@ -90,12 +90,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CourseCuratorObjectList:
-      type: array
-      items:
-        $ref: '#/components/schemas/CourseCuratorObject'
     EmptyResponse:
       type: object
+    CreateCourseCurator:
+      type: object
+      properties:
+        curator:
+          type: string
+      required:
+      - curator
     CourseCuratorObject:
       type: object
       properties:
@@ -115,13 +118,10 @@ components:
       - course
       - curator
       - createdAt
-    CreateCourseCurator:
-      type: object
-      properties:
-        curator:
-          type: string
-      required:
-      - curator
+    CourseCuratorObjectList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CourseCuratorObject'
   securitySchemes:
     AccessToken:
       type: http

@@ -148,228 +148,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    MaterialObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        lesson:
-          type: string
-          format: uuid
-        title:
-          type: string
-        type:
-          type: string
-          enum:
-          - text
-          - links
-          - banner
-          - embedded-video
-          - video
-          - file
-          - image
-        content:
-          anyOf:
-          - type: object
-            properties:
-              type:
-                type: string
-                const: text
-              markdown:
-                type: string
-            required:
-            - type
-            - markdown
-          - type: object
-            properties:
-              type:
-                type: string
-                const: embedded-video
-              source:
-                type: string
-                enum:
-                - vimeo
-                - youtube
-                - other
-              url:
-                type: string
-                format: uri
-              preview:
-                type: object
-                properties:
-                  mime:
-                    type: string
-                    enum:
-                    - image/jpeg
-                    - image/png
-                    - image/webp
-                    - image/avif
-                    - image/svg+xml
-                  url:
-                    type: string
-                    format: uri
-                required:
-                - mime
-                - url
-            required:
-            - type
-            - source
-            - url
-          - type: object
-            properties:
-              type:
-                type: string
-                const: video
-              mime:
-                type: string
-                enum:
-                - video/webm
-                - video/mp4
-                - video/ogg
-              url:
-                type: string
-                format: uri
-              preview:
-                type: object
-                properties:
-                  mime:
-                    type: string
-                    enum:
-                    - image/jpeg
-                    - image/png
-                    - image/webp
-                    - image/avif
-                    - image/svg+xml
-                  url:
-                    type: string
-                    format: uri
-                required:
-                - mime
-                - url
-            required:
-            - type
-            - mime
-            - url
-          - type: object
-            properties:
-              type:
-                type: string
-                const: file
-              files:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    title:
-                      type: string
-                    mime:
-                      type: string
-                    url:
-                      type: string
-                      format: uri
-                    size:
-                      type: number
-                  required:
-                  - url
-                  - size
-            required:
-            - type
-            - files
-          - type: object
-            properties:
-              type:
-                type: string
-                const: image
-              title:
-                type: string
-              url:
-                type: string
-                format: uri
-            required:
-            - type
-            - url
-          - type: object
-            properties:
-              type:
-                type: string
-                const: links
-              links:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    url:
-                      type: string
-                    label:
-                      type: string
-                  required:
-                  - url
-            required:
-            - type
-            - links
-          - type: object
-            properties:
-              type:
-                type: string
-                const: banner
-              title:
-                type: string
-              text:
-                type: string
-              buttonText:
-                type: string
-              backgroundImage:
-                type: string
-                format: uri
-              image:
-                type: string
-                format: uri
-            required:
-            - type
-            - title
-            - buttonText
-            - backgroundImage
-        order:
-          type: number
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-        subtitles:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              languageCode:
-                type: string
-              label:
-                type: string
-              url:
-                type: string
-              createdAt:
-                type: string
-              updatedAt:
-                type: string
-            required:
-            - id
-            - languageCode
-            - label
-            - url
-            - createdAt
-            - updatedAt
-      required:
-      - id
-      - lesson
-      - title
-      - type
-      - content
-      - order
-      - createdAt
-      - updatedAt
     MaterialUpdateBody:
       oneOf:
       - type: object
@@ -862,6 +640,228 @@ components:
         required:
         - type
         - content
+    MaterialObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lesson:
+          type: string
+          format: uuid
+        title:
+          type: string
+        type:
+          type: string
+          enum:
+          - text
+          - links
+          - banner
+          - embedded-video
+          - video
+          - file
+          - image
+        content:
+          anyOf:
+          - type: object
+            properties:
+              type:
+                type: string
+                const: text
+              markdown:
+                type: string
+            required:
+            - type
+            - markdown
+          - type: object
+            properties:
+              type:
+                type: string
+                const: embedded-video
+              source:
+                type: string
+                enum:
+                - vimeo
+                - youtube
+                - other
+              url:
+                type: string
+                format: uri
+              preview:
+                type: object
+                properties:
+                  mime:
+                    type: string
+                    enum:
+                    - image/jpeg
+                    - image/png
+                    - image/webp
+                    - image/avif
+                    - image/svg+xml
+                  url:
+                    type: string
+                    format: uri
+                required:
+                - mime
+                - url
+            required:
+            - type
+            - source
+            - url
+          - type: object
+            properties:
+              type:
+                type: string
+                const: video
+              mime:
+                type: string
+                enum:
+                - video/webm
+                - video/mp4
+                - video/ogg
+              url:
+                type: string
+                format: uri
+              preview:
+                type: object
+                properties:
+                  mime:
+                    type: string
+                    enum:
+                    - image/jpeg
+                    - image/png
+                    - image/webp
+                    - image/avif
+                    - image/svg+xml
+                  url:
+                    type: string
+                    format: uri
+                required:
+                - mime
+                - url
+            required:
+            - type
+            - mime
+            - url
+          - type: object
+            properties:
+              type:
+                type: string
+                const: file
+              files:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    mime:
+                      type: string
+                    url:
+                      type: string
+                      format: uri
+                    size:
+                      type: number
+                  required:
+                  - url
+                  - size
+            required:
+            - type
+            - files
+          - type: object
+            properties:
+              type:
+                type: string
+                const: image
+              title:
+                type: string
+              url:
+                type: string
+                format: uri
+            required:
+            - type
+            - url
+          - type: object
+            properties:
+              type:
+                type: string
+                const: links
+              links:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+                    label:
+                      type: string
+                  required:
+                  - url
+            required:
+            - type
+            - links
+          - type: object
+            properties:
+              type:
+                type: string
+                const: banner
+              title:
+                type: string
+              text:
+                type: string
+              buttonText:
+                type: string
+              backgroundImage:
+                type: string
+                format: uri
+              image:
+                type: string
+                format: uri
+            required:
+            - type
+            - title
+            - buttonText
+            - backgroundImage
+        order:
+          type: number
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        subtitles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              languageCode:
+                type: string
+              label:
+                type: string
+              url:
+                type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+            required:
+            - id
+            - languageCode
+            - label
+            - url
+            - createdAt
+            - updatedAt
+      required:
+      - id
+      - lesson
+      - title
+      - type
+      - content
+      - order
+      - createdAt
+      - updatedAt
   securitySchemes:
     AccessToken:
       type: http

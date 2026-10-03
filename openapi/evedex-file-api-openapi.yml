@@ -317,6 +317,21 @@ paths:
     - url: https://backoffice-api.private.evedex.com
 components:
   schemas:
+    UploadUrlGeneratorResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - url
     UploadUrlGeneratorRequest:
       type: object
       properties:
@@ -339,27 +354,6 @@ components:
       required:
       - name
       - mime
-    EmptyResponse:
-      type: object
-    UploadUrlGeneratorResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        url:
-          type: string
-          format: uri
-      required:
-      - id
-      - name
-      - url
-    UploadArrayResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/UploadResponse'
     UploadResponse:
       type: object
       properties:
@@ -393,6 +387,12 @@ components:
       - url
       - error
       - createdAt
+    EmptyResponse:
+      type: object
+    UploadArrayResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UploadResponse'
     ApproveFileResponse:
       type: object
       properties:
@@ -401,6 +401,20 @@ components:
           format: uri
       required:
       - url
+    ApproveFileBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ext:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - ext
+      - name
     UploadUrlGeneratorRequest_2:
       type: object
       properties:
@@ -417,23 +431,9 @@ components:
       required:
       - name
       - mime
-    ApproveFileBody:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        ext:
-          type: string
-        name:
-          type: string
-      required:
-      - id
-      - ext
-      - name
-    PageOffsetParam:
+    PageLimitParam:
       type: string
-      default: '0'
+      default: '50'
     ApproveUploadedFileResponse:
       type: object
       properties:
@@ -458,16 +458,6 @@ components:
       - url
       - size
       - createdAt
-    GenerateFileUploadLinkBody:
-      type: object
-      properties:
-        name:
-          type: string
-        mime:
-          type: string
-      required:
-      - name
-      - mime
     GenerateFileUploadLinkResponse:
       type: object
       properties:
@@ -487,9 +477,6 @@ components:
       type: array
       items:
         type: string
-    PageLimitParam:
-      type: string
-      default: '50'
     ApproveUploadedFileBody:
       type: object
       properties:
@@ -504,6 +491,19 @@ components:
       - id
       - ext
       - name
+    GenerateFileUploadLinkBody:
+      type: object
+      properties:
+        name:
+          type: string
+        mime:
+          type: string
+      required:
+      - name
+      - mime
+    PageOffsetParam:
+      type: string
+      default: '0'
     UploadUrlGeneratorRequest_3:
       type: object
       properties:

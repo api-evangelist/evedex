@@ -118,12 +118,12 @@ components:
       - weight
       - currency
       - type
+    EmptyResponse:
+      type: object
     CreateEventBulk:
       type: array
       items:
         $ref: '#/components/schemas/CreateEvent'
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

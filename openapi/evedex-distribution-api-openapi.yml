@@ -297,9 +297,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
     SlackContentBody:
       type: object
       properties:
@@ -312,6 +309,51 @@ components:
       required:
       - webhookName
       - content
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+        authId:
+          anyOf:
+          - type: string
+          - type: string
+            enum:
+            - all
+            - registred
+            - unregistred
+          - type: 'null'
+        source:
+          type: string
+        event:
+          type: string
+        data:
+          type: object
+          additionalProperties: {}
+        appearance:
+          type: string
+          enum:
+          - constantly
+          - once
+          - persistent
+        endTime:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - source
+      - event
+      - data
+      - appearance
+      - endTime
+      - createdAt
+      - updatedAt
     SendEmailListResponse:
       type: object
       properties:
@@ -322,60 +364,8 @@ components:
       required:
       - sent
       - recipients
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    ListNotificationsResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Notification'
-        count:
-          type: number
-      required:
-      - list
-      - count
-    WebContentBody:
-      type: object
-      properties:
-        title:
-          type: string
-        content:
-          type: string
-        link:
-          type: string
-        imageUrl:
-          type: string
-      required:
-      - title
-    MessageContentBody:
-      anyOf:
-      - $ref: '#/components/schemas/EmailContent'
-      - $ref: '#/components/schemas/TelegramContentBody'
-      - $ref: '#/components/schemas/WebContentBody'
-      - $ref: '#/components/schemas/SlackContentBody'
     EmptyResponse:
       type: object
-    EmailContent:
-      type: object
-      properties:
-        to:
-          type: string
-        templateId:
-          type: string
-        payload:
-          type: object
-      required:
-      - templateId
-      - payload
     CreateMessageBody:
       type: object
       properties:
@@ -436,78 +426,31 @@ components:
       - group
       - targetDeviceType
       - locale
-    PageLimitParam:
-      type: string
-      default: '50'
-    TelegramContentBody:
+    EmailContent:
       type: object
       properties:
-        chatId:
-          type: number
-        message:
+        to:
           type: string
-      required:
-      - message
-    UpdatePersistentNotificationResponse:
-      type: object
-      properties:
-        id:
+        templateId:
           type: string
-        endTime:
-          type:
-          - string
-          - 'null'
-        updatedAt:
-          type: string
-      required:
-      - id
-      - endTime
-      - updatedAt
-    Notification:
-      type: object
-      properties:
-        id:
-          type: string
-        authId:
-          anyOf:
-          - type: string
-          - type: string
-            enum:
-            - all
-            - registred
-            - unregistred
-          - type: 'null'
-        source:
-          type: string
-        event:
-          type: string
-        data:
+        payload:
           type: object
-          additionalProperties: {}
-        appearance:
+      required:
+      - templateId
+      - payload
+    WebContentBody:
+      type: object
+      properties:
+        title:
           type: string
-          enum:
-          - constantly
-          - once
-          - persistent
-        endTime:
-          type:
-          - string
-          - 'null'
-        createdAt:
+        content:
           type: string
-        updatedAt:
+        link:
+          type: string
+        imageUrl:
           type: string
       required:
-      - id
-      - authId
-      - source
-      - event
-      - data
-      - appearance
-      - endTime
-      - createdAt
-      - updatedAt
+      - title
     SendEmailListBody:
       type: object
       properties:
@@ -542,6 +485,63 @@ components:
       - event
       - locale
       - recipients
+    ListNotificationsResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    MessageContentBody:
+      anyOf:
+      - $ref: '#/components/schemas/EmailContent'
+      - $ref: '#/components/schemas/TelegramContentBody'
+      - $ref: '#/components/schemas/WebContentBody'
+      - $ref: '#/components/schemas/SlackContentBody'
+    TelegramContentBody:
+      type: object
+      properties:
+        chatId:
+          type: number
+        message:
+          type: string
+      required:
+      - message
+    PageLimitParam:
+      type: string
+      default: '50'
+    UpdatePersistentNotificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        endTime:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          type: string
+      required:
+      - id
+      - endTime
+      - updatedAt
+    PageOffsetParam:
+      type: string
+      default: '0'
     UpdatePersistentNotificationBody:
       type: object
       properties:

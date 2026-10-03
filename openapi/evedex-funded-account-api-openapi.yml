@@ -75,8 +75,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
-      type: object
     FundedAccountListResponse:
       type: array
       items:
@@ -101,6 +99,8 @@ components:
         - parent
         - smartAccountAddress
         - createdAt
+    EmptyResponse:
+      type: object
     FundedAccountOptionsListResponse:
       type: array
       items:

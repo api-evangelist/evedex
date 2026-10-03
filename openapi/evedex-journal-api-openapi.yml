@@ -41,6 +41,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    JournalList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     PageOffsetParam:
       type: string
       default: '0'
@@ -82,20 +96,6 @@ components:
       - fromDate
       - toDate
       - createdAt
-    JournalList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/JournalObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     PageLimitParam:
       type: string
       default: '50'

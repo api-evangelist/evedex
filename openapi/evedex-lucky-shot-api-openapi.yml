@@ -376,27 +376,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    LuckyShotImageGetResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-          format: uri
-      required:
-      - badgeUrl
-    AwardLuckyShotTicketsResponse:
-      type: object
-      properties:
-        authId:
-          type: string
-        amount:
-          type: number
-        tickets:
-          $ref: '#/components/schemas/LuckyShotTickets'
-      required:
-      - authId
-      - amount
-      - tickets
+    PageLimitParam:
+      type: string
+      default: '50'
     LuckyShotTickets:
       type: object
       properties:
@@ -421,6 +403,19 @@ components:
           format: uri
       required:
       - badgeUrl
+    AwardLuckyShotTicketsResponse:
+      type: object
+      properties:
+        authId:
+          type: string
+        amount:
+          type: number
+        tickets:
+          $ref: '#/components/schemas/LuckyShotTickets'
+      required:
+      - authId
+      - amount
+      - tickets
     LuckyShotImageShareBody:
       type: object
       properties:
@@ -431,9 +426,6 @@ components:
           - wide
       required:
       - renderingMode
-    PageLimitParam:
-      type: string
-      default: '50'
     AwardLuckyShotTicketsBody:
       type: object
       properties:
@@ -447,6 +439,14 @@ components:
       required:
       - authId
       - amount
+    LuckyShotImageGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+          format: uri
+      required:
+      - badgeUrl
   securitySchemes:
     AccessToken:
       type: http

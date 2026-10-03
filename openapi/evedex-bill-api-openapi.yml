@@ -199,23 +199,6 @@ paths:
     - url: https://billing-api.evedex.com
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    BillListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/BillObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     BillUpdatePaymentMethodBody:
       type: object
       properties:
@@ -366,9 +349,20 @@ components:
       - paymentDetails
       - createdAt
       - updatedAt
-    PageLimitParam:
-      type: string
-      default: '50'
+    BillListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     CreateBillResponse:
       type: object
       properties:
@@ -385,6 +379,12 @@ components:
       - id
       - url
       - billingId
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
     BillResponse:
       type: object
       properties:

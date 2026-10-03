@@ -155,83 +155,6 @@ components:
       - unrealizedPnl
       - currentPnl
       - availableBalance
-    PositionHistoryObject:
-      type: object
-      properties:
-        id:
-          type: string
-        user:
-          type: string
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        leverage:
-          type: number
-        version:
-          type: number
-        closeType:
-          type: string
-          enum:
-          - manually
-          - take-profit
-          - stop-loss
-          - liquidated
-          - adl
-      required:
-      - id
-      - user
-      - instrument
-      - side
-      - leverage
-      - version
-      - closeType
-    PositionHistoryFillObject:
-      allOf:
-      - $ref: '#/components/schemas/PositionHistoryObject'
-      - type: object
-        properties:
-          buyQuantity:
-            type: number
-          sellQuantity:
-            type: number
-          buyVolume:
-            type: number
-          sellVolume:
-            type: number
-          buyAvgPrice:
-            type: number
-          sellAvgPrice:
-            type: number
-          realizedPnL:
-            type: number
-          realizedPnLPercent:
-            type: number
-          fee:
-            type: number
-          fundingRate:
-            type: number
-          openAt:
-            type: string
-          closeAt:
-            type: string
-        required:
-        - buyQuantity
-        - sellQuantity
-        - buyVolume
-        - sellVolume
-        - buyAvgPrice
-        - sellAvgPrice
-        - realizedPnL
-        - realizedPnLPercent
-        - fee
-        - fundingRate
-        - openAt
-        - closeAt
-    BalanceChart:
-      type: array
-      items:
-        $ref: '#/components/schemas/BalanceChartPoint'
     UserStatisticsResponse:
       type: object
       properties:
@@ -284,11 +207,88 @@ components:
       - buyVolume
       - sellVolume
       - tradingVolume
+    PositionHistoryObject:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        leverage:
+          type: number
+        version:
+          type: number
+        closeType:
+          type: string
+          enum:
+          - manually
+          - take-profit
+          - stop-loss
+          - liquidated
+          - adl
+      required:
+      - id
+      - user
+      - instrument
+      - side
+      - leverage
+      - version
+      - closeType
     Side:
       type: string
       enum:
       - BUY
       - SELL
+    BalanceChart:
+      type: array
+      items:
+        $ref: '#/components/schemas/BalanceChartPoint'
+    PositionHistoryFillObject:
+      allOf:
+      - $ref: '#/components/schemas/PositionHistoryObject'
+      - type: object
+        properties:
+          buyQuantity:
+            type: number
+          sellQuantity:
+            type: number
+          buyVolume:
+            type: number
+          sellVolume:
+            type: number
+          buyAvgPrice:
+            type: number
+          sellAvgPrice:
+            type: number
+          realizedPnL:
+            type: number
+          realizedPnLPercent:
+            type: number
+          fee:
+            type: number
+          fundingRate:
+            type: number
+          openAt:
+            type: string
+          closeAt:
+            type: string
+        required:
+        - buyQuantity
+        - sellQuantity
+        - buyVolume
+        - sellVolume
+        - buyAvgPrice
+        - sellAvgPrice
+        - realizedPnL
+        - realizedPnLPercent
+        - fee
+        - fundingRate
+        - openAt
+        - closeAt
   securitySchemes:
     InternalToken:
       type: http

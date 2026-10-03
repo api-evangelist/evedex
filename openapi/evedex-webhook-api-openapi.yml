@@ -102,6 +102,14 @@ paths:
     - url: https://bridge-middleware-api.evedex.com
 components:
   schemas:
+    WebhookResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          default: ok
+      required:
+      - status
     ErrorResponse:
       type: object
       properties:
@@ -111,55 +119,6 @@ components:
       required:
       - message
       description: Error response
-    WebhookResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          default: ok
-      required:
-      - status
-    QuickNodeStreamEventListBody:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/QuickNodeStreamEvent'
-      required:
-      - events
-    QuickNodeStreamEvent:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - erc20
-          - eth
-          - eth_internal
-        token:
-          type: string
-        from:
-          type: string
-        to:
-          type: string
-        value:
-          type: string
-        txHash:
-          type: string
-        blockNumber:
-          type: string
-        logIndex:
-          type: string
-      required:
-      - type
-      - from
-      - to
-      - value
-      - txHash
-      - blockNumber
-    EmptyResponse:
-      type: object
     EllipticWebhookBody:
       type: object
       properties:
@@ -222,6 +181,47 @@ components:
               type: string
             type:
               type: string
+    EmptyResponse:
+      type: object
+    QuickNodeStreamEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - erc20
+          - eth
+          - eth_internal
+        token:
+          type: string
+        from:
+          type: string
+        to:
+          type: string
+        value:
+          type: string
+        txHash:
+          type: string
+        blockNumber:
+          type: string
+        logIndex:
+          type: string
+      required:
+      - type
+      - from
+      - to
+      - value
+      - txHash
+      - blockNumber
+    QuickNodeStreamEventListBody:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuickNodeStreamEvent'
+      required:
+      - events
   securitySchemes:
     InternalKey:
       type: http

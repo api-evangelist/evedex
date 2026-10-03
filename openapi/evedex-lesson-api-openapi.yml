@@ -146,84 +146,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    LessonObjectExtendedList:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          name:
-            type: string
-          order:
-            type: number
-          published:
-            type: boolean
-          releaseDate:
-            type:
-            - string
-            - 'null'
-          lessons:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
-                promo:
-                  type: boolean
-                duration:
-                  type: number
-                slug:
-                  type: string
-                order:
-                  type: number
-                progress:
-                  $ref: '#/components/schemas/LessonProgressObject'
-              required:
-              - id
-              - name
-              - promo
-              - duration
-              - slug
-              - order
-              - progress
-        required:
-        - id
-        - name
-        - order
-        - published
-        - releaseDate
-        - lessons
-    LessonCreateBody:
-      type: object
-      properties:
-        module:
-          type: string
-          format: uuid
-        name:
-          type: string
-        promo:
-          type: boolean
-          default: false
-        duration:
-          type: number
-        slug:
-          type: string
-      required:
-      - module
-      - name
-    LessonProgressCoreType:
-      type: string
-      enum:
-      - notStarted
-      - lessonCompleted
-    EmptyResponse:
-      type: object
     LessonObject:
       type: object
       properties:
@@ -280,6 +202,82 @@ components:
           type: string
         progressStatus:
           $ref: '#/components/schemas/LessonProgressCoreType'
+    LessonProgressCoreType:
+      type: string
+      enum:
+      - notStarted
+      - lessonCompleted
+    LessonCreateBody:
+      type: object
+      properties:
+        module:
+          type: string
+          format: uuid
+        name:
+          type: string
+        promo:
+          type: boolean
+          default: false
+        duration:
+          type: number
+        slug:
+          type: string
+      required:
+      - module
+      - name
+    LessonObjectExtendedList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          name:
+            type: string
+          order:
+            type: number
+          published:
+            type: boolean
+          releaseDate:
+            type:
+            - string
+            - 'null'
+          lessons:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+                promo:
+                  type: boolean
+                duration:
+                  type: number
+                slug:
+                  type: string
+                order:
+                  type: number
+                progress:
+                  $ref: '#/components/schemas/LessonProgressObject'
+              required:
+              - id
+              - name
+              - promo
+              - duration
+              - slug
+              - order
+              - progress
+        required:
+        - id
+        - name
+        - order
+        - published
+        - releaseDate
+        - lessons
     LessonProgressType:
       type: string
       enum:
@@ -294,6 +292,8 @@ components:
           $ref: '#/components/schemas/LessonProgressType'
       required:
       - status
+    EmptyResponse:
+      type: object
   securitySchemes:
     AccessToken:
       type: http

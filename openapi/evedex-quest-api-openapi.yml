@@ -171,9 +171,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
     UserQuest:
       type: object
       properties:
@@ -1055,6 +1052,9 @@ components:
       - url
       - viewType
       - buttonText
+    PageOffsetParam:
+      type: string
+      default: '0'
     PageLimitParam:
       type: string
       default: '50'

@@ -465,11 +465,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    EmptyResponse:
+      type: object
     PageOffsetParam:
       type: string
       default: '0'
-    EmptyResponse:
-      type: object
     PageLimitParam:
       type: string
       default: '50'

@@ -163,55 +163,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    HomeworkListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/HomeworkObject'
-        count:
-          type: number
-      required:
-      - list
-      - count
-    HomeworkObject:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-          - waitingForCheck
-          - passed
-          - failed
-        curatorComment:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - status
-      - curatorComment
-      - createdAt
-      - updatedAt
-    HomeworkCreateBody:
-      type: object
-      properties:
-        answers:
-          type: array
-          items:
-            $ref: '#/components/schemas/HomeworkAnswerBody'
-      required:
-      - answers
     PageLimitParam:
       type: string
       default: '50'
@@ -238,6 +189,55 @@ components:
           type: string
       required:
       - status
+    HomeworkObject:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - waitingForCheck
+          - passed
+          - failed
+        curatorComment:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - status
+      - curatorComment
+      - createdAt
+      - updatedAt
+    HomeworkListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeworkObject'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    HomeworkCreateBody:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeworkAnswerBody'
+      required:
+      - answers
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

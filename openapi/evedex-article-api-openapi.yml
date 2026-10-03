@@ -57,9 +57,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
+    ArticleList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArticleShort'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     Article:
       type: object
       properties:
@@ -148,20 +159,9 @@ components:
     PageLimitParam:
       type: string
       default: '50'
-    ArticleList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArticleShort'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     InternalToken:
       type: http

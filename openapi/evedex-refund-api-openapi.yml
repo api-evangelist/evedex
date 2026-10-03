@@ -46,6 +46,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     RefundObject:
       type: object
       properties:
@@ -86,15 +95,6 @@ components:
       - rollbackType
       - createdAt
       - updatedAt
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
     CreateRefundBody:
       type: object
       properties:

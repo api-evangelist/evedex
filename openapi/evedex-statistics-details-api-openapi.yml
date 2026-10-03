@@ -71,28 +71,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    StatisticsVolumesResponse:
-      type: object
-      properties:
-        tradingVolume:
-          type: number
-        firstDepositVolume:
-          type: number
-        firstDepositCount:
-          type: number
-        signupCount:
-          type: number
-        depositCount:
-          type: number
-        totalDepositVolume:
-          type: number
-      required:
-      - tradingVolume
-      - firstDepositVolume
-      - firstDepositCount
-      - signupCount
-      - depositCount
-      - totalDepositVolume
     StatisticsDetailsResponse:
       type: object
       properties:
@@ -119,6 +97,28 @@ components:
       - id
       - totalSignupCount
       - links
+    StatisticsVolumesResponse:
+      type: object
+      properties:
+        tradingVolume:
+          type: number
+        firstDepositVolume:
+          type: number
+        firstDepositCount:
+          type: number
+        signupCount:
+          type: number
+        depositCount:
+          type: number
+        totalDepositVolume:
+          type: number
+      required:
+      - tradingVolume
+      - firstDepositVolume
+      - firstDepositCount
+      - signupCount
+      - depositCount
+      - totalDepositVolume
   securitySchemes:
     AccessToken:
       type: http

@@ -367,6 +367,65 @@ components:
     PageLimitParam:
       type: string
       default: '50'
+    OrderShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+      required:
+      - badgeUrl
+      - pageUrl
+      - referralCode
+      - createdAt
+    BadgeShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+      required:
+      - badgeUrl
+      - pageUrl
+      - referralCode
+      - createdAt
+    PositionShareResponse:
+      allOf:
+      - $ref: '#/components/schemas/BadgeShareResponse'
+      type: object
+      properties:
+        positionId:
+          type: string
+      required:
+      - positionId
+    BadgeOrderGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
+    BadgePositionGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
     PositionHistoryShareResponse:
       allOf:
       - $ref: '#/components/schemas/BadgeShareResponse'
@@ -376,6 +435,25 @@ components:
           type: string
       required:
       - positionId
+    PointsBadgeShareBody:
+      type: object
+      properties:
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+      required:
+      - renderingMode
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
     BadgeObject_2:
       type: object
       properties:
@@ -405,25 +483,6 @@ components:
       - content
       - createdAt
       - updatedAt
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    PointsBadgeShareBody:
-      type: object
-      properties:
-        renderingMode:
-          type: string
-          enum:
-          - narrow
-          - wide
-      required:
-      - renderingMode
     BadgeShareBodyParams:
       type: object
       properties:
@@ -453,71 +512,12 @@ components:
       - badgeType
       - localeCode
       - renderingMode
-    BadgeOrderGetResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-      required:
-      - badgeUrl
-    PositionShareResponse:
-      allOf:
-      - $ref: '#/components/schemas/BadgeShareResponse'
-      type: object
-      properties:
-        positionId:
-          type: string
-      required:
-      - positionId
-    BadgeShareResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-        pageUrl:
-          type: string
-        referralCode:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-      required:
-      - badgeUrl
-      - pageUrl
-      - referralCode
-      - createdAt
-    OrderShareResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-        pageUrl:
-          type: string
-        referralCode:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-      required:
-      - badgeUrl
-      - pageUrl
-      - referralCode
-      - createdAt
-    BadgePositionGetResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-      required:
-      - badgeUrl
-    OrderIdInput:
-      type: string
-      pattern: '[0-9A-Fa-f]{32}'
     OrderIdV2Input:
       type: string
       pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
   securitySchemes:
     AccessToken:
       type: http

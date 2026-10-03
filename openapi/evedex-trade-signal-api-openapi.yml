@@ -70,10 +70,66 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TradeSignalListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/TradeSignalItem'
+    TradeSignalItemWithUser:
+      allOf:
+      - $ref: '#/components/schemas/TradeSignalItem'
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        avatar:
+          type: string
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+      required:
+      - name
+      - avatar
+      - wallet
+      - smartAccountAddress
+    TradeSignalCreateBody:
+      type: object
+      properties:
+        instrument:
+          type: string
+        priceMin:
+          type: string
+        priceMax:
+          type: string
+        refcode:
+          type: string
+        side:
+          type: string
+          enum:
+          - BUY
+          - SELL
+        tpsl:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - take-profit
+                - stop-loss
+              quantityPercent:
+                type: string
+              price:
+                type: string
+            required:
+            - type
+        expireAt:
+          type: string
+      required:
+      - instrument
+      - refcode
+      - side
+      - tpsl
+      - expireAt
     TradeSignalItem:
       type: object
       properties:
@@ -122,66 +178,10 @@ components:
       - tpsl
       - expireAt
       - createdAt
-    TradeSignalCreateBody:
-      type: object
-      properties:
-        instrument:
-          type: string
-        priceMin:
-          type: string
-        priceMax:
-          type: string
-        refcode:
-          type: string
-        side:
-          type: string
-          enum:
-          - BUY
-          - SELL
-        tpsl:
-          type: array
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                - take-profit
-                - stop-loss
-              quantityPercent:
-                type: string
-              price:
-                type: string
-            required:
-            - type
-        expireAt:
-          type: string
-      required:
-      - instrument
-      - refcode
-      - side
-      - tpsl
-      - expireAt
-    TradeSignalItemWithUser:
-      allOf:
-      - $ref: '#/components/schemas/TradeSignalItem'
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-        avatar:
-          type: string
-        wallet:
-          type: string
-        smartAccountAddress:
-          type: string
-      required:
-      - name
-      - avatar
-      - wallet
-      - smartAccountAddress
+    TradeSignalListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/TradeSignalItem'
   securitySchemes:
     InternalToken:
       type: http

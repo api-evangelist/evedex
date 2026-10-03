@@ -203,72 +203,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      anyOf:
-      - type: number
-      - type: string
-      default: 0
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    RemoveHistoryTaskListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-              payload:
-                type: object
-                properties:
-                  after:
-                    type: number
-                  before:
-                    type: number
-                  instrument:
-                    type: string
-                  max:
-                    type: number
-                  min:
-                    type: number
-                required:
-                - after
-                - before
-                - instrument
-              status:
-                type: string
-                enum:
-                - pending
-                - process
-                - done
-                - error
-              error:
-                type:
-                - string
-                - 'null'
-                default: null
-              startAt:
-                type: string
-            required:
-            - id
-            - payload
-            - status
-            - error
-            - startAt
-        count:
-          type: number
-      required:
-      - list
-      - count
     ImportHistoryTaskListResponse:
       type: object
       properties:
@@ -342,8 +276,6 @@ components:
       required:
       - list
       - count
-    EmptyResponse:
-      type: object
     TradeHistoryResponse:
       type: array
       items:
@@ -365,34 +297,6 @@ components:
           description: Volume in quote currency
         - type: number
           description: Volume in base currency
-    RemoveHistoryBody:
-      type: object
-      properties:
-        after:
-          type: string
-        before:
-          type: string
-        max:
-          type:
-          - number
-          - 'null'
-          default: null
-        min:
-          type:
-          - number
-          - 'null'
-          default: null
-        instrument:
-          type: string
-      required:
-      - after
-      - before
-      - instrument
-    PageLimitParam:
-      anyOf:
-      - type: number
-      - type: string
-      default: 20
     ImportHistoryBody:
       type: object
       properties:
@@ -441,6 +345,102 @@ components:
       required:
       - after
       - source
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    RemoveHistoryBody:
+      type: object
+      properties:
+        after:
+          type: string
+        before:
+          type: string
+        max:
+          type:
+          - number
+          - 'null'
+          default: null
+        min:
+          type:
+          - number
+          - 'null'
+          default: null
+        instrument:
+          type: string
+      required:
+      - after
+      - before
+      - instrument
+    PageOffsetParam:
+      anyOf:
+      - type: number
+      - type: string
+      default: 0
+    PageLimitParam:
+      anyOf:
+      - type: number
+      - type: string
+      default: 20
+    EmptyResponse:
+      type: object
+    RemoveHistoryTaskListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              payload:
+                type: object
+                properties:
+                  after:
+                    type: number
+                  before:
+                    type: number
+                  instrument:
+                    type: string
+                  max:
+                    type: number
+                  min:
+                    type: number
+                required:
+                - after
+                - before
+                - instrument
+              status:
+                type: string
+                enum:
+                - pending
+                - process
+                - done
+                - error
+              error:
+                type:
+                - string
+                - 'null'
+                default: null
+              startAt:
+                type: string
+            required:
+            - id
+            - payload
+            - status
+            - error
+            - startAt
+        count:
+          type: number
+      required:
+      - list
+      - count
   securitySchemes:
     InternalToken:
       type: http

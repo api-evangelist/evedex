@@ -284,34 +284,37 @@ components:
   schemas:
     EmptyResponse:
       type: object
-    TradingVolumeCreateBody:
-      type: array
-      items:
-        type: object
-        properties:
-          user:
-            type: string
-            format: uuid
-          referralCode:
-            type: string
-            default: ''
-          competition:
-            type: string
-            default: ''
-          experience:
-            type: number
-          realizedPnL:
-            type: number
-          tradingVolume:
-            type: number
-          createdAt:
-            type: string
-        required:
-        - user
-        - experience
-        - realizedPnL
-        - tradingVolume
-        - createdAt
+    CompetitionCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        startAt:
+          type: string
+        finishAt:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - finished
+          - pending
+        type:
+          type: string
+          enum:
+          - weekly
+          - trading
+          - points
+          - referral
+          - grand-contest
+          - challenges
+          - templateBased
+      required:
+      - id
+      - startAt
+      - finishAt
+      - status
+      - type
     CompetitionCreateBody:
       type: object
       properties:
@@ -453,37 +456,34 @@ components:
       - type
       - status
       - settings
-    CompetitionCreateResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        startAt:
-          type: string
-        finishAt:
-          type: string
-        status:
-          type: string
-          enum:
-          - active
-          - finished
-          - pending
-        type:
-          type: string
-          enum:
-          - weekly
-          - trading
-          - points
-          - referral
-          - grand-contest
-          - challenges
-          - templateBased
-      required:
-      - id
-      - startAt
-      - finishAt
-      - status
-      - type
+    TradingVolumeCreateBody:
+      type: array
+      items:
+        type: object
+        properties:
+          user:
+            type: string
+            format: uuid
+          referralCode:
+            type: string
+            default: ''
+          competition:
+            type: string
+            default: ''
+          experience:
+            type: number
+          realizedPnL:
+            type: number
+          tradingVolume:
+            type: number
+          createdAt:
+            type: string
+        required:
+        - user
+        - experience
+        - realizedPnL
+        - tradingVolume
+        - createdAt
     CreateTelegramMessageBody:
       type: object
       properties:

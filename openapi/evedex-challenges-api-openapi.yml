@@ -222,9 +222,85 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
+    ChallengeCompetitionLeaderboardMeResponse:
+      type: object
+      properties:
+        tradingVolume:
+          type: number
+        targetVolume:
+          type: number
+        tickets:
+          type: number
+        total:
+          type: number
+      required:
+      - tradingVolume
+      - targetVolume
+      - tickets
+      - total
+    EmptyResponse:
+      type: object
+    ManualChallengeClaimResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        userId:
+          type: string
+          format: uuid
+        userChallengeId:
+          type: string
+          format: uuid
+        challengeTitle:
+          type: string
+        xpAwarded:
+          type: number
+        newExperience:
+          type: string
+      required:
+      - success
+      - userId
+      - userChallengeId
+      - challengeTitle
+      - xpAwarded
+      - newExperience
+    ManualChallengeClaimBody:
+      type: object
+      properties:
+        wallet:
+          type: string
+          description: User wallet address
+        authId:
+          type: string
+          format: uuid
+          description: User Auth Id
+        userChallengeId:
+          type: string
+          format: uuid
+          description: User Challenge Id (if known)
+        challengeTitle:
+          type: string
+          enum:
+          - sprint
+          - middleRace
+          - marathon
+          description: Challenge title (sprint, middleRace, marathon)
+        month:
+          type: string
+          description: Month in format YYYY-MM (e.g. 2025-01)
+    RestoreStreakBalanceResponse:
+      type: object
+      properties:
+        used:
+          type: integer
+        total:
+          type: integer
+        isAvailable:
+          type: boolean
+      required:
+      - used
+      - total
+      - isAvailable
     ChallengesSummaryResponse:
       type: array
       items:
@@ -260,64 +336,6 @@ components:
         - userChallengeId
         - isClaimed
         - isAvailable
-    EmptyResponse:
-      type: object
-    ManualChallengeClaimBody:
-      type: object
-      properties:
-        wallet:
-          type: string
-          description: User wallet address
-        authId:
-          type: string
-          format: uuid
-          description: User Auth Id
-        userChallengeId:
-          type: string
-          format: uuid
-          description: User Challenge Id (if known)
-        challengeTitle:
-          type: string
-          enum:
-          - sprint
-          - middleRace
-          - marathon
-          description: Challenge title (sprint, middleRace, marathon)
-        month:
-          type: string
-          description: Month in format YYYY-MM (e.g. 2025-01)
-    ChallengeCompetitionLeaderboardMeResponse:
-      type: object
-      properties:
-        tradingVolume:
-          type: number
-        targetVolume:
-          type: number
-        tickets:
-          type: number
-        total:
-          type: number
-      required:
-      - tradingVolume
-      - targetVolume
-      - tickets
-      - total
-    PageLimitParam:
-      type: string
-      default: '50'
-    RestoreStreakBalanceResponse:
-      type: object
-      properties:
-        used:
-          type: integer
-        total:
-          type: integer
-        isAvailable:
-          type: boolean
-      required:
-      - used
-      - total
-      - isAvailable
     ChallengeCompetitionLeaderboardResponse:
       type: object
       properties:
@@ -363,30 +381,12 @@ components:
       - count
       - startAt
       - finishAt
-    ManualChallengeClaimResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        userId:
-          type: string
-          format: uuid
-        userChallengeId:
-          type: string
-          format: uuid
-        challengeTitle:
-          type: string
-        xpAwarded:
-          type: number
-        newExperience:
-          type: string
-      required:
-      - success
-      - userId
-      - userChallengeId
-      - challengeTitle
-      - xpAwarded
-      - newExperience
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

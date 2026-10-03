@@ -48,23 +48,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    ReferrallList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReferralResponseObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     FirstDepositObject:
       type: object
       properties:
@@ -102,6 +85,23 @@ components:
       - code
       - firstDeposit
       - createdAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    ReferrallList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferralResponseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
   securitySchemes:
     AccessToken:
       type: http

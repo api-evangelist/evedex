@@ -275,190 +275,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TemplatePayload:
+    TemplateList:
       type: object
       properties:
-        templateId:
-          type: string
-        channel:
-          type: string
-          enum:
-          - web
-          - webActivity
-          - mobilePush
-          - browserPush
-          - email
-          - telegram
-          - telegramChannel
-          - slack
-          - discord
-        title:
-          type: string
-        body:
-          type: string
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        link:
-          type:
-          - string
-          - 'null'
-          default: null
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          default: null
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-          default: en-US
-        dataSchema:
-          type: object
-          additionalProperties: {}
-          default:
-            type: object
-            properties: {}
-            required: []
-            additionalProperties: false
-        channelExtra:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-          default: null
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
       required:
-      - templateId
-      - channel
-      - title
-      - body
-      - group
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    TemplateUpdatePayload:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        link:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        dataSchema:
-          type: object
-          additionalProperties: {}
-        channelExtra:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-    TemplateListItem:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        templateId:
-          type: string
-        channel:
-          type: string
-          enum:
-          - web
-          - webActivity
-          - mobilePush
-          - browserPush
-          - email
-          - telegram
-          - telegramChannel
-          - slack
-          - discord
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-        dataSchema:
-          type: object
-          additionalProperties: {}
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - templateId
-      - channel
-      - group
-      - locale
-      - dataSchema
-      - createdAt
-      - updatedAt
+      - list
     TemplateObject:
       type: object
       properties:
@@ -545,17 +370,192 @@ components:
       - channelExtra
       - createdAt
       - updatedAt
-    EmptyResponse:
-      type: object
-    TemplateList:
+    ErrorResponse:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateListItem'
+        message:
+          type: string
+          description: Error message
       required:
-      - list
+      - message
+      description: Error response
+    TemplateListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - group
+      - locale
+      - dataSchema
+      - createdAt
+      - updatedAt
+    TemplateUpdatePayload:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+    EmptyResponse:
+      type: object
+    TemplatePayload:
+      type: object
+      properties:
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+          default: null
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          default: null
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          default: en-US
+        dataSchema:
+          type: object
+          additionalProperties: {}
+          default:
+            type: object
+            properties: {}
+            required: []
+            additionalProperties: false
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+          default: null
+      required:
+      - templateId
+      - channel
+      - title
+      - body
+      - group
   securitySchemes:
     InternalKey:
       type: http

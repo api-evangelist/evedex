@@ -787,6 +787,39 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    MobileAppVersionInfoUpdateBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+        version:
+          type: string
+          format: semver
+          example: 1.0.3
+        blockType:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - '2'
+        blockHead:
+          type: string
+        blockMessage:
+          type: string
+        blockButton:
+          type: string
+        blockButtonLink:
+          type: string
+        referralNeeded:
+          type: boolean
+          default: false
     MobileAppVersionInfoResponse:
       type: object
       properties:
@@ -828,39 +861,6 @@ components:
       - blockMessage
       - blockButton
       - referralNeeded
-    MobileAppVersionInfoUpdateBody:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        platform:
-          type: string
-          enum:
-          - android
-          - ios
-          - web
-        version:
-          type: string
-          format: semver
-          example: 1.0.3
-        blockType:
-          type: string
-          enum:
-          - '0'
-          - '1'
-          - '2'
-        blockHead:
-          type: string
-        blockMessage:
-          type: string
-        blockButton:
-          type: string
-        blockButtonLink:
-          type: string
-        referralNeeded:
-          type: boolean
-          default: false
     MobileAppVersionInfo:
       type: object
       properties:

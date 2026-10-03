@@ -80,6 +80,37 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    PointsSummary:
+      type: object
+      properties:
+        totalPoints:
+          type: string
+        unclaimedPoints:
+          type: string
+        rankId:
+          type: string
+        leagueId:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - totalPoints
+      - unclaimedPoints
+      - rankId
+      - leagueId
+      - updatedAt
+    PointsImageShareParams:
+      type: object
+      properties:
+        wide:
+          type: string
+          format: uri
+        narrow:
+          type: string
+          format: uri
+      required:
+      - wide
+      - narrow
     PointsHistoryItem:
       type: object
       properties:
@@ -132,25 +163,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PointsHistoryItem'
-    PointsSummary:
-      type: object
-      properties:
-        totalPoints:
-          type: string
-        unclaimedPoints:
-          type: string
-        rankId:
-          type: string
-        leagueId:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - totalPoints
-      - unclaimedPoints
-      - rankId
-      - leagueId
-      - updatedAt
     PointsClaimResponse:
       type: object
       properties:
@@ -164,18 +176,6 @@ components:
       - claimed
       - totalPoints
       - unclaimedPoints
-    PointsImageShareParams:
-      type: object
-      properties:
-        wide:
-          type: string
-          format: uri
-        narrow:
-          type: string
-          format: uri
-      required:
-      - wide
-      - narrow
   securitySchemes:
     AccessToken:
       type: http

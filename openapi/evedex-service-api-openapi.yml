@@ -56,6 +56,10 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    UserServiceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserService'
     UserService:
       type: object
       properties:
@@ -85,10 +89,6 @@ components:
           - academy
       required:
       - service
-    UserServiceListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserService'
   securitySchemes:
     InternalToken:
       type: http

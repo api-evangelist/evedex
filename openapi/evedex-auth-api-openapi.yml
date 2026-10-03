@@ -404,22 +404,32 @@ paths:
     - url: https://market-data-api.evedex.com
 components:
   schemas:
-    NonceResponse:
+    JWT:
       type: object
       properties:
-        nonce:
+        accessToken:
           type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
       required:
-      - nonce
-    SignInByBody:
+      - accessToken
+      description: JWT tokens
+    DisableRefreshTokenBody:
       type: object
       properties:
-        userId:
+        signature:
           type: string
-          format: uuid
-          description: Target account ID
+          minLength: 1
+          description: Signature
+        chainId:
+          type: string
+          description: Chain id
       required:
-      - userId
+      - signature
+      - chainId
+      additionalProperties: false
     User:
       type: object
       properties:
@@ -652,34 +662,13 @@ components:
       - isArchived
       - twofa
       - permissions
-    EmptyResponse:
-      type: object
-    JWT:
+    NonceResponse:
       type: object
       properties:
-        accessToken:
+        nonce:
           type: string
-          description: JWT access token
-        refreshToken:
-          type: string
-          description: JWT refresh token
       required:
-      - accessToken
-      description: JWT tokens
-    DisableAllRefreshTokensBody:
-      type: object
-      properties:
-        signature:
-          type: string
-          minLength: 1
-          description: Signature
-        chainId:
-          type: string
-          description: Chain id
-      required:
-      - signature
-      - chainId
-      additionalProperties: false
+      - nonce
     Auth:
       type: object
       properties:
@@ -691,7 +680,16 @@ components:
       - user
       - token
       description: Authorization payload
-    DisableRefreshTokenBody:
+    SignInByBody:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: Target account ID
+      required:
+      - userId
+    DisableAllRefreshTokensBody:
       type: object
       properties:
         signature:
@@ -747,9 +745,43 @@ components:
       - message
       - signature
       - wallet
-    PageOffsetParam:
-      type: string
-      default: '0'
+    EmptyResponse:
+      type: object
+    UserDetailsResponse:
+      allOf:
+      - $ref: '#/components/schemas/User_2'
+      type: object
+      properties:
+        withdrawDisabled:
+          type: boolean
+        smartAccountAddress:
+          type:
+          - string
+          - 'null'
+          default: null
+        arbitrumDepositAddress:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - withdrawDisabled
+      - smartAccountAddress
+      - arbitrumDepositAddress
+    UpdateUserRoleBody:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+          - partner
+      required:
+      - role
     User_2:
       type: object
       properties:
@@ -863,6 +895,9 @@ components:
       - lastSignInAt
       - permissions
       - locale
+    PageLimitParam:
+      type: string
+      default: '50'
     TariffObject:
       type: object
       properties:
@@ -917,44 +952,9 @@ components:
       - issuedBy
       - createdAt
       - updatedAt
-    UpdateUserRoleBody:
-      type: object
-      properties:
-        role:
-          type: string
-          enum:
-          - admin
-          - manager
-          - user
-          - academy-curator
-          - academy-moderator
-          - partner
-      required:
-      - role
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    UserDetailsResponse:
-      allOf:
-      - $ref: '#/components/schemas/User_2'
-      type: object
-      properties:
-        withdrawDisabled:
-          type: boolean
-        smartAccountAddress:
-          type:
-          - string
-          - 'null'
-          default: null
-        arbitrumDepositAddress:
-          type:
-          - string
-          - 'null'
-          default: null
-      required:
-      - withdrawDisabled
-      - smartAccountAddress
-      - arbitrumDepositAddress
+      default: '0'
     JWT_2:
       type: object
       properties:

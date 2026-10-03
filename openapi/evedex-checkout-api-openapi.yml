@@ -47,6 +47,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CheckoutResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
     CreateCheckoutBody:
       type: object
       properties:
@@ -73,14 +81,6 @@ components:
       required:
       - message
       description: Error response
-    CheckoutResponse:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-      required:
-      - url
   securitySchemes:
     InternalKey:
       type: http

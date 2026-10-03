@@ -1023,6 +1023,31 @@ components:
       default: '50'
     EmptyResponse:
       type: object
+    TransferWitHFeeObject:
+      allOf:
+      - $ref: '#/components/schemas/TransferObject'
+      type: object
+      properties:
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferObject'
+      required:
+      - fees
+    TransferListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferWitHFeeObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     TransferObject:
       type: object
       properties:
@@ -1071,31 +1096,6 @@ components:
       - status
       - createdAt
       - updatedAt
-    TransferWitHFeeObject:
-      allOf:
-      - $ref: '#/components/schemas/TransferObject'
-      type: object
-      properties:
-        fees:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransferObject'
-      required:
-      - fees
-    TransferListObject:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransferWitHFeeObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
   securitySchemes:
     AccessToken:
       type: http

@@ -114,58 +114,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UserInvitationResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        name:
-          type: string
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-        leaderboardName:
-          type:
-          - string
-          - 'null'
-        competitionDescription:
-          type:
-          - string
-          - 'null'
-        referralMessage:
-          type:
-          - string
-          - 'null'
-        image:
-          type:
-          - string
-          - 'null'
-          format: uri
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - user
-      - name
-      - welcomeMessage
-      - benefitsDescription
-      - leaderboardName
-      - competitionDescription
-      - referralMessage
-      - image
-      - createdAt
-      - updatedAt
     UserInvitationUpdateBody:
       type: object
       properties:
@@ -254,6 +202,58 @@ components:
       - name
     EmptyResponse:
       type: object
+    UserInvitationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        name:
+          type: string
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        leaderboardName:
+          type:
+          - string
+          - 'null'
+        competitionDescription:
+          type:
+          - string
+          - 'null'
+        referralMessage:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - user
+      - name
+      - welcomeMessage
+      - benefitsDescription
+      - leaderboardName
+      - competitionDescription
+      - referralMessage
+      - image
+      - createdAt
+      - updatedAt
   securitySchemes:
     AccessToken:
       type: http

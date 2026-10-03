@@ -635,25 +635,341 @@ components:
       required:
       - message
       description: Error response
-    AvailableBalancePosition:
+    BigNumber:
+      type: string
+      description: Big number value
+    InstrumentObject:
       type: object
       properties:
+        id:
+          type: string
+        name:
+          type: string
+        displayName:
+          type: string
+        from:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            symbol:
+              type: string
+            image:
+              type:
+              - string
+              - 'null'
+              format: uri
+            precision:
+              type: number
+            showPrecision:
+              type: number
+              deprecated: true
+            createdAt:
+              type: string
+            avgLastPrice:
+              type: number
+          required:
+          - id
+          - name
+          - symbol
+          - image
+          - precision
+          - showPrecision
+          - createdAt
+          - avgLastPrice
+        to:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            symbol:
+              type: string
+            image:
+              type:
+              - string
+              - 'null'
+              format: uri
+            precision:
+              type: number
+            showPrecision:
+              type: number
+              deprecated: true
+            createdAt:
+              type: string
+          required:
+          - id
+          - name
+          - symbol
+          - image
+          - precision
+          - showPrecision
+          - createdAt
+        schedule:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            timezone:
+              type: string
+              example: Europe/Paris
+            days:
+              type: array
+              items:
+                type: object
+                properties:
+                  day:
+                    type: integer
+                    minimum: 1
+                    maximum: 7
+                    description: 1 - monday, 7 - sunday
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                          - onlyClose
+                          - marketMakerOnly
+                          - schedule
+                        start:
+                          type: string
+                          example: 08:00:00
+                        end:
+                          type: string
+                          example: '20:00:00'
+                      required:
+                      - status
+                      - start
+                      - end
+                required:
+                - day
+                - sessions
+            specificDates:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    example: 2026.04.30
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          enum:
+                          - all
+                          - restricted
+                          - none
+                          - onlyClose
+                          - marketMakerOnly
+                          - schedule
+                        start:
+                          type: string
+                          example: 08:00:00
+                        end:
+                          type: string
+                          example: '20:00:00'
+                      required:
+                      - status
+                      - start
+                      - end
+                required:
+                - date
+                - sessions
+          required:
+          - id
+          - name
+          - timezone
+          - days
+          - specificDates
+        type:
+          type: string
+          enum:
+          - perpetual-futures
+          - commodities
+          - forex
+          - cfd
+          - indices
+          - stocks
+          - premarket
+        maxLeverage:
+          type: integer
+        leverageLimit:
+          type: object
+          additionalProperties:
+            type: number
+        lotSize:
+          type: number
+        priceIncrement:
+          type: number
+        quantityIncrement:
+          type: number
+        multiplier:
+          type: number
+        maintenanceMargin:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              percent:
+                type: number
+              deviance:
+                type: number
+            required:
+            - percent
+            - deviance
+        minVolume:
+          type: number
+        minPrice:
+          type: number
+        maxPrice:
+          type: number
+        minQuantity:
+          type: number
+        maxQuantity:
+          type: number
+        slippageLimit:
+          type: number
+        lastPrice:
+          type: number
+        markPrice:
+          type: number
+        fatFingerPriceProtection:
+          type: number
+        markPriceLimit:
+          type: number
+        visibility:
+          type: string
+          enum:
+          - all
+          - restricted
+          - none
+        trading:
+          type: string
+          enum:
+          - all
+          - restricted
+          - none
+          - onlyClose
+          - marketMakerOnly
+          - schedule
+        marketState:
+          type: string
+          enum:
+          - INHERITED
+          - OPEN
+          - CLOSED
+          - PAUSED
+          - HALTED
+          - PRE_OPEN_NO_CANCEL
+          - PRE_OPEN
+        updatedAt:
+          type: string
+        startDate:
+          type:
+          - string
+          - 'null'
+        isPopular:
+          type: boolean
+        newLabel:
+          type: boolean
+        fundingRateImpactMarginNotional:
+          type:
+          - number
+          - 'null'
+      required:
+      - id
+      - name
+      - displayName
+      - from
+      - to
+      - schedule
+      - type
+      - maxLeverage
+      - leverageLimit
+      - lotSize
+      - priceIncrement
+      - quantityIncrement
+      - multiplier
+      - maintenanceMargin
+      - minVolume
+      - minPrice
+      - maxPrice
+      - minQuantity
+      - maxQuantity
+      - slippageLimit
+      - lastPrice
+      - markPrice
+      - fatFingerPriceProtection
+      - markPriceLimit
+      - visibility
+      - trading
+      - marketState
+      - updatedAt
+      - startDate
+      - isPopular
+      - newLabel
+      - fundingRateImpactMarginNotional
+    TradeObject:
+      type: object
+      properties:
+        user:
+          type: string
+        orderId:
+          $ref: '#/components/schemas/OrderIdOutput'
         instrument:
           type: string
         side:
           $ref: '#/components/schemas/Side'
-        volume:
-          $ref: '#/components/schemas/BigNumber'
-        initialMargin:
-          $ref: '#/components/schemas/BigNumber'
+        fillQuantity:
+          type: number
+        fillPrice:
+          type: number
+        status:
+          type: string
+          enum:
+          - INTENTION
+          - NEW
+          - PARTIALLY_FILLED
+          - FILLED
+          - CANCELLED
+          - REJECTED
+          - EXPIRED
+          - REPLACED
+          - ERROR
+        createdAt:
+          type: string
       required:
+      - user
+      - orderId
       - instrument
       - side
-      - volume
-      - initialMargin
-    BigNumber:
+      - fillQuantity
+      - fillPrice
+      - status
+      - createdAt
+      deprecated: true
+    OrderIdOutput:
       type: string
-      description: Big number value
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
     InstrumentMetricsObject:
       type: object
       properties:
@@ -968,292 +1284,6 @@ components:
       - fundingRateImpactMarginNotional
       - valueAtRisk
       - updatedAt
-    InstrumentObject:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        displayName:
-          type: string
-        from:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            symbol:
-              type: string
-            image:
-              type:
-              - string
-              - 'null'
-              format: uri
-            precision:
-              type: number
-            showPrecision:
-              type: number
-              deprecated: true
-            createdAt:
-              type: string
-            avgLastPrice:
-              type: number
-          required:
-          - id
-          - name
-          - symbol
-          - image
-          - precision
-          - showPrecision
-          - createdAt
-          - avgLastPrice
-        to:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            symbol:
-              type: string
-            image:
-              type:
-              - string
-              - 'null'
-              format: uri
-            precision:
-              type: number
-            showPrecision:
-              type: number
-              deprecated: true
-            createdAt:
-              type: string
-          required:
-          - id
-          - name
-          - symbol
-          - image
-          - precision
-          - showPrecision
-          - createdAt
-        schedule:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            timezone:
-              type: string
-              example: Europe/Paris
-            days:
-              type: array
-              items:
-                type: object
-                properties:
-                  day:
-                    type: integer
-                    minimum: 1
-                    maximum: 7
-                    description: 1 - monday, 7 - sunday
-                  sessions:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        status:
-                          type: string
-                          enum:
-                          - all
-                          - restricted
-                          - none
-                          - onlyClose
-                          - marketMakerOnly
-                          - schedule
-                        start:
-                          type: string
-                          example: 08:00:00
-                        end:
-                          type: string
-                          example: '20:00:00'
-                      required:
-                      - status
-                      - start
-                      - end
-                required:
-                - day
-                - sessions
-            specificDates:
-              type: array
-              items:
-                type: object
-                properties:
-                  date:
-                    type: string
-                    example: 2026.04.30
-                  sessions:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        status:
-                          type: string
-                          enum:
-                          - all
-                          - restricted
-                          - none
-                          - onlyClose
-                          - marketMakerOnly
-                          - schedule
-                        start:
-                          type: string
-                          example: 08:00:00
-                        end:
-                          type: string
-                          example: '20:00:00'
-                      required:
-                      - status
-                      - start
-                      - end
-                required:
-                - date
-                - sessions
-          required:
-          - id
-          - name
-          - timezone
-          - days
-          - specificDates
-        type:
-          type: string
-          enum:
-          - perpetual-futures
-          - commodities
-          - forex
-          - cfd
-          - indices
-          - stocks
-          - premarket
-        maxLeverage:
-          type: integer
-        leverageLimit:
-          type: object
-          additionalProperties:
-            type: number
-        lotSize:
-          type: number
-        priceIncrement:
-          type: number
-        quantityIncrement:
-          type: number
-        multiplier:
-          type: number
-        maintenanceMargin:
-          type: object
-          additionalProperties:
-            type: object
-            properties:
-              percent:
-                type: number
-              deviance:
-                type: number
-            required:
-            - percent
-            - deviance
-        minVolume:
-          type: number
-        minPrice:
-          type: number
-        maxPrice:
-          type: number
-        minQuantity:
-          type: number
-        maxQuantity:
-          type: number
-        slippageLimit:
-          type: number
-        lastPrice:
-          type: number
-        markPrice:
-          type: number
-        fatFingerPriceProtection:
-          type: number
-        markPriceLimit:
-          type: number
-        visibility:
-          type: string
-          enum:
-          - all
-          - restricted
-          - none
-        trading:
-          type: string
-          enum:
-          - all
-          - restricted
-          - none
-          - onlyClose
-          - marketMakerOnly
-          - schedule
-        marketState:
-          type: string
-          enum:
-          - INHERITED
-          - OPEN
-          - CLOSED
-          - PAUSED
-          - HALTED
-          - PRE_OPEN_NO_CANCEL
-          - PRE_OPEN
-        updatedAt:
-          type: string
-        startDate:
-          type:
-          - string
-          - 'null'
-        isPopular:
-          type: boolean
-        newLabel:
-          type: boolean
-        fundingRateImpactMarginNotional:
-          type:
-          - number
-          - 'null'
-      required:
-      - id
-      - name
-      - displayName
-      - from
-      - to
-      - schedule
-      - type
-      - maxLeverage
-      - leverageLimit
-      - lotSize
-      - priceIncrement
-      - quantityIncrement
-      - multiplier
-      - maintenanceMargin
-      - minVolume
-      - minPrice
-      - maxPrice
-      - minQuantity
-      - maxQuantity
-      - slippageLimit
-      - lastPrice
-      - markPrice
-      - fatFingerPriceProtection
-      - markPriceLimit
-      - visibility
-      - trading
-      - marketState
-      - updatedAt
-      - startDate
-      - isPopular
-      - newLabel
-      - fundingRateImpactMarginNotional
     AvailableBalanceOpenOrder:
       type: object
       properties:
@@ -1292,52 +1322,6 @@ components:
       - fillQuantity
       - fillPrice
       - createdAt
-    OrderIdOutput:
-      type: string
-    TradeObject:
-      type: object
-      properties:
-        user:
-          type: string
-        orderId:
-          $ref: '#/components/schemas/OrderIdOutput'
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        fillQuantity:
-          type: number
-        fillPrice:
-          type: number
-        status:
-          type: string
-          enum:
-          - INTENTION
-          - NEW
-          - PARTIALLY_FILLED
-          - FILLED
-          - CANCELLED
-          - REJECTED
-          - EXPIRED
-          - REPLACED
-          - ERROR
-        createdAt:
-          type: string
-      required:
-      - user
-      - orderId
-      - instrument
-      - side
-      - fillQuantity
-      - fillPrice
-      - status
-      - createdAt
-      deprecated: true
-    Side:
-      type: string
-      enum:
-      - BUY
-      - SELL
     MarketInfo:
       type: object
       properties:
@@ -1395,6 +1379,22 @@ components:
       - fees
       - orderDay
       - updatedAt
+    AvailableBalancePosition:
+      type: object
+      properties:
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        volume:
+          $ref: '#/components/schemas/BigNumber'
+        initialMargin:
+          $ref: '#/components/schemas/BigNumber'
+      required:
+      - instrument
+      - side
+      - volume
+      - initialMargin
   securitySchemes:
     InternalToken:
       type: http

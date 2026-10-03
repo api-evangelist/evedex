@@ -562,54 +562,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    CourseTranslationLinkBody:
-      type: object
-      properties:
-        courseIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-      required:
-      - courseIds
-    CourseTranslationLinkResponse:
-      type: object
-      properties:
-        translationGroupId:
-          type: string
-          format: uuid
-        courses:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              locale:
-                type: string
-                enum:
-                - en-US
-                - ru-RU
-                - ar-AE
-                - zh-HK
-                - de-DE
-                - es-ES
-                - pt-PT
-                - tr-TR
-              translationGroupId:
-                type: string
-                format: uuid
-            required:
-            - id
-            - locale
-            - translationGroupId
-      required:
-      - translationGroupId
-      - courses
     CourseUpdateBody:
       type: object
       properties:
@@ -665,57 +617,8 @@ components:
           default: false
         releaseDate:
           type: string
-    courseBlocksResponse:
-      type: object
-      properties:
-        courseBlocks:
-          type: array
-          items:
-            type: object
-            properties:
-              title:
-                type: string
-              filter:
-                type: object
-                properties:
-                  my:
-                    type: boolean
-                  withTags:
-                    type: array
-                    items:
-                      type: string
-                  withoutTags:
-                    type: array
-                    items:
-                      type: string
-              limit:
-                type: number
-            required:
-            - filter
-            - limit
-      required:
-      - courseBlocks
     EmptyResponse:
       type: object
-    List_of_learnings_as_markdown:
-      type: string
-    CourseList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    PageLimitParam:
-      type: string
-      default: '50'
     CourseCreateBody:
       type: object
       properties:
@@ -777,6 +680,95 @@ components:
       - visibility
       - learn
       - releaseDate
+    courseBlocksResponse:
+      type: object
+      properties:
+        courseBlocks:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              filter:
+                type: object
+                properties:
+                  my:
+                    type: boolean
+                  withTags:
+                    type: array
+                    items:
+                      type: string
+                  withoutTags:
+                    type: array
+                    items:
+                      type: string
+              limit:
+                type: number
+            required:
+            - filter
+            - limit
+      required:
+      - courseBlocks
+    CourseTranslationLinkBody:
+      type: object
+      properties:
+        courseIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - courseIds
+    CourseList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    CourseTranslationLinkResponse:
+      type: object
+      properties:
+        translationGroupId:
+          type: string
+          format: uuid
+        courses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              locale:
+                type: string
+                enum:
+                - en-US
+                - ru-RU
+                - ar-AE
+                - zh-HK
+                - de-DE
+                - es-ES
+                - pt-PT
+                - tr-TR
+              translationGroupId:
+                type: string
+                format: uuid
+            required:
+            - id
+            - locale
+            - translationGroupId
+      required:
+      - translationGroupId
+      - courses
     CourseObject:
       type: object
       properties:
@@ -960,6 +952,14 @@ components:
       - locale
       - published
       - releaseDate
+    List_of_learnings_as_markdown:
+      type: string
+    PageLimitParam:
+      type: string
+      default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

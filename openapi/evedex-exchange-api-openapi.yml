@@ -272,111 +272,40 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    TariffCreateBody:
+    LiquidationLevelStatisticsResponse:
       type: object
       properties:
-        product:
+        markPrice:
+          type: number
+        timecode:
           type: string
-          format: uuid
-        paymentDate:
+        pair:
           type: string
-          format: date-time
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
-        issuedBy:
-          type: string
-      required:
-      - product
-      - issuedBy
-    BlockedPfWithdrawListObject:
-      type: object
-      properties:
-        list:
+        levels:
           type: array
           items:
-            $ref: '#/components/schemas/BlockedPfWithdraw'
-        count:
-          type: number
-        next:
-          type: string
+            type: object
+            properties:
+              from:
+                type: number
+              to:
+                type: number
+              users:
+                type: number
+              volume:
+                type: number
+            required:
+            - from
+            - to
+            - users
+            - volume
       required:
-      - list
-      - count
-    TariffObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
-        paymentDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        privilegies:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - premium
-              - academyCourse
-            courses:
-              type: array
-              items:
-                type: string
-          required:
-          - type
-        issuedBy:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - user
-      - startedAt
-      - endedAt
-      - paymentDate
-      - privilegies
-      - issuedBy
-      - createdAt
-      - updatedAt
+      - markPrice
+      - timecode
+      - pair
+      - levels
     EmptyResponse:
       type: object
-    PageLimitParam:
-      type: string
-      default: '50'
-    TariffUpdateBody:
-      type: object
-      properties:
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
     BlockedPfWithdraw:
       type: object
       properties:
@@ -466,38 +395,109 @@ components:
       - isManual
       - riskScore
       - riskTypes
-    LiquidationLevelStatisticsResponse:
+    TariffObject:
       type: object
       properties:
-        markPrice:
-          type: number
-        timecode:
+        id:
           type: string
-        pair:
+          format: uuid
+        user:
           type: string
-        levels:
+          format: uuid
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        paymentDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        privilegies:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - premium
+              - academyCourse
+            courses:
+              type: array
+              items:
+                type: string
+          required:
+          - type
+        issuedBy:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - user
+      - startedAt
+      - endedAt
+      - paymentDate
+      - privilegies
+      - issuedBy
+      - createdAt
+      - updatedAt
+    TariffCreateBody:
+      type: object
+      properties:
+        product:
+          type: string
+          format: uuid
+        paymentDate:
+          type: string
+          format: date-time
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        issuedBy:
+          type: string
+      required:
+      - product
+      - issuedBy
+    TariffUpdateBody:
+      type: object
+      properties:
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+    PageLimitParam:
+      type: string
+      default: '50'
+    BlockedPfWithdrawListObject:
+      type: object
+      properties:
+        list:
           type: array
           items:
-            type: object
-            properties:
-              from:
-                type: number
-              to:
-                type: number
-              users:
-                type: number
-              volume:
-                type: number
-            required:
-            - from
-            - to
-            - users
-            - volume
+            $ref: '#/components/schemas/BlockedPfWithdraw'
+        count:
+          type: number
+        next:
+          type: string
       required:
-      - markPrice
-      - timecode
-      - pair
-      - levels
+      - list
+      - count
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

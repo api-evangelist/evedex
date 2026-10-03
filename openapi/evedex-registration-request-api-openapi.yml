@@ -128,22 +128,73 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    UpdateUserWeightBody:
+    CreateLink:
       type: object
       properties:
+        name:
+          type: string
+          description: Link name
         type:
           type: string
-        level:
-          type: number
-        weight:
-          type: number
+          description: Link type
+        code:
+          type: string
+          description: Unique code
+        calculator:
+          type: string
+          enum:
+          - greedy
+          - full
+          - bd
+          description: Reward calculation type
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          description: Invitation welcome message
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          description: Invitation benefits description
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Invitation image URL
       required:
+      - name
       - type
-      - level
-      - weight
+      - calculator
+    CreateRegRequestBody:
+      type: object
+      properties:
+        wallet:
+          type: string
+          description: Wallet address
+        name:
+          type: string
+          description: User name
+        email:
+          type: string
+          format: email
+          description: Contact email
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial'
+          description: User social contacts
+        code:
+          type:
+          - string
+          - 'null'
+          description: Referral code
+      required:
+      - wallet
+      - name
+      - email
+      - social
     User:
       type: object
       properties:
@@ -264,45 +315,6 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/CreateLink'
-    CreateLink:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Link name
-        type:
-          type: string
-          description: Link type
-        code:
-          type: string
-          description: Unique code
-        calculator:
-          type: string
-          enum:
-          - greedy
-          - full
-          - bd
-          description: Reward calculation type
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-          description: Invitation welcome message
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-          description: Invitation benefits description
-        image:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Invitation image URL
-      required:
-      - name
-      - type
-      - calculator
     RegRequestList:
       type: object
       properties:
@@ -362,34 +374,22 @@ components:
       - status
       - createdAt
       - updatedAt
-    CreateRegRequestBody:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    UpdateUserWeightBody:
       type: object
       properties:
-        wallet:
+        type:
           type: string
-          description: Wallet address
-        name:
-          type: string
-          description: User name
-        email:
-          type: string
-          format: email
-          description: Contact email
-        social:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSocial'
-          description: User social contacts
-        code:
-          type:
-          - string
-          - 'null'
-          description: Referral code
+        level:
+          type: number
+        weight:
+          type: number
       required:
-      - wallet
-      - name
-      - email
-      - social
+      - type
+      - level
+      - weight
   securitySchemes:
     AccessToken:
       type: http

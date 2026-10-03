@@ -444,9 +444,6 @@ components:
       required:
       - message
       description: Error response
-    PageOffsetParam:
-      type: string
-      default: '0'
     PositionHistoryFillList:
       type: object
       properties:
@@ -492,6 +489,27 @@ components:
       - leverage
       - version
       - closeType
+    OrderIdOutput:
+      type: string
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    PageLimitParam:
+      type: string
+      default: '50'
+    CloseType:
+      type: string
+      enum:
+      - manually
+      - take-profit
+      - stop-loss
+      - liquidated
+      - adl
     PositionHistoryFillObject:
       allOf:
       - $ref: '#/components/schemas/PositionHistoryObject'
@@ -534,27 +552,9 @@ components:
         - fundingRate
         - openAt
         - closeAt
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
-    OrderIdOutput:
-      type: string
-    Side:
-      type: string
-      enum:
-      - BUY
-      - SELL
-    CloseType:
-      type: string
-      enum:
-      - manually
-      - take-profit
-      - stop-loss
-      - liquidated
-      - adl
-    OrderIdV2Input:
-      type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+      default: '0'
   securitySchemes:
     InternalToken:
       type: http

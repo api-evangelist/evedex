@@ -1680,9 +1680,6 @@ paths:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
     ErrorResponse:
       type: object
       properties:
@@ -1692,37 +1689,12 @@ components:
       required:
       - message
       description: Error response
+    PageOffsetParam:
+      type: string
+      default: '0'
     PageLimitParam:
       type: string
       default: '50'
-    LimitOrderCancelObject:
-      allOf:
-      - type: object
-        properties:
-          orderId:
-            $ref: '#/components/schemas/OrderIdOutput'
-        required:
-        - orderId
-      - anyOf:
-        - type: object
-          properties:
-            success:
-              type: boolean
-              const: true
-          required:
-          - success
-        - type: object
-          properties:
-            success:
-              type: boolean
-              const: false
-            failReason:
-              type: string
-          required:
-          - success
-          - failReason
-    PageNextParam:
-      type: string
     EmptyResponse:
       type: object
     OrderFillListResponse:
@@ -1756,9 +1728,34 @@ components:
         - fillPrice
         - fee
         - createdAt
-    OrderIdInput:
+    LimitOrderCancelObject:
+      allOf:
+      - type: object
+        properties:
+          orderId:
+            $ref: '#/components/schemas/OrderIdOutput'
+        required:
+        - orderId
+      - anyOf:
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: true
+          required:
+          - success
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: false
+            failReason:
+              type: string
+          required:
+          - success
+          - failReason
+    PageNextParam:
       type: string
-      pattern: '[0-9A-Fa-f]{32}'
     OrderIdOutput:
       type: string
     Side:
@@ -1769,6 +1766,9 @@ components:
     OrderIdV2Input:
       type: string
       pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    OrderIdInput:
+      type: string
+      pattern: '[0-9A-Fa-f]{32}'
   securitySchemes:
     InternalToken:
       type: http

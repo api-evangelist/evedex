@@ -218,36 +218,62 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    AdjustXpBody:
+    AwardPointsBody:
       type: object
       properties:
         userIdentifier:
           type: string
         amount:
           type: number
+          exclusiveMinimum: 0
         comment:
           type: string
           maxLength: 1000
       required:
       - userIdentifier
       - amount
-    UserRewardListObject:
+    AwardPointsResponse:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserRewardItem'
-        count:
-          type: number
-        next:
+        id:
           type: string
+          format: uuid
+        recipientAuthId:
+          type: string
+        recipientWallet:
+          type:
+          - string
+          - 'null'
+        amount:
+          type: string
+        comment:
+          type:
+          - string
+          - 'null'
+        grantedBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        points:
+          type: object
+          properties:
+            totalPoints:
+              type: string
+            unclaimedPoints:
+              type: string
+          required:
+          - totalPoints
+          - unclaimedPoints
       required:
-      - list
-      - count
+      - id
+      - recipientAuthId
+      - recipientWallet
+      - amount
+      - comment
+      - grantedBy
+      - createdAt
+      - points
     RewardHistoryItem:
       type: object
       properties:
@@ -289,6 +315,32 @@ components:
       - payload
       - comment
       - createdAt
+    AwardBundleBody:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+        points:
+          type: number
+          exclusiveMinimum: 0
+        luckyShotTickets:
+          type: integer
+          exclusiveMinimum: 0
+        collectableTickets:
+          type: integer
+          exclusiveMinimum: 0
+        comment:
+          type: string
+          maxLength: 1000
+      required:
+      - userIdentifier
+    ClaimResponse:
+      type: object
+      properties:
+        experience:
+          type: number
+      required:
+      - experience
     AwardTicketBody:
       type: object
       properties:
@@ -303,6 +355,123 @@ components:
       required:
       - userIdentifier
       - amount
+    UserRewardListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRewardItem'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    AwardTicketResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        recipientAuthId:
+          type: string
+        recipientWallet:
+          type:
+          - string
+          - 'null'
+        amount:
+          type: string
+        comment:
+          type:
+          - string
+          - 'null'
+        grantedBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        tickets:
+          type: object
+          properties:
+            received:
+              type: number
+            used:
+              type: number
+            available:
+              type: number
+          required:
+          - received
+          - used
+          - available
+      required:
+      - id
+      - recipientAuthId
+      - recipientWallet
+      - amount
+      - comment
+      - grantedBy
+      - createdAt
+      - tickets
+    AdjustXpResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        recipientAuthId:
+          type: string
+        recipientWallet:
+          type:
+          - string
+          - 'null'
+        amount:
+          type: number
+        previousExperience:
+          type: string
+        newExperience:
+          type: string
+        comment:
+          type:
+          - string
+          - 'null'
+        adjustedBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - recipientAuthId
+      - recipientWallet
+      - amount
+      - previousExperience
+      - newExperience
+      - comment
+      - adjustedBy
+      - createdAt
+    ClaimBody:
+      type: object
+      properties:
+        quest:
+          type: string
+      required:
+      - quest
+    UserRewardItem:
+      type: object
+      properties:
+        quest:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - quest
+      - createdAt
+    PageLimitParam:
+      type: string
+      default: '50'
     AwardBundleResponse:
       type: object
       properties:
@@ -414,6 +583,22 @@ components:
       - createdAt
       - balances
       - notificationError
+    AdjustXpBody:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+        amount:
+          type: number
+        comment:
+          type: string
+          maxLength: 1000
+      required:
+      - userIdentifier
+      - amount
+    PageOffsetParam:
+      type: string
+      default: '0'
     RewardHistoryResponse:
       type: object
       properties:
@@ -428,191 +613,6 @@ components:
       required:
       - list
       - count
-    ClaimBody:
-      type: object
-      properties:
-        quest:
-          type: string
-      required:
-      - quest
-    AwardPointsResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        recipientAuthId:
-          type: string
-        recipientWallet:
-          type:
-          - string
-          - 'null'
-        amount:
-          type: string
-        comment:
-          type:
-          - string
-          - 'null'
-        grantedBy:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        points:
-          type: object
-          properties:
-            totalPoints:
-              type: string
-            unclaimedPoints:
-              type: string
-          required:
-          - totalPoints
-          - unclaimedPoints
-      required:
-      - id
-      - recipientAuthId
-      - recipientWallet
-      - amount
-      - comment
-      - grantedBy
-      - createdAt
-      - points
-    AdjustXpResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        recipientAuthId:
-          type: string
-        recipientWallet:
-          type:
-          - string
-          - 'null'
-        amount:
-          type: number
-        previousExperience:
-          type: string
-        newExperience:
-          type: string
-        comment:
-          type:
-          - string
-          - 'null'
-        adjustedBy:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - recipientAuthId
-      - recipientWallet
-      - amount
-      - previousExperience
-      - newExperience
-      - comment
-      - adjustedBy
-      - createdAt
-    UserRewardItem:
-      type: object
-      properties:
-        quest:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-      required:
-      - quest
-      - createdAt
-    ClaimResponse:
-      type: object
-      properties:
-        experience:
-          type: number
-      required:
-      - experience
-    PageLimitParam:
-      type: string
-      default: '50'
-    AwardPointsBody:
-      type: object
-      properties:
-        userIdentifier:
-          type: string
-        amount:
-          type: number
-          exclusiveMinimum: 0
-        comment:
-          type: string
-          maxLength: 1000
-      required:
-      - userIdentifier
-      - amount
-    AwardTicketResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        recipientAuthId:
-          type: string
-        recipientWallet:
-          type:
-          - string
-          - 'null'
-        amount:
-          type: string
-        comment:
-          type:
-          - string
-          - 'null'
-        grantedBy:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        tickets:
-          type: object
-          properties:
-            received:
-              type: number
-            used:
-              type: number
-            available:
-              type: number
-          required:
-          - received
-          - used
-          - available
-      required:
-      - id
-      - recipientAuthId
-      - recipientWallet
-      - amount
-      - comment
-      - grantedBy
-      - createdAt
-      - tickets
-    AwardBundleBody:
-      type: object
-      properties:
-        userIdentifier:
-          type: string
-        points:
-          type: number
-          exclusiveMinimum: 0
-        luckyShotTickets:
-          type: integer
-          exclusiveMinimum: 0
-        collectableTickets:
-          type: integer
-          exclusiveMinimum: 0
-        comment:
-          type: string
-          maxLength: 1000
-      required:
-      - userIdentifier
   securitySchemes:
     AccessToken:
       type: http

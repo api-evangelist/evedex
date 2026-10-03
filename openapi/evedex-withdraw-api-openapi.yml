@@ -176,28 +176,8 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
-    BlockedPfWithdrawListObject:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockedPfWithdraw'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     EmptyResponse:
       type: object
-    PageLimitParam:
-      type: string
-      default: '50'
     BlockedPfWithdraw:
       type: object
       properties:
@@ -287,6 +267,26 @@ components:
       - isManual
       - riskScore
       - riskTypes
+    PageLimitParam:
+      type: string
+      default: '50'
+    BlockedPfWithdrawListObject:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockedPfWithdraw'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     AccessToken:
       type: http

@@ -145,6 +145,62 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    QuestionObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lesson:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - text
+          - file
+          - radio
+        question:
+          type: string
+        content:
+          anyOf:
+          - type: object
+            additionalProperties: false
+          - type: object
+            properties:
+              multiple:
+                type: number
+            required:
+            - multiple
+          - type: object
+            properties:
+              answers:
+                type: array
+                items:
+                  type: string
+            required:
+            - answers
+        order:
+          type: number
+        correctAnswer:
+          type: string
+          default: ''
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - lesson
+      - type
+      - question
+      - content
+      - order
+      - correctAnswer
+      - createdAt
+      - updatedAt
+    EmptyResponse:
+      type: object
     QuestionCreateBody:
       oneOf:
       - type: object
@@ -211,62 +267,6 @@ components:
         - type
         - question
         - content
-    EmptyResponse:
-      type: object
-    QuestionObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        lesson:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - text
-          - file
-          - radio
-        question:
-          type: string
-        content:
-          anyOf:
-          - type: object
-            additionalProperties: false
-          - type: object
-            properties:
-              multiple:
-                type: number
-            required:
-            - multiple
-          - type: object
-            properties:
-              answers:
-                type: array
-                items:
-                  type: string
-            required:
-            - answers
-        order:
-          type: number
-        correctAnswer:
-          type: string
-          default: ''
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - lesson
-      - type
-      - question
-      - content
-      - order
-      - correctAnswer
-      - createdAt
-      - updatedAt
   securitySchemes:
     AccessToken:
       type: http
