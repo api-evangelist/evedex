@@ -275,15 +275,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TemplateList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateListItem'
-      required:
-      - list
     TemplateObject:
       type: object
       properties:
@@ -370,15 +361,43 @@ components:
       - channelExtra
       - createdAt
       - updatedAt
-    ErrorResponse:
+    EmptyResponse:
+      type: object
+    TemplateUpdatePayload:
       type: object
       properties:
-        message:
+        title:
           type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
     TemplateListItem:
       type: object
       properties:
@@ -441,43 +460,15 @@ components:
       - dataSchema
       - createdAt
       - updatedAt
-    TemplateUpdatePayload:
+    ErrorResponse:
       type: object
       properties:
-        title:
+        message:
           type: string
-        body:
-          type: string
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        link:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        dataSchema:
-          type: object
-          additionalProperties: {}
-        channelExtra:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-    EmptyResponse:
-      type: object
+          description: Error message
+      required:
+      - message
+      description: Error response
     TemplatePayload:
       type: object
       properties:
@@ -556,6 +547,15 @@ components:
       - title
       - body
       - group
+    TemplateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
+      required:
+      - list
   securitySchemes:
     InternalKey:
       type: http

@@ -146,6 +146,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    LessonCreateBody:
+      type: object
+      properties:
+        module:
+          type: string
+          format: uuid
+        name:
+          type: string
+        promo:
+          type: boolean
+          default: false
+        duration:
+          type: number
+        slug:
+          type: string
+      required:
+      - module
+      - name
     LessonObject:
       type: object
       properties:
@@ -184,6 +202,8 @@ components:
       - progress
       - createdAt
       - updatedAt
+    EmptyResponse:
+      type: object
     LessonUpdateBody:
       type: object
       properties:
@@ -202,29 +222,18 @@ components:
           type: string
         progressStatus:
           $ref: '#/components/schemas/LessonProgressCoreType'
+    LessonProgressType:
+      type: string
+      enum:
+      - waitingForHomework
+      - waitingForHomeworkCheck
+      - lessonCompleted
+      - notStarted
     LessonProgressCoreType:
       type: string
       enum:
       - notStarted
       - lessonCompleted
-    LessonCreateBody:
-      type: object
-      properties:
-        module:
-          type: string
-          format: uuid
-        name:
-          type: string
-        promo:
-          type: boolean
-          default: false
-        duration:
-          type: number
-        slug:
-          type: string
-      required:
-      - module
-      - name
     LessonObjectExtendedList:
       type: array
       items:
@@ -278,13 +287,6 @@ components:
         - published
         - releaseDate
         - lessons
-    LessonProgressType:
-      type: string
-      enum:
-      - waitingForHomework
-      - waitingForHomeworkCheck
-      - lessonCompleted
-      - notStarted
     LessonProgressObject:
       type: object
       properties:
@@ -292,8 +294,6 @@ components:
           $ref: '#/components/schemas/LessonProgressType'
       required:
       - status
-    EmptyResponse:
-      type: object
   securitySchemes:
     AccessToken:
       type: http

@@ -119,294 +119,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CompetitionTemplateGetResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scoringStrategyType:
-          type: string
-          enum:
-          - experience
-          - tradingVolume
-          - realizedPnL
-          - referrals
-          - points
-        eligibilityType:
-          type: string
-          enum:
-          - open
-          - closed
-        enrollmentType:
-          type: string
-          enum:
-          - manual
-          - automatic
-        rewardType:
-          type: string
-          enum:
-          - points
-          - gift
-          - usdt
-          - none
-        rewards:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  place:
-                    type: integer
-                    minimum: 1
-                  reward:
-                    type: number
-                    minimum: 0
-                    default: 0
-                  prize:
-                    type: string
-                required:
-                - place
-                - reward
-          required:
-          - list
-        eligiblePartnerCodes:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-          required:
-          - list
-        blacklistAuthIds:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-                format: uuid
-          required:
-          - list
-        visible:
-          type: boolean
-        archived:
-          type: boolean
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - name
-      - scoringStrategyType
-      - eligibilityType
-      - enrollmentType
-      - rewardType
-      - rewards
-      - eligiblePartnerCodes
-      - blacklistAuthIds
-      - visible
-      - archived
-      - createdAt
-      - updatedAt
-    CompetitionTemplateUpdateResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scoringStrategyType:
-          type: string
-          enum:
-          - experience
-          - tradingVolume
-          - realizedPnL
-          - referrals
-          - points
-        eligibilityType:
-          type: string
-          enum:
-          - open
-          - closed
-        enrollmentType:
-          type: string
-          enum:
-          - manual
-          - automatic
-        rewardType:
-          type: string
-          enum:
-          - points
-          - gift
-          - usdt
-          - none
-        rewards:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  place:
-                    type: integer
-                    minimum: 1
-                  reward:
-                    type: number
-                    minimum: 0
-                    default: 0
-                  prize:
-                    type: string
-                required:
-                - place
-                - reward
-          required:
-          - list
-        eligiblePartnerCodes:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-          required:
-          - list
-        blacklistAuthIds:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-                format: uuid
-          required:
-          - list
-        visible:
-          type: boolean
-        archived:
-          type: boolean
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - name
-      - scoringStrategyType
-      - eligibilityType
-      - enrollmentType
-      - rewardType
-      - rewards
-      - eligiblePartnerCodes
-      - blacklistAuthIds
-      - visible
-      - archived
-      - createdAt
-      - updatedAt
-    CompetitionTemplateCreateResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scoringStrategyType:
-          type: string
-          enum:
-          - experience
-          - tradingVolume
-          - realizedPnL
-          - referrals
-          - points
-        eligibilityType:
-          type: string
-          enum:
-          - open
-          - closed
-        enrollmentType:
-          type: string
-          enum:
-          - manual
-          - automatic
-        rewardType:
-          type: string
-          enum:
-          - points
-          - gift
-          - usdt
-          - none
-        rewards:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  place:
-                    type: integer
-                    minimum: 1
-                  reward:
-                    type: number
-                    minimum: 0
-                    default: 0
-                  prize:
-                    type: string
-                required:
-                - place
-                - reward
-          required:
-          - list
-        eligiblePartnerCodes:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-          required:
-          - list
-        blacklistAuthIds:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: string
-                format: uuid
-          required:
-          - list
-        visible:
-          type: boolean
-        archived:
-          type: boolean
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - name
-      - scoringStrategyType
-      - eligibilityType
-      - enrollmentType
-      - rewardType
-      - rewards
-      - eligiblePartnerCodes
-      - blacklistAuthIds
-      - visible
-      - archived
-      - createdAt
-      - updatedAt
     CompetitionTemplateListResponse:
       type: object
       properties:
@@ -515,9 +227,6 @@ components:
       required:
       - list
       - count
-    PageLimitParam:
-      type: string
-      default: '50'
     CompetitionTemplateCreateBody:
       type: object
       properties:
@@ -589,6 +298,102 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
+    CompetitionTemplateUpdateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+          - referrals
+          - points
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: integer
+                    minimum: 1
+                  reward:
+                    type: number
+                    minimum: 0
+                    default: 0
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+          required:
+          - list
+        eligiblePartnerCodes:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+          required:
+          - list
+        blacklistAuthIds:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+                format: uuid
+          required:
+          - list
+        visible:
+          type: boolean
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - eligiblePartnerCodes
+      - blacklistAuthIds
+      - visible
+      - archived
+      - createdAt
+      - updatedAt
     CompetitionTemplateUpdateBody:
       type: object
       properties:
@@ -649,6 +454,201 @@ components:
           type: boolean
         archived:
           type: boolean
+    CompetitionTemplateCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+          - referrals
+          - points
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: integer
+                    minimum: 1
+                  reward:
+                    type: number
+                    minimum: 0
+                    default: 0
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+          required:
+          - list
+        eligiblePartnerCodes:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+          required:
+          - list
+        blacklistAuthIds:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+                format: uuid
+          required:
+          - list
+        visible:
+          type: boolean
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - eligiblePartnerCodes
+      - blacklistAuthIds
+      - visible
+      - archived
+      - createdAt
+      - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
+    CompetitionTemplateGetResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scoringStrategyType:
+          type: string
+          enum:
+          - experience
+          - tradingVolume
+          - realizedPnL
+          - referrals
+          - points
+        eligibilityType:
+          type: string
+          enum:
+          - open
+          - closed
+        enrollmentType:
+          type: string
+          enum:
+          - manual
+          - automatic
+        rewardType:
+          type: string
+          enum:
+          - points
+          - gift
+          - usdt
+          - none
+        rewards:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  place:
+                    type: integer
+                    minimum: 1
+                  reward:
+                    type: number
+                    minimum: 0
+                    default: 0
+                  prize:
+                    type: string
+                required:
+                - place
+                - reward
+          required:
+          - list
+        eligiblePartnerCodes:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+          required:
+          - list
+        blacklistAuthIds:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: string
+                format: uuid
+          required:
+          - list
+        visible:
+          type: boolean
+        archived:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - name
+      - scoringStrategyType
+      - eligibilityType
+      - enrollmentType
+      - rewardType
+      - rewards
+      - eligiblePartnerCodes
+      - blacklistAuthIds
+      - visible
+      - archived
+      - createdAt
+      - updatedAt
   securitySchemes:
     AccessToken:
       type: http

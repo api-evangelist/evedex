@@ -309,6 +309,15 @@ components:
       required:
       - webhookName
       - content
+    TelegramContentBody:
+      type: object
+      properties:
+        chatId:
+          type: number
+        message:
+          type: string
+      required:
+      - message
     Notification:
       type: object
       properties:
@@ -354,6 +363,23 @@ components:
       - endTime
       - createdAt
       - updatedAt
+    ListNotificationsResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        count:
+          type: number
+      required:
+      - list
+      - count
+    PageOffsetParam:
+      type: string
+      default: '0'
+    EmptyResponse:
+      type: object
     SendEmailListResponse:
       type: object
       properties:
@@ -364,8 +390,49 @@ components:
       required:
       - sent
       - recipients
-    EmptyResponse:
+    WebContentBody:
       type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        link:
+          type: string
+        imageUrl:
+          type: string
+      required:
+      - title
+    UpdatePersistentNotificationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        endTime:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          type: string
+      required:
+      - id
+      - endTime
+      - updatedAt
+    MessageContentBody:
+      anyOf:
+      - $ref: '#/components/schemas/EmailContent'
+      - $ref: '#/components/schemas/TelegramContentBody'
+      - $ref: '#/components/schemas/WebContentBody'
+      - $ref: '#/components/schemas/SlackContentBody'
+    UpdatePersistentNotificationBody:
+      type: object
+      properties:
+        endTime:
+          type:
+          - string
+          - 'null'
+      required:
+      - endTime
     CreateMessageBody:
       type: object
       properties:
@@ -426,6 +493,9 @@ components:
       - group
       - targetDeviceType
       - locale
+    PageLimitParam:
+      type: string
+      default: '50'
     EmailContent:
       type: object
       properties:
@@ -438,19 +508,15 @@ components:
       required:
       - templateId
       - payload
-    WebContentBody:
+    ErrorResponse:
       type: object
       properties:
-        title:
+        message:
           type: string
-        content:
-          type: string
-        link:
-          type: string
-        imageUrl:
-          type: string
+          description: Error message
       required:
-      - title
+      - message
+      description: Error response
     SendEmailListBody:
       type: object
       properties:
@@ -485,72 +551,6 @@ components:
       - event
       - locale
       - recipients
-    ListNotificationsResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Notification'
-        count:
-          type: number
-      required:
-      - list
-      - count
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    MessageContentBody:
-      anyOf:
-      - $ref: '#/components/schemas/EmailContent'
-      - $ref: '#/components/schemas/TelegramContentBody'
-      - $ref: '#/components/schemas/WebContentBody'
-      - $ref: '#/components/schemas/SlackContentBody'
-    TelegramContentBody:
-      type: object
-      properties:
-        chatId:
-          type: number
-        message:
-          type: string
-      required:
-      - message
-    PageLimitParam:
-      type: string
-      default: '50'
-    UpdatePersistentNotificationResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        endTime:
-          type:
-          - string
-          - 'null'
-        updatedAt:
-          type: string
-      required:
-      - id
-      - endTime
-      - updatedAt
-    PageOffsetParam:
-      type: string
-      default: '0'
-    UpdatePersistentNotificationBody:
-      type: object
-      properties:
-        endTime:
-          type:
-          - string
-          - 'null'
-      required:
-      - endTime
   securitySchemes:
     InternalKey:
       type: http

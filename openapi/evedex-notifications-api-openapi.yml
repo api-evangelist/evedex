@@ -340,6 +340,92 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TemplateGetDetailsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+        channel:
+          type: string
+          enum:
+          - web
+          - webActivity
+          - mobilePush
+          - browserPush
+          - email
+          - telegram
+          - telegramChannel
+          - slack
+          - discord
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+          default: null
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          default: null
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - templateId
+      - channel
+      - locale
+      - title
+      - body
+      - group
+      - link
+      - imageUrl
+      - dataSchema
+      - channelExtra
+      - createdAt
+      - updatedAt
     Notification:
       type: object
       properties:
@@ -471,8 +557,6 @@ components:
       - channelExtra
       - createdAt
       - updatedAt
-    EmptyResponse:
-      type: object
     ListNotificationsResponse:
       type: object
       properties:
@@ -485,15 +569,49 @@ components:
       required:
       - list
       - count
-    TemplateList:
+    EmptyResponse:
+      type: object
+    PageOffsetParam:
+      type: string
+      default: '0'
+    TemplateUpdatePayload:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateListItem'
-      required:
-      - list
+        title:
+          type: string
+        body:
+          type: string
+        group:
+          type: string
+          enum:
+          - security
+          - news
+          - system
+          - dailyTasksReminders
+          - trade
+          - assets
+          - gamification
+          - activities
+          - affiliate
+        link:
+          type:
+          - string
+          - 'null'
+        imageUrl:
+          type:
+          - string
+          - 'null'
+        dataSchema:
+          type: object
+          additionalProperties: {}
+        channelExtra:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+    PageLimitParam:
+      type: string
+      default: '50'
     TemplateListItem:
       type: object
       properties:
@@ -556,133 +674,6 @@ components:
       - dataSchema
       - createdAt
       - updatedAt
-    PageLimitParam:
-      type: string
-      default: '50'
-    TemplateUpdatePayload:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        link:
-          type:
-          - string
-          - 'null'
-        imageUrl:
-          type:
-          - string
-          - 'null'
-        dataSchema:
-          type: object
-          additionalProperties: {}
-        channelExtra:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-    TemplateGetDetailsResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        templateId:
-          type: string
-        channel:
-          type: string
-          enum:
-          - web
-          - webActivity
-          - mobilePush
-          - browserPush
-          - email
-          - telegram
-          - telegramChannel
-          - slack
-          - discord
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-        title:
-          type: string
-        body:
-          type: string
-        group:
-          type: string
-          enum:
-          - security
-          - news
-          - system
-          - dailyTasksReminders
-          - trade
-          - assets
-          - gamification
-          - activities
-          - affiliate
-        link:
-          type:
-          - string
-          - 'null'
-          default: null
-        imageUrl:
-          type:
-          - string
-          - 'null'
-          default: null
-        dataSchema:
-          type: object
-          additionalProperties: {}
-        channelExtra:
-          type:
-          - object
-          - 'null'
-          additionalProperties: {}
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - templateId
-      - channel
-      - locale
-      - title
-      - body
-      - group
-      - link
-      - imageUrl
-      - dataSchema
-      - channelExtra
-      - createdAt
-      - updatedAt
-    PageOffsetParam:
-      type: string
-      default: '0'
     TemplatePayload:
       type: object
       properties:
@@ -753,6 +744,15 @@ components:
       - title
       - body
       - group
+    TemplateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateListItem'
+      required:
+      - list
   securitySchemes:
     AccessToken:
       type: http

@@ -218,20 +218,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AwardPointsBody:
-      type: object
-      properties:
-        userIdentifier:
-          type: string
-        amount:
-          type: number
-          exclusiveMinimum: 0
-        comment:
-          type: string
-          maxLength: 1000
-      required:
-      - userIdentifier
-      - amount
     AwardPointsResponse:
       type: object
       properties:
@@ -274,101 +260,27 @@ components:
       - grantedBy
       - createdAt
       - points
-    RewardHistoryItem:
+    ClaimBody:
       type: object
       properties:
-        id:
+        quest:
           type: string
-        actorId:
+      required:
+      - quest
+    UserRewardItem:
+      type: object
+      properties:
+        quest:
           type: string
-        action:
-          type: string
-        targetUser:
-          type:
-          - string
-          - 'null'
-        targetAuthId:
-          type:
-          - string
-          - 'null'
-        targetWallet:
-          type:
-          - string
-          - 'null'
-        payload:
-          type: object
-          additionalProperties: {}
-        comment:
-          type:
-          - string
-          - 'null'
         createdAt:
           type: string
           format: date-time
       required:
-      - id
-      - actorId
-      - action
-      - targetUser
-      - targetAuthId
-      - targetWallet
-      - payload
-      - comment
+      - quest
       - createdAt
-    AwardBundleBody:
-      type: object
-      properties:
-        userIdentifier:
-          type: string
-        points:
-          type: number
-          exclusiveMinimum: 0
-        luckyShotTickets:
-          type: integer
-          exclusiveMinimum: 0
-        collectableTickets:
-          type: integer
-          exclusiveMinimum: 0
-        comment:
-          type: string
-          maxLength: 1000
-      required:
-      - userIdentifier
-    ClaimResponse:
-      type: object
-      properties:
-        experience:
-          type: number
-      required:
-      - experience
-    AwardTicketBody:
-      type: object
-      properties:
-        userIdentifier:
-          type: string
-        amount:
-          type: integer
-          exclusiveMinimum: 0
-        comment:
-          type: string
-          maxLength: 1000
-      required:
-      - userIdentifier
-      - amount
-    UserRewardListObject:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserRewardItem'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
+    PageOffsetParam:
+      type: string
+      default: '0'
     AwardTicketResponse:
       type: object
       properties:
@@ -414,6 +326,61 @@ components:
       - grantedBy
       - createdAt
       - tickets
+    AwardPointsBody:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+        amount:
+          type: number
+          exclusiveMinimum: 0
+        comment:
+          type: string
+          maxLength: 1000
+      required:
+      - userIdentifier
+      - amount
+    RewardHistoryItem:
+      type: object
+      properties:
+        id:
+          type: string
+        actorId:
+          type: string
+        action:
+          type: string
+        targetUser:
+          type:
+          - string
+          - 'null'
+        targetAuthId:
+          type:
+          - string
+          - 'null'
+        targetWallet:
+          type:
+          - string
+          - 'null'
+        payload:
+          type: object
+          additionalProperties: {}
+        comment:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - actorId
+      - action
+      - targetUser
+      - targetAuthId
+      - targetWallet
+      - payload
+      - comment
+      - createdAt
     AdjustXpResponse:
       type: object
       properties:
@@ -451,27 +418,71 @@ components:
       - comment
       - adjustedBy
       - createdAt
-    ClaimBody:
+    RewardHistoryResponse:
       type: object
       properties:
-        quest:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/RewardHistoryItem'
+        count:
+          type: number
+        next:
           type: string
       required:
-      - quest
-    UserRewardItem:
+      - list
+      - count
+    UserRewardListObject:
       type: object
       properties:
-        quest:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRewardItem'
+        count:
+          type: number
+        next:
           type: string
-        createdAt:
-          type: string
-          format: date-time
       required:
-      - quest
-      - createdAt
+      - list
+      - count
+    AwardTicketBody:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+        amount:
+          type: integer
+          exclusiveMinimum: 0
+        comment:
+          type: string
+          maxLength: 1000
+      required:
+      - userIdentifier
+      - amount
     PageLimitParam:
       type: string
       default: '50'
+    AdjustXpBody:
+      type: object
+      properties:
+        userIdentifier:
+          type: string
+        amount:
+          type: number
+        comment:
+          type: string
+          maxLength: 1000
+      required:
+      - userIdentifier
+      - amount
+    ClaimResponse:
+      type: object
+      properties:
+        experience:
+          type: number
+      required:
+      - experience
     AwardBundleResponse:
       type: object
       properties:
@@ -583,36 +594,25 @@ components:
       - createdAt
       - balances
       - notificationError
-    AdjustXpBody:
+    AwardBundleBody:
       type: object
       properties:
         userIdentifier:
           type: string
-        amount:
+        points:
           type: number
+          exclusiveMinimum: 0
+        luckyShotTickets:
+          type: integer
+          exclusiveMinimum: 0
+        collectableTickets:
+          type: integer
+          exclusiveMinimum: 0
         comment:
           type: string
           maxLength: 1000
       required:
       - userIdentifier
-      - amount
-    PageOffsetParam:
-      type: string
-      default: '0'
-    RewardHistoryResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/RewardHistoryItem'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
   securitySchemes:
     AccessToken:
       type: http

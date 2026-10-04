@@ -116,19 +116,6 @@ components:
       - accountType
       - parent
       - expireAt
-    ApiKeyVerifyBody:
-      type: object
-      properties:
-        scope:
-          type: string
-          enum:
-          - partner
-          - exchange
-        apiKey:
-          type: string
-      required:
-      - scope
-      - apiKey
     ApiKeySyncBody:
       type: object
       properties:
@@ -183,6 +170,19 @@ components:
       - user
       - hash
     ApiKeyDisableBody:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum:
+          - partner
+          - exchange
+        apiKey:
+          type: string
+      required:
+      - scope
+      - apiKey
+    ApiKeyVerifyBody:
       type: object
       properties:
         scope:

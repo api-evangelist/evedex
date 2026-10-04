@@ -467,12 +467,12 @@ components:
   schemas:
     EmptyResponse:
       type: object
-    PageOffsetParam:
-      type: string
-      default: '0'
     PageLimitParam:
       type: string
       default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
   securitySchemes:
     InternalToken:
       type: http

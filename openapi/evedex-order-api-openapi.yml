@@ -1689,14 +1689,47 @@ components:
       required:
       - message
       description: Error response
-    PageOffsetParam:
-      type: string
-      default: '0'
     PageLimitParam:
       type: string
       default: '50'
+    PageOffsetParam:
+      type: string
+      default: '0'
+    OrderIdOutput:
+      type: string
+    LimitOrderCancelObject:
+      allOf:
+      - type: object
+        properties:
+          orderId:
+            $ref: '#/components/schemas/OrderIdOutput'
+        required:
+        - orderId
+      - anyOf:
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: true
+          required:
+          - success
+        - type: object
+          properties:
+            success:
+              type: boolean
+              const: false
+            failReason:
+              type: string
+          required:
+          - success
+          - failReason
     EmptyResponse:
       type: object
+    Side:
+      type: string
+      enum:
+      - BUY
+      - SELL
     OrderFillListResponse:
       type: array
       items:
@@ -1728,47 +1761,14 @@ components:
         - fillPrice
         - fee
         - createdAt
-    LimitOrderCancelObject:
-      allOf:
-      - type: object
-        properties:
-          orderId:
-            $ref: '#/components/schemas/OrderIdOutput'
-        required:
-        - orderId
-      - anyOf:
-        - type: object
-          properties:
-            success:
-              type: boolean
-              const: true
-          required:
-          - success
-        - type: object
-          properties:
-            success:
-              type: boolean
-              const: false
-            failReason:
-              type: string
-          required:
-          - success
-          - failReason
     PageNextParam:
       type: string
-    OrderIdOutput:
-      type: string
-    Side:
-      type: string
-      enum:
-      - BUY
-      - SELL
-    OrderIdV2Input:
-      type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
     OrderIdInput:
       type: string
       pattern: '[0-9A-Fa-f]{32}'
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
   securitySchemes:
     InternalToken:
       type: http

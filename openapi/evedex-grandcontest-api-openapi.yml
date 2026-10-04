@@ -171,6 +171,36 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    GrandContestTopEarnersResponse:
+      type: object
+      properties:
+        topEarners:
+          type: array
+          items:
+            type: object
+            properties:
+              rank:
+                type: number
+              avatar:
+                type:
+                - string
+                - 'null'
+              smartAccountAddress:
+                type:
+                - string
+                - 'null'
+              totalUsdtEarned:
+                type: string
+              totalVolume:
+                type: string
+            required:
+            - rank
+            - avatar
+            - smartAccountAddress
+            - totalUsdtEarned
+            - totalVolume
+      required:
+      - topEarners
     GrandContestMeResponse:
       type: object
       properties:
@@ -231,47 +261,6 @@ components:
       - totalClaimed
       - rewards
       - milestone
-    GrandContestClaimResponse:
-      type: object
-      properties:
-        claimed:
-          type: string
-        totalEarned:
-          type: string
-        availableToClaim:
-          type: string
-        payload:
-          type:
-          - object
-          - 'null'
-          properties:
-            nonce:
-              type: string
-            chainId:
-              type: number
-            recipient:
-              type: string
-            token:
-              type: string
-            amount:
-              type: string
-            contractAddress:
-              type: string
-            signature:
-              type: string
-          required:
-          - nonce
-          - chainId
-          - recipient
-          - token
-          - amount
-          - contractAddress
-          - signature
-      required:
-      - claimed
-      - totalEarned
-      - availableToClaim
-      - payload
     GrandContestVolumeScaleResponse:
       type: object
       properties:
@@ -344,36 +333,44 @@ components:
       - dailyVolume
       - activeTier
       - volumeScale
-    GrandContestTopEarnersResponse:
+    GrandContestClaimMilestoneResponse:
       type: object
       properties:
-        topEarners:
-          type: array
-          items:
-            type: object
-            properties:
-              rank:
-                type: number
-              avatar:
-                type:
-                - string
-                - 'null'
-              smartAccountAddress:
-                type:
-                - string
-                - 'null'
-              totalUsdtEarned:
-                type: string
-              totalVolume:
-                type: string
-            required:
-            - rank
-            - avatar
-            - smartAccountAddress
-            - totalUsdtEarned
-            - totalVolume
+        claimed:
+          type: boolean
+        amount:
+          type: string
+        payload:
+          type:
+          - object
+          - 'null'
+          properties:
+            nonce:
+              type: string
+            chainId:
+              type: number
+            recipient:
+              type: string
+            token:
+              type: string
+            amount:
+              type: string
+            contractAddress:
+              type: string
+            signature:
+              type: string
+          required:
+          - nonce
+          - chainId
+          - recipient
+          - token
+          - amount
+          - contractAddress
+          - signature
       required:
-      - topEarners
+      - claimed
+      - amount
+      - payload
     GrandContestLeaderboardResponse:
       type: object
       properties:
@@ -462,12 +459,14 @@ components:
       - leaderboard
       - totalDailyVolume
       - activeTier
-    GrandContestClaimMilestoneResponse:
+    GrandContestClaimResponse:
       type: object
       properties:
         claimed:
-          type: boolean
-        amount:
+          type: string
+        totalEarned:
+          type: string
+        availableToClaim:
           type: string
         payload:
           type:
@@ -498,7 +497,8 @@ components:
           - signature
       required:
       - claimed
-      - amount
+      - totalEarned
+      - availableToClaim
       - payload
   securitySchemes:
     AccessToken:

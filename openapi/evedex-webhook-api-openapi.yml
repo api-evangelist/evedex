@@ -119,6 +119,15 @@ components:
       required:
       - message
       description: Error response
+    QuickNodeStreamEventListBody:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuickNodeStreamEvent'
+      required:
+      - events
     EllipticWebhookBody:
       type: object
       properties:
@@ -181,8 +190,6 @@ components:
               type: string
             type:
               type: string
-    EmptyResponse:
-      type: object
     QuickNodeStreamEvent:
       type: object
       properties:
@@ -213,15 +220,8 @@ components:
       - value
       - txHash
       - blockNumber
-    QuickNodeStreamEventListBody:
+    EmptyResponse:
       type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/QuickNodeStreamEvent'
-      required:
-      - events
   securitySchemes:
     InternalKey:
       type: http

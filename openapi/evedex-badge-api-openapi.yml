@@ -337,9 +337,6 @@ paths:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
-    PageOffsetParam:
-      type: string
-      default: '0'
     BadgeObject:
       type: object
       properties:
@@ -367,24 +364,18 @@ components:
     PageLimitParam:
       type: string
       default: '50'
-    OrderShareResponse:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PositionShareResponse:
+      allOf:
+      - $ref: '#/components/schemas/BadgeShareResponse'
       type: object
       properties:
-        badgeUrl:
-          type: string
-        pageUrl:
-          type: string
-        referralCode:
-          type:
-          - string
-          - 'null'
-        createdAt:
+        positionId:
           type: string
       required:
-      - badgeUrl
-      - pageUrl
-      - referralCode
-      - createdAt
+      - positionId
     BadgeShareResponse:
       type: object
       properties:
@@ -403,57 +394,6 @@ components:
       - pageUrl
       - referralCode
       - createdAt
-    PositionShareResponse:
-      allOf:
-      - $ref: '#/components/schemas/BadgeShareResponse'
-      type: object
-      properties:
-        positionId:
-          type: string
-      required:
-      - positionId
-    BadgeOrderGetResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-      required:
-      - badgeUrl
-    BadgePositionGetResponse:
-      type: object
-      properties:
-        badgeUrl:
-          type: string
-      required:
-      - badgeUrl
-    PositionHistoryShareResponse:
-      allOf:
-      - $ref: '#/components/schemas/BadgeShareResponse'
-      type: object
-      properties:
-        positionId:
-          type: string
-      required:
-      - positionId
-    PointsBadgeShareBody:
-      type: object
-      properties:
-        renderingMode:
-          type: string
-          enum:
-          - narrow
-          - wide
-      required:
-      - renderingMode
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
     BadgeObject_2:
       type: object
       properties:
@@ -483,6 +423,40 @@ components:
       - content
       - createdAt
       - updatedAt
+    PositionHistoryShareResponse:
+      allOf:
+      - $ref: '#/components/schemas/BadgeShareResponse'
+      type: object
+      properties:
+        positionId:
+          type: string
+      required:
+      - positionId
+    OrderShareResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+        pageUrl:
+          type: string
+        referralCode:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+      required:
+      - badgeUrl
+      - pageUrl
+      - referralCode
+      - createdAt
+    BadgePositionGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
     BadgeShareBodyParams:
       type: object
       properties:
@@ -512,12 +486,38 @@ components:
       - badgeType
       - localeCode
       - renderingMode
-    OrderIdV2Input:
-      type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
+    BadgeOrderGetResponse:
+      type: object
+      properties:
+        badgeUrl:
+          type: string
+      required:
+      - badgeUrl
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    PointsBadgeShareBody:
+      type: object
+      properties:
+        renderingMode:
+          type: string
+          enum:
+          - narrow
+          - wide
+      required:
+      - renderingMode
     OrderIdInput:
       type: string
       pattern: '[0-9A-Fa-f]{32}'
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
   securitySchemes:
     AccessToken:
       type: http

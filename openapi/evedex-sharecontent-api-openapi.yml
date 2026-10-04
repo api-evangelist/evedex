@@ -129,6 +129,34 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ShareContentImages:
+      type: object
+      properties:
+        vertical:
+          type: string
+          format: uri
+        horizontal:
+          type: string
+          format: uri
+        square:
+          type: string
+          format: uri
+    EmptyResponse:
+      type: object
+    ShareContentList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShareContent'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     CreateShareContentBody:
       type: object
       properties:
@@ -158,19 +186,10 @@ components:
       required:
       - name
       - socialType
-    ShareContentText:
-      type: object
-      properties:
-        title:
-          type: string
-        body:
-          type: string
-      required:
-      - title
-      - body
-    EmptyResponse:
-      type: object
-    ShareContent:
+    PageOffsetParam:
+      type: string
+      default: '0'
+    ShareContentResponse:
       type: object
       properties:
         id:
@@ -205,6 +224,9 @@ components:
       - images
       - createdAt
       - updatedAt
+    PageLimitParam:
+      type: string
+      default: '50'
     UpdateShareContentBody:
       type: object
       properties:
@@ -227,38 +249,16 @@ components:
           $ref: '#/components/schemas/ShareContentTexts'
         images:
           $ref: '#/components/schemas/ShareContentImages'
-    ShareContentList:
+    ShareContentText:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShareContent'
-        count:
-          type: number
-        next:
+        title:
+          type: string
+        body:
           type: string
       required:
-      - list
-      - count
-    PageLimitParam:
-      type: string
-      default: '50'
-    ShareContentImages:
-      type: object
-      properties:
-        vertical:
-          type: string
-          format: uri
-        horizontal:
-          type: string
-          format: uri
-        square:
-          type: string
-          format: uri
-    PageOffsetParam:
-      type: string
-      default: '0'
+      - title
+      - body
     ShareContentTexts:
       type: object
       properties:
@@ -293,7 +293,7 @@ components:
         uk-UA:
           $ref: '#/components/schemas/ShareContentText'
       additionalProperties: false
-    ShareContentResponse:
+    ShareContent:
       type: object
       properties:
         id:

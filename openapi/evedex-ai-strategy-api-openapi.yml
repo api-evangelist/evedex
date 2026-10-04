@@ -829,11 +829,11 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
-    EmptyResponse:
-      type: object
     PageLimitParam:
       type: string
       default: '50'
+    EmptyResponse:
+      type: object
   securitySchemes:
     InternalToken:
       type: http

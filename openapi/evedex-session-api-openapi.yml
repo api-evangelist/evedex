@@ -214,62 +214,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EmptyResponse:
-      type: object
-    UserSessionHistory:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        signInById:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        createdAt:
-          type: string
-        countryCode:
-          type: string
-        ipAddress:
-          type: string
-        userAgentInfo:
-          type: string
-        wallet:
-          type: string
-        role:
-          type: string
-          enum:
-          - admin
-          - manager
-          - user
-          - academy-curator
-          - academy-moderator
-        language:
-          type:
-          - string
-          - 'null'
-          default: null
-        referrer:
-          type:
-          - string
-          - 'null'
-          default: null
-      required:
-      - id
-      - user
-      - signInById
-      - createdAt
-      - countryCode
-      - ipAddress
-      - userAgentInfo
-      - wallet
-      - role
-      - language
-      - referrer
     UserSessionHistoryFullObject:
       type: object
       properties:
@@ -413,6 +357,65 @@ components:
       - offerId
       - affiliateId
       - trackingParams
+    PageOffsetParam:
+      type: string
+      default: '0'
+    UserSessionHistory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        signInById:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdAt:
+          type: string
+        countryCode:
+          type: string
+        ipAddress:
+          type: string
+        userAgentInfo:
+          type: string
+        wallet:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+        language:
+          type:
+          - string
+          - 'null'
+          default: null
+        referrer:
+          type:
+          - string
+          - 'null'
+          default: null
+      required:
+      - id
+      - user
+      - signInById
+      - createdAt
+      - countryCode
+      - ipAddress
+      - userAgentInfo
+      - wallet
+      - role
+      - language
+      - referrer
+    EmptyResponse:
+      type: object
     UserSessionsActivityListResponse:
       type: object
       properties:
@@ -427,23 +430,6 @@ components:
       required:
       - list
       - count
-    UserSessionHistoryListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSessionHistory'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    PageLimitParam:
-      type: string
-      default: '50'
     UserSessionActivity:
       type: object
       properties:
@@ -489,9 +475,23 @@ components:
       - refreshTokenId
       - language
       - referrer
-    PageOffsetParam:
+    PageLimitParam:
       type: string
-      default: '0'
+      default: '50'
+    UserSessionHistoryListResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSessionHistory'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
   securitySchemes:
     InternalToken:
       type: http

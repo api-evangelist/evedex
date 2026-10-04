@@ -90,6 +90,10 @@ components:
       - avatar
       - wallet
       - smartAccountAddress
+    TradeSignalListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/TradeSignalItem'
     TradeSignalCreateBody:
       type: object
       properties:
@@ -178,10 +182,6 @@ components:
       - tpsl
       - expireAt
       - createdAt
-    TradeSignalListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/TradeSignalItem'
   securitySchemes:
     InternalToken:
       type: http

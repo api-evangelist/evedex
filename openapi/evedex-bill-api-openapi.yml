@@ -199,14 +199,12 @@ paths:
     - url: https://billing-api.evedex.com
 components:
   schemas:
-    BillUpdatePaymentMethodBody:
-      type: object
-      properties:
-        returnUrl:
-          type: string
-          format: uri
-      required:
-      - returnUrl
+    PageOffsetParam:
+      type: string
+      default: '0'
+    PageLimitParam:
+      type: string
+      default: '50'
     BillObject:
       type: object
       properties:
@@ -379,21 +377,42 @@ components:
       - id
       - url
       - billingId
-    PageLimitParam:
-      type: string
-      default: '50'
-    PageOffsetParam:
-      type: string
-      default: '0'
-    BillResponse:
+    BillUpdatePaymentMethodBody:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        url:
+        returnUrl:
           type: string
           format: uri
+      required:
+      - returnUrl
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    CreateBillBody:
+      type: object
+      properties:
+        user:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        product:
+          type: array
+          items:
+            type: string
+        trialPeriodDays:
+          type: number
+          default: 0
         paymentService:
           type: string
           enum:
@@ -402,10 +421,7 @@ components:
           - evedex
           - applePay
           - googlePay
-      required:
-      - id
-      - url
-      - paymentService
+          default: stripe
     BillObject_2:
       type: object
       properties:
@@ -502,34 +518,15 @@ components:
       - paidAt
       - createdAt
       - updatedAt
-    ErrorResponse:
+    BillResponse:
       type: object
       properties:
-        message:
+        id:
           type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
-    CreateBillBody:
-      type: object
-      properties:
-        user:
+          format: uuid
+        url:
           type: string
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        phone:
-          type: string
-        product:
-          type: array
-          items:
-            type: string
-        trialPeriodDays:
-          type: number
-          default: 0
+          format: uri
         paymentService:
           type: string
           enum:
@@ -538,7 +535,10 @@ components:
           - evedex
           - applePay
           - googlePay
-          default: stripe
+      required:
+      - id
+      - url
+      - paymentService
   securitySchemes:
     InternalToken:
       type: http

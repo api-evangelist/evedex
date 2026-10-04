@@ -75,32 +75,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FundedAccountListResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-          user:
-            type: string
-          option:
-            type: string
-          parent:
-            type: string
-          smartAccountAddress:
-            type: string
-          createdAt:
-            type: string
-        required:
-        - id
-        - user
-        - option
-        - parent
-        - smartAccountAddress
-        - createdAt
-    EmptyResponse:
-      type: object
     FundedAccountOptionsListResponse:
       type: array
       items:
@@ -164,6 +138,32 @@ components:
         - initialDeposit
         - minBalance
         - createdAt
+    FundedAccountListResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          user:
+            type: string
+          option:
+            type: string
+          parent:
+            type: string
+          smartAccountAddress:
+            type: string
+          createdAt:
+            type: string
+        required:
+        - id
+        - user
+        - option
+        - parent
+        - smartAccountAddress
+        - createdAt
+    EmptyResponse:
+      type: object
   securitySchemes:
     InternalToken:
       type: http

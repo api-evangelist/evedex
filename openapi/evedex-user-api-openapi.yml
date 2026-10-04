@@ -3463,82 +3463,85 @@ components:
       - avatar
       - createdAt
       - updatedAt
-    LocationResponse:
+    ApiKeyList:
       type: object
       properties:
-        country:
-          type: object
-          properties:
-            id:
-              type: number
-            name:
-              type: string
-            code:
-              type: string
-        region:
-          type: object
-          properties:
-            id:
-              type: number
-            name:
-              type: string
-            code:
-              type: string
-        city:
-          type: object
-          properties:
-            id:
-              type: number
-            name:
-              type: string
-        ipAddress:
-          type: string
-      required:
-      - country
-      - region
-      - city
-      - ipAddress
-    ApiKeyCreateBody:
-      type: object
-      properties:
-        name:
-          type: string
-        expireAt:
-          type:
-          - string
-          - 'null'
-          default: null
-        scopes:
+        list:
           type: array
           items:
+            $ref: '#/components/schemas/ApiKeyObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    UserSubscriptionsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          subscriptionStatus:
             type: string
             enum:
-            - partner
-            - exchange
-          default: []
-      required:
-      - name
-    WalletBalanceObject:
+            - none
+            - expired
+            - active
+            - canceling
+            - renewed
+            default: none
+          privilegiesType:
+            type:
+            - string
+            - 'null'
+            enum:
+            - premium
+            - academyCourse
+            default: null
+        required:
+        - id
+        - subscriptionStatus
+        - privilegiesType
+    PageLimitParam:
+      type: string
+      default: '50'
+    UserMediaListResponse:
       type: object
       properties:
-        coin:
-          type: string
-        amount:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserMedia'
+        count:
+          type: number
+        next:
           type: string
       required:
-      - coin
-      - amount
-    FingerprintVerifyBody:
+      - list
+      - count
+    UserProfileDeleteBody:
       type: object
       properties:
-        visitorId:
+        emailForConfirmation:
           type: string
-        authId:
-          type: string
-          format: uuid
+          format: email
       required:
-      - visitorId
-      - authId
+      - emailForConfirmation
+    WalletTransferWithFeesObject:
+      allOf:
+      - $ref: '#/components/schemas/WalletTransferObject'
+      type: object
+      properties:
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/WalletTransferObject'
+      required:
+      - fees
     CreateUserBody:
       type: object
       properties:
@@ -3593,42 +3596,39 @@ components:
       required:
       - wallet
       - role
-    UserSubscriptionsResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          subscriptionStatus:
-            type: string
-            enum:
-            - none
-            - expired
-            - active
-            - canceling
-            - renewed
-            default: none
-          privilegiesType:
-            type:
-            - string
-            - 'null'
-            enum:
-            - premium
-            - academyCourse
-            default: null
-        required:
-        - id
-        - subscriptionStatus
-        - privilegiesType
-    UpdateUserReferralCodeBody:
+    EmptyResponse:
+      type: object
+    UserTradingViewSettingsResponse:
       type: object
       properties:
-        referralCode:
-          type: string
+        settings:
+          type:
+          - string
+          - 'null'
       required:
-      - referralCode
+      - settings
+    TelegramProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type:
+          - string
+          - 'null'
+        firstName:
+          type:
+          - string
+          - 'null'
+        lastName:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - username
+      - firstName
+      - lastName
     ApiKeyObject:
       type: object
       properties:
@@ -3678,26 +3678,74 @@ components:
       - updatedAt
       - deletedAt
       - settings
-    PageLimitParam:
-      type: string
-      default: '50'
-    ApiKeyRegenerateResponse:
+    UserFingerprintResponse:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-        expireAt:
+        visitorId:
           type:
           - string
           - 'null'
-          default: null
-        apiKey:
+        relatedAuthIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - visitorId
+      - relatedAuthIds
+    LocationResponse:
+      type: object
+      properties:
+        country:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
+            code:
+              type: string
+        region:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
+            code:
+              type: string
+        city:
+          type: object
+          properties:
+            id:
+              type: number
+            name:
+              type: string
+        ipAddress:
           type: string
       required:
-      - id
-      - expireAt
-      - apiKey
+      - country
+      - region
+      - city
+      - ipAddress
+    UserTradingViewSettingsBody:
+      type: object
+      properties:
+        settings:
+          type: string
+      required:
+      - settings
+    Auth:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User_2'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
     User_2:
       type: object
       properties:
@@ -3930,7 +3978,7 @@ components:
       - isArchived
       - twofa
       - permissions
-    ApiKeyCreateResponse:
+    ApiKeyRegenerateResponse:
       type: object
       properties:
         id:
@@ -3947,169 +3995,6 @@ components:
       - id
       - expireAt
       - apiKey
-    UserTradingViewSettingsResponse:
-      type: object
-      properties:
-        settings:
-          type:
-          - string
-          - 'null'
-      required:
-      - settings
-    UserProfileUpdateBody:
-      type: object
-      properties:
-        email:
-          type:
-          - string
-          - 'null'
-          format: email
-        mobilePushEnabled:
-          type: string
-          enum:
-          - 'true'
-          - 'false'
-          - 'yes'
-          - 'no'
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-          - ar-SA
-          - pt-PT
-          - tr-TR
-          - uk-UA
-        name:
-          type: string
-        status:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        avatar:
-          type:
-          - string
-          - 'null'
-        cover:
-          type:
-          - string
-          - 'null'
-    UserLookupBody:
-      type: object
-      properties:
-        authIds:
-          type: array
-          items:
-            type: string
-            description: User Auth Id
-          description: Список Auth Id пользователей
-      required:
-      - authIds
-    UserProfileDeleteBody:
-      type: object
-      properties:
-        emailForConfirmation:
-          type: string
-          format: email
-      required:
-      - emailForConfirmation
-    JWT:
-      type: object
-      properties:
-        accessToken:
-          type: string
-          description: JWT access token
-        refreshToken:
-          type: string
-          description: JWT refresh token
-      required:
-      - accessToken
-      description: JWT tokens
-    WalletTransferWithFeesObject:
-      allOf:
-      - $ref: '#/components/schemas/WalletTransferObject'
-      type: object
-      properties:
-        fees:
-          type: array
-          items:
-            $ref: '#/components/schemas/WalletTransferObject'
-      required:
-      - fees
-    UserMedia:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        email:
-          type:
-          - string
-          - 'null'
-        telegramProfile:
-          oneOf:
-          - $ref: '#/components/schemas/TelegramProfile'
-          - type: 'null'
-        discordId:
-          type:
-          - string
-          - 'null'
-        discordName:
-          type:
-          - string
-          - 'null'
-        mobilePushEnabled:
-          type: boolean
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-          - ar-SA
-          - pt-PT
-          - tr-TR
-          - uk-UA
-      required:
-      - id
-      - email
-      - telegramProfile
-      - discordId
-      - discordName
-      - mobilePushEnabled
-      - locale
-    Auth:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User_2'
-        token:
-          $ref: '#/components/schemas/JWT'
-      required:
-      - user
-      - token
-      description: Authorization payload
     SignUpBody:
       type: object
       properties:
@@ -4212,21 +4097,9 @@ components:
       - signature
       - nonce
       additionalProperties: false
-    UserFingerprintResponse:
-      type: object
-      properties:
-        visitorId:
-          type:
-          - string
-          - 'null'
-        relatedAuthIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-      required:
-      - visitorId
-      - relatedAuthIds
+    PageOffsetParam:
+      type: string
+      default: '0'
     FingerprintVerifyResponse:
       type: object
       properties:
@@ -4234,44 +4107,6 @@ components:
           type: boolean
       required:
       - ok
-    EmptyResponse:
-      type: object
-    TelegramProfile:
-      type: object
-      properties:
-        id:
-          type: string
-        username:
-          type:
-          - string
-          - 'null'
-        firstName:
-          type:
-          - string
-          - 'null'
-        lastName:
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - username
-      - firstName
-      - lastName
-    ApiKeyList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKeyObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
     UpdateUserBody:
       type: object
       properties:
@@ -4285,30 +4120,6 @@ components:
           - academy-moderator
       required:
       - role
-    UserMediaListResponse:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserMedia'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    UserTradingViewSettingsBody:
-      type: object
-      properties:
-        settings:
-          type: string
-      required:
-      - settings
-    PageOffsetParam:
-      type: string
-      default: '0'
     WalletTransferObject:
       type: object
       properties:
@@ -4383,6 +4194,225 @@ components:
       - to
       - createdAt
       - updatedAt
+    ApiKeyCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        apiKey:
+          type: string
+      required:
+      - id
+      - expireAt
+      - apiKey
+    UserProfileUpdateBody:
+      type: object
+      properties:
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+        mobilePushEnabled:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          - 'yes'
+          - 'no'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        name:
+          type: string
+        status:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        avatar:
+          type:
+          - string
+          - 'null'
+        cover:
+          type:
+          - string
+          - 'null'
+    UserLookupBody:
+      type: object
+      properties:
+        authIds:
+          type: array
+          items:
+            type: string
+            description: User Auth Id
+          description: Список Auth Id пользователей
+      required:
+      - authIds
+    FingerprintVerifyBody:
+      type: object
+      properties:
+        visitorId:
+          type: string
+        authId:
+          type: string
+          format: uuid
+      required:
+      - visitorId
+      - authId
+    UpdateUserReferralCodeBody:
+      type: object
+      properties:
+        referralCode:
+          type: string
+      required:
+      - referralCode
+    WalletBalanceObject:
+      type: object
+      properties:
+        coin:
+          type: string
+        amount:
+          type: string
+      required:
+      - coin
+      - amount
+    UserMedia:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        telegramProfile:
+          oneOf:
+          - $ref: '#/components/schemas/TelegramProfile'
+          - type: 'null'
+        discordId:
+          type:
+          - string
+          - 'null'
+        discordName:
+          type:
+          - string
+          - 'null'
+        mobilePushEnabled:
+          type: boolean
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+      required:
+      - id
+      - email
+      - telegramProfile
+      - discordId
+      - discordName
+      - mobilePushEnabled
+      - locale
+    ApiKeyCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
+        scopes:
+          type: array
+          items:
+            type: string
+            enum:
+            - partner
+            - exchange
+          default: []
+      required:
+      - name
+    JWT:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
+      required:
+      - accessToken
+      description: JWT tokens
+    DelegateList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegateObject'
+      required:
+      - list
+    ApiKeyUpdateBody:
+      type: object
+      properties:
+        isActive:
+          type: boolean
+      required:
+      - isActive
+    UserList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     FundingTransferObject:
       type: object
       properties:
@@ -4410,18 +4440,36 @@ components:
       - coin
       - quantity
       - createdAt
-    ApiKeyCreateBody_2:
+    FundingObject:
       type: object
       properties:
-        name:
+        user:
           type: string
-        expireAt:
-          type:
-          - string
-          - 'null'
-          default: null
+        coin:
+          type: string
+        quantity:
+          type: number
+        updatedAt:
+          type: string
       required:
-      - name
+      - user
+      - coin
+      - quantity
+      - updatedAt
+    SignUpQuotaResponse:
+      type: object
+      properties:
+        quota:
+          type: number
+      required:
+      - quota
+    UserYieldEarned:
+      type: object
+      properties:
+        total:
+          type: string
+      required:
+      - total
     DepositObject:
       type: object
       properties:
@@ -4432,28 +4480,6 @@ components:
       required:
       - depositor
       - version
-    CreateAccountBody:
-      type: object
-      properties:
-        inviteLinkCode:
-          type: string
-          description: Invite link code
-        referralCode:
-          type:
-          - string
-          - 'null'
-          description: Referral code
-    SignUpQuotaResponse:
-      type: object
-      properties:
-        quota:
-          type: number
-      required:
-      - quota
-    BalanceChart:
-      type: array
-      items:
-        $ref: '#/components/schemas/BalanceChartPoint'
     UserUpdateResponse:
       type: object
       properties:
@@ -4589,6 +4615,49 @@ components:
       - createdAt
       - updatedAt
       - authAccountType
+    BalanceChartPoint:
+      type: object
+      properties:
+        date:
+          type: string
+        marginBalance:
+          type: number
+        pnl:
+          type: number
+        funding:
+          type: number
+        unrealizedPnl:
+          type: number
+        currentPnl:
+          type: number
+        availableBalance:
+          type: number
+      required:
+      - date
+      - marginBalance
+      - pnl
+      - funding
+      - unrealizedPnl
+      - currentPnl
+      - availableBalance
+    UserSocial:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
     DelegateObject:
       type: object
       properties:
@@ -4596,92 +4665,6 @@ components:
           type: string
       required:
       - delegate
-    UserList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    UserObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        authId:
-          type: string
-          format: uuid
-        exchangeId:
-          type: number
-        name:
-          type:
-          - string
-          - 'null'
-        wallet:
-          type: string
-        smartAccountAddress:
-          type: string
-        avatar:
-          type: string
-          format: uri
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - ar-SA
-          - zh-CN
-          - de-DE
-          - es-ES
-          - pt-PT
-          - tr-TR
-          - uk-UA
-          - ko-KR
-          - fr-FR
-        dateTimeFormat:
-          type: string
-          enum:
-          - YYYY-MM-DD, hh:mm:ss A
-          - DD.MM.YYYY, HH:mm:ss
-          - DD MMM YYYY, HH:mm:ss
-          - MMM DD, YYYY, hh:mm:ss A
-        disabledPFTrading:
-          type: boolean
-        marginCall:
-          type: boolean
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - id
-      - authId
-      - exchangeId
-      - name
-      - wallet
-      - smartAccountAddress
-      - avatar
-      - locale
-      - dateTimeFormat
-      - disabledPFTrading
-      - marginCall
-      - createdAt
-      - updatedAt
-    UserYieldEarned:
-      type: object
-      properties:
-        total:
-          type: string
-      required:
-      - total
     User_3:
       type: object
       properties:
@@ -4822,56 +4805,149 @@ components:
       - createdAt
       - updatedAt
       - authAccountType
-    DelegateList:
+    BalanceItem:
       type: object
       properties:
-        list:
+        currency:
+          type: string
+        balance:
+          type: number
+        balanceUSD:
+          type: number
+      required:
+      - currency
+      - balance
+      - balanceUSD
+    BalanceChart:
+      type: array
+      items:
+        $ref: '#/components/schemas/BalanceChartPoint'
+    UpdateUserBody_2:
+      type: object
+      properties:
+        name:
+          type: string
+        social:
           type: array
           items:
-            $ref: '#/components/schemas/DelegateObject'
-      required:
-      - list
-    FundingObject:
+            $ref: '#/components/schemas/UserSocial'
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-SA
+          - zh-CN
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          - ko-KR
+          - fr-FR
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm:ss A
+          - DD.MM.YYYY, HH:mm:ss
+          - DD MMM YYYY, HH:mm:ss
+          - MMM DD, YYYY, hh:mm:ss A
+        publicProfile:
+          type: object
+          properties:
+            statistics:
+              type: boolean
+            chart:
+              type: boolean
+            positionHistory:
+              type: boolean
+          required:
+          - statistics
+          - chart
+          - positionHistory
+    UserObject:
       type: object
       properties:
-        user:
+        id:
           type: string
-        coin:
+          format: uuid
+        authId:
           type: string
-        quantity:
+          format: uuid
+        exchangeId:
           type: number
+        name:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        avatar:
+          type: string
+          format: uri
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - ar-SA
+          - zh-CN
+          - de-DE
+          - es-ES
+          - pt-PT
+          - tr-TR
+          - uk-UA
+          - ko-KR
+          - fr-FR
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm:ss A
+          - DD.MM.YYYY, HH:mm:ss
+          - DD MMM YYYY, HH:mm:ss
+          - MMM DD, YYYY, hh:mm:ss A
+        disabledPFTrading:
+          type: boolean
+        marginCall:
+          type: boolean
+        createdAt:
+          type: string
         updatedAt:
           type: string
       required:
-      - user
-      - coin
-      - quantity
+      - id
+      - authId
+      - exchangeId
+      - name
+      - wallet
+      - smartAccountAddress
+      - avatar
+      - locale
+      - dateTimeFormat
+      - disabledPFTrading
+      - marginCall
+      - createdAt
       - updatedAt
-    BalanceChartPoint:
+    CheckSignUpBadgeResponse:
       type: object
       properties:
-        date:
-          type: string
-        marginBalance:
-          type: number
-        pnl:
-          type: number
-        funding:
-          type: number
-        unrealizedPnl:
-          type: number
-        currentPnl:
-          type: number
-        availableBalance:
-          type: number
+        ok:
+          type: boolean
       required:
-      - date
-      - marginBalance
-      - pnl
-      - funding
-      - unrealizedPnl
-      - currentPnl
-      - availableBalance
+      - ok
+    CreateAccountBody:
+      type: object
+      properties:
+        inviteLinkCode:
+          type: string
+          description: Invite link code
+        referralCode:
+          type:
+          - string
+          - 'null'
+          description: Referral code
     UserStatisticsResponse:
       type: object
       properties:
@@ -4924,214 +5000,62 @@ components:
       - buyVolume
       - sellVolume
       - tradingVolume
-    ApiKeyUpdateBody:
-      type: object
-      properties:
-        isActive:
-          type: boolean
-      required:
-      - isActive
-    BalanceItem:
-      type: object
-      properties:
-        currency:
-          type: string
-        balance:
-          type: number
-        balanceUSD:
-          type: number
-      required:
-      - currency
-      - balance
-      - balanceUSD
-    CheckSignUpBadgeResponse:
-      type: object
-      properties:
-        ok:
-          type: boolean
-      required:
-      - ok
-    UserSocial:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        value:
-          type: string
-      required:
-      - type
-      - value
-    UpdateUserBody_2:
+    ApiKeyCreateBody_2:
       type: object
       properties:
         name:
           type: string
-        social:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSocial'
-        locale:
-          type: string
-          enum:
-          - en-US
-          - ru-RU
-          - ar-SA
-          - zh-CN
-          - de-DE
-          - es-ES
-          - pt-PT
-          - tr-TR
-          - uk-UA
-          - ko-KR
-          - fr-FR
-        dateTimeFormat:
-          type: string
-          enum:
-          - YYYY-MM-DD, hh:mm:ss A
-          - DD.MM.YYYY, HH:mm:ss
-          - DD MMM YYYY, HH:mm:ss
-          - MMM DD, YYYY, hh:mm:ss A
-        publicProfile:
-          type: object
-          properties:
-            statistics:
-              type: boolean
-            chart:
-              type: boolean
-            positionHistory:
-              type: boolean
-          required:
-          - statistics
-          - chart
-          - positionHistory
-    ManualAward:
-      type: object
-      properties:
-        authId:
-          type: string
-          description: User Auth Id
-        questId:
-          type: string
-          description: Quest Id
+        expireAt:
+          type:
+          - string
+          - 'null'
+          default: null
       required:
-      - authId
-      - questId
-    PointsSummary:
+      - name
+    UserInternal:
+      allOf:
+      - $ref: '#/components/schemas/User_4'
       type: object
       properties:
-        totalPoints:
-          type: string
-        unclaimedPoints:
-          type: string
-        rankId:
-          type: string
-        leagueId:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - totalPoints
-      - unclaimedPoints
-      - rankId
-      - leagueId
-      - updatedAt
-    User_4:
-      type: object
-      properties:
-        authId:
-          type: string
-          format: uuid
-        level:
-          type: object
-          properties:
-            number:
-              type: number
-            bonus:
-              $ref: '#/components/schemas/LevelBonus'
-          required:
-          - number
-          - bonus
-        skill:
-          type: object
-          properties:
-            points:
-              type: number
-          required:
-          - points
-        quests:
+        buff:
           type:
           - object
           - 'null'
           properties:
-            claimedCount:
+            EducationDiscount:
               type: number
-              description: Number of quests with isClaimed=true
+            TradeDiscount:
+              type: number
+            ReferralPercentage:
+              type: number
+            expiredAt:
+              type: string
           required:
-          - claimedCount
-        experience:
-          type: string
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
+          - EducationDiscount
+          - TradeDiscount
+          - ReferralPercentage
+          - expiredAt
       required:
-      - authId
-      - level
-      - skill
-      - experience
-      - createdAt
-      - updatedAt
-    ManualAwardListResponse:
+      - buff
+    ManualXpAwardBody:
       type: object
       properties:
-        inserted:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManualAwardResponse'
-        updated:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManualAwardResponse'
-        ignored:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManualAwardResponse'
-      required:
-      - inserted
-      - updated
-      - ignored
-    Buff:
-      type: object
-      properties:
-        source:
+        wallet:
           type: string
-          enum:
-          - referral
-          - chestCashback
-          - chestReferral
-          - collectable
-        EducationDiscount:
-          type: number
-        TradeDiscount:
-          type: number
-        ReferralPercentage:
-          type: number
-        expiredAt:
+          description: User wallet address
+        authId:
           type: string
+          format: uuid
+          description: User Auth Id
+        amount:
+          type: number
+          exclusiveMinimum: 0
+          description: Amount of XP to award
+        reason:
+          type: string
+          description: Reason for awarding XP
       required:
-      - source
-      - EducationDiscount
-      - TradeDiscount
-      - ReferralPercentage
-      - expiredAt
+      - amount
     ManualXpAwardResponse:
       type: object
       properties:
@@ -5156,55 +5080,37 @@ components:
       - xpAwarded
       - previousExperience
       - newExperience
-    ManualXpAwardBody:
+    LevelBonus:
       type: object
       properties:
-        wallet:
-          type: string
-          description: User wallet address
+        EducationDiscount:
+          type: number
+        TradeDiscount:
+          type: number
+        ReferralPercentage:
+          type: number
+        TradeDiscountOld:
+          type: number
+        ReferralPercentageOld:
+          type: number
+      required:
+      - EducationDiscount
+      - TradeDiscount
+      - ReferralPercentage
+      - TradeDiscountOld
+      - ReferralPercentageOld
+    ManualAward:
+      type: object
+      properties:
         authId:
           type: string
-          format: uuid
           description: User Auth Id
-        amount:
-          type: number
-          exclusiveMinimum: 0
-          description: Amount of XP to award
-        reason:
+        questId:
           type: string
-          description: Reason for awarding XP
+          description: Quest Id
       required:
-      - amount
-    ManualAwardResponse:
-      type: object
-      properties:
-        user:
-          type: string
-          format: uuid
-        quest:
-          type: string
-          format: uuid
-        isReadyToClaim:
-          type: boolean
-      required:
-      - user
-      - quest
-      - isReadyToClaim
-    FeeRates:
-      type: object
-      properties:
-        cashback:
-          type: number
-        referral:
-          type: number
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/FeeRateRow'
-      required:
-      - cashback
-      - referral
-      - rows
+      - authId
+      - questId
     FeeRateRow:
       type: object
       properties:
@@ -5233,28 +5139,21 @@ components:
       - cashback
       - referral
       - expiredAt
-    League:
+    ManualAwardResponse:
       type: object
       properties:
-        id:
+        user:
           type: string
-        name:
+          format: uuid
+        quest:
           type: string
-        level:
-          type: number
-        steps:
-          type: number
-        image:
-          type:
-          - string
-          - 'null'
-          description: League image URL
+          format: uuid
+        isReadyToClaim:
+          type: boolean
       required:
-      - id
-      - name
-      - level
-      - steps
-      - image
+      - user
+      - quest
+      - isReadyToClaim
     UserLookup:
       type: object
       properties:
@@ -5293,31 +5192,6 @@ components:
       - experience
       - createdAt
       - updatedAt
-    UserInternal:
-      allOf:
-      - $ref: '#/components/schemas/User_4'
-      type: object
-      properties:
-        buff:
-          type:
-          - object
-          - 'null'
-          properties:
-            EducationDiscount:
-              type: number
-            TradeDiscount:
-              type: number
-            ReferralPercentage:
-              type: number
-            expiredAt:
-              type: string
-          required:
-          - EducationDiscount
-          - TradeDiscount
-          - ReferralPercentage
-          - expiredAt
-      required:
-      - buff
     UserLeague:
       type: object
       properties:
@@ -5495,6 +5369,81 @@ components:
       - levelDiscount
       - skillDiscount
       - userLeague
+    PointsSummary:
+      type: object
+      properties:
+        totalPoints:
+          type: string
+        unclaimedPoints:
+          type: string
+        rankId:
+          type: string
+        leagueId:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - totalPoints
+      - unclaimedPoints
+      - rankId
+      - leagueId
+      - updatedAt
+    FeeRates:
+      type: object
+      properties:
+        cashback:
+          type: number
+        referral:
+          type: number
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeeRateRow'
+      required:
+      - cashback
+      - referral
+      - rows
+    ManualAwardListResponse:
+      type: object
+      properties:
+        inserted:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualAwardResponse'
+        updated:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualAwardResponse'
+        ignored:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualAwardResponse'
+      required:
+      - inserted
+      - updated
+      - ignored
+    League:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        level:
+          type: number
+        steps:
+          type: number
+        image:
+          type:
+          - string
+          - 'null'
+          description: League image URL
+      required:
+      - id
+      - name
+      - level
+      - steps
+      - image
     ManualAwardBatchBody:
       type: object
       properties:
@@ -5504,43 +5453,74 @@ components:
             $ref: '#/components/schemas/ManualAward'
       required:
       - batch
-    LevelBonus:
+    Buff:
       type: object
       properties:
+        source:
+          type: string
+          enum:
+          - referral
+          - chestCashback
+          - chestReferral
+          - collectable
         EducationDiscount:
           type: number
         TradeDiscount:
           type: number
         ReferralPercentage:
           type: number
-        TradeDiscountOld:
-          type: number
-        ReferralPercentageOld:
-          type: number
+        expiredAt:
+          type: string
       required:
+      - source
       - EducationDiscount
       - TradeDiscount
       - ReferralPercentage
-      - TradeDiscountOld
-      - ReferralPercentageOld
-    UserObject_2:
+      - expiredAt
+    User_4:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
         authId:
           type: string
-        notificationConfig:
-          $ref: '#/components/schemas/UserNotificationConfig'
+          format: uuid
+        level:
+          type: object
+          properties:
+            number:
+              type: number
+            bonus:
+              $ref: '#/components/schemas/LevelBonus'
+          required:
+          - number
+          - bonus
+        skill:
+          type: object
+          properties:
+            points:
+              type: number
+          required:
+          - points
+        quests:
+          type:
+          - object
+          - 'null'
+          properties:
+            claimedCount:
+              type: number
+              description: Number of quests with isClaimed=true
+          required:
+          - claimedCount
+        experience:
+          type: string
         createdAt:
           type: string
         updatedAt:
           type: string
       required:
-      - id
       - authId
-      - notificationConfig
+      - level
+      - skill
+      - experience
       - createdAt
       - updatedAt
     UserNotificationConfig:
@@ -5574,15 +5554,6 @@ components:
       required:
       - enabledChannels
       - enabledGroups
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
     UserNotificationConfigPayload:
       type: object
       properties:
@@ -5614,6 +5585,88 @@ components:
       required:
       - enabledChannels
       - enabledGroups
+    UserObject_2:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        authId:
+          type: string
+        notificationConfig:
+          $ref: '#/components/schemas/UserNotificationConfig'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - authId
+      - notificationConfig
+      - createdAt
+      - updatedAt
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+      required:
+      - message
+      description: Error response
+    ContactResponse:
+      type:
+      - object
+      - 'null'
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+      required:
+      - name
+      - email
+      - social
+    InternalUser:
+      allOf:
+      - $ref: '#/components/schemas/User_5'
+      type: object
+      properties:
+        weights:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                - user
+              target:
+                type: string
+                format: uuid
+              eventType:
+                type: string
+              level:
+                type: number
+              weight:
+                type: number
+            required:
+            - id
+            - type
+            - target
+            - eventType
+            - level
+            - weight
+          default: []
+      required:
+      - weights
     RewardBalance:
       type: object
       properties:
@@ -5630,6 +5683,299 @@ components:
       - currency
       - count
       - balance
+    RewardBalanceList:
+      type: array
+      items:
+        $ref: '#/components/schemas/RewardBalance'
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        currency:
+          type: string
+          enum:
+          - usdt
+        type:
+          type: string
+          enum:
+          - all
+          - income
+          - withdrawal
+        createdAt:
+          type: string
+      required:
+      - id
+      - user
+      - amount
+      - currency
+      - type
+      - createdAt
+    UserSocial_2:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
+    Link:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        type:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        isDefault:
+          type: boolean
+          default: false
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+        createdAt:
+          type: string
+      required:
+      - id
+      - user
+      - type
+      - code
+      - name
+      - isDefault
+      - welcomeMessage
+      - benefitsDescription
+      - image
+      - createdAt
+    RewardChartPoint:
+      type: object
+      properties:
+        date:
+          type: string
+        currency:
+          type: string
+        sum:
+          type: number
+        count:
+          type: number
+      required:
+      - date
+      - currency
+      - sum
+      - count
+    RewardEvent:
+      type: object
+      properties:
+        metadata: {}
+        weight:
+          type: number
+        currency:
+          type: string
+      required:
+      - weight
+      - currency
+    UserStatisticsChartResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+          signupVolume:
+            type: number
+          tradingVolume:
+            type: number
+          depositVolume:
+            type: number
+          rewardVolume:
+            type: number
+        required:
+        - date
+        - signupVolume
+        - tradingVolume
+        - depositVolume
+        - rewardVolume
+    CreateLink:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Link name
+        type:
+          type: string
+          description: Link type
+        code:
+          type: string
+          description: Unique code
+        calculator:
+          type: string
+          enum:
+          - greedy
+          - full
+          - bd
+          description: Reward calculation type
+        welcomeMessage:
+          type:
+          - string
+          - 'null'
+          description: Invitation welcome message
+        benefitsDescription:
+          type:
+          - string
+          - 'null'
+          description: Invitation benefits description
+        image:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Invitation image URL
+      required:
+      - name
+      - type
+      - calculator
+    Reward:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        amount:
+          type: number
+        currency:
+          type: string
+        event:
+          $ref: '#/components/schemas/RewardEvent'
+        type:
+          type: string
+        createdAt:
+          type: string
+      required:
+      - user
+      - amount
+      - currency
+      - event
+      - type
+      - createdAt
+    User_5:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum:
+          - user
+          - partner
+          - bd-manager
+        authId:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+          default: null
+        wallet:
+          type: string
+        smartAccountAddress:
+          type: string
+        social:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+        partner:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        locale:
+          type: string
+          enum:
+          - en-US
+          - ru-RU
+          - es-ES
+          - fr-FR
+          - de-DE
+          - it-IT
+          - pt-BR
+          - ja-JP
+          - ko-KR
+          - zh-CN
+          - zh-TW
+          - ar-SA
+          - pt-PT
+          - tr-TR
+          - uk-UA
+        dateTimeFormat:
+          type: string
+          enum:
+          - YYYY-MM-DD, hh:mm A
+          - DD.MM.YYYY, HH:mm
+          - DD MMM YYYY, HH:mm
+          - MMM DD, YYYY, hh:mm A
+        maxInvites:
+          type:
+          - number
+          - 'null'
+          default: null
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - role
+      - authId
+      - name
+      - email
+      - wallet
+      - smartAccountAddress
+      - social
+      - partner
+      - locale
+      - dateTimeFormat
+      - maxInvites
+      - createdAt
+      - updatedAt
     UserWithBalance:
       type: object
       properties:
@@ -5769,108 +6115,62 @@ components:
       required:
       - list
       - count
-    PartnerlList:
+    CreateUser:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/PartnerResponseObject'
-        count:
-          type: number
-        next:
+        wallet:
           type: string
-      required:
-      - list
-      - count
-    Transaction:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        amount:
-          type: number
-        currency:
-          type: string
-          enum:
-          - usdt
-        type:
-          type: string
-          enum:
-          - all
-          - income
-          - withdrawal
-        createdAt:
-          type: string
-      required:
-      - id
-      - user
-      - amount
-      - currency
-      - type
-      - createdAt
-    CreateLink:
-      type: object
-      properties:
+          description: Wallet address
         name:
-          type: string
-          description: Link name
-        type:
-          type: string
-          description: Link type
-        code:
-          type: string
-          description: Unique code
-        calculator:
-          type: string
-          enum:
-          - greedy
-          - full
-          - bd
-          description: Reward calculation type
-        welcomeMessage:
           type:
           - string
           - 'null'
-          description: Invitation welcome message
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-          description: Invitation benefits description
-        image:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Invitation image URL
-      required:
-      - name
-      - type
-      - calculator
-    RewardBalanceList:
-      type: array
-      items:
-        $ref: '#/components/schemas/RewardBalance'
-    User_5:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
+          description: User name
         role:
           type: string
           enum:
           - user
           - partner
           - bd-manager
-        authId:
-          type: string
+          default: user
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          description: Contact email
+        social:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UserSocial_2'
+          description: User social contacts
+        partner:
+          type:
+          - string
+          - 'null'
           format: uuid
+          description: Partner ID
+        weight:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UpdateUserWeightBody'
+        link:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CreateLink'
+      required:
+      - wallet
+      - name
+      - email
+    UpdateUserBody_3:
+      type: object
+      properties:
         name:
           type:
           - string
@@ -5879,11 +6179,6 @@ components:
           type:
           - string
           - 'null'
-          default: null
-        wallet:
-          type: string
-        smartAccountAddress:
-          type: string
         social:
           type: array
           items:
@@ -5922,26 +6217,59 @@ components:
           type:
           - number
           - 'null'
-          default: null
-        createdAt:
-          type: string
-        updatedAt:
+    EventList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        count:
+          type: number
+        next:
           type: string
       required:
-      - id
-      - role
-      - authId
-      - name
-      - email
-      - wallet
-      - smartAccountAddress
-      - social
-      - partner
-      - locale
-      - dateTimeFormat
-      - maxInvites
-      - createdAt
-      - updatedAt
+      - list
+      - count
+    Event:
+      type: object
+      properties:
+        link:
+          oneOf:
+          - $ref: '#/components/schemas/Link'
+          - type: 'null'
+        code:
+          type: string
+        type:
+          type: string
+        weight:
+          type: number
+        currency:
+          type: string
+        emitAt:
+          type: string
+        metadata: {}
+      required:
+      - link
+      - code
+      - type
+      - weight
+      - currency
+      - emitAt
+    PartnerlList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerResponseObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
     RewardList:
       type: object
       properties:
@@ -5956,52 +6284,6 @@ components:
       required:
       - list
       - count
-    Reward:
-      type: object
-      properties:
-        user:
-          type: string
-          format: uuid
-        amount:
-          type: number
-        currency:
-          type: string
-        event:
-          $ref: '#/components/schemas/RewardEvent'
-        type:
-          type: string
-        createdAt:
-          type: string
-      required:
-      - user
-      - amount
-      - currency
-      - event
-      - type
-      - createdAt
-    UserDataResponse:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User_5'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-      required:
-      - user
-      - links
-    RewardEvent:
-      type: object
-      properties:
-        metadata: {}
-        weight:
-          type: number
-        currency:
-          type: string
-      required:
-      - weight
-      - currency
     PartnerResponseObject:
       type: object
       properties:
@@ -6067,211 +6349,6 @@ components:
       - tradingVolume
       - createdAt
       - updatedAt
-    UserStatisticsChartResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          date:
-            type: string
-          signupVolume:
-            type: number
-          tradingVolume:
-            type: number
-          depositVolume:
-            type: number
-          rewardVolume:
-            type: number
-        required:
-        - date
-        - signupVolume
-        - tradingVolume
-        - depositVolume
-        - rewardVolume
-    EventList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    UpdateUserWeightBody:
-      type: object
-      properties:
-        type:
-          type: string
-        level:
-          type: number
-        weight:
-          type: number
-      required:
-      - type
-      - level
-      - weight
-    UserInvites:
-      type: object
-      properties:
-        invitesCount:
-          type: number
-        maxInvites:
-          type: number
-        invitesEarnings:
-          type: number
-      required:
-      - invitesCount
-      - maxInvites
-      - invitesEarnings
-    Event:
-      type: object
-      properties:
-        link:
-          oneOf:
-          - $ref: '#/components/schemas/Link'
-          - type: 'null'
-        code:
-          type: string
-        type:
-          type: string
-        weight:
-          type: number
-        currency:
-          type: string
-        emitAt:
-          type: string
-        metadata: {}
-      required:
-      - link
-      - code
-      - type
-      - weight
-      - currency
-      - emitAt
-    Link:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        type:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        isDefault:
-          type: boolean
-          default: false
-        welcomeMessage:
-          type:
-          - string
-          - 'null'
-        benefitsDescription:
-          type:
-          - string
-          - 'null'
-        image:
-          type:
-          - string
-          - 'null'
-          format: uri
-        createdAt:
-          type: string
-      required:
-      - id
-      - user
-      - type
-      - code
-      - name
-      - isDefault
-      - welcomeMessage
-      - benefitsDescription
-      - image
-      - createdAt
-    InternalUser:
-      allOf:
-      - $ref: '#/components/schemas/User_5'
-      type: object
-      properties:
-        weights:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              type:
-                type: string
-                enum:
-                - user
-              target:
-                type: string
-                format: uuid
-              eventType:
-                type: string
-              level:
-                type: number
-              weight:
-                type: number
-            required:
-            - id
-            - type
-            - target
-            - eventType
-            - level
-            - weight
-          default: []
-      required:
-      - weights
-    UserSocial_2:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - telegramCommunity
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        value:
-          type: string
-      required:
-      - type
-      - value
-    RewardChartPoint:
-      type: object
-      properties:
-        date:
-          type: string
-        currency:
-          type: string
-        sum:
-          type: number
-        count:
-          type: number
-      required:
-      - date
-      - currency
-      - sum
-      - count
-    RewardChart:
-      type: array
-      items:
-        $ref: '#/components/schemas/RewardChartPoint'
     UserWithBalanceList:
       type: object
       properties:
@@ -6286,125 +6363,48 @@ components:
       required:
       - list
       - count
-    UpdateUserBody_3:
+    RewardChart:
+      type: array
+      items:
+        $ref: '#/components/schemas/RewardChartPoint'
+    UpdateUserWeightBody:
       type: object
       properties:
-        name:
-          type:
-          - string
-          - 'null'
-        email:
-          type:
-          - string
-          - 'null'
-        social:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSocial_2'
-        partner:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        locale:
+        type:
           type: string
-          enum:
-          - en-US
-          - ru-RU
-          - es-ES
-          - fr-FR
-          - de-DE
-          - it-IT
-          - pt-BR
-          - ja-JP
-          - ko-KR
-          - zh-CN
-          - zh-TW
-          - ar-SA
-          - pt-PT
-          - tr-TR
-          - uk-UA
-        dateTimeFormat:
-          type: string
-          enum:
-          - YYYY-MM-DD, hh:mm A
-          - DD.MM.YYYY, HH:mm
-          - DD MMM YYYY, HH:mm
-          - MMM DD, YYYY, hh:mm A
-        maxInvites:
-          type:
-          - number
-          - 'null'
-    ContactResponse:
-      type:
-      - object
-      - 'null'
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-        social:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSocial_2'
-      required:
-      - name
-      - email
-      - social
-    CreateUser:
-      type: object
-      properties:
-        wallet:
-          type: string
-          description: Wallet address
-        name:
-          type:
-          - string
-          - 'null'
-          description: User name
-        role:
-          type: string
-          enum:
-          - user
-          - partner
-          - bd-manager
-          default: user
-        email:
-          type:
-          - string
-          - 'null'
-          format: email
-          description: Contact email
-        social:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UserSocial_2'
-          description: User social contacts
-        partner:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: Partner ID
+        level:
+          type: number
         weight:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UpdateUserWeightBody'
-        link:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CreateLink'
+          type: number
       required:
-      - wallet
-      - name
-      - email
+      - type
+      - level
+      - weight
+    UserDataResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User_5'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+      required:
+      - user
+      - links
+    UserInvites:
+      type: object
+      properties:
+        invitesCount:
+          type: number
+        maxInvites:
+          type: number
+        invitesEarnings:
+          type: number
+      required:
+      - invitesCount
+      - maxInvites
+      - invitesEarnings
   securitySchemes:
     AccessToken:
       type: http

@@ -404,18 +404,59 @@ paths:
     - url: https://market-data-api.evedex.com
 components:
   schemas:
-    JWT:
+    SignInByBody:
       type: object
       properties:
-        accessToken:
+        userId:
           type: string
-          description: JWT access token
-        refreshToken:
-          type: string
-          description: JWT refresh token
+          format: uuid
+          description: Target account ID
       required:
-      - accessToken
-      description: JWT tokens
+      - userId
+    EmptyResponse:
+      type: object
+    VerifyMessageBody:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Signed message
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        wallet:
+          type: string
+          description: Wallet address
+        nonce:
+          type: string
+          description: Nonce
+      required:
+      - message
+      - signature
+      - wallet
+    VerifyMessageResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Verification result
+        address:
+          type:
+          - string
+          - 'null'
+          default: null
+          description: Signer address
+        error:
+          type:
+          - string
+          - 'null'
+          default: null
+          description: Error message
+      required:
+      - success
+      - address
+      - error
     DisableRefreshTokenBody:
       type: object
       properties:
@@ -430,6 +471,38 @@ components:
       - signature
       - chainId
       additionalProperties: false
+    DisableAllRefreshTokensBody:
+      type: object
+      properties:
+        signature:
+          type: string
+          minLength: 1
+          description: Signature
+        chainId:
+          type: string
+          description: Chain id
+      required:
+      - signature
+      - chainId
+      additionalProperties: false
+    NonceResponse:
+      type: object
+      properties:
+        nonce:
+          type: string
+      required:
+      - nonce
+    Auth:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          $ref: '#/components/schemas/JWT'
+      required:
+      - user
+      - token
+      description: Authorization payload
     User:
       type: object
       properties:
@@ -662,91 +735,89 @@ components:
       - isArchived
       - twofa
       - permissions
-    NonceResponse:
+    JWT:
       type: object
       properties:
-        nonce:
+        accessToken:
           type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
       required:
-      - nonce
-    Auth:
+      - accessToken
+      description: JWT tokens
+    TariffObject:
       type: object
       properties:
-        user:
-          $ref: '#/components/schemas/User'
-        token:
-          $ref: '#/components/schemas/JWT'
-      required:
-      - user
-      - token
-      description: Authorization payload
-    SignInByBody:
-      type: object
-      properties:
-        userId:
+        id:
           type: string
           format: uuid
-          description: Target account ID
-      required:
-      - userId
-    DisableAllRefreshTokensBody:
-      type: object
-      properties:
-        signature:
+        user:
           type: string
-          minLength: 1
-          description: Signature
-        chainId:
+          format: uuid
+        startedAt:
           type: string
-          description: Chain id
-      required:
-      - signature
-      - chainId
-      additionalProperties: false
-    VerifyMessageResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Verification result
-        address:
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        paymentDate:
           type:
           - string
           - 'null'
-          default: null
-          description: Signer address
-        error:
+          format: date-time
+        privilegies:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - premium
+              - academyCourse
+            courses:
+              type: array
+              items:
+                type: string
+          required:
+          - type
+        issuedBy:
           type:
           - string
           - 'null'
-          default: null
-          description: Error message
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
       required:
-      - success
-      - address
-      - error
-    VerifyMessageBody:
+      - id
+      - user
+      - startedAt
+      - endedAt
+      - paymentDate
+      - privilegies
+      - issuedBy
+      - createdAt
+      - updatedAt
+    PageOffsetParam:
+      type: string
+      default: '0'
+    UpdateUserRoleBody:
       type: object
       properties:
-        message:
+        role:
           type: string
-          description: Signed message
-        signature:
-          type: string
-          minLength: 1
-          description: Signature
-        wallet:
-          type: string
-          description: Wallet address
-        nonce:
-          type: string
-          description: Nonce
+          enum:
+          - admin
+          - manager
+          - user
+          - academy-curator
+          - academy-moderator
+          - partner
       required:
-      - message
-      - signature
-      - wallet
-    EmptyResponse:
-      type: object
+      - role
     UserDetailsResponse:
       allOf:
       - $ref: '#/components/schemas/User_2'
@@ -768,20 +839,9 @@ components:
       - withdrawDisabled
       - smartAccountAddress
       - arbitrumDepositAddress
-    UpdateUserRoleBody:
-      type: object
-      properties:
-        role:
-          type: string
-          enum:
-          - admin
-          - manager
-          - user
-          - academy-curator
-          - academy-moderator
-          - partner
-      required:
-      - role
+    PageLimitParam:
+      type: string
+      default: '50'
     User_2:
       type: object
       properties:
@@ -895,66 +955,6 @@ components:
       - lastSignInAt
       - permissions
       - locale
-    PageLimitParam:
-      type: string
-      default: '50'
-    TariffObject:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        user:
-          type: string
-          format: uuid
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
-        paymentDate:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        privilegies:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - premium
-              - academyCourse
-            courses:
-              type: array
-              items:
-                type: string
-          required:
-          - type
-        issuedBy:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - user
-      - startedAt
-      - endedAt
-      - paymentDate
-      - privilegies
-      - issuedBy
-      - createdAt
-      - updatedAt
-    PageOffsetParam:
-      type: string
-      default: '0'
     JWT_2:
       type: object
       properties:

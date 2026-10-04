@@ -1012,6 +1012,9 @@ components:
       - viewType
       - progressBar
       - buttonText
+    PageLimitParam:
+      type: string
+      default: '50'
     PublicQuest:
       type: object
       properties:
@@ -1055,9 +1058,6 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
-    PageLimitParam:
-      type: string
-      default: '50'
   securitySchemes:
     AccessToken:
       type: http

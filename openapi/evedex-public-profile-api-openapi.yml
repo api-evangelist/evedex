@@ -130,6 +130,41 @@ paths:
     - url: https://exchange-api.evedex.com
 components:
   schemas:
+    BalanceChart:
+      type: array
+      items:
+        $ref: '#/components/schemas/BalanceChartPoint'
+    PositionHistoryObject:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        leverage:
+          type: number
+        version:
+          type: number
+        closeType:
+          type: string
+          enum:
+          - manually
+          - take-profit
+          - stop-loss
+          - liquidated
+          - adl
+      required:
+      - id
+      - user
+      - instrument
+      - side
+      - leverage
+      - version
+      - closeType
     BalanceChartPoint:
       type: object
       properties:
@@ -207,46 +242,11 @@ components:
       - buyVolume
       - sellVolume
       - tradingVolume
-    PositionHistoryObject:
-      type: object
-      properties:
-        id:
-          type: string
-        user:
-          type: string
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        leverage:
-          type: number
-        version:
-          type: number
-        closeType:
-          type: string
-          enum:
-          - manually
-          - take-profit
-          - stop-loss
-          - liquidated
-          - adl
-      required:
-      - id
-      - user
-      - instrument
-      - side
-      - leverage
-      - version
-      - closeType
     Side:
       type: string
       enum:
       - BUY
       - SELL
-    BalanceChart:
-      type: array
-      items:
-        $ref: '#/components/schemas/BalanceChartPoint'
     PositionHistoryFillObject:
       allOf:
       - $ref: '#/components/schemas/PositionHistoryObject'

@@ -48,24 +48,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FirstDepositObject:
-      type: object
-      properties:
-        currency:
-          type: string
-          enum:
-          - usdt
-        createdAt:
-          type: string
-        amount:
-          type: number
-      required:
-      - currency
-      - createdAt
-      - amount
-    PageLimitParam:
+    PageOffsetParam:
       type: string
-      default: '50'
+      default: '0'
     ReferralResponseObject:
       type: object
       properties:
@@ -85,9 +70,21 @@ components:
       - code
       - firstDeposit
       - createdAt
-    PageOffsetParam:
-      type: string
-      default: '0'
+    FirstDepositObject:
+      type: object
+      properties:
+        currency:
+          type: string
+          enum:
+          - usdt
+        createdAt:
+          type: string
+        amount:
+          type: number
+      required:
+      - currency
+      - createdAt
+      - amount
     ReferrallList:
       type: object
       properties:
@@ -102,6 +99,9 @@ components:
       required:
       - list
       - count
+    PageLimitParam:
+      type: string
+      default: '50'
   securitySchemes:
     AccessToken:
       type: http

@@ -635,9 +635,6 @@ components:
       required:
       - message
       description: Error response
-    BigNumber:
-      type: string
-      description: Big number value
     InstrumentObject:
       type: object
       properties:
@@ -924,6 +921,81 @@ components:
       - isPopular
       - newLabel
       - fundingRateImpactMarginNotional
+    OrderIdOutput:
+      type: string
+    MarketInfo:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+          - active
+          - request-status-fail
+          - me-dead
+          - db-admin-dead
+          - manually-off
+          - market-makers-only
+        states:
+          type: object
+          properties:
+            devex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+            evex:
+              type: string
+              enum:
+              - active
+              - request-status-fail
+              - me-dead
+              - db-admin-dead
+              - manually-off
+              - market-makers-only
+          additionalProperties: false
+        fees:
+          type: object
+          properties:
+            taker:
+              type: number
+            maker:
+              type: number
+            liquidation:
+              type: number
+          required:
+          - taker
+          - maker
+          - liquidation
+        orderDay:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - state
+      - states
+      - fees
+      - orderDay
+      - updatedAt
+    AvailableBalanceOpenOrder:
+      type: object
+      properties:
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        unFilledVolume:
+          $ref: '#/components/schemas/BigNumber'
+        unFilledInitialMargin:
+          $ref: '#/components/schemas/BigNumber'
+      required:
+      - instrument
+      - side
+      - unFilledVolume
+      - unFilledInitialMargin
     TradeObject:
       type: object
       properties:
@@ -963,8 +1035,28 @@ components:
       - status
       - createdAt
       deprecated: true
-    OrderIdOutput:
-      type: string
+    RecentTradeObject:
+      type: object
+      properties:
+        executionId:
+          type: string
+        instrument:
+          type: string
+        side:
+          $ref: '#/components/schemas/Side'
+        fillQuantity:
+          type: number
+        fillPrice:
+          type: number
+        createdAt:
+          type: string
+      required:
+      - executionId
+      - instrument
+      - side
+      - fillQuantity
+      - fillPrice
+      - createdAt
     Side:
       type: string
       enum:
@@ -1284,101 +1376,6 @@ components:
       - fundingRateImpactMarginNotional
       - valueAtRisk
       - updatedAt
-    AvailableBalanceOpenOrder:
-      type: object
-      properties:
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        unFilledVolume:
-          $ref: '#/components/schemas/BigNumber'
-        unFilledInitialMargin:
-          $ref: '#/components/schemas/BigNumber'
-      required:
-      - instrument
-      - side
-      - unFilledVolume
-      - unFilledInitialMargin
-    RecentTradeObject:
-      type: object
-      properties:
-        executionId:
-          type: string
-        instrument:
-          type: string
-        side:
-          $ref: '#/components/schemas/Side'
-        fillQuantity:
-          type: number
-        fillPrice:
-          type: number
-        createdAt:
-          type: string
-      required:
-      - executionId
-      - instrument
-      - side
-      - fillQuantity
-      - fillPrice
-      - createdAt
-    MarketInfo:
-      type: object
-      properties:
-        state:
-          type: string
-          enum:
-          - active
-          - request-status-fail
-          - me-dead
-          - db-admin-dead
-          - manually-off
-          - market-makers-only
-        states:
-          type: object
-          properties:
-            devex:
-              type: string
-              enum:
-              - active
-              - request-status-fail
-              - me-dead
-              - db-admin-dead
-              - manually-off
-              - market-makers-only
-            evex:
-              type: string
-              enum:
-              - active
-              - request-status-fail
-              - me-dead
-              - db-admin-dead
-              - manually-off
-              - market-makers-only
-          additionalProperties: false
-        fees:
-          type: object
-          properties:
-            taker:
-              type: number
-            maker:
-              type: number
-            liquidation:
-              type: number
-          required:
-          - taker
-          - maker
-          - liquidation
-        orderDay:
-          type: string
-        updatedAt:
-          type: string
-      required:
-      - state
-      - states
-      - fees
-      - orderDay
-      - updatedAt
     AvailableBalancePosition:
       type: object
       properties:
@@ -1395,6 +1392,9 @@ components:
       - side
       - volume
       - initialMargin
+    BigNumber:
+      type: string
+      description: Big number value
   securitySchemes:
     InternalToken:
       type: http

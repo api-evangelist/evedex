@@ -284,6 +284,34 @@ components:
   schemas:
     EmptyResponse:
       type: object
+    TradingVolumeCreateBody:
+      type: array
+      items:
+        type: object
+        properties:
+          user:
+            type: string
+            format: uuid
+          referralCode:
+            type: string
+            default: ''
+          competition:
+            type: string
+            default: ''
+          experience:
+            type: number
+          realizedPnL:
+            type: number
+          tradingVolume:
+            type: number
+          createdAt:
+            type: string
+        required:
+        - user
+        - experience
+        - realizedPnL
+        - tradingVolume
+        - createdAt
     CompetitionCreateResponse:
       type: object
       properties:
@@ -456,34 +484,6 @@ components:
       - type
       - status
       - settings
-    TradingVolumeCreateBody:
-      type: array
-      items:
-        type: object
-        properties:
-          user:
-            type: string
-            format: uuid
-          referralCode:
-            type: string
-            default: ''
-          competition:
-            type: string
-            default: ''
-          experience:
-            type: number
-          realizedPnL:
-            type: number
-          tradingVolume:
-            type: number
-          createdAt:
-            type: string
-        required:
-        - user
-        - experience
-        - realizedPnL
-        - tradingVolume
-        - createdAt
     CreateTelegramMessageBody:
       type: object
       properties:
@@ -507,6 +507,25 @@ components:
         data: {}
       required:
       - channel
+    UserSocial:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - telegramCommunity
+          - telegram
+          - youtube
+          - instagram
+          - facebook
+          - twitter
+          - discord
+          - other
+        value:
+          type: string
+      required:
+      - type
+      - value
     User:
       type: object
       properties:
@@ -593,25 +612,6 @@ components:
       - maxInvites
       - createdAt
       - updatedAt
-    UserSocial:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - telegramCommunity
-          - telegram
-          - youtube
-          - instagram
-          - facebook
-          - twitter
-          - discord
-          - other
-        value:
-          type: string
-      required:
-      - type
-      - value
   securitySchemes:
     InternalToken:
       type: http

@@ -157,44 +157,6 @@ components:
       - createdAt
       - updatedAt
       - reward
-    PromocodeRedeemBody:
-      type: object
-      properties:
-        code:
-          type: string
-      required:
-      - code
-    PromocodeRedeemResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type: string
-        reward:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                    - points
-                    - luckyShotTickets
-                    - streakFreeze
-                  amount:
-                    type: number
-                    minimum: 0
-                required:
-                - type
-                - amount
-          required:
-          - list
-      required:
-      - success
     PromocodeUpdateBody:
       type: object
       properties:
@@ -264,6 +226,37 @@ components:
       - expiresAt
       - totalUses
       - reward
+    PromocodeRedeemResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        reward:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - points
+                    - luckyShotTickets
+                    - streakFreeze
+                  amount:
+                    type: number
+                    minimum: 0
+                required:
+                - type
+                - amount
+          required:
+          - list
+      required:
+      - success
     PromocodeUpdateResponse:
       type: object
       properties:
@@ -381,6 +374,13 @@ components:
             - reward
       required:
       - list
+    PromocodeRedeemBody:
+      type: object
+      properties:
+        code:
+          type: string
+      required:
+      - code
   securitySchemes:
     AccessToken:
       type: http

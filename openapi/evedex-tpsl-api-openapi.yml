@@ -442,24 +442,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TpSlListPageLimitParam:
-      type: string
     OrderIdOutput:
       type: string
+    PageOffsetParam:
+      type: string
+      default: '0'
     Side:
       type: string
       enum:
       - BUY
       - SELL
-    OrderIdV2Input:
+    TpSlListPageLimitParam:
       type: string
-      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
-    PageOffsetParam:
-      type: string
-      default: '0'
     OrderIdInput:
       type: string
       pattern: '[0-9A-Fa-f]{32}'
+    OrderIdV2Input:
+      type: string
+      pattern: '[0-9]{5}:[0-9A-Fa-f]{26}'
   securitySchemes:
     InternalToken:
       type: http

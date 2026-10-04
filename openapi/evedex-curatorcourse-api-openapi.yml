@@ -92,6 +92,10 @@ components:
   schemas:
     EmptyResponse:
       type: object
+    CourseCuratorObjectList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CourseCuratorObject'
     CreateCourseCurator:
       type: object
       properties:
@@ -118,10 +122,6 @@ components:
       - course
       - curator
       - createdAt
-    CourseCuratorObjectList:
-      type: array
-      items:
-        $ref: '#/components/schemas/CourseCuratorObject'
   securitySchemes:
     AccessToken:
       type: http

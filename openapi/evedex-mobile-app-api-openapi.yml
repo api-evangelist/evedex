@@ -787,28 +787,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    MobileAppVersionInfoUpdateBody:
+    MobileAppVersionInfo:
       type: object
       properties:
-        id:
+        blockTypeId:
           type: string
-          format: uuid
-        platform:
-          type: string
-          enum:
-          - android
-          - ios
-          - web
-        version:
-          type: string
-          format: semver
-          example: 1.0.3
-        blockType:
-          type: string
-          enum:
-          - '0'
-          - '1'
-          - '2'
         blockHead:
           type: string
         blockMessage:
@@ -819,7 +802,12 @@ components:
           type: string
         referralNeeded:
           type: boolean
-          default: false
+      required:
+      - blockTypeId
+      - blockHead
+      - blockMessage
+      - blockButton
+      - referralNeeded
     MobileAppVersionInfoResponse:
       type: object
       properties:
@@ -861,31 +849,6 @@ components:
       - blockMessage
       - blockButton
       - referralNeeded
-    MobileAppVersionInfo:
-      type: object
-      properties:
-        blockTypeId:
-          type: string
-        blockHead:
-          type: string
-        blockMessage:
-          type: string
-        blockButton:
-          type: string
-        blockButtonLink:
-          type: string
-        referralNeeded:
-          type: boolean
-      required:
-      - blockTypeId
-      - blockHead
-      - blockMessage
-      - blockButton
-      - referralNeeded
-    MobileAppVersionInfoListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/MobileAppVersionInfoResponse'
     MobileAppVersionInfoCreateBody:
       type: object
       properties:
@@ -923,6 +886,43 @@ components:
       - blockHead
       - blockMessage
       - blockButton
+    MobileAppVersionInfoUpdateBody:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        platform:
+          type: string
+          enum:
+          - android
+          - ios
+          - web
+        version:
+          type: string
+          format: semver
+          example: 1.0.3
+        blockType:
+          type: string
+          enum:
+          - '0'
+          - '1'
+          - '2'
+        blockHead:
+          type: string
+        blockMessage:
+          type: string
+        blockButton:
+          type: string
+        blockButtonLink:
+          type: string
+        referralNeeded:
+          type: boolean
+          default: false
+    MobileAppVersionInfoListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/MobileAppVersionInfoResponse'
   securitySchemes:
     InternalToken:
       type: http

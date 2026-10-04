@@ -56,10 +56,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UserServiceListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserService'
     UserService:
       type: object
       properties:
@@ -78,6 +74,10 @@ components:
       - user
       - service
       - createdAt
+    UserServiceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserService'
     CreateUserServiceBody:
       type: object
       properties:

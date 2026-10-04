@@ -225,47 +225,6 @@ paths:
     - url: https://backoffice-api.private.evedex.com
 components:
   schemas:
-    TariffList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/TariffObject'
-        count:
-          type: number
-        next:
-          type: string
-      required:
-      - list
-      - count
-    TariffCreateBody:
-      type: object
-      properties:
-        product:
-          type: string
-          format: uuid
-        paymentDate:
-          type: string
-        startedAt:
-          type: string
-        endedAt:
-          type: string
-        issuedBy:
-          type: string
-      required:
-      - product
-      - issuedBy
-    TariffUpdateBody:
-      type: object
-      properties:
-        startedAt:
-          type: string
-        endedAt:
-          type: string
-    PageLimitParam:
-      type: string
-      default: '50'
     TariffObject:
       type: object
       properties:
@@ -318,6 +277,67 @@ components:
     PageOffsetParam:
       type: string
       default: '0'
+    TariffUpdateBody:
+      type: object
+      properties:
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+    TariffCreateBody:
+      type: object
+      properties:
+        product:
+          type: string
+          format: uuid
+        paymentDate:
+          type: string
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+        issuedBy:
+          type: string
+      required:
+      - product
+      - issuedBy
+    PageLimitParam:
+      type: string
+      default: '50'
+    TariffList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/TariffObject'
+        count:
+          type: number
+        next:
+          type: string
+      required:
+      - list
+      - count
+    TariffCreateBody_2:
+      type: object
+      properties:
+        product:
+          type: string
+          format: uuid
+        paymentDate:
+          type: string
+          format: date-time
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+        issuedBy:
+          type: string
+      required:
+      - product
+      - issuedBy
     TariffObject_2:
       type: object
       properties:
@@ -372,26 +392,6 @@ components:
       - issuedBy
       - createdAt
       - updatedAt
-    TariffCreateBody_2:
-      type: object
-      properties:
-        product:
-          type: string
-          format: uuid
-        paymentDate:
-          type: string
-          format: date-time
-        startedAt:
-          type: string
-          format: date-time
-        endedAt:
-          type: string
-          format: date-time
-        issuedBy:
-          type: string
-      required:
-      - product
-      - issuedBy
     TariffUpdateBody_2:
       type: object
       properties:

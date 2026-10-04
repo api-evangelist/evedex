@@ -200,8 +200,6 @@ components:
           description: Image url
       required:
       - name
-    EmptyResponse:
-      type: object
     UserInvitationResponse:
       type: object
       properties:
@@ -254,6 +252,8 @@ components:
       - image
       - createdAt
       - updatedAt
+    EmptyResponse:
+      type: object
   securitySchemes:
     AccessToken:
       type: http

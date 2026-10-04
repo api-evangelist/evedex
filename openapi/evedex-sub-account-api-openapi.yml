@@ -246,18 +246,147 @@ components:
       - count
       - limit
       - total
-    JWT:
+    Auth:
       type: object
       properties:
-        accessToken:
-          type: string
-          description: JWT access token
-        refreshToken:
-          type: string
-          description: JWT refresh token
+        user:
+          $ref: '#/components/schemas/User'
+        token:
+          $ref: '#/components/schemas/JWT'
       required:
-      - accessToken
-      description: JWT tokens
+      - user
+      - token
+      description: Authorization payload
+    EmptyResponse:
+      type: object
+    SwitchAccountBody:
+      type: object
+      properties:
+        accountId:
+          type: string
+          format: uuid
+          description: Target account ID to switch to
+      required:
+      - accountId
+    SubAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type:
+          - string
+          - 'null'
+        wallet:
+          type: string
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+        accountStatus:
+          type: string
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+        parent:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        isArchived:
+          type: boolean
+        createdAt:
+          type: string
+        smartAccount:
+          oneOf:
+          - $ref: '#/components/schemas/SmartAccountEntry'
+          - type: 'null'
+        subAccountIndex:
+          type:
+          - string
+          - 'null'
+          description: On-chain smart account index (null for main account)
+        fundedAccountOptionId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          default: null
+      required:
+      - id
+      - name
+      - wallet
+      - accountType
+      - accountStatus
+      - parent
+      - isArchived
+      - createdAt
+      - smartAccount
+      - subAccountIndex
+      - fundedAccountOptionId
+    SubAccountUpdateBody:
+      type: object
+      properties:
+        accountStatus:
+          type: string
+          enum:
+          - active
+          - inactive
+          - initial
+          - smartAccountReady
+          description: New account status
+      required:
+      - accountStatus
+    SmartAccountEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        network:
+          type: string
+        address:
+          type: string
+        version:
+          type: number
+        isDeployed:
+          type: boolean
+      required:
+      - id
+      - network
+      - address
+      - version
+      - isDeployed
+    CreateSubAccountBody:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ''
+          description: Sub account name
+        network:
+          type: string
+          minLength: 1
+          description: Network name
+        accountType:
+          type: string
+          enum:
+          - main
+          - sub
+          - funded
+          default: sub
+          description: Sub account type
+        fundedAccountOptionId:
+          type: string
+          format: uuid
+          description: Funded account option ID (required if accountType is Funded)
+      required:
+      - network
     User:
       type: object
       properties:
@@ -490,147 +619,18 @@ components:
       - isArchived
       - twofa
       - permissions
-    SubAccountUpdateBody:
+    JWT:
       type: object
       properties:
-        accountStatus:
+        accessToken:
           type: string
-          enum:
-          - active
-          - inactive
-          - initial
-          - smartAccountReady
-          description: New account status
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: JWT refresh token
       required:
-      - accountStatus
-    SubAccount:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type:
-          - string
-          - 'null'
-        wallet:
-          type: string
-        accountType:
-          type: string
-          enum:
-          - main
-          - sub
-          - funded
-        accountStatus:
-          type: string
-          enum:
-          - active
-          - inactive
-          - initial
-          - smartAccountReady
-        parent:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        isArchived:
-          type: boolean
-        createdAt:
-          type: string
-        smartAccount:
-          oneOf:
-          - $ref: '#/components/schemas/SmartAccountEntry'
-          - type: 'null'
-        subAccountIndex:
-          type:
-          - string
-          - 'null'
-          description: On-chain smart account index (null for main account)
-        fundedAccountOptionId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          default: null
-      required:
-      - id
-      - name
-      - wallet
-      - accountType
-      - accountStatus
-      - parent
-      - isArchived
-      - createdAt
-      - smartAccount
-      - subAccountIndex
-      - fundedAccountOptionId
-    Auth:
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        token:
-          $ref: '#/components/schemas/JWT'
-      required:
-      - user
-      - token
-      description: Authorization payload
-    SmartAccountEntry:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        network:
-          type: string
-        address:
-          type: string
-        version:
-          type: number
-        isDeployed:
-          type: boolean
-      required:
-      - id
-      - network
-      - address
-      - version
-      - isDeployed
-    CreateSubAccountBody:
-      type: object
-      properties:
-        name:
-          type: string
-          default: ''
-          description: Sub account name
-        network:
-          type: string
-          minLength: 1
-          description: Network name
-        accountType:
-          type: string
-          enum:
-          - main
-          - sub
-          - funded
-          default: sub
-          description: Sub account type
-        fundedAccountOptionId:
-          type: string
-          format: uuid
-          description: Funded account option ID (required if accountType is Funded)
-      required:
-      - network
-    EmptyResponse:
-      type: object
-    SwitchAccountBody:
-      type: object
-      properties:
-        accountId:
-          type: string
-          format: uuid
-          description: Target account ID to switch to
-      required:
-      - accountId
+      - accessToken
+      description: JWT tokens
   securitySchemes:
     InternalToken:
       type: http

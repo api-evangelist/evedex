@@ -214,14 +214,18 @@ components:
       - cancelAtPeriodEnd
       - createdAt
       - updatedAt
-    SubscriptionUpdatePaymentMethodResponse:
+    SubscriptionListResponse:
       type: object
       properties:
-        url:
-          type: string
-          format: uri
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionObject'
+        count:
+          type: number
       required:
-      - url
+      - list
+      - count
     SubscriptionUpdatePaymentMethodBody:
       type: object
       properties:
@@ -230,15 +234,6 @@ components:
           format: uri
       required:
       - returnUrl
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Error message
-      required:
-      - message
-      description: Error response
     ProductObject:
       type: object
       properties:
@@ -330,18 +325,23 @@ components:
       - lastSaleDate
       - createdAt
       - updatedAt
-    SubscriptionListResponse:
+    ErrorResponse:
       type: object
       properties:
-        list:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubscriptionObject'
-        count:
-          type: number
+        message:
+          type: string
+          description: Error message
       required:
-      - list
-      - count
+      - message
+      description: Error response
+    SubscriptionUpdatePaymentMethodResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+      required:
+      - url
   securitySchemes:
     InternalKey:
       type: http

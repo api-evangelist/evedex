@@ -103,15 +103,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ModuleCreateBody:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-      - name
-    EmptyResponse:
-      type: object
     ModuleObject:
       type: object
       properties:
@@ -154,6 +145,15 @@ components:
         releaseDate:
           type: string
           format: date-time
+    ModuleCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    EmptyResponse:
+      type: object
   securitySchemes:
     AccessToken:
       type: http

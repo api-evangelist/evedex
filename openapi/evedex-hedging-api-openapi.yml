@@ -55,6 +55,23 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    FineryAccountObject:
+      type: object
+      properties:
+        user:
+          type: string
+          format: uuid
+        name:
+          type: string
+        apiKey:
+          type: string
+        apiSecret:
+          type: string
+      required:
+      - user
+      - name
+      - apiKey
+      - apiSecret
     BybitAccountObject:
       type: object
       properties:
@@ -80,23 +97,6 @@ components:
       - apiSecret
     EmptyResponse:
       type: object
-    FineryAccountObject:
-      type: object
-      properties:
-        user:
-          type: string
-          format: uuid
-        name:
-          type: string
-        apiKey:
-          type: string
-        apiSecret:
-          type: string
-      required:
-      - user
-      - name
-      - apiKey
-      - apiSecret
   securitySchemes:
     AccessToken:
       type: http

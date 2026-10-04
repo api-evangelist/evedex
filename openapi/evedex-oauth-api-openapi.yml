@@ -145,25 +145,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    OauthGetClientResponse:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scopes:
-          type: array
-          items:
-            type: string
-        state:
-          type: string
-      required:
-      - integrationId
-      - name
-      - scopes
-      - state
     OauthRequestListResponse:
       type: object
       properties:
@@ -209,9 +190,49 @@ components:
       required:
       - list
       - count
+    OauthGetClientResponse:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        state:
+          type: string
+      required:
+      - integrationId
+      - name
+      - scopes
+      - state
+    OauthDenyBody:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          default: ''
+      required:
+      - integrationId
     EmptyResponse:
       type: object
+    PageOffsetParam:
+      type: string
+      default: '0'
     OauthDenyResponse:
+      type: object
+      properties:
+        redirectURI:
+          type: string
+      required:
+      - redirectURI
+    OauthResponse:
       type: object
       properties:
         redirectURI:
@@ -253,30 +274,9 @@ components:
           default: null
       required:
       - integrationId
-    OauthResponse:
-      type: object
-      properties:
-        redirectURI:
-          type: string
-      required:
-      - redirectURI
     PageLimitParam:
       type: string
       default: '50'
-    OauthDenyBody:
-      type: object
-      properties:
-        integrationId:
-          type: string
-          format: uuid
-        state:
-          type: string
-          default: ''
-      required:
-      - integrationId
-    PageOffsetParam:
-      type: string
-      default: '0'
   securitySchemes:
     InternalToken:
       type: http

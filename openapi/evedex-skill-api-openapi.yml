@@ -146,13 +146,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SelectSkillBody:
-      type: object
-      properties:
-        skill:
-          type: string
-      required:
-      - skill
     PublicArtifact:
       type: object
       properties:
@@ -178,6 +171,36 @@ components:
       - bonus
       - skillPoints
       - skillTree
+    SelectSkillResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    UserSkillTree:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserArtifact'
+        availableСhangeAt:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - description
+      - artifacts
+      - availableСhangeAt
     FreeCollaborationOpportunitiesBonus:
       type: object
       properties:
@@ -185,6 +208,31 @@ components:
           type: boolean
       required:
       - freeCollaborationOpportunities
+    AccessPremiumContentBonus:
+      type: object
+      properties:
+        accessPremiumContent:
+          type: boolean
+      required:
+      - accessPremiumContent
+    PublicSkill:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicArtifact'
+      required:
+      - id
+      - name
+      - description
+      - artifacts
     FreeCourseForBeginnersBonus:
       type: object
       properties:
@@ -192,6 +240,42 @@ components:
           type: boolean
       required:
       - freeCourseForBeginers
+    ArtifactBody:
+      type: object
+      properties:
+        artifact:
+          type: string
+      required:
+      - artifact
+    FeaturePlatformBonus:
+      type: object
+      properties:
+        featurePlatform:
+          type: boolean
+      required:
+      - featurePlatform
+    TradingProfitPercentBonus:
+      type: object
+      properties:
+        tradingProfitPercent:
+          type: number
+      required:
+      - tradingProfitPercent
+    ArtifactBonus:
+      anyOf:
+      - $ref: '#/components/schemas/EducationDiscountBonus'
+      - $ref: '#/components/schemas/FreeCourseMonthBonus'
+      - $ref: '#/components/schemas/FreeCourseForBeginnersBonus'
+      - $ref: '#/components/schemas/PersonalMentorshipAccessBonus'
+      - $ref: '#/components/schemas/TradingProfitPercentBonus'
+      - $ref: '#/components/schemas/AccessAdvancedStrategiesBonus'
+      - $ref: '#/components/schemas/FreeTradingToolCountBonus'
+      - $ref: '#/components/schemas/TradingMentorBonus'
+      - $ref: '#/components/schemas/IncreasedRefFeeBonus'
+      - $ref: '#/components/schemas/ReferralBonusPercentBonus'
+      - $ref: '#/components/schemas/AccessPremiumContentBonus'
+      - $ref: '#/components/schemas/FreeCollaborationOpportunitiesBonus'
+      - $ref: '#/components/schemas/FeaturePlatformBonus'
     UserArtifact:
       type: object
       properties:
@@ -230,132 +314,6 @@ components:
       - skillPoints
       - requiredSkillPoints
       - claimedAt
-    AccessPremiumContentBonus:
-      type: object
-      properties:
-        accessPremiumContent:
-          type: boolean
-      required:
-      - accessPremiumContent
-    PersonalMentorshipAccessBonus:
-      type: object
-      properties:
-        personalMentorshipAccess:
-          type: boolean
-      required:
-      - personalMentorshipAccess
-    FreeCourseMonthBonus:
-      type: object
-      properties:
-        freeCourseMonth:
-          type: number
-      required:
-      - freeCourseMonth
-    EducationDiscountBonus:
-      type: object
-      properties:
-        educationDiscount:
-          type: number
-      required:
-      - educationDiscount
-    ReferralBonusPercentBonus:
-      type: object
-      properties:
-        referralBonusPercent:
-          type: number
-      required:
-      - referralBonusPercent
-    ArtifactBody:
-      type: object
-      properties:
-        artifact:
-          type: string
-      required:
-      - artifact
-    UserSkillTree:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        artifacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserArtifact'
-        availableСhangeAt:
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - name
-      - description
-      - artifacts
-      - availableСhangeAt
-    IncreasedRefFeeBonus:
-      type: object
-      properties:
-        increasedRefFee:
-          type: number
-      required:
-      - increasedRefFee
-    FreeTradingToolCountBonus:
-      type: object
-      properties:
-        freeTradingToolCount:
-          type: number
-      required:
-      - freeTradingToolCount
-    FeaturePlatformBonus:
-      type: object
-      properties:
-        featurePlatform:
-          type: boolean
-      required:
-      - featurePlatform
-    ArtifactBonus:
-      anyOf:
-      - $ref: '#/components/schemas/EducationDiscountBonus'
-      - $ref: '#/components/schemas/FreeCourseMonthBonus'
-      - $ref: '#/components/schemas/FreeCourseForBeginnersBonus'
-      - $ref: '#/components/schemas/PersonalMentorshipAccessBonus'
-      - $ref: '#/components/schemas/TradingProfitPercentBonus'
-      - $ref: '#/components/schemas/AccessAdvancedStrategiesBonus'
-      - $ref: '#/components/schemas/FreeTradingToolCountBonus'
-      - $ref: '#/components/schemas/TradingMentorBonus'
-      - $ref: '#/components/schemas/IncreasedRefFeeBonus'
-      - $ref: '#/components/schemas/ReferralBonusPercentBonus'
-      - $ref: '#/components/schemas/AccessPremiumContentBonus'
-      - $ref: '#/components/schemas/FreeCollaborationOpportunitiesBonus'
-      - $ref: '#/components/schemas/FeaturePlatformBonus'
-    TradingMentorBonus:
-      type: object
-      properties:
-        tradingMentor:
-          type: boolean
-      required:
-      - tradingMentor
-    PublicSkill:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        artifacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublicArtifact'
-      required:
-      - id
-      - name
-      - description
-      - artifacts
     AccessAdvancedStrategiesBonus:
       type: object
       properties:
@@ -363,20 +321,62 @@ components:
           type: boolean
       required:
       - accessAdvancedStrategies
-    SelectSkillResponse:
+    EducationDiscountBonus:
       type: object
       properties:
-        message:
-          type: string
-      required:
-      - message
-    TradingProfitPercentBonus:
-      type: object
-      properties:
-        tradingProfitPercent:
+        educationDiscount:
           type: number
       required:
-      - tradingProfitPercent
+      - educationDiscount
+    TradingMentorBonus:
+      type: object
+      properties:
+        tradingMentor:
+          type: boolean
+      required:
+      - tradingMentor
+    FreeTradingToolCountBonus:
+      type: object
+      properties:
+        freeTradingToolCount:
+          type: number
+      required:
+      - freeTradingToolCount
+    IncreasedRefFeeBonus:
+      type: object
+      properties:
+        increasedRefFee:
+          type: number
+      required:
+      - increasedRefFee
+    FreeCourseMonthBonus:
+      type: object
+      properties:
+        freeCourseMonth:
+          type: number
+      required:
+      - freeCourseMonth
+    PersonalMentorshipAccessBonus:
+      type: object
+      properties:
+        personalMentorshipAccess:
+          type: boolean
+      required:
+      - personalMentorshipAccess
+    ReferralBonusPercentBonus:
+      type: object
+      properties:
+        referralBonusPercent:
+          type: number
+      required:
+      - referralBonusPercent
+    SelectSkillBody:
+      type: object
+      properties:
+        skill:
+          type: string
+      required:
+      - skill
   securitySchemes:
     AccessToken:
       type: http
