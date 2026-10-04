@@ -43,6 +43,9 @@ accessModel:
 created: '2026-08-26'
 modified: '2026-09-17'
 specificationVersion: '0.21'
+x-docs-platform: gitbook
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-10-03
 tags:
 - Cryptocurrency Exchange
 - DeFi
@@ -1817,6 +1820,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers/authorization
   baseURL: https://auth-api.evedex.com
   tags:
+  - Public Profile
+  tags_raw:
   - Public profile
   properties:
   - type: OpenAPI
@@ -3007,6 +3012,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers
   baseURL: https://docs.evedex.com
   tags:
+  - APIKeys
+  tags_raw:
   - API Key
   properties:
   - type: OpenAPI
