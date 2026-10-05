@@ -1,0 +1,12 @@
+{
+ "url": "https://bridge-middleware-api.evedex.com/api/openapi.json",
+ "requested_url": "https://bridge-middleware-api.evedex.com/api/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 11429,
+ "sha256": "d4e2674fe8bca47ba244cd589559a51e535f0346cb44b072e3e89226d05463c2",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
