@@ -56,3 +56,29 @@ cashback:
   composition: up to 30% via gamification levels plus 5% via Prime
   settlement: Calculated on trading fees and credited in USDT the next day, withdrawable.
   source: https://docs.evedex.com/key-features-and-components/trading-platform-and-matching-engine/trading-fees.md
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - subscription
+  units: []
+  plans:
+  - name: Standard account
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Prime (monthly)
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Prime (yearly)
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
