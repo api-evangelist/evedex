@@ -2,11 +2,8 @@
   "repo": "evedex",
   "feeds": [
     {
-      "source": "https://help.evedex.com/",
-      "feed_url": "https://help.evedex.com/feed.xml",
-      "title": "",
-      "saved": 0,
-      "method": "discovered"
+      "source": "https://blog.evedex.com/",
+      "error": "HTTPError"
     },
     {
       "source": "https://help.evedex.com/feed.xml",
@@ -17,5 +14,5 @@
     }
   ],
   "post_count": 25,
-  "fetched": "2026-10-03T12:30:02Z"
+  "fetched": "2026-10-10T13:15:00Z"
 }
