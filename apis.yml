@@ -3012,6 +3012,8 @@ apis:
   humanURL: https://docs.evedex.com/developers/developers
   baseURL: https://docs.evedex.com
   tags:
+  - APIKeys
+  tags_raw:
   - API Key
   properties:
   - type: OpenAPI
