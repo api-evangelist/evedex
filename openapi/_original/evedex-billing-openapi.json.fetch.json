@@ -1,0 +1,12 @@
+{
+ "url": "https://billing-api.evedex.com/api/openapi.json",
+ "requested_url": "https://billing-api.evedex.com/api/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 12979,
+ "sha256": "426db4fd5b3156abe6e43a9f5cf0fe660ae3a8a7efe1e2edde5f1950e650d745",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
